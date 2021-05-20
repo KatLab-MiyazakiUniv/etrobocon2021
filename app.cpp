@@ -1,6 +1,5 @@
 #include "app.h"
 #include "EtRobocon2021.h"
-#include <cmath>
 
 
 /**
