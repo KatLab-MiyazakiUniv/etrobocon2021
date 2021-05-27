@@ -4,6 +4,7 @@ APPL_COBJS +=
 
 APPL_CXXOBJS += \
     EtRobocon2021.o \
+    Pid.o \
 
 SRCLANG := c++
 
