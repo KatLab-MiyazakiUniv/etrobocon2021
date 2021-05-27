@@ -10,7 +10,7 @@
 namespace etrobocon2021_test {
   // Rangeコンストラクタに関するテスト
   //区画名と距離が適切な場合
-  TEST(RangeTest, newRange) { EXPECT_ANY_THROW(Range range("ST_1", 10.0f)); }
+  TEST(RangeTest, newRange) { EXPECT_NO_THROW(Range range("ST_1", 10.0f)); }
   //距離が0の場合
   TEST(RangeTest, newRangeByZeroRange) { EXPECT_ANY_THROW(Range range("ST_1", 0.0f)); }
   //距離が負の場合

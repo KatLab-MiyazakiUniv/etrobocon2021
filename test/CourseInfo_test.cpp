@@ -13,9 +13,9 @@ namespace etrobocon2021_test {
 
   // CourseInfoコンストラクタに関するテスト
   // 輝度の入力が正の場合
-  TEST(CourseInfoTest, newCourseInfoByPlusBrightness) { EXPECT_ANY_THROW(CourseInfo info(1)); }
+  TEST(CourseInfoTest, newCourseInfoByPlusBrightness) { EXPECT_NO_THROW(CourseInfo info(1)); }
   // 輝度の入力が0の場合
-  TEST(CourseInfoTest, newCourseInfoByZeroBrightness) { EXPECT_ANY_THROW(CourseInfo info(0)); }
+  TEST(CourseInfoTest, newCourseInfoByZeroBrightness) { EXPECT_NO_THROW(CourseInfo info(0)); }
   // 輝度の入力が負の場合
   TEST(CourseInfoTest, newCourseInfoByMinusBrightness) { EXPECT_ANY_THROW(CourseInfo info(-1)); }
 
@@ -64,15 +64,6 @@ namespace etrobocon2021_test {
   {
     CourseInfo info(1);
     int id = 7;
-
-    EXPECT_ANY_THROW(info.getRangeNameById(id));
-  }
-
-  // 実数型のidを受け取りエラーを返す処理
-  TEST(getRangeNameByIdTest, getRangeNameByFloatId)
-  {
-    CourseInfo info(1);
-    float id = 5.5;
 
     EXPECT_ANY_THROW(info.getRangeNameById(id));
   }
