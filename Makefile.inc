@@ -5,6 +5,7 @@ APPL_COBJS +=
 # ここに追加したクラスを追加する
 APPL_CXXOBJS += \
     EtRobocon2021.o \
+    Mileage.o \
 
 SRCLANG := c++
 
