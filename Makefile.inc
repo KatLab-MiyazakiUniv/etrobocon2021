@@ -5,10 +5,10 @@ APPL_COBJS +=
 # ここに追加したクラスを追加する
 APPL_CXXOBJS += \
     EtRobocon2021.o \
-CourseInfo.cpp\
-CourseInfo.h\
-Range.cpp\
-Range.h\
+    CourseInfo.cpp\
+    CourseInfo.h\
+    Range.cpp\
+    Range.h\
 
 
 SRCLANG := c++
