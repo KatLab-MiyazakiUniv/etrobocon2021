@@ -1,13 +1,11 @@
 /**
  *  @file Pid.h
  *  @brief PIDを計算するクラス
- *  @author Hisataka-Hagiyama,uchiyam
+ *  @author Hisataka-Hagiyama,uchyam
  */
 
 #ifndef PID_H
 #define PID_H
-
-static const double DELTA = 0.01;  //周期[10ミリ秒]
 
 // PIDゲインを保持する構造体
 struct PidGain {
@@ -30,11 +28,12 @@ class Pid {
    *  @param _kp Pゲイン
    *  @param _ki Iゲイン
    *  @param _kd Dゲイン
+   *  @param _targetValue 目標値
    */
-  Pid(double _kp, double _ki, double _kd);
+  Pid(double _kp, double _ki, double _kd, double _targetValue);
 
   /**
-   * @fn void setPidParam(double _kp, double _ki, double _kd);
+   * @fn void setPidGain(double _kp, double _ki, double _kd);
    * @brief PIDゲインを設定する
    * @param _kp Pゲイン
    * @param _ki Iゲイン
@@ -43,18 +42,19 @@ class Pid {
   void setPidGain(double _kp, double _ki, double _kd);
 
   /**
-   * @fn double calculatePid(double targetValue, double presentValue);
+   * @fn double calculatePid(double presentValue, double delta = 0.01);
    * @brief PIDを計算する
-   * @param targetValue 目標値
    * @param presentValue 現在値
+   * @param delta 周期[ms](デフォルト値10[ms]、省略可)
    * @return PIDの計算結果(操作量)
    */
-  double calculatePid(double targetValue, double presentValue);
+  double calculatePid(double presentValue, double delta = 0.01);
 
  private:
   PidGain gain;
   double preDeviation;  //前回の偏差
   double integral;      //偏差の累積
+  double targetValue;   //目標値
 };
 
 #endif

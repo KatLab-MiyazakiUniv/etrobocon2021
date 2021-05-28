@@ -1,14 +1,17 @@
 /**
  *  @file Pid.cpp
  *  @brief PIDを計算するクラス
- *  @author Hisataka-Hagiyama,uchiyam
+ *  @author Hisataka-Hagiyama,uchyam
  */
 
 #include "Pid.h"
 
 PidGain::PidGain(double _kp, double _ki, double _kd) : kp(_kp), ki(_ki), kd(_kd) {}
 
-Pid::Pid(double _kp, double _ki, double _kd) : gain(_kp, _ki, _kd), integral(0), preDeviation(0) {}
+Pid::Pid(double _kp, double _ki, double _kd, double _targetValue)
+  : gain(_kp, _ki, _kd), integral(0.0), preDeviation(0.0), targetValue(_targetValue)
+{
+}
 
 void Pid::setPidGain(double _kp, double _ki, double _kd)
 {
@@ -17,14 +20,14 @@ void Pid::setPidGain(double _kp, double _ki, double _kd)
   gain.kd = _kd;
 }
 
-double Pid::calculatePid(double targetValue, double presentValue)
+double Pid::calculatePid(double presentValue, double delta)
 {
   //現在の偏差を求める
   double presentDeviation = targetValue - presentValue;
   //積分の処理を行う
-  integral += presentDeviation * DELTA;
+  integral += presentDeviation * delta;
   //微分の処理を行う
-  double difference = (presentDeviation - preDeviation) / DELTA;
+  double difference = (presentDeviation - preDeviation) / delta;
   //前回の偏差を更新する
   preDeviation = presentDeviation;
 
