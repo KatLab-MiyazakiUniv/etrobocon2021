@@ -10,6 +10,7 @@ using std::string;
 //区間名と距離の値を初期化
 Range::Range(string _name, float _distance) : name(_name), distance(_distance)
 {
+  /*
   // 例外処理
   try {
     // _nameが空文字だった場合、Unexpected value errorエラー
@@ -20,6 +21,7 @@ Range::Range(string _name, float _distance) : name(_name), distance(_distance)
   } catch(char* str) {
     std::cout << str;
   }
+  */
 }
 
 // 区間名を返す

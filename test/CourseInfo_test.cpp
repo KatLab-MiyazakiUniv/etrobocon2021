@@ -12,21 +12,41 @@
 namespace etrobocon2021_test {
 
   // CourseInfoコンストラクタに関するテスト
-  // 輝度の入力が正の場合
-  TEST(CourseInfoTest, newCourseInfoByPlusBrightness) { EXPECT_NO_THROW(CourseInfo info(1)); }
-  // 輝度の入力が0の場合
-  TEST(CourseInfoTest, newCourseInfoByZeroBrightness) { EXPECT_NO_THROW(CourseInfo info(0)); }
-  // 輝度の入力が負の場合
-  TEST(CourseInfoTest, newCourseInfoByMinusBrightness) { EXPECT_ANY_THROW(CourseInfo info(-1)); }
-
   // getBrightness()に関するテスト
   // 輝度を返す処理
-  TEST(getBrughtnessTest, getBrightness)
+  TEST(getBrightnessTest, getBrightness)
   {
     CourseInfo info(1);
     int expected = 1;
 
-    EXPECT_FLOAT_EQ(expected, info.getBrightness());
+    EXPECT_EQ(expected, info.getBrightness());
+  }
+
+  // 輝度を返す処理
+  TEST(getBrightnessTest, getBrightnessByZeroValue)
+  {
+    CourseInfo info(0);
+    int expected = 0;
+
+    EXPECT_EQ(expected, info.getBrightness());
+  }
+
+  // 負の輝度が入力された場合に、128を保持し返す処理
+  TEST(getBrightnessTest, getBrightnessByMinusValue)
+  {
+    CourseInfo info(-1);
+    int expected = 128;
+
+    EXPECT_EQ(expected, info.getBrightness());
+  }
+
+  // 大きすぎる輝度が入力された場合に、128を保持し返す処理
+  TEST(getBrightnessTest, getBrightnessByOverValue)
+  {
+    CourseInfo info(500);
+    int expected = 128;
+
+    EXPECT_EQ(expected, info.getBrightness());
   }
 
   // getRangeNameById()に関するテスト
@@ -50,22 +70,24 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, info.getRangeNameById(id));
   }
 
-  // 負のidを受け取りエラーを返す処理
+  // 負のidを受け取り空文字を返す処理
   TEST(getRangeNameByIdTest, getRangeNameByMinusId)
   {
     CourseInfo info(1);
     int id = -1;
+    std::string expected = "\0";
 
-    EXPECT_ANY_THROW(info.getRangeNameById(id));
+    EXPECT_EQ(expected, info.getRangeNameById(id));
   }
 
-  // 大きすぎるidを受け取りエラーを返す処理
+  // 大きすぎるidを受け取り空文字を返す処理
   TEST(getRangeNameByIdTest, getRangeNameByOverId)
   {
     CourseInfo info(1);
-    int id = 7;
+    int id = 50;
+    std::string expected = "\0";
 
-    EXPECT_ANY_THROW(info.getRangeNameById(id));
+    EXPECT_EQ(expected, info.getRangeNameById(id));
   }
 
   // getRangeDistanceById()に関するテスト
@@ -89,22 +111,24 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, info.getRangeDistanceById(id));
   }
 
-  // 負のidを受け取りエラーを返す処理
+  // 負のidを受け取り0を返す処理
   TEST(getRangeDistanceByIdTest, getRangeDistanceByMinusId)
   {
     CourseInfo info(1);
     int id = -1;
+    float expected = 0.0f;
 
-    EXPECT_ANY_THROW(info.getRangeDistanceById(id));
+    EXPECT_EQ(expected, info.getRangeDistanceById(id));
   }
 
-  // 大きすぎるidを受け取りエラーを返す処理
+  // 大きすぎるidを受け取り0を返す処理
   TEST(getRangeDistanceByIdTest, getRangeDistanceByOverId)
   {
     CourseInfo info(1);
-    int id = 7;
+    int id = 50;
+    float expected = 0.0f;
 
-    EXPECT_ANY_THROW(info.getRangeDistanceById(id));
+    EXPECT_EQ(expected, info.getRangeDistanceById(id));
   }
 
   // getRangeDistanceByName()に関するテスト
@@ -118,22 +142,24 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, info.getRangeDistanceByName(name));
   }
 
-  // 空文字を受け取りエラーを返す処理
+  // 空文字を受け取り0を返す処理
   TEST(getRangeDistanceByNameTest, getRangeDistanceByNullName)
   {
     CourseInfo info(1);
     std::string name = "";
+    float expected = 0.0f;
 
-    EXPECT_ANY_THROW(info.getRangeDistanceByName(name));
+    EXPECT_EQ(expected, info.getRangeDistanceByName(name));
   }
 
   // 存在しない区画名を受け取りエラーを返す処理
   TEST(getRangeDistanceByNameTest, getRangeDistanceByNotExistName)
   {
     CourseInfo info(1);
-    std::string name = "notNot";
+    std::string name = "noExistRangeName";
+    float expected = 0.0f;
 
-    EXPECT_ANY_THROW(info.getRangeDistanceByName(name));
+    EXPECT_EQ(expected, info.getRangeDistanceByName(name));
   }
 
 }  // namespace etrobocon2021_test
