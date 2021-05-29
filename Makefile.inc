@@ -5,6 +5,8 @@ APPL_COBJS +=
 # ここに追加したクラスを追加する
 APPL_CXXOBJS += \
     EtRobocon2021.o \
+    Measurer.o \
+    WController.o \
 
 SRCLANG := c++
 
