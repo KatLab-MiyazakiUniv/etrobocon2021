@@ -1,13 +1,13 @@
 /**
- *@file CourseInfo.h
- *@brief コース情報
- *@author higuchi/miyashita
+ * @file CourseInfo.h
+ * @brief コース情報
+ * @author higuchi, miyashita
  */
 
 #ifndef COURSE_INFO_H
 #define COURSE_INFO_H
 
-#include "Range.h"
+#include <iostream>
 
 /**
  * コース情報を保持するクラス
@@ -24,34 +24,19 @@ class CourseInfo {
    * 目標とする輝度を返す
    * @return 目標とする輝度
    */
-  int getBrightness();
+  int getTargetBrightness();
 
   /**
-   * 受け取った区間IDに該当する区間名を返す
-   * @param _id 区間ID
-   * @return 区間名
+   * 各区間の距離配列のポインタを返す
+   * @return 各区間の距離配列のポインタ
    */
-  std::string getRangeNameById(int _id);
-
-  /**
-   * 受け取った区間IDに該当する区間の距離を返す
-   * @param _id 区間ID
-   * @return 区間の距離
-   */
-  float getRangeDistanceById(int _id);
-
-  /**
-   * 受け取った区間名に該当する区間の距離を返す
-   * @param _name 区間名
-   * @return 区間の距離
-   */
-  float getRangeDistanceByName(std::string _name);
+  const float* getCourseDistances();
 
  private:
   // 目標とする輝度
-  int brightness;
-  // 各区画
-  const Range ranges[7];
+  int targetBrightness;
+  // 各区画の距離
+  const float distances[7];
 };
 
 #endif
