@@ -5,7 +5,7 @@ APPL_COBJS +=
 # ここに追加したクラスを追加する
 APPL_CXXOBJS += \
     EtRobocon2021.o \
-
+    Pid.o \
 SRCLANG := c++
 
 ifdef CONFIG_EV3RT_APPLICATION

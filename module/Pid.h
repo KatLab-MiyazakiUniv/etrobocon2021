@@ -45,7 +45,7 @@ class Pid {
    * @fn double calculatePid(double presentValue, double delta = 0.01);
    * @brief PIDを計算する
    * @param presentValue 現在値
-   * @param delta 周期[ms](デフォルト値10[ms]、省略可)
+   * @param delta 周期[ms](デフォルト値0.01[10ms]、省略可)
    * @return PIDの計算結果(操作量)
    */
   double calculatePid(double presentValue, double delta = 0.01);
