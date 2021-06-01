@@ -6,7 +6,7 @@
 #pragma once
 
 /**
- * \brief モータポートを表す番号
+ * @brief モータポートを表す番号
  */
 typedef enum {
     EV3_PORT_A = 0,  	//ポートA
@@ -17,7 +17,7 @@ typedef enum {
 } motor_port_t;
 
 /**
- * \brief サポートするモータタイプ
+ * @brief サポートするモータタイプ
  */
 typedef enum {
     NONE_MOTOR = 0,	   //モータ未接続
