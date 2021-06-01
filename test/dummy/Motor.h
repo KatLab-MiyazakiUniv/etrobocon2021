@@ -1,5 +1,5 @@
 /**
- * @file Measure.cpp
+ * @file Motor.h
  * @brief モータクラス（ダミー）
  * @author kodama0720, yutotanaka24
  */

@@ -1,5 +1,5 @@
 /**
- * @file Measure.cpp
+ * @file Motor.cpp
  * @brief モータクラスで用いる関数（ダミー）
  * @author kodama0720, yutotanaka24
  */

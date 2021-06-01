@@ -1,5 +1,5 @@
 /**
- * @file Measure.cpp
+ * @file TouchSensor.h
  * @brief タッチセンサクラス（ダミー）
  * @author kodama0720, yutotanaka24
  */

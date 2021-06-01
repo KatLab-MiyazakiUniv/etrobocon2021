@@ -1,5 +1,5 @@
 /**
- * @file Measure.cpp
+ * @file ColorSensor.h
  * @brief カラーセンサクラス（ダミー）
  * @author kodama0720, yutotanaka24
  */

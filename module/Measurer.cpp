@@ -1,5 +1,5 @@
 /**
- * @file Measure.cpp
+ * @file Measurer.cpp
  * @brief 計測に用いる関数
  * @author kodama0720, yutotanaka24
  */
