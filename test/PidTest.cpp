@@ -13,7 +13,7 @@ namespace etrobocon2021_test {
     double expected_p = 0.1;
     double expected_i = 0.03;
     double expected_d = 0.612;
-    PidGain actualPidGain(0.1, 0.03, 0.612);
+    PidGain actualPidGain(expected_p, expected_q, expected_r);
     EXPECT_DOUBLE_EQ(expected_p, actualPidGain.kp);
     EXPECT_DOUBLE_EQ(expected_i, actualPidGain.ki);
     EXPECT_DOUBLE_EQ(expected_d, actualPidGain.kd);
@@ -24,7 +24,7 @@ namespace etrobocon2021_test {
     double expected_p = 0.0;
     double expected_i = 0.0;
     double expected_d = 0.0;
-    PidGain actualPidGain(0.0, 0.0, 0.0);
+    PidGain actualPidGain(expected_p, expected_q, expected_r);
     EXPECT_DOUBLE_EQ(expected_p, actualPidGain.kp);
     EXPECT_DOUBLE_EQ(expected_i, actualPidGain.ki);
     EXPECT_DOUBLE_EQ(expected_d, actualPidGain.kd);
@@ -35,7 +35,7 @@ namespace etrobocon2021_test {
     double expected_p = -0.5;
     double expected_i = -0.2;
     double expected_d = -0.3;
-    PidGain actualPidGain(-0.5, -0.2, -0.3);
+    PidGain actualPidGain(expected_p, expected_q, expected_r);
     EXPECT_DOUBLE_EQ(expected_p, actualPidGain.kp);
     EXPECT_DOUBLE_EQ(expected_i, actualPidGain.ki);
     EXPECT_DOUBLE_EQ(expected_d, actualPidGain.kd);
@@ -47,8 +47,8 @@ namespace etrobocon2021_test {
     double expected_p = 0.6;
     double expected_i = 0.02;
     double expected_d = 0.03;
-    Pid actualPid(0.6, 0.02, 0.03, 70);
     double targetValue = 70;
+    Pid actualPid(expected_p, expected_q, expected_r, targetValue);
     double presentValue = 20;
     double preDeviation = 0;
     double presentDeviation = (targetValue - presentValue);
@@ -65,8 +65,8 @@ namespace etrobocon2021_test {
     double expected_p = 0.0;
     double expected_i = 0.0;
     double expected_d = 0.0;
-    Pid actualPid(0.0, 0.0, 0.0, 0);
     double targetValue = 0;
+    Pid actualPid(expected_p, expected_q, expected_r, targetValue);
     double presentValue = 40;
     double preDeviation = 0;
     double presentDeviation = (targetValue - presentValue);
@@ -83,8 +83,8 @@ namespace etrobocon2021_test {
     double expected_p = -0.3;
     double expected_i = -0.02;
     double expected_d = -0.175;
-    Pid actualPid(-0.3, -0.02, -0.175, 100);
     double targetValue = 100;
+    Pid actualPid(expected_p, expected_q, expected_r, targetValue);
     double presentValue = 0;
     double preDeviation = 0;
     double presentDeviation = (targetValue - presentValue);
@@ -101,8 +101,8 @@ namespace etrobocon2021_test {
     double expected_p = 0.6;
     double expected_i = 0.02;
     double expected_d = 0.03;
-    Pid actualPid(0.6, 0.02, 0.03, 70);
     double targetValue = 70;
+    Pid actualPid(expected_p, expected_q, expected_r, targetValue);
     double presentValue = 55;
     double preDeviation = 0;
     double presentDeviation = (targetValue - presentValue);
@@ -121,8 +121,8 @@ namespace etrobocon2021_test {
     double expected_p = 0.6;
     double expected_i = 0.05;
     double expected_d = 0.01;
-    Pid actualPid(0.6, 0.05, 0.01, 70);
     double targetValue = 70;
+    Pid actualPid(expected_p, expected_q, expected_r, targetValue);
     double presentValue = 60;
     double preDeviation = 0;
     double presentDiviation = (targetValue - presentValue);  //現在の偏差
@@ -137,7 +137,7 @@ namespace etrobocon2021_test {
     expected_p = 0.1;
     expected_i = 0.2;
     expected_d = 0.3;
-    actualPid.setPidGain(0.1, 0.2, 0.3);  // PIDゲインの更新
+    actualPid.setPidGain(expected_p, expected_q, expected_r);  // PIDゲインの更新
     presentValue = 100;
     presentDiviation = (targetValue - presentValue);
     integral += presentDiviation * DELTA;
