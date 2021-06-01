@@ -1,7 +1,7 @@
 /**
- *  @file Pid.h
- *  @brief PIDを計算するクラス
- *  @author Hisataka-Hagiyama,uchyam
+ * @file Pid.h
+ * @brief PIDを計算するクラス
+ * @author Hisataka-Hagiyama,uchyam
  */
 
 #ifndef PID_H
@@ -15,9 +15,9 @@ struct PidGain {
   double kd;  // Dゲイン
 
   /** コンストラクタ
-   *  @param _kp Pゲイン
-   *  @param _ki Iゲイン
-   *  @param _kd Dゲイン
+   * @param _kp Pゲイン
+   * @param _ki Iゲイン
+   * @param _kd Dゲイン
    */
   PidGain(double _kp, double _ki, double _kd);
 };
@@ -25,10 +25,10 @@ struct PidGain {
 class Pid {
  public:
   /** コンストラクタ
-   *  @param _kp Pゲイン
-   *  @param _ki Iゲイン
-   *  @param _kd Dゲイン
-   *  @param _targetValue 目標値
+   * @param _kp Pゲイン
+   * @param _ki Iゲイン
+   * @param _kd Dゲイン
+   * @param _targetValue 目標値
    */
   Pid(double _kp, double _ki, double _kd, double _targetValue);
 

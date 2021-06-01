@@ -1,7 +1,7 @@
 /**
- *  @file PidTest.cpp
- *  @brief PidGainクラス,Pidクラスをテストする
- *  @author Hisataka-Hagiyama,uchyam
+ * @file PidTest.cpp
+ * @brief PidGainクラス,Pidクラスをテストする
+ * @author Hisataka-Hagiyama,uchyam
  */
 
 #include "Pid.h"
