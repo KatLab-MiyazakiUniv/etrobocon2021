@@ -8,6 +8,7 @@
 #define COURSE_INFO_H
 
 #include <iostream>
+#include <array>
 
 /**
  * コース情報を保持するクラス
@@ -15,10 +16,10 @@
 class CourseInfo {
  public:
   /**
-   * 受け取った輝度の値を目標値に設定し、区画の名前と距離を初期化する
+   * インスタンスを生成する。受け取った輝度の値をコンストラクタに渡す
    * @param _brightness 目標とする輝度
    */
-  CourseInfo(int _brightness);
+  static CourseInfo& getInstance(int _brightness);
 
   /**
    * 目標とする輝度を返す
@@ -35,8 +36,26 @@ class CourseInfo {
  private:
   // 目標とする輝度
   int targetBrightness;
-  // 各区画の距離
-  const float distances[7];
+
+  // 各区画の距離のポインタ
+  const float* distances;
+
+  /**
+   * コンストラクタ
+   * @param _brightness 目標とする輝度
+   */
+  CourseInfo(int _brightness);
+
+  /**
+   * コピーコンストラクタ
+   * @param other 静的なCourseInfoの参照
+   */
+  CourseInfo(const CourseInfo& other);
+
+  /**
+   * 代入演算子
+   */
+  CourseInfo& operator=(const CourseInfo& other);
 };
 
 #endif
