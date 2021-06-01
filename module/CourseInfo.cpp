@@ -12,7 +12,7 @@ CourseInfo::CourseInfo(int _brightness)
   : targetBrightness(_brightness), distances{ 10.0f, 5.0f, 10.0f, 5.0f, 10.0f, 5.0f, 10.0f }
 {
   // 入力値が輝度の取りうる範囲外だった場合、50を目標の輝度とする
-  if(_brightness < 0 || 100 <= _brightness) {
+  if(_brightness < 0 || 100 < _brightness) {
     targetBrightness = 50;
     std::cout << "CourseInfo:期待しない値(" << _brightness << ")が入力されました。目標とする輝度を"
               << targetBrightness << "に設定します。\n";

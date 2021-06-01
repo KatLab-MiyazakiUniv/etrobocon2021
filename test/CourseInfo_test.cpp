@@ -21,7 +21,7 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, info.getTargetBrightness());
   }
 
-  // 輝度を返す処理
+  // 輝度0を返す処理
   TEST(getTargetBrightnessTest, getTargetBrightnessByZeroValue)
   {
     CourseInfo info(0);
@@ -29,8 +29,16 @@ namespace etrobocon2021_test {
 
     EXPECT_EQ(expected, info.getTargetBrightness());
   }
+  //輝度100を返す処理
+  TEST(getTargetBrightnessTest, getTargetBrightnessByOneHundredValue)
+  {
+    CourseInfo info(0);
+    int expected = 0;
 
-  // 負の輝度が入力された場合に、50を保持し返す処理
+    EXPECT_EQ(expected, info.getTargetBrightness());
+  }
+
+  // 負の輝度-1が入力された場合に、50を保持し返す処理
   TEST(getTargetBrightnessTest, geTargetBrightnessByMinusValue)
   {
     CourseInfo info(-1);
@@ -39,10 +47,10 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, info.getTargetBrightness());
   }
 
-  // 大きすぎる輝度が入力された場合に、50を保持し返す処理
-  TEST(getTargetBrightnessTest, getTargetBrightnessByOverValue)
+  // 大きすぎる値101が入力された場合に、50を保持し返す処理
+  TEST(getTargetBrightnessTest, getTargetBrightnessByBoundaryValue)
   {
-    CourseInfo info(500);
+    CourseInfo info(101);
     int expected = 50;
 
     EXPECT_EQ(expected, info.getTargetBrightness());
