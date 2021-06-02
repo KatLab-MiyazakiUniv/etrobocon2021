@@ -114,6 +114,46 @@ namespace etrobocon2021_test {
     EXPECT_DOUBLE_EQ(expected, actualPid.calculatePid(presentValue, DELTA));
   }
 
+  TEST(PidTest, caluculatePid_cahgeDelta_minus)
+  {
+    static const double DELTA = -0.03;
+    double expected_p = 0.6;
+    double expected_i = 0.02;
+    double expected_d = 0.03;
+    double targetValue = 70;
+    Pid actualPid(expected_p, expected_i, expected_d, targetValue);
+    double presentValue = 55;
+    double preDeviation = 0;
+    double presentDeviation = (targetValue - presentValue);
+    double p = presentDeviation * expected_p;
+    double i = presentDeviation * DELTA * expected_i;
+    double d = (presentDeviation - preDeviation) * expected_d / DELTA;
+    double expected = p + i + d;
+    //第2引数に周期を渡し、周期に応じた計算結果を返すことができるかを確認(デフォルトでは0.01が渡される)
+    EXPECT_DOUBLE_EQ(expected, actualPid.calculatePid(presentValue, DELTA));
+  }
+
+  //周期に0を渡したときに、デフォルト周期0.01として計算されるかをテストする
+  TEST(PidTest, caluculatePid_cahgeDelta_zero)
+  {
+    static const double DELTA = 0;              //実際に渡す周期
+    static const double EXPECTED_DELTA = 0.01;  //期待される周期
+    double expected_p = 0.6;
+    double expected_i = 0.02;
+    double expected_d = 0.03;
+    double targetValue = 70;
+    Pid actualPid(expected_p, expected_i, expected_d, targetValue);
+    double presentValue = 55;
+    double preDeviation = 0;
+    double presentDeviation = (targetValue - presentValue);
+    double p = presentDeviation * expected_p;
+    double i = presentDeviation * EXPECTED_DELTA * expected_i;
+    double d = (presentDeviation - preDeviation) * expected_d / EXPECTED_DELTA;
+    double expected = p + i + d;
+    //第2引数に周期を渡し、周期に応じた計算結果を返すことができるかを確認(デフォルトでは0.01が渡される)
+    EXPECT_DOUBLE_EQ(expected, actualPid.calculatePid(presentValue, DELTA));
+  }
+
   // setしてcalculatePidを呼び出す(Setterのテスト)
   TEST(calculatePidTest, caluclatePid_setter)
   {
