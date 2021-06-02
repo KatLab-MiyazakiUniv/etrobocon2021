@@ -6,8 +6,11 @@ namespace etrobocon2021_test {
   TEST(calculateMileageTest, calculateMilage)
   {
     Mileage& mileage = Mileage::getInstance();
-    double rightWheel = 2 * 10 * 45 * M_PI / 360;
-    double leftWheel = 2 * 20 * 45 * M_PI / 360;
+    double radius = 45;
+    double rightAngle = 10;
+    double leftAngle = 20;
+    double rightWheel = 2 * rightAngle * radius * M_PI / 360;
+    double leftWheel = 2 * leftAngle * radius * M_PI / 360;
     double expected = (rightWheel + leftWheel) / 2;
     EXPECT_DOUBLE_EQ(expected, mileage.calculateMileage(10, 20));
   }
@@ -15,8 +18,11 @@ namespace etrobocon2021_test {
   TEST(calculateMileageTest, calculateMilage_minus)
   {
     Mileage& mileage = Mileage::getInstance();
-    double rightWheel = 2 * -10 * 45 * M_PI / 360;
-    double leftWheel = 2 * -20 * 45 * M_PI / 360;
+    double radius = 45;
+    double rightAngle = -10;
+    double leftAngle = -20;
+    double rightWheel = 2 * rightAngle * radius * M_PI / 360;
+    double leftWheel = 2 * leftAngle * radius * M_PI / 360;
     double expected = (rightWheel + leftWheel) / 2;
     EXPECT_DOUBLE_EQ(expected, mileage.calculateMileage(-10, -20));
   }
@@ -24,8 +30,11 @@ namespace etrobocon2021_test {
   TEST(calculateMileageTest, calculateMilage_zero)
   {
     Mileage& mileage = Mileage::getInstance();
-    double rightWheel = 2 * 0 * 45 * M_PI / 360;
-    double leftWheel = 2 * 0 * 45 * M_PI / 360;
+    double radius = 45;
+    double rightAngle = 0;
+    double leftAngle = 0;
+    double rightWheel = 2 * rightAngle * radius * M_PI / 360;
+    double leftWheel = 2 * leftAngle * radius * M_PI / 360;
     double expected = (rightWheel + leftWheel) / 2;
     EXPECT_DOUBLE_EQ(expected, mileage.calculateMileage(0, 0));
   }
