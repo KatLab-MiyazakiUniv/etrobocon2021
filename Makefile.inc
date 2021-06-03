@@ -6,6 +6,7 @@ APPL_COBJS +=
 APPL_CXXOBJS += \
     EtRobocon2021.o \
     Measurer.o \
+    Pid.o \
 
 SRCLANG := c++
 
