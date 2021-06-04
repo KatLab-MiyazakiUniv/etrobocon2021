@@ -5,7 +5,6 @@
  */
 
 #include "CourseInfo.h"
-using std::string;
 
 // 目標とする輝度と、各区間の名前と距離を設定する
 CourseInfo::CourseInfo(int _brightness)
@@ -14,8 +13,8 @@ CourseInfo::CourseInfo(int _brightness)
 {
   // 入力値が輝度の取りうる範囲外だった場合、エラーメッセージを出力
   if(_brightness < 0 || 100 < _brightness) {
-    std::cout << "CourseInfo:期待しない値(" << _brightness << ")が入力されました。目標とする輝度を"
-              << targetBrightness << "に設定します。\n";
+    printf("CourseInfo:期待しない値(%d)が入力されました。目標とする輝度を%dに設定します。\n",
+           _brightness, targetBrightness);
   }
 }
 

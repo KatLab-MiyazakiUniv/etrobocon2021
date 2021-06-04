@@ -7,7 +7,7 @@
 #ifndef COURSE_INFO_H
 #define COURSE_INFO_H
 
-#include <iostream>
+#include <stdio.h>
 
 /**
  * コース情報を保持するクラス
