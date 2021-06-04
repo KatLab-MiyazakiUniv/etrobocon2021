@@ -8,12 +8,15 @@
 using namespace ev3api;
 
 //コンストラクタ
-Motor::Motor(ePortM port, bool brake, motor_type_t type)
-{
-}
+Motor::Motor(ePortM port, bool brake, motor_type_t type) {}
 
 //モータ角位置取得
 int Motor::getCount()
 {
   return static_cast<int>(count);
+}
+// pwm値設定
+void Motor::setPWM(int pwm)
+{
+  count += pwm * 0.05;
 }

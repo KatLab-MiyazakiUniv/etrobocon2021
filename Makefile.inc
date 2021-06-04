@@ -5,6 +5,7 @@ APPL_COBJS +=
 # ここに追加したクラスを追加する
 APPL_CXXOBJS += \
     EtRobocon2021.o \
+    Controller.o \
     Measurer.o \
     Pid.o \
     CourseInfo.o \
@@ -30,3 +31,4 @@ INCLUDES += \
     -I$(mkfile_path)module/api \
 
 COPTS += -std=gnu++11
+
