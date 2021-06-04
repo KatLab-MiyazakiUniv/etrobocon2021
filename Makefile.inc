@@ -2,14 +2,10 @@ mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_COBJS +=
 
-# ここに追加したクラスを追加する
-APPL_CXXOBJS += \
-    EtRobocon2021.o \
-    Controller.o \
-    Measurer.o \
-    Pid.o \
-    CourseInfo.o \
-    Mileage.o \
+# moduleディレクトリ中に追加したクラスを検索する
+APPL_CXXOBJS += $(shell echo \
+                    `ls ${HOME}/etrobo/workspace/etrobocon2021/module/*.cpp | \
+                     sed -r 's/(\/.*)*\/(.*\.)cpp/\2o/g'`)
 
 SRCLANG := c++
 
