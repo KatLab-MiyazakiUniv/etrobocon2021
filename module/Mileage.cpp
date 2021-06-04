@@ -8,7 +8,6 @@
 
 double Mileage::calculateWheelMileage(int angle)
 {
-  // constexpr double RADIUS = 45.0;
   //タイヤの累計走行距離＝2 * π * タイヤの半径　* (タイヤの回転角度 / 360[deg])
   return 2.0 * M_PI * RADIUS * static_cast<double>(angle) / 360.0;
 }
