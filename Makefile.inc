@@ -8,7 +8,6 @@ APPL_CXXOBJS += \
     Controller.o \
     Measurer.o \
     Pid.o \
-    CourseInfo.o \
     Mileage.o \
 
 SRCLANG := c++
