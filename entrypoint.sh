@@ -13,10 +13,10 @@ fi
 # invoke etrobo environment
 cd "$ETROBO_ROOT"
 
-ln -s /tmp/etrobocon $ETROBO_ROOT/workspace/etrobocon
+ln -s /tmp/etrobocon2021 $ETROBO_ROOT/workspace/etrobocon2021
 
 if [ -z "$ETROBO_ENV" ]; then
     . "$ETROBO_ROOT/scripts/etroboenv.sh" silent
 fi
 
-make app=etrobocon
+make app=etrobocon2021

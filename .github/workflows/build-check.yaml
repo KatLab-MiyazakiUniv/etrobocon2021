@@ -50,4 +50,4 @@ jobs:
         run: |
           echo ${{ secrets.PAT }} | docker login ghcr.io -u Takahiro55555 --password-stdin
           docker pull ghcr.io/takahiro55555/github-actions-etrobocon2021
-          docker run -v ${{ github.workspace }}:/tmp/etrobocon:rw ghcr.io/takahiro55555/github-actions-etrobocon2021
+          docker run -v ${{ github.workspace }}:/tmp/etrobocon2021:rw ghcr.io/takahiro55555/github-actions-etrobocon2021
