@@ -38,7 +38,7 @@ jobs:
           HIT_IMAGE_NUM=`curl \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ github.token }}" \
-            https://api.github.com/orgs/KatLab-MiyazakiUniv/packages/container/${{ env.IMAGE }}/versions?per_page=100 | \
+            https://api.github.com/orgs/KatLab-MiyazakiUniv/packages/container/${{ env.IMAGE }}/versions?per_page=100&state=active | \
             jq '.[].metadata.container.tags' | \
             grep ${{ env.TAG }} | \
             wc -l || echo 0`
