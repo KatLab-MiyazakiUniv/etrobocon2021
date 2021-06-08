@@ -36,7 +36,7 @@ jobs:
           echo TAG=$TAG >> $GITHUB_ENV
 
       - name: Build and publish docker image
-        if: ${{ env.IS_REBUILD_DOCKER_IMAGE == 'false' }}
+        if: ${{ env.IS_REBUILD_DOCKER_IMAGE == 'true' }}
         uses: matootie/github-docker@v3.1.0
         with:
           accessToken: ${{ secrets.PAT }}
@@ -49,5 +49,5 @@ jobs:
       - name: ETRobocon build test
         run: |
           echo ${{ secrets.PAT }} | docker login ghcr.io -u Takahiro55555 --password-stdin
-          docker pull ghcr.io/takahiro55555/github-actions-etrobocon2021
-          docker run -v ${{ github.workspace }}:/tmp/etrobocon2021:rw ghcr.io/takahiro55555/github-actions-etrobocon2021
+          docker pull ghcr.io/katlab-miyazakiuniv/github-actions-etrobocon2021
+          docker run -v ${{ github.workspace }}:/tmp/etrobocon2021:rw ghcr.io/katlab-miyazakiuniv/github-actions-etrobocon2021
