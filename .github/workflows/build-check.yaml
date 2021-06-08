@@ -36,7 +36,7 @@ jobs:
           echo TAG=$TAG >> $GITHUB_ENV
 
       - name: Build and publish docker image
-        if: ${{ env.IS_REBUILD_DOCKER_IMAGE == 'true' }}
+        if: ${{ env.IS_REBUILD_DOCKER_IMAGE == 'false' }}
         uses: matootie/github-docker@v3.1.0
         with:
           accessToken: ${{ secrets.PAT }}
