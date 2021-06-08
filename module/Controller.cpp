@@ -13,8 +13,7 @@ int Controller::limitPwmValue(const int value)
   } else if(value < MOTOR_PWM_MIN) {
     return MOTOR_PWM_MIN;
   }
-  // わざとビルドに失敗するようにした
-  return value
+  return value;
 }
 
 void Controller::setRightMotorPwm(const int pwm)
