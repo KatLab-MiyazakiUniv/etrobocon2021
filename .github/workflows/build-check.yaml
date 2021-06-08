@@ -61,6 +61,10 @@ jobs:
 
       # Docker image を GitHub Container Registry から Pull して、
       # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
+      #     GitHub Container Registry Doc: https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+      # FIXME: GitHub Container Registry を使うために、個人の PAT(Personal Access Token)を利用している
+      #        この PAT を Organization または、このリポジトリ用の Token に置き換えること
+      #        また、GitHub Container Registry へのログイン方法もこれで大丈夫なのか心配
       - name: ETRobocon build test
         run: |
           echo ${{ secrets.PAT }} | docker login ghcr.io -u Takahiro55555 --password-stdin
