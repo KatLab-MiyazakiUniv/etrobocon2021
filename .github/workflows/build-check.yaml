@@ -13,7 +13,6 @@ jobs:
 
       - name: Create docker image tag
         run: |
-          sudo apt-get install -y jq
           TAG=`curl \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/ETrobocon/etrobo/commits/master?per_page=1 | \
