@@ -6,7 +6,6 @@ APPL_COBJS +=
 APPL_CXXOBJS += $(shell echo \
                     `ls ${HOME}/etrobo/workspace/etrobocon2021/module/*.cpp | \
                      sed -r 's/(\/.*)*\/(.*\.)cpp/\2o/g'`)
->>>>>>> 6558c2ffc01d2ffae889351a8d13f5f2f392f6aa
 
 SRCLANG := c++
 
