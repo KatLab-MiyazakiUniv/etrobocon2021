@@ -9,7 +9,7 @@
 PidGain::PidGain(double _kp, double _ki, double _kd) : kp(_kp), ki(_ki), kd(_kd) {}
 
 Pid::Pid(double _kp, double _ki, double _kd, double _targetValue)
-  : gain(_kp, _ki, _kd), integral(0.0), preDeviation(0.0), targetValue(_targetValue)
+  : gain(_kp, _ki, _kd), preDeviation(0.0), integral(0.0), targetValue(_targetValue)
 {
 }
 
