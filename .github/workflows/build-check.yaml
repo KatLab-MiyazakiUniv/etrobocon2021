@@ -1,0 +1,72 @@
+name: Build check
+on: push
+
+env:
+  IMAGE: github-actions-etrobocon2021
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+
+      # ${{ github.workspace }} を使用するために必要
+      - name: checkout
+        uses: actions/checkout@v1
+
+      # https://github.com/ETrobocon/etrobo/ の master ブランチの最新のコミットIDと、
+      # Dockerfile と entrypoint.sh を結合したファイルのハッシュ値を結合して、
+      # Docker image のタグを生成する。
+      #     GitHub API Doc: https://docs.github.com/ja/rest/reference/repos#list-organization-repositories
+      - name: Create docker image tag
+        run: |
+          cat ${{ github.workspace }}/Dockerfile > /tmp/update-check.txt
+          cat ${{ github.workspace }}/entrypoint.sh >> /tmp/update-check.txt
+          TAG=`curl \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/ETrobocon/etrobo/commits/master?per_page=1 | \
+            jq '.sha' | \
+            sed -e 's/"//g'`
+          TAG=${TAG}.`md5sum /tmp/update-check.txt | cut -d ' ' -f 1`
+          echo TAG=$TAG >> $GITHUB_ENV
+
+      # 上記で生成したタグが GitHub Container Registry に存在するかを確認する
+      # 存在しない場合、新たに Docker image をビルドするためのフラグ(IS_REBUILD_DOCKER_IMAGE)を立てる
+      # 確認対象になる Docker image の数は直近100件
+      #     GitHub API Doc: https://docs.github.com/en/rest/reference/packages#get-all-package-versions-for-a-package-owned-by-an-organization
+      - name: Check latest docker image tag
+        run: |
+          HIT_IMAGE_NUM=`curl \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ github.token }}" \
+            https://api.github.com/orgs/KatLab-MiyazakiUniv/packages/container/${{ env.IMAGE }}/versions?per_page=100&state=active | \
+            jq '.[].metadata.container.tags' | \
+            grep ${{ env.TAG }} | \
+            wc -l || echo 0`
+          IS_REBUILD_DOCKER_IMAGE='false'
+          if [[ 0 == $HIT_IMAGE_NUM ]]; then
+            IS_REBUILD_DOCKER_IMAGE='true'
+          fi
+          echo IS_REBUILD_DOCKER_IMAGE=$IS_REBUILD_DOCKER_IMAGE >> $GITHUB_ENV
+
+      # 指定されたタグの Docker image が無い場合、
+      # 新たに Docker image をビルドし、GitHub Container Registry に Push する
+      - name: Build and publish docker image
+        if: ${{ env.IS_REBUILD_DOCKER_IMAGE == 'true' }}
+        uses: matootie/github-docker@v3.1.0
+        with:
+          accessToken: ${{ secrets.PAT }}
+          imageName: ${{ env.IMAGE }}
+          tag: ${{ env.TAG }}
+          containerRegistry: true
+
+      # Docker image を GitHub Container Registry から Pull して、
+      # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
+      #     GitHub Container Registry Doc: https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+      # FIXME: GitHub Container Registry を使うために、個人の PAT(Personal Access Token)を利用している
+      #        この PAT を Organization または、このリポジトリ用の Token に置き換えること
+      #        また、GitHub Container Registry へのログイン方法もこれで大丈夫なのか心配
+      - name: ETRobocon build test
+        run: |
+          echo ${{ secrets.PAT }} | docker login ghcr.io -u Takahiro55555 --password-stdin
+          docker pull ghcr.io/katlab-miyazakiuniv/github-actions-etrobocon2021
+          docker run -v ${{ github.workspace }}:/tmp/etrobocon2021:rw ghcr.io/katlab-miyazakiuniv/github-actions-etrobocon2021:${{ env.TAG }}
