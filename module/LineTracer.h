@@ -18,24 +18,22 @@ class LineTracer {
  public:
   /**
    * コンストラクタ
-   * @param _edge 1:左コース, -1:右コース
+   * @param _leftCourse コースのLR判定
    */
-  LineTracer(int _edge);
+  LineTracer(bool _leftCourse);
+  
   /**
    * 指定された距離の間ライントレースをする関数
    * @param targetDistance 目標距離
-   * @param targetValue 目標輝度
+   * @param targetBrightness 目標輝度
    * @param pwm PWM値
    * @param gain PIDを保持する構造体
    */
-  void run(double targetDistance, int targetValue, int pwm, PidGain& gain);
+  void run(double targetDistance, int targetBrightness, int pwm, PidGain& gain);
 
  private:
   int edge;
-  double currentDistance;
-  double currentPid;
   Measurer measurer;
-  Mileage mileage;
   Controller controller;
 };
 

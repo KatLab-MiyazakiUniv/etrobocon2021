@@ -6,6 +6,7 @@
 #include "Controller.h"
 
 Controller::Controller() : rightWheel(PORT_B), leftWheel(PORT_C) {}
+
 int Controller::limitPwmValue(const int value)
 {
   if(value > MOTOR_PWM_MAX) {
@@ -16,16 +17,34 @@ int Controller::limitPwmValue(const int value)
   return value;
 }
 
+//PWM値を右モータにセット
 void Controller::setRightMotorPwm(const int pwm)
 {
   rightWheel.setPWM(limitPwmValue(pwm));
 }
+
+//PWM値を左モータにセット
 void Controller::setLeftMotorPwm(const int pwm)
 {
   leftWheel.setPWM(limitPwmValue(pwm));
 }
+
+//モータを停止
 void Controller::stopMotor()
 {
   leftWheel.stop();
   rightWheel.stop();
+}
+
+//モータカウントをリセット
+void Controller::reset()
+{
+  leftWheel.reset();
+  rightWheel.reset();
+}
+
+//スリープ
+void Controller::sleep(int duration)
+{
+  clock.sleep(duration);
 }

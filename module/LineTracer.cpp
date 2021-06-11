@@ -5,15 +5,21 @@
  */
 #include "LineTracer.h"
 
-LineTracer::LineTracer(int _edge) : edge(_edge) {}
+LineTracer::LineTracer(bool _isLeft) : edge((_isLeft == true) ? 1 : -1) {}
 
-void LineTracer::run(double targetDistance, int targetValue, int pwm, PidGain& gain)
+//設定された距離を走行する
+void LineTracer::run(double targetDistance, int targetBrightness, int pwm, PidGain& gain)
 {
-  Pid pid(gain.kp, gain.ki, gain.kd, targetValue);
+  double currentDistance = 0;
+  double currentPid = 0;
+  Pid pid(gain.kp, gain.ki, gain.kd, targetBrightness);
+
+  //走行距離のリセット
+  controller.reset();
 
   //走行距離が目標距離を超えるまで繰り返す
   while(true) {
-    currentDistance = mileage.calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
     if(currentDistance > targetDistance) {
       break;
     }
@@ -22,5 +28,7 @@ void LineTracer::run(double targetDistance, int targetValue, int pwm, PidGain& g
     //モータのPWM値をセット
     controller.setRightMotorPwm(pwm - currentPid);
     controller.setLeftMotorPwm(pwm + currentPid);
+    // 10ミリ秒待機
+    controller.sleep();
   }
 }
