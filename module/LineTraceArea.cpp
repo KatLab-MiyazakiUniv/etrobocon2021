@@ -5,10 +5,9 @@
  */
 
 #include "LineTraceArea.h"
-#include <stdio.h>
 
 //左コースの情報を初期化する
-const std::array<SectionParam, ARRAYSIZE> LineTraceArea::leftCourseInfo
+const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::LEFTCOURSEINFO
     = { SectionParam{ 1629.980, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
@@ -18,7 +17,7 @@ const std::array<SectionParam, ARRAYSIZE> LineTraceArea::leftCourseInfo
         SectionParam{ 802.254, 50, 100, PidGain(0, 0, 0) } };
 
 //右コースの情報を初期化する
-const std::array<SectionParam, ARRAYSIZE> LineTraceArea::rightCourseInfo
+const std::array<SectionParam, LineTraceArea::LEFTSECTIONSIZE> LineTraceArea::RIGHTCOURSEINFO
     = { SectionParam{ 1629.980, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
@@ -29,29 +28,21 @@ const std::array<SectionParam, ARRAYSIZE> LineTraceArea::rightCourseInfo
 
 void LineTraceArea::runLineTraceArea()
 {
+  LineTracer linetracer(IS_LEFT);
   const SectionParam* param;
 
-  // LineTracerクラスにエッジを与えインスタンス化する
-  // LineTracer _linetracer(_EDGE);
-  printf("%d\n", _EDGE);
-
-  if(_EDGE == 1) {
+  if(IS_LEFT) {
     //左コースの場合
-    param = leftCourseInfo.begin();
+    param = LEFTCOURSEINFO.begin();
   } else {
     //右コースの場合
-    param = rightCourseInfo.begin();
+    param = RIGHTCOURSEINFO.begin();
   }
 
-  //各区間を順番に走らせる
-  for(int section = 0; section < ARRAYSIZE; section++) {
-    printf("%lf %d  %d %lf %lf %lf\n", param[section].sectionDistance,
-           param[section].sectionTargetBrightness, param[section].sectionPWM,
-           param[section].sectionPidGain.kp, param[section].sectionPidGain.ki,
-           param[section].sectionPidGain.kd);
+  //左右に応じて各区間を順番に走らせる
+  for(int section = 0; section < (IS_LEFT ? LEFTSECTIONSIZE : RIGHTSECTIONSIZE); section++) {
     // Linetracerクラスのrun関数に区間の情報を渡して走行させる
-    // _linetracer.run(param[section].sectionDistance,
-    // param[section].sectionTragetBrightness,param[section].sectionPWM,
-    // param[section].sectionPidGain)
+    linetracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
+                   param[section].sectionPWM, param[section].sectionPidGain);
   }
 }

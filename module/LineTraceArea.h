@@ -6,19 +6,18 @@
 
 #ifndef LINETRACEAREA_H
 #define LINETRACEAREA_H
-#include "Pid.h"
 #include "array"
-//ライントレースエリアの情報を持つ配列のサイズ（ライントレースエリアにおける区間の数）
-static const int ARRAYSIZE = 7;
+#include "LineTracer.h"
+#include "Pid.h"
 
 /**
  * 左コース/右コース向けの設定を定義
  * デフォルトは左コース
  */
 #if defined(MAKE_RIGHT)
-const int _EDGE = -1;  //右コースの走行で使う値
+static const bool IS_LEFT = false;  //右コース
 #else
-const int _EDGE = 1;  //左コースの走行で使う値(makeコマンドで引数を指定しなければこちらの値となる)
+static const bool IS_LEFT = true;  //左コース
 #endif
 
 //区間の情報を保持する構造体
@@ -38,8 +37,10 @@ class LineTraceArea {
   static void runLineTraceArea();
 
  private:
-  static const std::array<SectionParam, ARRAYSIZE> rightCourseInfo;  //右コースの情報
-  static const std::array<SectionParam, ARRAYSIZE> leftCourseInfo;   //左コースの情報
+  static const int LEFTSECTIONSIZE = 7;   //左コースの区間の数
+  static const int RIGHTSECTIONSIZE = 7;  //右コースの区間の数
+  static const std::array<SectionParam, LEFTSECTIONSIZE> LEFTCOURSEINFO;    //左コースの情報
+  static const std::array<SectionParam, RIGHTSECTIONSIZE> RIGHTCOURSEINFO;  //右コースの情報
 
   /**
    * コンストラクタ

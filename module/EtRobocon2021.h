@@ -6,8 +6,9 @@
 
 #ifndef ETROBOCON2021_H
 #define ETROBOCON2021_H
+
+#include "Controller.h"
 #include "Measurer.h"
-#include "LineTraceArea.h"
 
 class EtRobocon2021 {
  public:
