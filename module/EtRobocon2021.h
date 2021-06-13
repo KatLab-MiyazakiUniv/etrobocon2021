@@ -8,6 +8,7 @@
 #define ETROBOCON2021_H
 
 #include "Controller.h"
+#include "LineTraceArea.h"
 #include "Measurer.h"
 
 class EtRobocon2021 {
