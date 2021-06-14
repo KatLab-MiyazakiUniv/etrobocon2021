@@ -11,13 +11,13 @@
 #include "Pid.h"
 
 /**
- * 左コース/右コース向けの設定を定義
- * デフォルトは左コース
+ * Lコース/Rコース向けの設定を定義
+ * デフォルトはLコース
  */
 #if defined(MAKE_RIGHT)
-static const bool IS_LEFT = false;  //右コース
+static const bool IS_LEFT = false;  // Rコース
 #else
-static const bool IS_LEFT = true;  //左コース
+static const bool IS_LEFT = true;  // Lコース
 #endif
 
 //区間の情報を保持する構造体
@@ -37,10 +37,10 @@ class LineTraceArea {
   static void runLineTraceArea();
 
  private:
-  static const int LEFTSECTIONSIZE = 7;   //左コースの区間の数
-  static const int RIGHTSECTIONSIZE = 7;  //右コースの区間の数
-  static const std::array<SectionParam, LEFTSECTIONSIZE> LEFTCOURSEINFO;    //左コースの情報
-  static const std::array<SectionParam, RIGHTSECTIONSIZE> RIGHTCOURSEINFO;  //右コースの情報
+  static const int LEFTSECTIONSIZE = 7;   // Lコースの区間の数
+  static const int RIGHTSECTIONSIZE = 7;  // Rコースの区間の数
+  static const std::array<SectionParam, LEFTSECTIONSIZE> LEFTCOURSEINFO;    // Lコースの情報
+  static const std::array<SectionParam, RIGHTSECTIONSIZE> RIGHTCOURSEINFO;  // Rコースの情報
 
   /**
    * コンストラクタ
