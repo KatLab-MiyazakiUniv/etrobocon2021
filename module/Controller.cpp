@@ -17,13 +17,13 @@ int Controller::limitPwmValue(const int value)
   return value;
 }
 
-//PWM値を右モータにセット
+// PWM値を右モータにセット
 void Controller::setRightMotorPwm(const int pwm)
 {
   rightWheel.setPWM(limitPwmValue(pwm));
 }
 
-//PWM値を左モータにセット
+// PWM値を左モータにセット
 void Controller::setLeftMotorPwm(const int pwm)
 {
   leftWheel.setPWM(limitPwmValue(pwm));
@@ -37,14 +37,17 @@ void Controller::stopMotor()
 }
 
 //モータカウントをリセット
-void Controller::reset()
+void Controller::resetMotorCount()
 {
-  leftWheel.reset();
-  rightWheel.reset();
+  while((measurer.getLeftCount() != 0) || (measurer.getRightCount() != 0)) {
+    leftWheel.reset();
+    rightWheel.reset();
+    this->sleep();
+  }
 }
 
 //スリープ
-void Controller::sleep(int duration)
+void Controller::sleep(int msec)
 {
-  clock.sleep(duration);
+  clock.sleep(msec);
 }

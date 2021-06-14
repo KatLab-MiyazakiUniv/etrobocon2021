@@ -9,8 +9,7 @@
 #include "ev3api.h"
 #include "Motor.h"
 #include "Clock.h"
-
-using namespace ev3api;
+#include "Measurer.h"
 
 class Controller {
  public:
@@ -28,8 +27,8 @@ class Controller {
 
   /**
    *モータカウントリセット
-   */ 
-  void reset();
+   */
+  void resetMotorCount();
 
   /**
    * 停止する
@@ -38,14 +37,15 @@ class Controller {
 
   /**
    * 自タスクスリープ
-   * @param duration スリープ時間(msec)
+   * @param msec スリープ時間(msec)
    */
-  void sleep(int duration=10);
+  void sleep(int msec = 10);
 
  private:
-  Motor rightWheel;
-  Motor leftWheel;
-  Clock clock;
+  ev3api::Motor rightWheel;
+  ev3api::Motor leftWheel;
+  ev3api::Clock clock;
+  Measurer measurer;
   /**
    * モータに設定するPWM値の制限
    * @param value 入力されたPWM値
@@ -53,4 +53,5 @@ class Controller {
    */
   int limitPwmValue(const int value);
 };
+
 #endif
