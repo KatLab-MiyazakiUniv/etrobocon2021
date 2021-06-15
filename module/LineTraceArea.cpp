@@ -7,7 +7,7 @@
 #include "LineTraceArea.h"
 
 // Lコースの情報を初期化する
-const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::LEFTCOURSEINFO
+const std::array<SectionParam, LineTraceArea::LEFTSECTIONSIZE> LineTraceArea::LEFTCOURSEINFO
     = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
@@ -17,7 +17,7 @@ const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::L
         SectionParam{ 807.404, 50, 100, PidGain(0, 0, 0) } };
 
 // Rコースの情報を初期化する
-const std::array<SectionParam, LineTraceArea::LEFTSECTIONSIZE> LineTraceArea::RIGHTCOURSEINFO
+const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::RIGHTCOURSEINFO
     = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
