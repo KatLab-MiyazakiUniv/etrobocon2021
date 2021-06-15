@@ -15,8 +15,15 @@ int Motor::getCount()
 {
   return static_cast<int>(count);
 }
+
 // pwm値設定
 void Motor::setPWM(int pwm)
 {
   count += pwm * 0.05;
+}
+
+//モータカウントリセット
+void Motor::reset()
+{
+  count = 0;
 }

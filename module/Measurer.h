@@ -12,8 +12,6 @@
 #include "Motor.h"
 #include "TouchSensor.h"
 
-using namespace ev3api;
-
 class Measurer {
  public:
   /**
@@ -46,10 +44,10 @@ class Measurer {
   bool isPressed();
 
  private:
-  ColorSensor colorSensor;
-  Motor leftWheel;
-  Motor rightWheel;
-  TouchSensor touchSensor;
+  ev3api::ColorSensor colorSensor;
+  ev3api::Motor leftWheel;
+  ev3api::Motor rightWheel;
+  ev3api::TouchSensor touchSensor;
 };
 
 #endif
