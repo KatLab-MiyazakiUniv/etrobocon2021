@@ -5,15 +5,18 @@
  */
 #include "LineTracer.h"
 
-LineTracer::LineTracer(bool _isLeft) : edge((_isLeft == true) ? 1 : -1) {}
+LineTracer::LineTracer(bool _isLeftEdge) : isLeftEdge(_isLeftEdge) {}
 
 //設定された距離を走行する
 void LineTracer::run(double targetDistance, int targetBrightness, int pwm, const PidGain& gain)
 {
   double currentDistance = 0;
   double currentPid = 0;
+  int pidSign = 0;
   Pid pid(gain.kp, gain.ki, gain.kd, targetBrightness);
 
+  //左右で符号を変える
+  pidSign = (isLeftEdge) ? -1 : 1;
   //走行距離のリセット
   controller.resetMotorCount();
 
@@ -24,7 +27,7 @@ void LineTracer::run(double targetDistance, int targetBrightness, int pwm, const
       break;
     }
     // PID計算
-    currentPid = pid.calculatePid(measurer.getBrightness()) * edge;
+    currentPid = pid.calculatePid(measurer.getBrightness()) * pidSign;
     //モータのPWM値をセット
     controller.setRightMotorPwm(pwm - currentPid);
     controller.setLeftMotorPwm(pwm + currentPid);

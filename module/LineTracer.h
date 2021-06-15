@@ -11,6 +11,7 @@
 #include "Measurer.h"
 #include "Mileage.h"
 #include "Controller.h"
+
 /**
  * ライントレースをするクラス
  */
@@ -18,9 +19,9 @@ class LineTracer {
  public:
   /**
    * コンストラクタ
-   * @param _leftCourse コースのLR判定
+   * @param _isLeftEdge コースのLR判定
    */
-  LineTracer(bool _leftCourse);
+  LineTracer(bool _isLeftEdge);
 
   /**
    * 指定された距離の間ライントレースをする関数
@@ -32,7 +33,7 @@ class LineTracer {
   void run(double targetDistance, int targetBrightness, int pwm, const PidGain& gain);
 
  private:
-  int edge;
+  bool isLeftEdge;
   Measurer measurer;
   Controller controller;
 };
