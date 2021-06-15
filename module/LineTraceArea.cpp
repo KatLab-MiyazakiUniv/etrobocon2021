@@ -7,7 +7,7 @@
 #include "LineTraceArea.h"
 
 // Lコースの情報を初期化する
-const std::array<SectionParam, LineTraceArea::LEFTSECTIONSIZE> LineTraceArea::LEFTCOURSEINFO
+const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::LEFT_COURSE_INFO
     = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
@@ -17,7 +17,7 @@ const std::array<SectionParam, LineTraceArea::LEFTSECTIONSIZE> LineTraceArea::LE
         SectionParam{ 807.404, 50, 100, PidGain(0, 0, 0) } };
 
 // Rコースの情報を初期化する
-const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::RIGHTCOURSEINFO
+const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
     = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
         SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
@@ -28,21 +28,26 @@ const std::array<SectionParam, LineTraceArea::RIGHTSECTIONSIZE> LineTraceArea::R
 
 void LineTraceArea::runLineTraceArea()
 {
-  LineTracer linetracer(IS_LEFT);
   const SectionParam* param;
+  bool isLeftEdge;  // true:左エッジ,false:右エッジ
 
   if(IS_LEFT) {
     // Lコースの場合
-    param = LEFTCOURSEINFO.begin();
+    param = LEFT_COURSE_INFO.begin();
+    isLeftEdge = true;
   } else {
     // Rコースの場合
-    param = RIGHTCOURSEINFO.begin();
+    param = RIGHT_COURSE_INFO.begin();
+    isLeftEdge = false;
   }
 
+  // LineTracerにエッジを与えてインスタンス化する
+  LineTracer lineTracer(isLeftEdge);
+
   // LRに応じて各区間を順番に走らせる
-  for(int section = 0; section < (IS_LEFT ? LEFTSECTIONSIZE : RIGHTSECTIONSIZE); section++) {
+  for(int section = 0; section < (IS_LEFT ? LEFT_SECTION_SIZE : RIGHT_SECTION_SIZE); section++) {
     // Linetracerクラスのrun関数に区間の情報を渡して走行させる
-    linetracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
+    lineTracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
                    param[section].sectionPWM, param[section].sectionPidGain);
   }
 }

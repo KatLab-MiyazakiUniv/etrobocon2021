@@ -37,10 +37,10 @@ class LineTraceArea {
   static void runLineTraceArea();
 
  private:
-  static const int LEFTSECTIONSIZE = 7;   // Lコースの区間の数
-  static const int RIGHTSECTIONSIZE = 7;  // Rコースの区間の数
-  static const std::array<SectionParam, LEFTSECTIONSIZE> LEFTCOURSEINFO;    // Lコースの情報
-  static const std::array<SectionParam, RIGHTSECTIONSIZE> RIGHTCOURSEINFO;  // Rコースの情報
+  static const int LEFT_SECTION_SIZE = 7;   // Lコースの区間の数
+  static const int RIGHT_SECTION_SIZE = 7;  // Rコースの区間の数
+  static const std::array<SectionParam, LEFT_SECTION_SIZE> LEFT_COURSE_INFO;  // Lコースの情報
+  static const std::array<SectionParam, RIGHT_SECTION_SIZE> RIGHT_COURSE_INFO;  // Rコースの情報
 
   /**
    * コンストラクタ
