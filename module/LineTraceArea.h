@@ -15,9 +15,9 @@
  * デフォルトはLコース
  */
 #if defined(MAKE_RIGHT)
-static const bool IS_LEFT = false;  // Rコース
+static const bool IS_LEFT_COURSE = false;  // Rコース
 #else
-static const bool IS_LEFT = true;  // Lコース
+static const bool IS_LEFT_COURSE = true;  // Lコース
 #endif
 
 //区間の情報を保持する構造体

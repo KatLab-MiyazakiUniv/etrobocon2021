@@ -31,14 +31,14 @@ void LineTraceArea::runLineTraceArea()
   const SectionParam* param;
   bool isLeftEdge;  // true:左エッジ,false:右エッジ
 
-  if(IS_LEFT) {
+  if(IS_LEFT_COURSE) {
     // Lコースの場合
     param = LEFT_COURSE_INFO.begin();
-    isLeftEdge = true;
+    isLeftEdge = false;
   } else {
     // Rコースの場合
     param = RIGHT_COURSE_INFO.begin();
-    isLeftEdge = false;
+    isLeftEdge = true;
   }
 
   // LineTracerにエッジを与えてインスタンス化する
