@@ -37,9 +37,9 @@ class Controller {
 
   /**
    * 自タスクスリープ
-   * @param milli_sec スリープ時間(ミリ秒)
+   * @param milliSec スリープ時間(ミリ秒)
    */
-  void sleep(int milli_sec = 10);
+  void sleep(int milliSec = 10);
 
  private:
   ev3api::Motor rightWheel;

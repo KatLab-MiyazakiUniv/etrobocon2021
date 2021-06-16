@@ -47,7 +47,7 @@ void Controller::resetMotorCount()
 }
 
 //スリープ
-void Controller::sleep(int milli_sec)
+void Controller::sleep(int milliSec)
 {
-  clock.sleep(milli_sec);
+  clock.sleep(milliSec);
 }
