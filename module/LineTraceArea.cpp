@@ -34,20 +34,21 @@ void LineTraceArea::runLineTraceArea()
   if(IS_LEFT_COURSE) {
     // Lコースの場合
     param = LEFT_COURSE_INFO.begin();
-    isLeftEdge = false;
   } else {
     // Rコースの場合
     param = RIGHT_COURSE_INFO.begin();
-    isLeftEdge = true;
   }
+  //エッジの設定
+  isLeftEdge = !IS_LEFT_COURSE;
 
   // LineTracerにエッジを与えてインスタンス化する
   LineTracer lineTracer(isLeftEdge);
 
   // LRに応じて各区間を順番に走らせる
-  for(int section = 0; section < (IS_LEFT ? LEFT_SECTION_SIZE : RIGHT_SECTION_SIZE); section++) {
+  for(int section = 0; section < (IS_LEFT_COURSE ? LEFT_SECTION_SIZE : RIGHT_SECTION_SIZE);
+      section++) {
     // Linetracerクラスのrun関数に区間の情報を渡して走行させる
     lineTracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
-                   param[section].sectionPWM, param[section].sectionPidGain);
+                   param[section].sectionPwm, param[section].sectionPidGain);
   }
 }

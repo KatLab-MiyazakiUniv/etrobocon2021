@@ -24,7 +24,7 @@ static const bool IS_LEFT_COURSE = true;  // Lコース
 struct SectionParam {
   double sectionDistance;       //区間の走行距離
   int sectionTargetBrightness;  //区間の目標輝度
-  int sectionPWM;               //区間のPWM値
+  int sectionPwm;               //区間のPWM値
   PidGain sectionPidGain;       //区間のPIDゲイン
 };
 
