@@ -8,23 +8,23 @@
 
 // Lコースの情報を初期化する
 const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::LEFT_COURSE_INFO
-    = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 511.724, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 1709.700, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 309.562, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 807.404, 50, 100, PidGain(0, 0, 0) } };
+    = { SectionParam{ 1625.340, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 594.506, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 690.288, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 511.724, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 1709.700, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 309.562, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 807.404, 20, 30, PidGain(0.8, 0.01, 0.01) } };
 
 // Rコースの情報を初期化する
 const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
-    = { SectionParam{ 1625.340, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 594.506, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 690.288, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 511.724, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 1709.700, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 309.562, 50, 100, PidGain(0, 0, 0) },
-        SectionParam{ 807.404, 50, 100, PidGain(0, 0, 0) } };
+    = { SectionParam{ 1625.340, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 594.506, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 690.288, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 511.724, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 1709.700, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 309.562, 20, 30, PidGain(0.8, 0.01, 0.01) },
+        SectionParam{ 807.404, 20, 30, PidGain(0.8, 0.01, 0.01) } };
 
 void LineTraceArea::runLineTraceArea()
 {
