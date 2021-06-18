@@ -7,6 +7,9 @@
 #ifndef MEASURER_H
 #define MEASURER_H
 
+//消す！！！！
+#include <typeinfo>
+//
 #include "ev3api.h"
 #include "ColorSensor.h"
 #include "Motor.h"
@@ -18,6 +21,10 @@ class Measurer {
    * コンストラクタ
    */
   Measurer();
+
+  // テスト
+  rgb_raw_t getRgbRaw();
+  int getColorId();
 
   /**
    * 明るさを取得
