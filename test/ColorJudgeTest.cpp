@@ -10,7 +10,7 @@
 namespace etrobocon2021_test {
   TEST(isBlackWhiteTest, getColorIdByBlackId)
   {
-    colorid_t color = colorid_t::COLOR_BLACK;
+    COLOR_NUMBER color = COLOR_NUMBER::COLOR_BLACK;
     bool expected = true;
 
     EXPECT_EQ(expected, ColorJudge::isBlackWhite(color));
@@ -18,7 +18,7 @@ namespace etrobocon2021_test {
 
   TEST(isBlackWhiteTest, getColorIdByWhiteId)
   {
-    colorid_t color = colorid_t::COLOR_WHITE;
+    COLOR_NUMBER color = COLOR_NUMBER::COLOR_WHITE;
     bool expected = true;
 
     EXPECT_EQ(expected, ColorJudge::isBlackWhite(color));
@@ -26,7 +26,7 @@ namespace etrobocon2021_test {
 
   TEST(isBlackWhiteTest, getColorIdByFalseColor)
   {
-    colorid_t color = colorid_t::COLOR_RED;
+    COLOR_NUMBER color = COLOR_NUMBER::COLOR_RED;
     bool expected = false;
 
     EXPECT_EQ(expected, ColorJudge::isBlackWhite(color));
@@ -34,7 +34,7 @@ namespace etrobocon2021_test {
 
   TEST(isBlackWhiteTest, getColorIdByColorNoneId)
   {
-    colorid_t color = colorid_t::COLOR_NONE;
+    COLOR_NUMBER color = COLOR_NUMBER::COLOR_NONE;
     bool expected = false;
 
     EXPECT_EQ(expected, ColorJudge::isBlackWhite(color));
@@ -42,7 +42,7 @@ namespace etrobocon2021_test {
 
   TEST(isBlackWhiteTest, getColorIdByTnumColorId)
   {
-    colorid_t color = colorid_t::TNUM_COLOR;
+    COLOR_NUMBER color = COLOR_NUMBER::TNUM_COLOR;
     bool expected = false;
 
     EXPECT_EQ(expected, ColorJudge::isBlackWhite(color));

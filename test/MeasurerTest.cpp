@@ -11,7 +11,7 @@ namespace etrobocon2021_test {
   TEST(getColorIdTest, getColorIdByTrueId)
   {
     Measurer measurer;
-    colorid_t expected = colorid_t::COLOR_WHITE;
+    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_WHITE;
 
     EXPECT_EQ(expected, measurer.getColorId());
   }

@@ -18,9 +18,9 @@ int Measurer::getBrightness()
 }
 
 //識別された色の識別番号を返す
-colorid_t Measurer::getColorId()
+COLOR_NUMBER Measurer::getColorId()
 {
-  return colorSensor.getColorNumber();
+  return static_cast<COLOR_NUMBER>(colorSensor.getColorNumber());
 }
 
 //左モータ角位置取得
