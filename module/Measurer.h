@@ -7,9 +7,6 @@
 #ifndef MEASURER_H
 #define MEASURER_H
 
-//消す！！！！
-#include <typeinfo>
-//
 #include "ev3api.h"
 #include "ColorSensor.h"
 #include "Motor.h"
@@ -22,15 +19,17 @@ class Measurer {
    */
   Measurer();
 
-  // テスト
-  rgb_raw_t getRgbRaw();
-  int getColorId();
-
   /**
    * 明るさを取得
    * @return 反射光の強さ(0-100)
    */
   int getBrightness();
+
+  /**
+   * 色の識別番号を取得
+   * @return 色の識別番号(0-7),enumのサイズがTNUM_COLOR(8)
+   */
+  colorid_t getColorId();
 
   /**
    * 左モータ角位置取得

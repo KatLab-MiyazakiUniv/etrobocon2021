@@ -17,18 +17,8 @@ int Measurer::getBrightness()
   return static_cast<int>(colorSensor.getBrightness());
 }
 
-// RGB値取得
-rgb_raw_t Measurer::getRgbRaw()
-{
-  rgb_raw_t rgb;
-  rgb_raw_t& rgbRef = rgb;
-
-  colorSensor.getRawColor(rgbRef);
-  return rgb;
-}
-
-//識別された色のIDを返す
-int Measurer::getColorId()
+//識別された色の識別番号を返す
+colorid_t Measurer::getColorId()
 {
   return colorSensor.getColorNumber();
 }
