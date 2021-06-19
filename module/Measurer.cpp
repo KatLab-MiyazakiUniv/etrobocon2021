@@ -14,12 +14,13 @@ Measurer::Measurer()
 //明るさを取得
 int Measurer::getBrightness()
 {
-  return static_cast<int>(colorSensor.getBrightness());
+  return colorSensor.getBrightness();
 }
 
 //識別された色の識別番号を返す
 COLOR_NUMBER Measurer::getColorId()
 {
+  // APIで定義されているenum型のcolorid_tを、enum class型のCOLOR_NUMBERにキャスト
   return static_cast<COLOR_NUMBER>(colorSensor.getColorNumber());
 }
 
