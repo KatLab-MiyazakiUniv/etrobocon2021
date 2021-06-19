@@ -7,20 +7,42 @@
 #ifndef ROTATION_H
 #define ROTATION_H
 
+#include <cmath>
 #include "Controller.h"
 #include "Measurer.h"
+#include "Mileage.h"
 
-class Rotation{
-  public:
+/**
+ * 回頭とピボットターンをするクラス
+ */
+class Rotation {
+ public:
   /**
-  * @param angle 回転角度(deg)
-  * @param pwm PWM値
-  */
+   * @param angle 回転角度(deg)
+   * @param pwm PWM値
+   */
   void rotate(int angle, int pwm);
 
-  private:
+  /**
+   * 右タイヤを軸にピボットターンする関数
+   * @param angle　回転角度(deg)
+   * @param pwm PWM値
+   */
+  void turnRightPivot(int angle, int pwm);
+
+  /**
+   * 左タイヤを軸にピボットターンする関数
+   * @param angle　回転角度(deg)
+   * @param pwm PWM値
+   */
+  void turnLeftPivot(int angle, int pwm);
+
+ private:
   Controller controller;
   Measurer measurer;
+
+  static constexpr double RADIUS = 45.0;
+  static constexpr double TREAD = 140.0;
 };
 
 #endif
