@@ -27,11 +27,6 @@ class Controller {
   void setLeftMotorPwm(const int pwm);
 
   /**
-   *モータカウントリセット
-   */
-  void resetMotorCount();
-
-  /**
    * 停止する
    */
   void stopMotor();
