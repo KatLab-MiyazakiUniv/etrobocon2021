@@ -16,8 +16,8 @@ int ColorSensor::getBrightness()
   return brightness;
 }
 
-//色の識別番号を取得
-colorid_t ColorSensor::getColorNumber()
+// RGB値を取得
+void ColorSensor::getRawColor(rgb_raw_t& rgb)
 {
-  return colorNumber;
+  rgb = rawColor;
 }

@@ -12,19 +12,6 @@
 #include "Motor.h"
 #include "TouchSensor.h"
 
-// 色識別番号
-enum class COLOR_NUMBER : int {
-  COLOR_NONE = 0,
-  COLOR_BLACK = 1,
-  COLOR_BLUE = 2,
-  COLOR_GREEN = 3,
-  COLOR_YELLOW = 4,
-  COLOR_RED = 5,
-  COLOR_WHITE = 6,
-  COLOR_BROWN = 7,
-  TNUM_COLOR  // サイズ
-};
-
 class Measurer {
  public:
   /**
@@ -39,10 +26,10 @@ class Measurer {
   int getBrightness();
 
   /**
-   * 色の識別番号を取得
-   * @return 色の識別番号(0-7),enumのサイズがTNUM_COLOR(8)
+   * RGB値を取得
+   * @return RGB値
    */
-  COLOR_NUMBER getColorId();
+  rgb_raw_t getRawColor();
 
   /**
    * 左モータ角位置取得

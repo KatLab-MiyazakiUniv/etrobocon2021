@@ -8,18 +8,10 @@
 #define COLOR_SENSOR_H
 
 #include "Port.h"
-// 色識別番号
-enum colorid_t {
-  COLOR_NONE = 0,
-  COLOR_BLACK = 1,
-  COLOR_BLUE = 2,
-  COLOR_GREEN = 3,
-  COLOR_YELLOW = 4,
-  COLOR_RED = 5,
-  COLOR_WHITE = 6,
-  COLOR_BROWN = 7,
-  TNUM_COLOR
-};
+
+typedef struct {
+  int r, g, b;
+} rgb_raw_t;
 
 namespace ev3api {
 
@@ -27,7 +19,7 @@ namespace ev3api {
   class ColorSensor {
    public:
     int brightness = 0;
-    colorid_t colorNumber = colorid_t::COLOR_WHITE;
+    rgb_raw_t rawColor = { 8, 9, 10 };
 
     /**
      * コンストラクタ
@@ -43,10 +35,10 @@ namespace ev3api {
     int getBrightness();  //明るさを取得
 
     /**
-     * 色の識別番号を取得
-     * @return 色の識別番号(0-7), enumのサイズがTNUM_COLOR(8)
+     * RGB値を取得
+     * @return RGBを保持するクラス
      */
-    colorid_t getColorNumber();
+    void getRawColor(rgb_raw_t& rgb);
   };
 }  // namespace ev3api
 

@@ -17,11 +17,13 @@ int Measurer::getBrightness()
   return colorSensor.getBrightness();
 }
 
-//識別された色の識別番号を返す
-COLOR_NUMBER Measurer::getColorId()
+// RGB値を返す
+rgb_raw_t Measurer::getRawColor()
 {
-  // APIで定義されているenum型のcolorid_tを、enum class型のCOLOR_NUMBERにキャスト
-  return static_cast<COLOR_NUMBER>(colorSensor.getColorNumber());
+  rgb_raw_t rgb;
+  rgb_raw_t& rgbRef = rgb;
+  colorSensor.getRawColor(rgbRef);
+  return rgb;
 }
 
 //左モータ角位置取得

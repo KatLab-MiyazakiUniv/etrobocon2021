@@ -8,11 +8,11 @@
 #include <gtest/gtest.h>
 
 namespace etrobocon2021_test {
-  TEST(getColorIdTest, getColorIdByTrueId)
+  TEST(getRawColorTest, getRawColorRed)
   {
     Measurer measurer;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_WHITE;
+    int expected = 8;
 
-    EXPECT_EQ(expected, measurer.getColorId());
+    EXPECT_EQ(expected, measurer.getRawColor().r);
   }
 }  // namespace etrobocon2021_test
