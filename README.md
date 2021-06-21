@@ -1,3 +1,6 @@
+[![Build check](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/build-check.yaml/badge.svg)](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/build-check.yaml)
+[![Google Test](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/google-test.yaml/badge.svg)](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/google-test.yaml)
+
 # etrobocon2021
 KatLabが開発する[ETロボコン2021](https://www.etrobo.jp/) (アドバンストクラス) のリポジトリです。
 
