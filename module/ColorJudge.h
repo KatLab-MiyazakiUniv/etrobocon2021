@@ -8,7 +8,6 @@
 #define COLOR_JUDGE_H
 
 #include "Measurer.h"
-#include <complex>
 
 enum class COLOR_NUMBER : int {
   COLOR_NONE = 0,
@@ -37,7 +36,7 @@ class ColorJudge {
   static COLOR_NUMBER getColorNumber(rgb_raw_t& rgb);
 
  private:
-  static const int SATURATION_BORDER = 30;  // 無彩色かの彩度の境界
+  static const int SATURATION_BORDER = 70;  // 無彩色かの彩度の境界
   static const int RED_BORDER = 30;         // 赤の色相の境界
   static const int YELLOW_BORDER = 75;      // 黄の色相の境界
   static const int GREEN_BORDER = 165;      // 緑の色相の境界
