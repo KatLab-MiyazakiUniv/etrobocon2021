@@ -37,11 +37,6 @@ namespace ev3api {
      * @param pwm pwm値
      */
     void setPWM(int pwm);
-    
-    /**
-     * モータカウントリセット
-     */
-    void reset();
 
     /**
      * 停止する

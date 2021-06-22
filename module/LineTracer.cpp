@@ -10,6 +10,7 @@ LineTracer::LineTracer(bool _isLeftEdge) : isLeftEdge(_isLeftEdge) {}
 //設定された距離を走行する
 void LineTracer::run(double targetDistance, int targetBrightness, int pwm, const PidGain& gain)
 {
+  double initialDistance = 0;
   double currentDistance = 0;
   double currentPid = 0;
   int pidSign = 0;
@@ -17,13 +18,14 @@ void LineTracer::run(double targetDistance, int targetBrightness, int pwm, const
 
   //左右で符号を変える
   pidSign = (isLeftEdge) ? -1 : 1;
-  //走行距離のリセット
-  controller.resetMotorCount();
+
+  // 初期値を格納
+  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
 
   //走行距離が目標距離に到達するまで繰り返す
   while(true) {
     currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
-    if(currentDistance >= targetDistance) {
+    if(currentDistance - initialDistance >= targetDistance) {
       break;
     }
     // PID計算

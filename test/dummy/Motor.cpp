@@ -21,9 +21,3 @@ void Motor::setPWM(int pwm)
 {
   count += pwm * 0.05;
 }
-
-//モータカウントリセット
-void Motor::reset()
-{
-  count = 0;
-}
