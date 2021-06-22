@@ -53,8 +53,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
             ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:${{ env.TAG }}
+            ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
 
       # Docker image を GitHub Container Registry から Pull して、
       # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
