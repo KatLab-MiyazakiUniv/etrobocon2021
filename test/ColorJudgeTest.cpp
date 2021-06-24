@@ -8,192 +8,165 @@
 #include <gtest/gtest.h>
 
 namespace etrobocon2021_test {
-  /* isBlackWhite()のテスト */
-  TEST(isBlackWhiteTest, isBlackWhiteByBlack)
-  {
-    rgb_raw_t color = rgb_raw_t{ 0, 0, 0 };
-    rgb_raw_t& colorRef = color;
-    bool expected = true;
-
-    EXPECT_EQ(expected, ColorJudge::isBlackWhite(colorRef));
-  }
-
-  TEST(isBlackWhiteTest, isBlackWhiteByWhite)
-  {
-    rgb_raw_t color = rgb_raw_t{ 255, 255, 255 };
-    rgb_raw_t& colorRef = color;
-    bool expected = true;
-
-    EXPECT_EQ(expected, ColorJudge::isBlackWhite(colorRef));
-  }
-
-  TEST(isBlackWhiteTest, isBlackWhiteByOtherColor)
-  {
-    rgb_raw_t color = rgb_raw_t{ 10, 100, 200 };
-    rgb_raw_t& colorRef = color;
-    bool expected = false;
-
-    EXPECT_EQ(expected, ColorJudge::isBlackWhite(colorRef));
-  }
-
-  /* getColorNumber()のテスト */
+  /*
   // 彩度の境界値テスト
-  TEST(getColorNumberTest, getColorNumberByBlack)
+  TEST(getColorTest, getColorByBlack)
   {
     rgb_raw_t color = rgb_raw_t{ 0, 0, 0 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLACK;
+    COLOR expected = COLOR::BLACK;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByLowSaturationRed)
+  TEST(getColorTest, getColorByLowSaturationRed)
   {
     rgb_raw_t color = rgb_raw_t{ 30, 21, 21 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_RED;
+    COLOR expected = COLOR::BLACK;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByLowSaturationBlack)
+  TEST(getColorTest, getColorByLowSaturationBlack)
   {
     rgb_raw_t color = rgb_raw_t{ 30, 22, 22 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLACK;
+    COLOR expected = COLOR::BLACK;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
   // 色相(赤)の境界値テスト
-  TEST(getColorNumberTest, getColorNumberByRedBorderYRed)
+  TEST(getColorTest, getColorByRedBorderYRed)
   {
     rgb_raw_t color = rgb_raw_t{ 255, 127, 0 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_RED;
+    COLOR expected = COLOR::RED;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByRedBorderYellow)
+  TEST(getColorTest, getColorByRedBorderYellow)
   {
     rgb_raw_t color = rgb_raw_t{ 255, 128, 0 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_YELLOW;
+    COLOR expected = COLOR::YELLOW;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByRedBorderWhite)
+  TEST(getColorTest, getColorByRedBorderWhite)
   {
     rgb_raw_t color = rgb_raw_t{ 255, 179, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_WHITE;
+    COLOR expected = COLOR::WHITE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByRedBorderWRed)
+  TEST(getColorTest, getColorByRedBorderWRed)
   {
     rgb_raw_t color = rgb_raw_t{ 255, 178, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_RED;
+    COLOR expected = COLOR::RED;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
   // 色相(緑)の境界値テスト
-  TEST(getColorNumberTest, getColorNumberByGreenBorderGYellow)
+  TEST(getColorTest, getColorByGreenBorderGYellow)
   {
     rgb_raw_t color = rgb_raw_t{ 196, 255, 0 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_YELLOW;
+    COLOR expected = COLOR::YELLOW;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderYGreen)
+  TEST(getColorTest, getColorByGreenBorderYGreen)
   {
     rgb_raw_t color = rgb_raw_t{ 195, 255, 0 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_GREEN;
+    COLOR expected = COLOR::GREEN;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderGBlue)
+  TEST(getColorTest, getColorByGreenBorderGBlue)
   {
     rgb_raw_t color = rgb_raw_t{ 0, 255, 192 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLUE;
+    COLOR expected = COLOR::BLUE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderBGreen)
+  TEST(getColorTest, getColorByGreenBorderBGreen)
   {
     rgb_raw_t color = rgb_raw_t{ 0, 255, 191 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_GREEN;
+    COLOR expected = COLOR::GREEN;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
   // 色相(青)の境界値テスト
-  TEST(getColorNumberTest, getColorNumberByGreenBorderBRed)
+  TEST(getColorTest, getColorByGreenBorderBRed)
   {
     rgb_raw_t color = rgb_raw_t{ 255, 0, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_RED;
+    COLOR expected = COLOR::RED;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderRBlue)
+  TEST(getColorTest, getColorByGreenBorderRBlue)
   {
     rgb_raw_t color = rgb_raw_t{ 254, 0, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLUE;
+    COLOR expected = COLOR::BLUE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderBWhite)
+  TEST(getColorTest, getColorByGreenBorderBWhite)
   {
     rgb_raw_t color = rgb_raw_t{ 179, 255, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_WHITE;
+    COLOR expected = COLOR::WHITE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByGreenBorderWBlue)
+  TEST(getColorTest, getColorByGreenBorderWBlue)
   {
     rgb_raw_t color = rgb_raw_t{ 178, 255, 255 };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLUE;
+    COLOR expected = COLOR::BLUE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
   // 明度の境界値テスト
-  TEST(getColorNumberTest, getColorNumberByWhiteGray)
+  TEST(getColorTest, getColorByWhiteGray)
   {
     int tmp = 128;
     rgb_raw_t color = rgb_raw_t{ tmp, tmp, tmp };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_WHITE;
+    COLOR expected = COLOR::WHITE;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
 
-  TEST(getColorNumberTest, getColorNumberByBlackGray)
+  TEST(getColorTest, getColorByBlackGray)
   {
     int tmp = 127;
     rgb_raw_t color = rgb_raw_t{ tmp, tmp, tmp };
     rgb_raw_t& colorRef = color;
-    COLOR_NUMBER expected = COLOR_NUMBER::COLOR_BLACK;
+    COLOR expected = COLOR::BLACK;
 
-    EXPECT_EQ(expected, ColorJudge::getColorNumber(colorRef));
+    EXPECT_EQ(expected, ColorJudge::getColor(colorRef));
   }
+  */
 }  // namespace etrobocon2021_test

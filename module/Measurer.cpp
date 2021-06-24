@@ -21,8 +21,7 @@ int Measurer::getBrightness()
 rgb_raw_t Measurer::getRawColor()
 {
   rgb_raw_t rgb;
-  rgb_raw_t& rgbRef = rgb;
-  colorSensor.getRawColor(rgbRef);
+  colorSensor.getRawColor(rgb);
   return rgb;
 }
 
