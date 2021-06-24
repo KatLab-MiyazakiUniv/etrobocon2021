@@ -48,7 +48,7 @@ void Rotation::rotate(int angle, int pwm)
 void Rotation::turnRightPivot(int angle, int pwm)
 {
   int forwardSign = (angle > 0) ? 1 : -1;
-  double currentArcDistance = 0; //現在の走行距離
+  double currentArcDistance = 0;                           //現在の走行距離
   double targetDistance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
 
   //走行距離のリセット
@@ -74,14 +74,15 @@ void Rotation::turnRightPivot(int angle, int pwm)
 //設定された角度とPWM値で左タイヤを軸にピボットターンする
 void Rotation::turnLeftPivot(int angle, int pwm)
 {
-  double currentArcDistance = 0; //現在の走行距離
+  double currentArcDistance = 0;                    //現在の走行距離
   double leftArc = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
 
   //走行距離のリセット
-  controller.resetMotorCount(); 
+  controller.resetMotorCount();
 
   while(leftArc >= 0) {
-    currentArcDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    currentArcDistance
+        = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
 
     if(2 * currentArcDistance >= leftArc) {
       break;
@@ -95,7 +96,8 @@ void Rotation::turnLeftPivot(int angle, int pwm)
   }
   //後ろ方向に進む（角度がマイナス）
   while(leftArc < 0) {
-    currentArcDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    currentArcDistance
+        = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
 
     if(2 * currentArcDistance <= leftArc) {
       break;
