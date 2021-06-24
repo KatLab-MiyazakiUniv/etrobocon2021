@@ -8,36 +8,67 @@
 
 using namespace std;
 
-void Rotation::rotate(int angle, int pwm)
+//左回転
+void Rotation::rotateLeft(int angle, int pwm)
 {
-  //右回転なら左モータが正
-  int leftSign = (angle > 0) ? 1 : -1;
-  int rightSign = (angle > 0) ? -1 : 1;
-  double leftDistance = 0;
-  double rightDistance = 0;
-  double targetDistance = M_PI * TREAD * angle / 360;  //弧の長さ
-  int leftPwm;
-  int rightPwm;
-
-  controller.resetMotorCount();
+  int leftSign = -1;
+  int rightSign = 1;
+  double currentLeftDistance = 0;
+  double currentRightDistance = 0;
+  double targetDistance = M_PI * TREAD * (abs(angle) % 360) / 360;  //弧の長さ
+  double targetLeftDistance
+      = Mileage::calculateWheelMileage(measurer.getLeftCount()) - targetDistance;
+  double targetRightDistance
+      = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance;
 
   //両輪がtargetDistanceに到達するまでループ
   while(leftSign != 0 || rightSign != 0) {
-    leftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    rightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
+    currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
 
-    if(abs(leftDistance) >= abs(targetDistance)) {
+    if(currentLeftDistance <= targetLeftDistance) {
       leftSign = 0;
     }
-    if(abs(rightDistance) >= abs(targetDistance)) {
+    if(currentRightDistance >= targetRightDistance) {
       rightSign = 0;
     }
 
-    leftPwm = pwm * leftSign;
-    rightPwm = pwm * rightSign;
+    controller.setLeftMotorPwm(abs(pwm) * leftSign);
+    controller.setRightMotorPwm(abs(pwm) * rightSign);
 
-    controller.setLeftMotorPwm(leftPwm);
-    controller.setRightMotorPwm(rightPwm);
+    controller.sleep();
+  }
+  controller.stopMotor();
+}
+
+//右回転
+void Rotation::rotateRight(int angle, int pwm)
+{
+  int leftSign = 1;
+  int rightSign = -1;
+  double currentLeftDistance = 0;
+  double currentRightDistance = 0;
+  double targetDistance = M_PI * TREAD * abs(angle) / 360;  //弧の長さ
+  //左右のタイヤの目標距離
+  double targetLeftDistance
+      = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance;
+  double targetRightDistance
+      = Mileage::calculateWheelMileage(measurer.getRightCount()) - targetDistance;
+
+  //両輪が目標距離に到達するまでループ
+  while(leftSign != 0 || rightSign != 0) {
+    currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    if(currentLeftDistance >= targetLeftDistance) {
+      leftSign = 0;
+    }
+    if(currentRightDistance <= targetRightDistance) {
+      rightSign = 0;
+    }
+
+    controller.setLeftMotorPwm(abs(pwm) * leftSign);
+    controller.setRightMotorPwm(abs(pwm) * rightSign);
 
     controller.sleep();
   }

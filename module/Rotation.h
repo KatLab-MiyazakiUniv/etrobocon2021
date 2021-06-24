@@ -18,10 +18,18 @@
 class Rotation {
  public:
   /**
-   * @param angle 回転角度(deg)
-   * @param pwm PWM値
+   * 左に回頭する関数
+   * @param angle 回転角度(deg) 0~360
+   * @param pwm PWM値 0~100
    */
-  void rotate(int angle, int pwm);
+  void rotateLeft(int angle, int pwm);
+
+  /**
+   * 右に回頭する関数
+   * @param angle 回転角度(deg) 0~360
+   * @param pwm PWM値 0~100
+   */
+  void rotateRight(int angle, int pwm);
 
   /**
    * 右タイヤを軸にピボットターンする関数

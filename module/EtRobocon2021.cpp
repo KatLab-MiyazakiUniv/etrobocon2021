@@ -19,13 +19,13 @@ void EtRobocon2021::start()
   }
 
   int i;
-  /*
-  for(i=0; i<3; i++){
-    rotation.rotate(90, 30);
-    rotation.rotate(-90, 30);
+
+  for(i = 0; i < 3; i++) {
+    rotation.rotateLeft(450, 30);
+    rotation.rotateRight(360, 30);
   }
-  */
-  for(i=0; i<3; i++){
+
+  for(i = 0; i < 3; i++) {
     rotation.turnRightPivot(90, 30);
     rotation.turnRightPivot(-90, 30);
     rotation.turnLeftPivot(90, 30);
@@ -33,5 +33,5 @@ void EtRobocon2021::start()
   }
 
   //ライントレースエリア攻略開始
-  //LineTraceArea::runLineTraceArea();
+  // LineTraceArea::runLineTraceArea();
 }
