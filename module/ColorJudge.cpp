@@ -4,11 +4,6 @@
  * @author hiroto0927, miyashita64
  */
 
-//* 消す
-#include <stdio.h>
-#include <string>
-#include <iostream>
-//*/
 #include "ColorJudge.h"
 
 ColorJudge::ColorJudge() {}
