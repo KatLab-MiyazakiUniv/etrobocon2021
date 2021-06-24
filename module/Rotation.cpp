@@ -15,7 +15,7 @@ void Rotation::rotateLeft(int angle, int pwm)
   int rightSign = 1;
   double currentLeftDistance = 0;
   double currentRightDistance = 0;
-  double targetDistance = M_PI * TREAD * (abs(angle) % 360) / 360;  //弧の長さ
+  double targetDistance = M_PI * TREAD * abs(angle) / 360;  //弧の長さ
   double targetLeftDistance
       = Mileage::calculateWheelMileage(measurer.getLeftCount()) - targetDistance;
   double targetRightDistance
