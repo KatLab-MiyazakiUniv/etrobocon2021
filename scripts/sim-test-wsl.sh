@@ -58,14 +58,14 @@ if [ ! -f "${DEFAULT_SETTINGS_FILE_NAME}" ]; then
     exit 1
 fi
 
-# 設定ファイルから、キャプチャディレクトリへのパスを取得する
+# 設定ファイルから、ベースとなるキャプチャディレクトリへのパスを取得する
 BASE_CAPTURE_DIR_WIN=$(jq -sc add ${DEFAULT_SETTINGS_FILE_NAME} ${OVERWRITE_SETTINGS_FILE_NAME} | jq -r '.captureDir')
 if [[ "$BASE_CAPTURE_DIR_WIN" =~ ^$ ]]; then
     UBUNTU_VER=$(lsb_release -a | grep -oE '^Release:\s*[0-9]{2}\.[0-9]{2}' | cut -f 2)
     BASE_CAPTURE_DIR_WIN="\\\\wsl\$\\Ubuntu-${UBUNTU_VER}\\tmp\\etrobo\\capture"
 fi
 
-# キャプチャディレクトリ配下に生成するディレクトリ名
+# ベースとなるキャプチャディレクトリ配下に生成するディレクトリ名
 if [[ "$2" =~ ^$ ]]; then
     CAPTURE_DIR_WIN="${BASE_CAPTURE_DIR_WIN}\\`date '+%Y-%m-%d'`\\`date '+%H-%M-%S'`\\${COURSE}\\${NAME}"
 else
@@ -78,6 +78,7 @@ else
     fi
 fi
 
+# パスのフォーマットを WSL で扱える形式に変換する
 if [[ "${CAPTURE_DIR_WIN}" =~ ^\\\\wsl.+$ ]]; then
     CAPTURE_DIR_WSL=$(echo "${CAPTURE_DIR_WIN}" | sed -r 's/^\\{2}wsl\$\\Ubuntu-[0-9\.]+\\/\\/g' | sed -e 's/\\/\//g')
 elif [[ ${CAPTURE_DIR_WIN} =~ ^[A-Z]:(\\.*)+$ ]]; then
@@ -89,13 +90,20 @@ fi
 mkdir -p ${ETROBO_HRP3_WORKSPACE}/simdist/${APP_NAME};
 EDITED_SETTINGS_FILE_NAME="${ETROBO_HRP3_WORKSPACE}/simdist/${APP_NAME}/settings.json"
 CAPTURE_DIR_WIN_JSON_ESCAPED=$(echo "$CAPTURE_DIR_WIN" | sed -e 's/\\/\\\\/g')
+
+# sim-settings/default.json の内容を simsettings/(l|r)/*.json ファイルの内容で上書して保存
 jq -sc add ${DEFAULT_SETTINGS_FILE_NAME} ${OVERWRITE_SETTINGS_FILE_NAME} | \
     jq ".captureDir=\"${CAPTURE_DIR_WIN_JSON_ESCAPED}\"" > "${EDITED_SETTINGS_FILE_NAME}"
+
+# キャプチャする際のフレームレートを取得
 CAPTURE_RATE=$(jq -r '.captureRate' ${EDITED_SETTINGS_FILE_NAME})
 
+# シミュレータによるキャプチャが有効化されている場合、キャプチャ先のディレクトリを生成
 if [[ ${CAPTURE_RATE} -ne 0 ]]; then
     mkdir -p $CAPTURE_DIR_WSL
 fi
+
+# シミュレータに設定ファイルの内容を反映し、実行する
 EXEC_COMMANDS="echo '[ script: settings file name: ${1} ]'; "
 EXEC_COMMANDS+="echo '[ script: captureRate: ${CAPTURE_RATE} ]'; "
 EXEC_COMMANDS+="curl -X POST -H \"Content-Type: application/json\" -d @${EDITED_SETTINGS_FILE_NAME} http://localhost:54000; "
@@ -125,6 +133,7 @@ ffmpeg -r ${FRAME_RATE} \
        -r ${FRAME_RATE} \
        ${COURSE}-${NAME}.mp4
 
+# キャプチャ先のディレクトリを開く
 if [[ "$3" == 'true' ]]; then
     (cd $CAPTURE_DIR_WSL; cd ../../ ; if [ -f .isOpened ]; then exit 0; fi; touch .isOpened; explorer.exe .)
 fi
