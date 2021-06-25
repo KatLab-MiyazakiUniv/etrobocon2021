@@ -178,7 +178,10 @@ ls sim-settings/?/* | \
         print "\n__Bool値は、各ゲートを通過したか否かを示している__\n" >> md_file_path;
 
         ## 集計テーブルの作成
-        run_time_average = run_time_sum/goaled_num;
+        run_time_average = 0;
+        if (goaled_num != 0) {
+            run_time_average = run_time_sum/goaled_num;
+        }
         goal_persentage = goaled_num/counter*100;
         print "### 集計結果" > md_file_path;
         print "\n| 走行エリア平均 | 成功率 |" >> md_file_path;
