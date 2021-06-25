@@ -104,9 +104,14 @@ if [[ ${CAPTURE_RATE} -ne 0 ]]; then
 fi
 
 # シミュレータに設定ファイルの内容を反映し、実行する
-EXEC_COMMANDS="echo '[ script: settings file name: ${1} ]'; "
-EXEC_COMMANDS+="echo '[ script: captureRate: ${CAPTURE_RATE} ]'; "
-EXEC_COMMANDS+="curl -X POST -H \"Content-Type: application/json\" -d @${EDITED_SETTINGS_FILE_NAME} http://localhost:54000; "
+echo "[ script: starting: $APP_NAME ]"
+echo "[ script: settings file name: ${1} ]"
+echo "[ script: captureRate: ${CAPTURE_RATE} ]"
+echo "[ script: EnvLightIntensityLevel: `jq -r '.EnvLightIntensityLevel' ${EDITED_SETTINGS_FILE_NAME}` ]"
+echo "[ script: EnvLightRotation: `jq -r '.EnvLightRotation' ${EDITED_SETTINGS_FILE_NAME}` ]"
+echo "[ script: LSpotLight: `jq -r '.LSpotLight' ${EDITED_SETTINGS_FILE_NAME}` ]"
+echo "[ script: RSpotLight: `jq -r '.RSpotLight' ${EDITED_SETTINGS_FILE_NAME}` ]"
+EXEC_COMMANDS="curl -X POST -H \"Content-Type: application/json\" -d @${EDITED_SETTINGS_FILE_NAME} http://localhost:54000; "
 EXEC_COMMANDS+="make ${COURSE} noset app=${APP_NAME} sim up; "
 echo ${EXEC_COMMANDS} | ${HOME}/startetrobo shell
 

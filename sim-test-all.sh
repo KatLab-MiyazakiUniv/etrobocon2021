@@ -53,79 +53,110 @@ ls sim-settings/?/* | \
         counter = 0;
         run_time_sum = 0;
         goaled_num = 0;
-        settings_file_name = "Unknown";
-        capture_rate = "Unknown";
+
+        # CSV を出力する際の順序を設定
+        CSV_HEADER[0]  = "course";
+        CSV_HEADER[1]  = "goal_time";
+        CSV_HEADER[2]  = "env_light_intensity_level";
+        CSV_HEADER[3]  = "env_light_rotation";
+        CSV_HEADER[4]  = "l_spot_light";
+        CSV_HEADER[5]  = "r_spot_light";
+        CSV_HEADER[6]  = "start_gate";
+        CSV_HEADER[7]  = "gate_1";
+        CSV_HEADER[8]  = "gate_2";
+        CSV_HEADER[9]  = "capture_rate";
+        CSV_HEADER[10] = "settings_file_name";
     }
     {
         # 標準出力から1行出力されるたびに呼び出されるブロック（ループ）
         # $0 に標準出力の1行が設定されている
         # $1, $2, $3, ... $n には標準出力の1行をスペースで区切ったものが順に設定されている
 
+        # 新たなシミュレーションの開始を検知
+        if($0 ~ /\[ script: starting: [0-9a-zA-Z_\-]+ \]/){
+            counter++;
+            STATISTICS[counter]["course"]                    = "None";
+            STATISTICS[counter]["goal_time"]                 = "None";
+            STATISTICS[counter]["env_light_intensity_level"] = "None";
+            STATISTICS[counter]["env_light_rotation"]        = "None";
+            STATISTICS[counter]["l_spot_light"]              = "None";
+            STATISTICS[counter]["r_spot_light"]              = "None";
+            STATISTICS[counter]["start_gate"]                = "None";
+            STATISTICS[counter]["gate_1"]                    = "None";
+            STATISTICS[counter]["gate_2"]                    = "None";
+            STATISTICS[counter]["capture_rate"]              = "None";
+            STATISTICS[counter]["settings_file_name"]        = "None";
+            print $0;
+        }
+
         # 設定ファイル名を取得
         if($0 ~ /\[ script: settings file name: .+\]/){
-            settings_file_name = $6;
+            STATISTICS[counter]["settings_file_name"] = $6;
             print "\n" $0;
         }
 
         # シミュレータをキャプチャする際のフレームレートを取得
         if($0 ~ /\[ script: captureRate: [0-9] \]/){
             if ($4 == 0) {
-                capture_rate = "OFF";
+                STATISTICS[counter]["capture_rate"] = "OFF";
             } else if ($4 == 1) {
-                capture_rate = "60fps";
+                STATISTICS[counter]["capture_rate"] = "60fps";
             } else if ($4 == 2) {
-                capture_rate = "30fps";
+                STATISTICS[counter]["capture_rate"] = "30fps";
             } else if ($4 == 3) {
-                capture_rate = "20fps";
+                STATISTICS[counter]["capture_rate"] = "20fps";
             } else if ($4 == 4) {
-                capture_rate = "15fps";
+                STATISTICS[counter]["capture_rate"] = "15fps";
             }
             print $0;
         }
 
-        # 連想配列の初期化
-        if($0 ~ /\[ launcher: ready to start on ((right)|(left)) course \]/){
-            counter++;
-            STATISTICS[counter]["course"]="";
-            STATISTICS[counter]["settings_file_name"]=settings_file_name;
-            STATISTICS[counter]["start_gate"]="false";
-            STATISTICS[counter]["gate_1"]="false";
-            STATISTICS[counter]["gate_2"]="false";
-            STATISTICS[counter]["goal_time"]="none";
-            STATISTICS[counter]["capture_rate"]=capture_rate;
-            settings_file_name = "Unknown";
-            capture_rate = "Unknown";
+        # 照明関連の情報取得
+        if($0 ~ /\[ script: EnvLightIntensityLevel: [0-3] \]/){
+            STATISTICS[counter]["env_light_intensity_level"] = $4;
+            print $0;
+        }
+        if($0 ~ /\[ script: EnvLightRotation: [0-3] \]/){
+            STATISTICS[counter]["env_light_rotation"] = $4;
+            print $0;
+        }
+        if($0 ~ /\[ script: LSpotLight: [0-3] \]/){
+            STATISTICS[counter]["l_spot_light"] = $4;
+            print $0;
+        }
+        if($0 ~ /\[ script: RSpotLight: [0-3] \]/){
+            STATISTICS[counter]["r_spot_light"] = $4;
             print $0;
         }
 
         # コース情報を取得
         if($0 ~ /\[ launcher: ready to start on right course \]/){
-            STATISTICS[counter]["course"]="Right";
+            STATISTICS[counter]["course"] = "Right";
         }else if($0 ~ /\[ launcher: ready to start on left course \]/){
-            STATISTICS[counter]["course"]="Left";
+            STATISTICS[counter]["course"] = "Left";
         }
 
-        # スタートゲート通貨情報を取得
+        # スタートゲート通過情報を取得
         if($0 ~ /^\[ launcher: ((left)|(right)): passed Start Gate \]$/){
-            STATISTICS[counter]["start_gate"]="true";
+            STATISTICS[counter]["start_gate"] = "true";
             print $0;
         }
 
         # ゲート1通過情報を取得
         if($0 ~ /^\[ launcher: ((left)|(right)): passed Gate 1 \]$/){
-            STATISTICS[counter]["gate_1"]="true";
+            STATISTICS[counter]["gate_1"] = "true";
             print $0;
         }
 
         # ゲート2通過情報を取得
         if($0 ~ /^\[ launcher: ((left)|(right)): passed Gate 2 \]$/){
-            STATISTICS[counter]["gate_2"]="true";
+            STATISTICS[counter]["gate_2"] = "true";
             print $0;
         }
 
         # ゴール通過情報を取得
         if($0 ~ /^\[ launcher: ((left)|(right)): GOAL!  Goal Time: [0-9]*\.[0-9]* \]$/){
-            STATISTICS[counter]["goal_time"]=$7;
+            STATISTICS[counter]["goal_time"] = $7;
             run_time_sum += $7;
             goaled_num++;
             print $0;
@@ -139,19 +170,35 @@ ls sim-settings/?/* | \
             exit 1;
         }
 
-
         ### 以下、CSVファイル生成 ###
         # ヘッダ行の作成
-        for (i in STATISTICS[1]) {
-            printf "%s,", i >> csv_file_name
-        }
-        printf "\n" >> csv_file_name
+        printf "course,"                    >> csv_file_name;
+        printf "goal_time,"                 >> csv_file_name;
+        printf "env_light_intensity_level," >> csv_file_name;
+        printf "env_light_rotation,"        >> csv_file_name;
+        printf "l_spot_light,"              >> csv_file_name;
+        printf "r_spot_light,"              >> csv_file_name;
+        printf "start_gate,"                >> csv_file_name;
+        printf "gate_1,"                    >> csv_file_name;
+        printf "gate_2,"                    >> csv_file_name;
+        printf "capture_rate,"              >> csv_file_name;
+        printf "settings_file_name"         >> csv_file_name;
+        printf "\n"                         >> csv_file_name;
 
         # データ行の作成
         for (i in STATISTICS) {
-            for (j in STATISTICS[i]) {
-                printf "%s,", STATISTICS[i][j] >> csv_file_name
-            }
+            # NOTE: 表示順序を指定するためにループを使用していない
+            printf "%s,", STATISTICS[i]["course"]                    >> csv_file_name;
+            printf "%s,", STATISTICS[i]["goal_time"]                 >> csv_file_name;
+            printf "%s,", STATISTICS[i]["env_light_intensity_level"] >> csv_file_name;
+            printf "%s,", STATISTICS[i]["env_light_rotation"]        >> csv_file_name;
+            printf "%s,", STATISTICS[i]["l_spot_light"]              >> csv_file_name;
+            printf "%s,", STATISTICS[i]["r_spot_light"]              >> csv_file_name;
+            printf "%s,", STATISTICS[i]["start_gate"]                >> csv_file_name;
+            printf "%s,", STATISTICS[i]["gate_1"]                    >> csv_file_name;
+            printf "%s,", STATISTICS[i]["gate_2"]                    >> csv_file_name;
+            printf "%s,", STATISTICS[i]["capture_rate"]              >> csv_file_name;
+            printf "%s,", STATISTICS[i]["settings_file_name"]        >> csv_file_name;
             printf "\n" >> csv_file_name
         }
         ### 以上、CSVファイル生成 ###
@@ -159,23 +206,38 @@ ls sim-settings/?/* | \
 
         ### 以下、Markdown形式ファイル生成(.txt ファイル) ###
         ## 各実験結果テーブルの作成
-        # ヘッダー行の作成
         print "### 各実験結果" > md_file_path;
-        print "| 番号 | コース | Start Gate | Gate 1 | Gate 2 | 走行時間 | キャプチャ | 設定ファイル名 |" >> md_file_path;
-        print "| ---- | ----- | ---------- | ------ | ------ | ------- | ---------- | ------------- |" >> md_file_path;
+
+        # ヘッダー行の作成
+        printf "| 番号 "                   >> md_file_path;
+        printf "| 全体の明るさ "           >> md_file_path;
+        printf "| 影の方向 "               >> md_file_path;
+        printf "| スポットライトLの明るさ " >> md_file_path;
+        printf "| スポットライトRの明るさ " >> md_file_path;
+        printf "| コース "                 >> md_file_path;
+        printf "| 走行時間 "               >> md_file_path;
+        printf "| 設定ファイル名 |\n"       >> md_file_path;
+
+        printf "| ---- "                   >> md_file_path;
+        printf "| ----------- "            >> md_file_path;
+        printf "| ------- "                >> md_file_path;
+        printf "| --------------------- "  >> md_file_path;
+        printf "| --------------------- "  >> md_file_path;
+        printf "| ------ "                 >> md_file_path;
+        printf "| ------- "                >> md_file_path;
+        printf "| ------------- |\n"       >> md_file_path;
 
         # データ行の作成
         for (i in STATISTICS) {
-            printf "| %s ", i >> md_file_path;
-            printf "| %s ", STATISTICS[i]["course"] >> md_file_path;
-            printf "| %s ", STATISTICS[i]["start_gate"] >> md_file_path;
-            printf "| %s ", STATISTICS[i]["gate_1"] >> md_file_path;
-            printf "| %s ", STATISTICS[i]["gate_2"] >> md_file_path;
-            printf "| %s ", STATISTICS[i]["goal_time"] >> md_file_path;
-            printf "| %s ", STATISTICS[i]["capture_rate"] >> md_file_path;
-            printf "| %s |\n", STATISTICS[i]["settings_file_name"] >> md_file_path;
+            printf "| %s ",    i                                           >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["env_light_intensity_level"]  >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["env_light_rotation"]         >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["l_spot_light"]               >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["r_spot_light"]               >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["course"]                     >> md_file_path;
+            printf "| %s ",    STATISTICS[i]["goal_time"]                  >> md_file_path;
+            printf "| %s |\n", STATISTICS[i]["settings_file_name"]         >> md_file_path;
         }
-        print "\n__Bool値は、各ゲートを通過したか否かを示している__\n" >> md_file_path;
 
         ## 集計テーブルの作成
         run_time_average = 0;
@@ -183,9 +245,9 @@ ls sim-settings/?/* | \
             run_time_average = run_time_sum/goaled_num;
         }
         goal_persentage = goaled_num/counter*100;
-        print "### 集計結果" > md_file_path;
-        print "\n| 走行エリア平均 | 成功率 |" >> md_file_path;
-        print "| ------------- | ----- |" >> md_file_path;
+        print  "### 集計結果"                                         >> md_file_path;
+        print  "| 走行エリア平均 | 成功率 |"                           >> md_file_path;
+        print  "| ------------- | ----- |"                            >> md_file_path;
         printf "| %3.3f [s] (n=%d)    ", run_time_average, goaled_num >> md_file_path;
         printf "| %3.3f [%] (n=%d) |\n", goal_persentage , counter    >> md_file_path;
         ### 以上、Markdown形式ファイル生成(.txt ファイル) ###
@@ -195,6 +257,6 @@ ls sim-settings/?/* | \
         print "走行エリア平均 : " run_time_average " [s] (n=" goaled_num ")";
         print "成功率        : " goal_persentage " [%] (n=" counter ")";
         ### 以上、標準出力 ###
-    }' && (cd ${LOG_FILES_DIR}; explorer.exe ${MD_FILE_NAME})
+    }' && (cd ${LOG_FILES_DIR}; explorer.exe .)
     # 上記の && 以降で生成した Markdown 形式のファイルを開く処理を行っている
 ### 以上、シミュレータを実行し、結果を集計する ###
