@@ -5,6 +5,7 @@
  */
 
 #include "Rotation.h"
+#include "stdio.h"
 
 using namespace std;
 
@@ -25,7 +26,6 @@ void Rotation::rotateLeft(int angle, int pwm)
   while(leftSign != 0 || rightSign != 0) {
     currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
     currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-
     if(currentLeftDistance <= targetLeftDistance) {
       leftSign = 0;
     }
@@ -75,25 +75,22 @@ void Rotation::rotateRight(int angle, int pwm)
   controller.stopMotor();
 }
 
-//設定された角度とPWM値で右タイヤを軸にピボットターンする
-void Rotation::turnRightPivot(int angle, int pwm)
+//設定された角度とPWM値で右タイヤを軸に前方へピボットターンする
+void Rotation::turnForwardRightPivot(int angle, int pwm)
 {
-  int forwardSign = (angle > 0) ? 1 : -1;
-  double currentArcDistance = 0;                           //現在の走行距離
-  double targetDistance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
-
-  //走行距離のリセット
-  controller.resetMotorCount();
+  double Distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
+  double targetDistance = Mileage::calculateWheelMileage(measurer.getLeftCount()) + Distance;
 
   while(true) {
-    currentArcDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    double currentArcDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
-    if(abs(currentArcDistance) >= abs(targetDistance)) {
+    if(currentArcDistance >= targetDistance) {
       break;
     }
+
     //モータのPWM値をセット
     controller.setRightMotorPwm(0);
-    controller.setLeftMotorPwm(pwm * forwardSign);
+    controller.setLeftMotorPwm(pwm);
 
     // 10ミリ秒待機
     controller.sleep();
@@ -102,37 +99,67 @@ void Rotation::turnRightPivot(int angle, int pwm)
   controller.stopMotor();
 }
 
-//設定された角度とPWM値で左タイヤを軸にピボットターンする
-void Rotation::turnLeftPivot(int angle, int pwm)
+//設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
+void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  double currentArcDistance = 0;                    //現在の走行距離
-  double leftArc = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
+  double Distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
+  double targetDistance = Mileage::calculateWheelMileage(measurer.getLeftCount()) - Distance;
 
-  //走行距離のリセット
-  controller.resetMotorCount();
+  while(true) {
+    double currentArcDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
-  while(leftArc >= 0) {
-    currentArcDistance
-        = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
-
-    if(2 * currentArcDistance >= leftArc) {
+    if(currentArcDistance <= targetDistance) {
       break;
     }
-    //モータのPWMをセット
+
+    //モータのPWM値をセット
+    controller.setRightMotorPwm(0);
+    controller.setLeftMotorPwm(-pwm);
+
+    // 10ミリ秒待機
+    controller.sleep();
+  }
+  //モータの停止
+  controller.stopMotor();
+}
+
+//設定された角度とPWM値で左タイヤを軸に前方へピボットターンする
+void Rotation::turnForwardLeftPivot(int angle, int pwm)
+{
+  double Distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
+  double targetDistance = Mileage::calculateWheelMileage(measurer.getRightCount()) + Distance;
+
+  while(true) {
+    double currentArcDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    if(currentArcDistance >= targetDistance) {
+      break;
+    }
+
+    //モータのPWM値をセット
     controller.setRightMotorPwm(pwm);
     controller.setLeftMotorPwm(0);
 
     // 10ミリ秒待機
     controller.sleep();
   }
-  //後ろ方向に進む（角度がマイナス）
-  while(leftArc < 0) {
-    currentArcDistance
-        = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+  //モータの停止
+  controller.stopMotor();
+}
 
-    if(2 * currentArcDistance <= leftArc) {
+//設定された角度とPWM値で左タイヤを軸に後方へピボットターンする
+void Rotation::turnBackLeftPivot(int angle, int pwm)
+{
+  double Distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ r:半径 angle:中心角
+  double targetDistance = Mileage::calculateWheelMileage(measurer.getRightCount()) - Distance;
+
+  while(true) {
+    double currentArcDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    if(currentArcDistance <= targetDistance) {
       break;
     }
+
     //モータのPWM値をセット
     controller.setRightMotorPwm(-pwm);
     controller.setLeftMotorPwm(0);

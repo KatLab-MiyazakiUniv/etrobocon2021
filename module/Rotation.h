@@ -32,18 +32,32 @@ class Rotation {
   void rotateRight(int angle, int pwm);
 
   /**
-   * 右タイヤを軸にピボットターンする関数
+   * 右タイヤを軸に前方へピボットターンする関数
    * @param angle　回転角度(deg)
    * @param pwm PWM値
    */
-  void turnRightPivot(int angle, int pwm);
+  void turnForwardRightPivot(int angle, int pwm);
 
   /**
-   * 左タイヤを軸にピボットターンする関数
+   * 右タイヤを軸に後方へピボットターンする関数
    * @param angle　回転角度(deg)
    * @param pwm PWM値
    */
-  void turnLeftPivot(int angle, int pwm);
+  void turnBackRightPivot(int angle, int pwm);
+
+  /**
+   * 左タイヤを軸に前方へピボットターンする関数
+   * @param angle　回転角度(deg)
+   * @param pwm PWM値
+   */
+  void turnForwardLeftPivot(int angle, int pwm);
+
+  /**
+   * 左タイヤを軸に後方へピボットターンする関数
+   * @param angle　回転角度(deg)
+   * @param pwm PWM値
+   */
+  void turnBackLeftPivot(int angle, int pwm);
 
  private:
   Controller controller;
