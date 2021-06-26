@@ -21,15 +21,15 @@ void EtRobocon2021::start()
   int i;
 
   for(i = 0; i < 3; i++) {
-    rotation.rotateLeft(450, 30);
-    rotation.rotateRight(360, 30);
+    rotation.rotateLeft(90, 30);
+    rotation.rotateRight(90, 30);
   }
 
   for(i = 0; i < 3; i++) {
-    rotation.turnRightPivot(90, 30);
-    rotation.turnRightPivot(-90, 30);
-    rotation.turnLeftPivot(90, 30);
-    rotation.turnLeftPivot(-90, 30);
+    rotation.turnForwardRightPivot(90, 30);
+    rotation.turnBackRightPivot(90, 30);
+    rotation.turnForwardLeftPivot(90, 30);
+    rotation.turnBackLeftPivot(90, 30);
   }
 
   //ライントレースエリア攻略開始
