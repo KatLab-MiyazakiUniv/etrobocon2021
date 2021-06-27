@@ -10,8 +10,6 @@
 #include "Controller.h"
 #include "LineTraceArea.h"
 #include "Measurer.h"
-//
-#include "Rotation.h"
 
 class EtRobocon2021 {
  public:
