@@ -17,6 +17,14 @@ int Measurer::getBrightness()
   return colorSensor.getBrightness();
 }
 
+// RGB値を返す
+rgb_raw_t Measurer::getRawColor()
+{
+  rgb_raw_t rgb;
+  colorSensor.getRawColor(rgb);
+  return rgb;
+}
+
 //左モータ角位置取得
 int Measurer::getLeftCount()
 {
