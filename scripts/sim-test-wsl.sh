@@ -140,7 +140,7 @@ fi
 cd $CAPTURE_DIR_WSL
 cd ../../
 ffmpeg -framerate ${FRAME_RATE} \
-       -i ${CAPTURE_DIR_WSL}/L_%08d.png \
+       -i ${CAPTURE_DIR_WSL}/`echo ${COURSE} | tr lr LR`_%08d.png \
        -vcodec libx264 \
        -pix_fmt yuv420p \
        -r ${FRAME_RATE} \
