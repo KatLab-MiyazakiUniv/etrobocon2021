@@ -6,8 +6,12 @@
 #         WSL で動作させることしか考えていない
 #         sim-settings/l 又は、sim-settings/r ディレクトリ中の設定ファイルの数だけテストを行う
 
+# 日付
+DAY=`date '+%Y-%m-%d'`
+TIME=`date '+%H-%M-%S'`
+
 ### 以下、設定 ###
-LOG_FILES_DIR="`pwd`/logs/`date '+%Y-%m-%d'`/`date '+%H-%M-%S'`"  # ログを格納するディレクトリ名
+LOG_FILES_DIR="`pwd`/logs/${DAY}/${TIME}"  # ログを格納するディレクトリ名
 MD_FILE_NAME='result.txt'  # マークダウン形式で出力するファイル
 CSV_FILE_NAME='result.csv'  # CSV 形式で出力するファイル
 ### 以上、設定 ###
@@ -36,7 +40,7 @@ fi
 
 ### 以下、シミュレータを実行し、結果を集計する ###
 mkdir -p ${LOG_FILES_DIR};
-CAPTURE_DIR=`date '+%Y-%m-%d'`\\`date '+%H-%M-%S'`
+CAPTURE_DIR=${DAY}\\${TIME}
 
 # シミュレータを起動
 echo 'sim' | ${HOME}/startetrobo shell
@@ -44,7 +48,7 @@ echo 'sim' | ${HOME}/startetrobo shell
 # 設定ファイルをシミュレータに反映した後、プログラムを実行する
 # awk コマンドの -v オプションで awk 中のスクリプトにシェル変数を渡している
 ls sim-settings/?/* | \
-    xargs -L1 -I{} ./scripts/sim-test-wsl.sh {} $CAPTURE_DIR true | \
+    xargs -L1 -I{} ./scripts/sim-test-wsl.sh {} ${CAPTURE_DIR} ${LOG_FILES_DIR} | \
     awk -v md_file_path=${LOG_FILES_DIR}/${MD_FILE_NAME} \
         -v csv_file_name=${LOG_FILES_DIR}/${CSV_FILE_NAME} '
     BEGIN {
@@ -53,19 +57,6 @@ ls sim-settings/?/* | \
         counter = 0;
         run_time_sum = 0;
         goaled_num = 0;
-
-        # CSV を出力する際の順序を設定
-        CSV_HEADER[0]  = "course";
-        CSV_HEADER[1]  = "goal_time";
-        CSV_HEADER[2]  = "env_light_intensity_level";
-        CSV_HEADER[3]  = "env_light_rotation";
-        CSV_HEADER[4]  = "l_spot_light";
-        CSV_HEADER[5]  = "r_spot_light";
-        CSV_HEADER[6]  = "start_gate";
-        CSV_HEADER[7]  = "gate_1";
-        CSV_HEADER[8]  = "gate_2";
-        CSV_HEADER[9]  = "capture_rate";
-        CSV_HEADER[10] = "settings_file_name";
     }
     {
         # 標準出力から1行出力されるたびに呼び出されるブロック（ループ）

@@ -32,6 +32,14 @@ elif [[ "$1" =~ ^\./.+$ ]]; then
     OVERWRITE_SETTINGS_FILE_NAME="`pwd``echo $1 | cut -b 2-`"
 fi
 
+# ログファイルを出力するディレクトリへのパスをコマンドライン引数から取得する
+LOG_FILES_DIR_NAME="`pwd`/$3"
+if [[ "$3" =~ ^/.+$ ]]; then
+    LOG_FILES_DIR_NAME="$3"
+elif [[ "$3" =~ ^\./.+$ ]]; then
+    LOG_FILES_DIR_NAME="`pwd``echo $3 | cut -b 2-`"
+fi
+
 # ファイルが見つからない場合、プログラムを終了する
 if [ ! -f "${OVERWRITE_SETTINGS_FILE_NAME}" ]; then
     echo "File Not Found: ${OVERWRITE_SETTINGS_FILE_NAME}"
@@ -131,14 +139,9 @@ fi
 # キャプチャ映像を MP4 に変換する
 cd $CAPTURE_DIR_WSL
 cd ../../
-ffmpeg -r ${FRAME_RATE} \
+ffmpeg -framerate ${FRAME_RATE} \
        -i ${CAPTURE_DIR_WSL}/L_%08d.png \
        -vcodec libx264 \
        -pix_fmt yuv420p \
        -r ${FRAME_RATE} \
-       ${COURSE}-${NAME}.mp4
-
-# キャプチャ先のディレクトリを開く
-if [[ "$3" == 'true' ]]; then
-    (cd $CAPTURE_DIR_WSL; cd ../../ ; if [ -f .isOpened ]; then exit 0; fi; touch .isOpened; explorer.exe .)
-fi
+       ${LOG_FILES_DIR_NAME}/${COURSE}-${NAME}.mp4
