@@ -19,5 +19,5 @@ int ColorSensor::getBrightness()
 // RGB値を取得
 void ColorSensor::getRawColor(rgb_raw_t& rgb)
 {
-  rgb = rawColor;
+  rgb = { 8, 9, 10 };
 }

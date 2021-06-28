@@ -19,7 +19,6 @@ namespace ev3api {
   class ColorSensor {
    public:
     int brightness = 0;
-    rgb_raw_t rawColor = { 8, 9, 10 };
 
     /**
      * コンストラクタ

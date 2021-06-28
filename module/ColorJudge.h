@@ -7,6 +7,7 @@
 #ifndef COLOR_JUDGE_H
 #define COLOR_JUDGE_H
 
+#include <algorithm>
 #include "Measurer.h"
 
 enum class COLOR : int {
@@ -18,6 +19,12 @@ enum class COLOR : int {
   RED = 5,
   WHITE = 6,
 };
+
+typedef struct {
+  int hue;         // 色相(0-360)
+  int saturation;  // 彩度(0-100)
+  int value;       // 明度(0-255)
+} hsv_raw_t;
 
 class ColorJudge {
  public:
@@ -41,6 +48,7 @@ class ColorJudge {
   static constexpr int BLUE_BORDER = 300;                  // 青の色相の境界
   static constexpr rgb_raw_t MAX_RGB = { 112, 107, 152 };  //コースが白の時（最大）のRGB値
   ColorJudge();
+  static hsv_raw_t getHsv(rgb_raw_t const& rgb);
 };
 
 #endif
