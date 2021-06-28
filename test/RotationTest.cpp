@@ -354,117 +354,439 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected + error, leftActual);
     EXPECT_LE(rightExpected - error, rightActual);
   }
-  /*
-      TEST(Rotation, turnForwardRightPivot)
-      {
-        constexpr double Radius = 45.0;
-        constexpr double Tread = 140.0;
-        constexpr double error = 2 * M_PI * Tread * 1 / 360;
 
-        Measurer measurer;
-        Rotation rotation;
-        double expected, actual;
-        double leftMotorCount;
-        double Distance;
-        int angle, pwm;
+  TEST(Rotation, turnForwardRightPivot)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
 
-        // 45度右軸前方ピボットターン誤差が１度未満かテスト
-        angle = 45;
-        pwm = 30;
-        Distance = 2 * M_PI * Tread * angle / 360;
+    // 90度右軸前方ピボットターン誤差が１度未満かテスト
+    angle = 90;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + distance;
+    // 右軸前方ピボットターン
+    rotation.turnForwardRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_LE(leftExpected, leftActual);
+    EXPECT_GE(leftExpected + error, leftActual);
 
-        expected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + Distance;
+    // 180度右軸前方ピボットターン誤差が１度未満かテスト
+    angle = 180;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + distance;
+    // 右軸前方ピボットターン
+    rotation.turnForwardRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_LE(leftExpected, leftActual);
+    EXPECT_GE(leftExpected + error, leftActual);
 
-        rotation.turnForwardRightPivot(angle, pwm);
+    // 360度右軸前方ピボットターン誤差が１度未満かテスト
+    angle = 360;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + distance;
+    // 右軸前方ピボットターン
+    rotation.turnForwardRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_LE(leftExpected, leftActual);
+    EXPECT_GE(leftExpected + error, leftActual);
+  }
 
-        actual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+  TEST(Rotation, turnForwardRightPivot_zero)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
 
-        ASSERT_LE(expected, actual);
-        ASSERT_GE(expected + error, actual);
-      }
+    // 0度右軸前方ピボットターンのテスト
+    angle = 0;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
 
-      TEST(Rotation, turnBackRightPivot)
-      {
-        constexpr double Radius = 45.0;
-        constexpr double Tread = 140.0;
-        constexpr double error = 2 * M_PI * Tread * 1 / 360;
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + distance;
 
-        Measurer measurer;
-        Rotation rotation;
-        double expected, actual;
-        double leftMotorCount;
-        double Distance;
-        int angle, pwm;
+    rotation.turnForwardRightPivot(angle, pwm);
 
-        // 45度右軸後方ピボットターン誤差が１度未満かテスト
-        angle = 45;
-        pwm = 30;
-        Distance = 2 * M_PI * Tread * angle / 360;
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
-        expected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - Distance;
+    EXPECT_DOUBLE_EQ(leftExpected, leftActual);
+  }
 
-        rotation.turnBackRightPivot(angle, pwm);
+  TEST(Rotation, turnForwardRightPivot_maxpwm)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
 
-        actual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // PWM値が100の時のテスト
+    angle = 90;
+    pwm = 100;
+    distance = 2 * M_PI * tread * angle / 360;
 
-        ASSERT_LE(expected, actual);
-        ASSERT_GE(expected - error, actual);
-      }
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) + distance;
 
-      TEST(Rotation, turnForwardLeftPivot)
-      {
-        constexpr double Radius = 45.0;
-        constexpr double Tread = 140.0;
-        constexpr double error = 2 * M_PI * Tread * 1 / 360;
+    rotation.turnForwardRightPivot(angle, pwm);
 
-        Measurer measurer;
-        Rotation rotation;
-        double expected, actual;
-        double rightMotorCount;
-        double Distance;
-        int angle, pwm;
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
-        // 45度左軸前方ピボットターン誤差が１度未満かテスト
-        angle = 45;
-        pwm = 30;
-        Distance = 2 * M_PI * Tread * angle / 360;
+    EXPECT_LE(leftExpected, leftActual);
+    EXPECT_GE(leftExpected + error, leftActual);
+  }
 
-        expected = Mileage::calculateWheelMileage(measurer.getRightCount()) + Distance;
+  TEST(Rotation, turnBackRightPivot)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
 
-        rotation.turnForwardLeftPivot(angle, pwm);
+    // 90度右軸後方ピボットターン誤差が１度未満かテスト
+    angle = 90;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - distance;
+    // 右軸後方ピボットターン
+    rotation.turnBackRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_GE(leftExpected, leftActual);
+    EXPECT_LE(leftExpected - error, leftActual);
 
-        actual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 180度右軸後方ピボットターン誤差が１度未満かテスト
+    angle = 180;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - distance;
+    // 右軸後方ピボットターン
+    rotation.turnBackRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_GE(leftExpected, leftActual);
+    EXPECT_LE(leftExpected - error, leftActual);
 
-        ASSERT_LE(expected, actual);
-        ASSERT_GE(expected + error, actual);
-      }
+    // 360度右軸後方ピボットターン誤差が１度未満かテスト
+    angle = 360;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - distance;
+    // 右軸後方ピボットターン
+    rotation.turnBackRightPivot(angle, pwm);
+    // 関数実行後の走行距離
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+    // 誤差のテスト
+    EXPECT_GE(leftExpected, leftActual);
+    EXPECT_LE(leftExpected - error, leftActual);
+  }
 
-      TEST(Rotation, turnBackLeftPivot)
-      {
-        constexpr double Radius = 45.0;
-        constexpr double Tread = 140.0;
-        constexpr double error = 2 * M_PI * Tread * 1 / 360;
+  TEST(Rotation, turnBackdRightPivot_zero)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
 
-        Measurer measurer;
-        Rotation rotation;
-        double expected, actual;
-        double rightMotorCount;
-        double Distance;
-        int angle, pwm;
+    // 0度右軸後方ピボットターンのテスト
+    angle = 0;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
 
-        // 45度左軸後方ピボットターン誤差が１度未満かテスト
-        angle = 45;
-        pwm = 30;
-        Distance = 2 * M_PI * Tread * angle / 360;
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - distance;
 
-        expected = Mileage::calculateWheelMileage(measurer.getRightCount()) - Distance;
+    rotation.turnBackRightPivot(angle, pwm);
 
-        rotation.turnBackLeftPivot(angle, pwm);
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
-        actual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    EXPECT_DOUBLE_EQ(leftExpected, leftActual);
+  }
 
-        ASSERT_LE(expected, actual);
-        ASSERT_GE(expected - error, actual);
-      }
-*/
+  TEST(Rotation, turnBackRightPivot_maxpwm)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double leftExpected;
+    double leftActual;
+    double leftMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // PWM値が100の時のテスト
+    angle = 90;
+    pwm = 100;
+    distance = 2 * M_PI * tread * angle / 360;
+
+    leftExpected = Mileage::calculateWheelMileage(measurer.getLeftCount()) - distance;
+
+    rotation.turnBackRightPivot(angle, pwm);
+
+    leftActual = Mileage::calculateWheelMileage(measurer.getLeftCount());
+
+    EXPECT_GE(leftExpected, leftActual);
+    EXPECT_LE(leftExpected - error, leftActual);
+  }
+
+  TEST(Rotation, turnForwardLeftPivot)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // 90度左軸前方ピボットターン誤差が１度未満かテスト
+    angle = 90;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) + distance;
+    // 左軸前方ピボットターン
+    rotation.turnForwardLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_LE(rightExpected, rightActual);
+    EXPECT_GE(rightExpected + error, rightActual);
+
+    // 180度左軸前方ピボットターン誤差が１度未満かテスト
+    angle = 180;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) + distance;
+    // 左軸前方ピボットターン
+    rotation.turnForwardLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_LE(rightExpected, rightActual);
+    EXPECT_GE(rightExpected + error, rightActual);
+
+    // 360度左軸前方ピボットターン誤差が１度未満かテスト
+    angle = 360;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) + distance;
+    // 左軸前方ピボットターン
+    rotation.turnForwardLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_LE(rightExpected, rightActual);
+    EXPECT_GE(rightExpected + error, rightActual);
+  }
+
+  TEST(Rotation, turnForwardLeftPivot_zero)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // 0度左軸前方ピボットターンのテスト
+    angle = 0;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) + distance;
+
+    rotation.turnForwardLeftPivot(angle, pwm);
+
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    EXPECT_DOUBLE_EQ(rightExpected, rightActual);
+  }
+
+  TEST(Rotation, turnForwardLeftPivot_maxpwm)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // PWM値が100の時のテスト
+    //誤差2度未満
+    angle = 90;
+    pwm = 100;
+    distance = 2 * M_PI * tread * angle / 360;
+
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) + distance;
+
+    rotation.turnForwardLeftPivot(angle, pwm);
+
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    EXPECT_LE(rightExpected, rightActual);
+    EXPECT_GE(rightExpected + 2 * error, rightActual);
+  }
+
+  TEST(Rotation, turnBackLeftPivot)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // 90度左軸後方ピボットターン誤差が１度未満かテスト
+    angle = 90;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) - distance;
+    // 左軸後方ピボットターン
+    rotation.turnBackLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_GE(rightExpected, rightActual);
+    EXPECT_LE(rightExpected - error, rightActual);
+
+    // 180度左軸後方ピボットターン誤差が１度未満かテスト
+    angle = 180;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) - distance;
+    // 左軸後方ピボットターン
+    rotation.turnBackLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_GE(rightExpected, rightActual);
+    EXPECT_LE(rightExpected - error, rightActual);
+
+    // 360度左軸後方ピボットターン誤差が１度未満かテスト
+    angle = 360;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+    // 期待する走行距離
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) - distance;
+    // 左軸後方ピボットターン
+    rotation.turnBackLeftPivot(angle, pwm);
+    // 関数実行後の走行距離
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+    // 誤差のテスト
+    EXPECT_GE(rightExpected, rightActual);
+    EXPECT_LE(rightExpected - error, rightActual);
+  }
+
+  TEST(Rotation, turnBackLeftPivot_zero)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // 0度左軸後方ピボットターンのテスト
+    angle = 0;
+    pwm = 30;
+    distance = 2 * M_PI * tread * angle / 360;
+
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) - distance;
+
+    rotation.turnBackLeftPivot(angle, pwm);
+
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    EXPECT_DOUBLE_EQ(rightExpected, rightActual);
+  }
+
+  TEST(Rotation, turnBackLeftPivot_maxpwm)
+  {
+    Measurer measurer;
+    Rotation rotation;
+    double rightExpected;
+    double rightActual;
+    double rightMotorCount;
+    double distance;
+    double tread = 140.0;
+    double error = 2 * M_PI * tread / 360;  //誤差1度
+    int angle, pwm;
+
+    // PWM値が100の時のテスト
+    //誤差2度未満
+    angle = 90;
+    pwm = 100;
+    distance = 2 * M_PI * tread * angle / 360;
+
+    rightExpected = Mileage::calculateWheelMileage(measurer.getRightCount()) - distance;
+
+    rotation.turnBackLeftPivot(angle, pwm);
+
+    rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
+
+    EXPECT_GE(rightExpected, rightActual);
+    EXPECT_LE(rightExpected - 2 * error, rightActual);
+  }
+
 }  // namespace etrobocon2021_test

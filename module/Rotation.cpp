@@ -99,7 +99,6 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
     }
 
     //モータのPWM値をセット
-    controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(pwm);
 
     // 10ミリ秒待機
