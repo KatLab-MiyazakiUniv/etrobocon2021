@@ -17,9 +17,9 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
 
   // 環境光による値の偏りを軽減する
   // 事前に測った白が(255,255,255)となるように、RGB値を変換する
-  rgb.r = (_rgb.r < MAX_RGB.r) ? _rgb.r * 256 / MAX_RGB.r : 256;
-  rgb.g = (_rgb.g < MAX_RGB.g) ? _rgb.g * 256 / MAX_RGB.g : 256;
-  rgb.b = (_rgb.b < MAX_RGB.b) ? _rgb.b * 256 / MAX_RGB.b : 256;
+  rgb.r = (_rgb.r < MAX_RGB.r) ? _rgb.r * 255 / MAX_RGB.r : 255;
+  rgb.g = (_rgb.g < MAX_RGB.g) ? _rgb.g * 255 / MAX_RGB.g : 255;
+  rgb.b = (_rgb.b < MAX_RGB.b) ? _rgb.b * 255 / MAX_RGB.b : 255;
 
   // HSV値に変換
   hsv = ColorJudge::getHsv(rgb);
