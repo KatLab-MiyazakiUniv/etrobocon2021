@@ -6,8 +6,6 @@
 
 #include "ColorJudge.h"
 
-ColorJudge::ColorJudge() {}
-
 // RGBから色を判別する
 COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
 {
@@ -22,7 +20,7 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
   rgb.b = (_rgb.b < MAX_RGB.b) ? _rgb.b * 255 / MAX_RGB.b : 255;
 
   // HSV値に変換
-  hsv = ColorJudge::getHsv(rgb);
+  hsv = getHsv(rgb);
 
   // RGBの中の最小値を求める
   min = std::min({ _rgb.r, _rgb.g, _rgb.b });
