@@ -12,7 +12,7 @@
 
 namespace ev3api {
 
- //モータクラス
+  //モータクラス
   class Motor {
    public:
     /**

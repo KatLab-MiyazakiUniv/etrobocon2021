@@ -10,6 +10,8 @@ using namespace ev3api;
 //コンストラクタ
 Motor::Motor(ePortM _port, bool brake, motor_type_t type) : port(_port) {}
 
+// PORT_B　右モータ
+// PORT_C　左モータ
 //モータ角位置取得
 int Motor::getCount()
 {
