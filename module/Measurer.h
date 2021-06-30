@@ -26,6 +26,12 @@ class Measurer {
   int getBrightness();
 
   /**
+   * RGB値を取得
+   * @return RGB値
+   */
+  rgb_raw_t getRawColor();
+
+  /**
    * 左モータ角位置取得
    * @return 左モータ角位置[deg]
    */

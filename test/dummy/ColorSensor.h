@@ -9,6 +9,10 @@
 
 #include "Port.h"
 
+typedef struct {
+  int r, g, b;
+} rgb_raw_t;
+
 namespace ev3api {
 
   //カラーセンサクラス
@@ -28,6 +32,12 @@ namespace ev3api {
      * @return 反射光の強さ(0-100)
      */
     int getBrightness();  //明るさを取得
+
+    /**
+     * RGB値を取得
+     * @return RGBを保持するクラス
+     */
+    void getRawColor(rgb_raw_t& rgb);
   };
 }  // namespace ev3api
 
