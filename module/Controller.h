@@ -7,6 +7,7 @@
 #define CONTROLLER_H
 
 #include "ev3api.h"
+#include "etroboc_ext.h"
 #include "Motor.h"
 #include "Clock.h"
 #include "Measurer.h"
@@ -26,11 +27,6 @@ class Controller {
   void setLeftMotorPwm(const int pwm);
 
   /**
-   *モータカウントリセット
-   */
-  void resetMotorCount();
-
-  /**
    * 停止する
    */
   void stopMotor();
@@ -40,6 +36,11 @@ class Controller {
    * @param milliSec スリープ時間(ミリ秒)
    */
   void sleep(int milliSec = 10);
+
+  /**
+   * シミュレータへ競技の終了を通知する
+   */
+  void notifyCompletedToSimulator();
 
  private:
   ev3api::Motor rightWheel;

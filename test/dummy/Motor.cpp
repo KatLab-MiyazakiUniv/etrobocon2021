@@ -31,16 +31,3 @@ void Motor::setPWM(int pwm)
     rightCount += pwm * 0.05;
   }
 }
-
-//モータカウントリセット
-void Motor::reset()
-{
-  if(port == PORT_C) {
-    leftCount = 0;
-  } else {
-    rightCount = 0;
-  }
-}
-
-double Motor::leftCount = 0.0;
-double Motor::rightCount = 0.0;

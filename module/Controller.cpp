@@ -36,18 +36,14 @@ void Controller::stopMotor()
   rightWheel.stop();
 }
 
-//モータカウントをリセット
-void Controller::resetMotorCount()
-{
-  while((measurer.getLeftCount() != 0) || (measurer.getRightCount() != 0)) {
-    leftWheel.reset();
-    rightWheel.reset();
-    this->sleep();
-  }
-}
-
 //スリープ
 void Controller::sleep(int milliSec)
 {
   clock.sleep(milliSec);
+}
+
+//シミュレータへ競技の終了を通知する
+void Controller::notifyCompletedToSimulator()
+{
+  ETRoboc_notifyCompletedToSimulator();
 }
