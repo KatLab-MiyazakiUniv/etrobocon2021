@@ -39,3 +39,34 @@ void LineTracer::run(double targetDistance, int targetBrightness, int pwm, const
   //モータの停止
   controller.stopMotor();
 }
+
+//白黒を判定している間走行する
+void LineTracer::runToColor(int targetBrightness, int pwm, const PidGain& gain)
+{
+  double currentPid = 0;
+  int pidSign = 0;
+  Pid pid(gain.kp, gain.ki, gain.kd, targetBrightness);
+
+  COLOR color = COLOR::NONE;
+
+  //左右で符号を変える
+  pidSign = (isLeftEdge) ? -1 : 1;
+
+  //白黒を判定している間走行する
+  while(true) {
+    // 色を判定し、白黒以外で在ればループを抜ける
+    color = ColorJudge::getColor(measurer.getRawColor());
+    if(color != COLOR::BLACK && color != COLOR::WHITE) {
+      break;
+    }
+    // PID計算
+    currentPid = pid.calculatePid(measurer.getBrightness()) * pidSign;
+    //モータのPWM値をセット
+    controller.setRightMotorPwm(pwm - currentPid);
+    controller.setLeftMotorPwm(pwm + currentPid);
+    // 10ミリ秒待機
+    controller.sleep();
+  }
+  //モータの停止
+  controller.stopMotor();
+}

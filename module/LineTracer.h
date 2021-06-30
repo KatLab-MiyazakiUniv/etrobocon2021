@@ -11,6 +11,7 @@
 #include "Measurer.h"
 #include "Mileage.h"
 #include "Controller.h"
+#include "ColorJudge.h"
 
 /**
  * ライントレースをするクラス
@@ -31,6 +32,14 @@ class LineTracer {
    * @param gain PIDを保持する構造体
    */
   void run(double targetDistance, int targetBrightness, int pwm, const PidGain& gain);
+
+  /**
+   * 白黒を判定している間ライントレースをする関数
+   * @param targetBrightness 目標輝度
+   * @param pwm PWM値
+   * @param gain PIDを保持する構造体
+   */
+  void runToColor(int targetBrightness, int pwm, const PidGain& gain);
 
  private:
   bool isLeftEdge;
