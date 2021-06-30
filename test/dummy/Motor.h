@@ -15,8 +15,6 @@ namespace ev3api {
   //モータクラス
   class Motor {
    public:
-    double count = 0.0;
-
     /**
      * コンストラクタ
      * @param port  モータポート番号
@@ -42,6 +40,11 @@ namespace ev3api {
      * 停止する
      */
     void stop(){};
+
+   private:
+    static double leftCount;
+    static double rightCount;
+    ePortM port;
   };
 }  // namespace ev3api
 
