@@ -36,7 +36,7 @@ class ColorJudge {
   static COLOR getColor(rgb_raw_t const& rgb);
 
  private:
-  static constexpr int SATURATION_BORDER = 50;  // 無彩色かの彩度の境界
+  static constexpr int SATURATION_BORDER = 7;  // 無彩色かの彩度の境界
 
   static constexpr int BLACK_LIMIT_BORDER = 50;  // 黒の明度の境界
   static constexpr int WHITE_LIMIT_BORDER = 90;  // 白の明度の境界
@@ -47,6 +47,7 @@ class ColorJudge {
   static constexpr int GREEN_BORDER = 165;                 // 緑の色相の境界
   static constexpr int BLUE_BORDER = 300;                  // 青の色相の境界
   static constexpr rgb_raw_t MAX_RGB = { 112, 107, 152 };  //コースが白の時（最大）のRGB値
+  static constexpr rgb_raw_t MIN_RGB = { 4, 5, 8 };  //コースが黒の時（最小）のRGB値
   ColorJudge();
   static Hsv convertRgbToHsv(rgb_raw_t const& rgb);
 };

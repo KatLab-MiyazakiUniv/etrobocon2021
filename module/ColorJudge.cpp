@@ -15,9 +15,9 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
 
   // 環境光による値の偏りを軽減する
   // 事前に測った白が(255,255,255)となるように、RGB値を変換する
-  rgb.r = (_rgb.r < MAX_RGB.r) ? _rgb.r * 255 / MAX_RGB.r : 255;
-  rgb.g = (_rgb.g < MAX_RGB.g) ? _rgb.g * 255 / MAX_RGB.g : 255;
-  rgb.b = (_rgb.b < MAX_RGB.b) ? _rgb.b * 255 / MAX_RGB.b : 255;
+  rgb.r = (_rgb.r < MAX_RGB.r) ? (_rgb.r - MIN_RGB.r) * 255 / (MAX_RGB.r - MIN_RGB.r) : 255;
+  rgb.g = (_rgb.g < MAX_RGB.g) ? (_rgb.g - MIN_RGB.g) * 255 / (MAX_RGB.g - MIN_RGB.g) : 255;
+  rgb.b = (_rgb.b < MAX_RGB.b) ? (_rgb.b - MIN_RGB.b) * 255 / (MAX_RGB.b - MIN_RGB.b) : 255;
 
   // HSV値に変換
   hsv = convertRgbToHsv(rgb);
@@ -33,6 +33,8 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
   if(hsv.saturation < SATURATION_BORDER) {
     // 明度が低ければ、黒を返す
     if(hsv.value < BLACK_BORDER) return COLOR::BLACK;
+    // 明度が高ければ、白を返す
+    return COLOR::WHITE;
   }
 
   // 各色相の境界によって、色を判別する
