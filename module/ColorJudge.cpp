@@ -10,7 +10,7 @@
 COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
 {
   rgb_raw_t rgb;
-  hsv_raw_t hsv;
+  Hsv hsv;
   int min;
 
   // 環境光による値の偏りを軽減する
@@ -20,7 +20,7 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
   rgb.b = (_rgb.b < MAX_RGB.b) ? _rgb.b * 255 / MAX_RGB.b : 255;
 
   // HSV値に変換
-  hsv = getHsv(rgb);
+  hsv = convertRgbToHsv(rgb);
 
   // RGBの中の最小値を求める
   min = std::min({ _rgb.r, _rgb.g, _rgb.b });
@@ -44,9 +44,9 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
 }
 
 // RGBをHSVに変換する
-hsv_raw_t ColorJudge::getHsv(rgb_raw_t const& _rgb)
+Hsv ColorJudge::convertRgbToHsv(rgb_raw_t const& _rgb)
 {
-  hsv_raw_t hsv{ 0, 0, 0 };
+  Hsv hsv{ 0, 0, 0 };
 
   // RGBの中の最大・最小値を求める
   int max = std::max({ _rgb.r, _rgb.g, _rgb.b });

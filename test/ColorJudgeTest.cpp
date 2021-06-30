@@ -184,4 +184,11 @@ namespace etrobocon2021_test {
     EXPECT_EQ(expected, ColorJudge::getColor(rgb));
   }
 
+  TEST(getColorTest, getColorFullRgb)
+  {
+    rgb_raw_t rgb = { 255, 255, 255 };
+    COLOR expected = COLOR::WHITE;
+
+    EXPECT_EQ(expected, ColorJudge::getColor(rgb));
+  }
 }  // namespace etrobocon2021_test
