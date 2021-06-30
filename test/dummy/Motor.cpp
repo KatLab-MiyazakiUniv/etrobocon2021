@@ -31,3 +31,6 @@ void Motor::setPWM(int pwm)
     rightCount += pwm * 0.05;
   }
 }
+
+double Motor::leftCount = 0.0;
+double Motor::rightCount = 0.0;
