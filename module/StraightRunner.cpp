@@ -17,8 +17,8 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
   // 初期値を格納
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
 
-  // pwm値が0の際は、終了する
-  if(pwm == 0) return;
+  // 距離の値が0または、pwm値が0の際は、終了する
+  if(targetDistance < 0 || pwm == 0) return;
 
   // 走行距離が目標距離に到達するまで繰り返す
   while(true) {
