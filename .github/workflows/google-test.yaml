@@ -1,15 +1,14 @@
 name: Google Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  build:
+  test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
-    - name: setup # TODO: この部分をキャッシュする
-      run: sudo apt install cmake -y
+
     - name: test
       run: ./gtest_all.sh
