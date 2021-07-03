@@ -1,7 +1,7 @@
 /**
- * @file   StraightRunnerTest.cpp
- * @brief  StraightRunnerクラスのテストファイル
- * @author hiroto0927, miyashita64
+ *  @file   StraightRunnerTest.cpp
+ *  @brief  StraightRunnerクラスのテストファイル
+ *  @author mutotaka0426
  */
 
 #include <gtest/gtest.h>
@@ -187,5 +187,43 @@ namespace etrobocon2021_test {
     EXPECT_LE(expectedDistance - distanceError, currentDistance);
     // 直進できているかのテスト
     EXPECT_GE(differenceError, std::abs(leftDifference - rightDifference));
+  }
+
+  TEST(runStraightToDistanceTest, runStraightToDistancePwmZero)
+  {
+    Measurer measurer;
+    StraightRunner straightRunner;
+    double expectedDistance, currentDistance;
+
+    double targetDistance = 350;
+    int pwm = 0;
+
+    // 期待する走行距離
+    expectedDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    // 直進
+    straightRunner.runStraightToDistance(targetDistance, pwm);
+    // 関数実行後の走行距離
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    // 走行距離のテスト
+    EXPECT_EQ(expectedDistance, currentDistance);
+  }
+
+  TEST(runStraightToDistanceTest, runStraightToMinusDistancePwmZero)
+  {
+    Measurer measurer;
+    StraightRunner straightRunner;
+    double expectedDistance, currentDistance;
+
+    double targetDistance = -350;
+    int pwm = 0;
+
+    // 期待する走行距離
+    expectedDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    // 直進
+    straightRunner.runStraightToDistance(targetDistance, pwm);
+    // 関数実行後の走行距離
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    // 走行距離のテスト
+    EXPECT_EQ(expectedDistance, currentDistance);
   }
 }  // namespace etrobocon2021_test

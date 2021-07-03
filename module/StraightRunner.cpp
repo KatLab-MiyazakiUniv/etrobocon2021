@@ -17,9 +17,15 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
   // 初期値を格納
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
 
+  // pwm値が0の際は、終了する
+  if(pwm == 0) return;
+
   // 走行距離が目標距離に到達するまで繰り返す
   while(true) {
+    //現在の距離を取得する
     currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+
+    //現在の距離が目標距離に到達したらループを終了する
     if(std::abs(currentDistance - initialDistance) >= targetDistance) {
       break;
     }
@@ -36,6 +42,9 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
 // 白黒以外の色を検出するまで直進する
 void StraightRunner::runStraightToColor(int pwm)
 {
+  // pwm値が0の際は、終了する。
+  if(pwm == 0) return;
+
   while(true) {
     // 現在のRGB値から色を識別する
     COLOR color = ColorJudge::getColor(measurer.getRawColor());
