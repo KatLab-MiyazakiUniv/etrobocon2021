@@ -13,7 +13,10 @@
 
 class InCrossMotion : public BingoMotion {
  public:
-  InCrossMotion();
+  InCrossMotion::InCrossMotion(bool _isLeftEdge) 
+  : isLeftEdge(_isLeftEdge),
+    lineTracer(_isLeftEdge)
+    {}
 
   /**
    * @brief 交点サークル上を前に進む
@@ -34,6 +37,11 @@ class InCrossMotion : public BingoMotion {
    * @brief 交点サークル上を左に進む
    */
   void runLeft(void);
+
+  private:
+  Rotation rotation;
+  StraightRunner straightRunner;
+  LineTracer linetracer;
 };
 
 #endif

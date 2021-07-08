@@ -70,3 +70,13 @@ void LineTracer::runToColor(int targetBrightness, int pwm, const PidGain& gain)
   //モータの停止
   controller.stopMotor();
 }
+
+bool LineTracer::getIsLeftEdge()
+{
+  return isLeftEdge;
+}
+
+void LineTracer::setIsLeftEdge(bool _isLeftEdge)
+{
+  isLeftEdge = _isLeftEdge;
+}

@@ -7,6 +7,10 @@
 #ifndef BINGO_MOTION_H
 #define BINGO_MOTION_H
 
+#include "StraightRunner.h"
+#include "Rotation.h"
+#include "Controller.h"
+
 class SetColorBlockMotion : public BingoMotion {
  public:
   SetColorBlockMoion();
@@ -23,6 +27,10 @@ class SetColorBlockMotion : public BingoMotion {
    */
   void setBlockPivotTurn(book isLeft);
 
+  private:
+  StraightRunner straightRunner;
+  Rotation rotation;
+  Controller controller;
 };
 
 #endif

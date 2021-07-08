@@ -27,7 +27,11 @@ void InCrossMotion::runBack(void){
   //180度回頭する
   rotation.rotateLeft(angle, rotatePwm);
   //エッジを逆にする
-  isLeftCourse = false;
+  if(lineTracer.getIsLeftEdge()){
+    lineTracer.setIsLeftEdge(false);
+  } else {
+    lineTracer.setIsLeftEdge(true);
+  }
 }
 
 void InCrossMotion::runRight(void){
