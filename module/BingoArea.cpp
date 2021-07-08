@@ -11,46 +11,57 @@ BingoArea::BingoArea()
   //交点サークルの座標、サークルの色、黒線の本数をセット
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
-      leftCrossCircle[index].setCoordinate(i, j);
+      COLOR initCircleColor = COLOR::NONE;
+      int initEfgeNumber = 0;
       if((i == 0 && j == 0) || (i == 0 && j == 3) || (i == 3 && j == 0) || (i == 3 && j == 3)) {
-        leftCrossCircle[index].setEdgeNumber(2);
+        initEfgeNumber = 2;
       } else if((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1)
                 || (i == 2 && j == 2)) {
-        leftCrossCircle[index].setEdgeNumber(4);
+        initEfgeNumber = 4;
       } else {
-        leftCrossCircle[index].setEdgeNumber(3);
+        initEfgeNumber = 3;
       }
       if(i == 0 || i == 1) {
         if(j == 0 || j == 1) {
-          leftCrossCircle[index].setCicleColor(COLOR::RED);
+          initCircleColor = COLOR::RED;
         } else if(j == 2 || j == 3) {
-          leftCrossCircle[index].setCicleColor(COLOR::BLUE);
+          initCircleColor = COLOR::BLUE;
         }
       } else if(i == 2 || i == 3) {
         if(j == 0 || j == 1) {
-          leftCrossCircle[index].setCicleColor(COLOR::YELLOW);
+          initCircleColor = COLOR::YELLOW;
         } else if(j == 2 || j == 3) {
-          leftCrossCircle[index].setCicleColor(COLOR::GREEN);
+          initCircleColor = COLOR::GREEN;
         }
       }
+      IS_LEFT_COURSE ? leftCrossCircle[index].setCoordinate(i, j),
+          leftCrossCircle[index].setCicleColor(initCircleColor),
+          leftCrossCircle[index].setEdgeNumber(initEfgeNumber)
+                     : rightCrossCircle[index].setCoordinate(i, j),
+          rightCrossCircle[index].setCicleColor(initCircleColor),
+          rightCrossCircle[index].setEdgeNumber(initEfgeNumber);
       index++;
     }
   }
   //ブロックサークルの座標、サークルの色をセット
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      leftBlockCircle[index2].setCoordinate(i, j);
+      COLOR initCircleColor = COLOR::NONE;
       if((i == 0 && j == 0) || (i == 1 && j == 2)) {
-        leftBlockCircle[index2].setCicleColor(COLOR::YELLOW);
+        initCircleColor = COLOR::YELLOW;
       } else if((i == 0 && j == 1) || (i == 2 && j == 0)) {
-        leftBlockCircle[index2].setCicleColor(COLOR::GREEN);
+        initCircleColor = COLOR::GREEN;
       } else if((i == 0 && j == 2) || (i == 2 && j == 1)) {
-        leftBlockCircle[index2].setCicleColor(COLOR::RED);
+        initCircleColor = COLOR::RED;
       } else if((i == 1 && j == 0) || (i == 2 && j == 2)) {
-        leftBlockCircle[index2].setCicleColor(COLOR::BLUE);
+        initCircleColor = COLOR::BLUE;
       } else {
-        index2--;
+        continue;
       }
+      IS_LEFT_COURSE ? leftBlockCircle[index2].setCoordinate(i, j),
+          leftBlockCircle[index2].setCicleColor(initCircleColor)
+                     : rightBlockCircle[index2].setCoordinate(i, j),
+          rightBlockCircle[index2].setCicleColor(initCircleColor);
       index2++;
     }
   }
@@ -63,52 +74,52 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
     //交点サークルの場合
     switch(info) {
       case 65:  // Aのとき
-        index = 0;
+        index = IS_LEFT_COURSE ? 0 : 3;
         break;
       case 66:  // Bのとき
-        index = 1;
+        index = IS_LEFT_COURSE ? 1 : 2;
         break;
       case 67:  // Cのとき
-        index = 2;
+        index = IS_LEFT_COURSE ? 2 : 1;
         break;
       case 68:  // Dのとき
-        index = 3;
+        index = IS_LEFT_COURSE ? 3 : 0;
         break;
       case 69:  // Eのとき
-        index = 4;
+        index = IS_LEFT_COURSE ? 4 : 7;
         break;
       case 70:  // Fのとき
-        index = 5;
+        index = IS_LEFT_COURSE ? 5 : 6;
         break;
       case 71:  // Gのとき
-        index = 6;
+        index = IS_LEFT_COURSE ? 6 : 5;
         break;
       case 72:  // Hのとき
-        index = 7;
+        index = IS_LEFT_COURSE ? 7 : 4;
         break;
       case 74:  // Jのとき
-        index = 8;
+        index = IS_LEFT_COURSE ? 8 : 11;
         break;
       case 75:  // Kのとき
-        index = 9;
+        index = IS_LEFT_COURSE ? 9 : 10;
         break;
       case 76:  // Lのとき
-        index = 10;
+        index = IS_LEFT_COURSE ? 10 : 9;
         break;
       case 77:  // Mのとき
-        index = 11;
+        index = IS_LEFT_COURSE ? 11 : 8;
         break;
       case 80:  // Pのとき
-        index = 12;
+        index = IS_LEFT_COURSE ? 12 : 15;
         break;
       case 81:  // Qのとき
-        index = 13;
+        index = IS_LEFT_COURSE ? 13 : 14;
         break;
       case 82:  // Rのとき
-        index = 14;
+        index = IS_LEFT_COURSE ? 14 : 13;
         break;
       case 83:  // Sのとき
-        index = 15;
+        index = IS_LEFT_COURSE ? 15 : 12;
         break;
     }
     IS_LEFT_COURSE ? leftCrossCircle[index].setBlock(blockId, color)
@@ -117,28 +128,28 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
     //ブロックサークルの場合
     switch(info) {
       case 49:  // 1のとき
-        index2 = 0;
+        index2 = IS_LEFT_COURSE ? 0 : 2;
         break;
       case 50:  // 2のとき
-        index2 = 1;
+        index2 = IS_LEFT_COURSE ? 1 : 1;
         break;
       case 51:  // 3のとき
-        index2 = 2;
+        index2 = IS_LEFT_COURSE ? 2 : 0;
         break;
       case 52:  // 4のとき
-        index2 = 3;
+        index2 = IS_LEFT_COURSE ? 3 : 4;
         break;
       case 53:  // 5のとき
-        index2 = 4;
+        index2 = IS_LEFT_COURSE ? 4 : 3;
         break;
       case 54:  // 6のとき
-        index2 = 5;
+        index2 = IS_LEFT_COURSE ? 5 : 7;
         break;
       case 55:  // 7のとき
-        index2 = 6;
+        index2 = IS_LEFT_COURSE ? 6 : 6;
         break;
       case 56:  // 8のとき
-        index2 = 7;
+        index2 = IS_LEFT_COURSE ? 7 : 5;
         break;
     }
     IS_LEFT_COURSE ? leftBlockCircle[index2].setBlock(blockId, color)
