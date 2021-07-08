@@ -39,17 +39,17 @@ BingoArea::BingoArea()
   //ブロックサークルの座標、サークルの色をセット
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      leftBlockCircle[index].setCoordinate(i, j);
-      if(i != 1 && j != 1) {
-        if((i == 0 && j == 0) || (i == 1 && j == 2)) {
-          leftBlockCircle[index].setCicleColor(COLOR::YELLOW);
-        } else if((i == 0 && j == 1) || (i == 2 && j == 0)) {
-          leftBlockCircle[index].setCicleColor(COLOR::GREEN);
-        } else if((i == 0 && j == 2) || (i == 2 && j == 1)) {
-          leftBlockCircle[index].setCicleColor(COLOR::RED);
-        } else if((i == 1 && j == 0) || (i == 2 && j == 2)) {
-          leftBlockCircle[index].setCicleColor(COLOR::BLUE);
-        }
+      leftBlockCircle[index2].setCoordinate(i, j);
+      if((i == 0 && j == 0) || (i == 1 && j == 2)) {
+        leftBlockCircle[index2].setCicleColor(COLOR::YELLOW);
+      } else if((i == 0 && j == 1) || (i == 2 && j == 0)) {
+        leftBlockCircle[index2].setCicleColor(COLOR::GREEN);
+      } else if((i == 0 && j == 2) || (i == 2 && j == 1)) {
+        leftBlockCircle[index2].setCicleColor(COLOR::RED);
+      } else if((i == 1 && j == 0) || (i == 2 && j == 2)) {
+        leftBlockCircle[index2].setCicleColor(COLOR::BLUE);
+      } else {
+        index2--;
       }
       index2++;
     }
@@ -111,6 +111,8 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
         index = 15;
         break;
     }
+    IS_LEFT_COURSE ? leftCrossCircle[index].setBlock(blockId, color)
+                   : rightCrossCircle[index].setBlock(blockId, color);
   } else if(info >= 49 && info <= 57) {
     //ブロックサークルの場合
     switch(info) {
@@ -139,11 +141,9 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
         index2 = 7;
         break;
     }
+    IS_LEFT_COURSE ? leftBlockCircle[index2].setBlock(blockId, color)
+                   : rightBlockCircle[index2].setBlock(blockId, color);
   }
-  IS_LEFT_COURSE ? leftCrossCircle[index].setBlock(blockId, color)
-                 : rightCrossCircle[index].setBlock(blockId, color);
-  IS_LEFT_COURSE ? leftBlockCircle[index2].setBlock(blockId, color)
-                 : rightBlockCircle[index2].setBlock(blockId, color);
 }
 
 void BingoArea::setBingoArea()
@@ -196,9 +196,9 @@ Node& BingoArea::getBlockInfo(int blockId)
 // x座標　y座標　ブロックの色　サークルの色 黒線の本数
 void BingoArea::printinfo()
 {
-  for(int i = 0; i < 16; i++) {
-    printf("%d %d %d %d %d\n", leftCrossCircle[i].getCoordinate().x,
-           leftCrossCircle[i].getCoordinate().y, leftCrossCircle[i].getBlock().blockColor,
-           leftCrossCircle[i].getCircleColor(), leftCrossCircle[i].getEdgeNumber());
+  for(int i = 0; i < 8; i++) {
+    printf("%d %d %d %d\n", leftBlockCircle[i].getCoordinate().x,
+           leftBlockCircle[i].getCoordinate().y, leftBlockCircle[i].getBlock().blockColor,
+           leftBlockCircle[i].getCircleColor());
   }
 }
