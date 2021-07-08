@@ -7,7 +7,7 @@
 #include "Measurer.h"
 
 Measurer::Measurer()
-  : colorSensor(PORT_3), leftWheel(PORT_C), rightWheel(PORT_B), touchSensor(PORT_1)
+  : colorSensor(PORT_3), leftWheel(PORT_C), rightWheel(PORT_B), armMotor(PORT_A), touchSensor(PORT_1)
 {
 }
 
@@ -35,6 +35,11 @@ int Measurer::getLeftCount()
 int Measurer::getRightCount()
 {
   return rightWheel.getCount();
+}
+
+int Measurer::getArmMotorCount()
+{
+  return armMotor.getCount();
 }
 
 //タッチセンサの状態取得

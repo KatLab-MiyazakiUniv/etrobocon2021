@@ -10,13 +10,11 @@
 #include "Rotation.h"
 #include "StraightRunner.h"
 #include "LineTracer.h"
+#include "BingoMotion.h"
 
 class InCrossMotion : public BingoMotion {
  public:
-  InCrossMotion::InCrossMotion(bool _isLeftEdge) 
-  : isLeftEdge(_isLeftEdge),
-    lineTracer(_isLeftEdge)
-    {}
+  InCrossMotion(bool _isLeftEdge);
 
   /**
    * @brief 交点サークル上を前に進む
@@ -38,10 +36,10 @@ class InCrossMotion : public BingoMotion {
    */
   void runLeft(void);
 
-  private:
+ private:
   Rotation rotation;
   StraightRunner straightRunner;
-  LineTracer linetracer;
+  LineTracer lineTracer;
 };
 
 #endif

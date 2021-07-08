@@ -5,7 +5,7 @@
  */
 #include "Controller.h"
 
-Controller::Controller() : rightWheel(PORT_B), leftWheel(PORT_C), liftMotor(PORT_A) {}
+Controller::Controller() : rightWheel(PORT_B), leftWheel(PORT_C), armMotor(PORT_A) {}
 
 int Controller::limitPwmValue(const int value)
 {

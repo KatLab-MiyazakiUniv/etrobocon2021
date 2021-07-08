@@ -6,18 +6,14 @@
 
 #include "ToCrossMotion.h"
 
+ToCrossMotion::ToCrossMotion(bool _isLeftEdge) : lineTracer(_isLeftEdge) {}
+
 void ToCrossMotion::runToCross(void){
   int targetBrightness = 12;
-  int pwm = 80;
+  int pwm = 30;
   PidGain gain(3.5, 1, 1);
-  bool isLeftEdge;
-
-  //エッジの設定
-  isLeftEdge = !IS_LEFT_COURSE;
-
-  //LineTracerにエッジを与えてインスタンス化する
-  LineTracer lineTracer(isLeftEdge);
 
   //白黒以外までライントレース
   lineTracer.runToColor(targetBrightness, pwm, gain);
 }
+ 

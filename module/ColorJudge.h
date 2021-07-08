@@ -36,7 +36,7 @@ class ColorJudge {
   static COLOR getColor(rgb_raw_t const& rgb);
 
  private:
-  static constexpr int SATURATION_BORDER = 7;  // 無彩色かの彩度の境界
+  static constexpr int SATURATION_BORDER = 12;  // 無彩色かの彩度の境界
 
   static constexpr int BLACK_LIMIT_BORDER = 50;  // 黒の明度の境界
   static constexpr int WHITE_LIMIT_BORDER = 90;  // 白の明度の境界

@@ -44,6 +44,12 @@ class Measurer {
   int getRightCount();
 
   /**
+   * アームモータ角位置取得
+   * @return アームモータ角位置[deg]
+   */
+  int getArmMotorCount();
+
+  /**
    * タッチセンサ状態取得
    * @return true:押されている状態, false:押されていない状態
    */
@@ -53,6 +59,7 @@ class Measurer {
   ev3api::ColorSensor colorSensor;
   ev3api::Motor leftWheel;
   ev3api::Motor rightWheel;
+  ev3api::Motor armMotor;
   ev3api::TouchSensor touchSensor;
 };
 

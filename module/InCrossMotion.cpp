@@ -6,46 +6,50 @@
 
 #include "InCrossMotion.h"
 
-void InCrossMotion::runForward(void){
+InCrossMotion::InCrossMotion(bool _isLeftEdge) : lineTracer(_isLeftEdge) {}
+
+void InCrossMotion::runForward(void)
+{
   int targetDistance = 80.0;
-  int pwm = 80;
+  int pwm = 30;
 
   //交点サークルの外径分直進する
-  rotation.runStraightToDistance(targetDistance, pwm);
+  straightRunner.runStraightToDistance(targetDistance, pwm);
 }
 
-void InCrossMotion::runBack(void){
-  double targetDistance = 80.0;
-  int runPwm = 80;
+void InCrossMotion::runBack(void)
+{
+  double targetDistance = 30.0;
+  int runPwm = 30;
   int angle = 180;
-  int rotatePwm = 60;
-  Rotation rotation;
-  StraightRunner straightRunner;
+  int rotatePwm = 30;
 
   //直進する
-  straightRunnner.runStraightToDistance(targetDistance, runPwm);
-  //180度回頭する
+  straightRunner.runStraightToDistance(targetDistance, runPwm);
+  // 180度回頭する
   rotation.rotateLeft(angle, rotatePwm);
   //エッジを逆にする
-  if(lineTracer.getIsLeftEdge()){
+  if(lineTracer.getIsLeftEdge()) {
     lineTracer.setIsLeftEdge(false);
   } else {
     lineTracer.setIsLeftEdge(true);
   }
 }
 
-void InCrossMotion::runRight(void){
+void InCrossMotion::runRight(void)
+{
   int angle = 90;
-  int pwm = 60;
+  int pwm = 30;
 
   //右に90度ピボットターンする
-  rotation.turnForwardRightPivot(int angle, int pwm);
+  rotation.turnForwardRightPivot(angle, pwm);
 }
 
-void InCrossMotion::runLeft(void){
+void InCrossMotion::runLeft(void)
+{
   int angle = 90;
-  int pwm = 60;
+  int pwm = 30;
 
   //左に90度ピボットターンする
-  rotation.turnForwardLeftPivot(int angle, int pwm);
+  rotation.turnForwardLeftPivot(angle, pwm);
 }

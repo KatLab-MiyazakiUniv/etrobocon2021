@@ -9,8 +9,6 @@
 
 class BingoMotion {
  public:
-  BingoMotion();
-
   /**
    * @brief 動作時間を取得する
    * @return 動作時間
