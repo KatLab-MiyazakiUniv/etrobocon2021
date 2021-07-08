@@ -7,7 +7,7 @@
 #include "DestinationList.h"
 
 // コンストラクタ 全ブロックの運搬先を決定する
-DestinationList::DestinationList()
+DestinationList::DestinationList(BingoArea& _bingoArea) : bingoArea(_bingoArea)
 {
   // 赤、青、黄、緑のブロックサークル番号
   const std::array<COLOR, 4> COLORS = { COLOR::RED, COLOR::BLUE, COLOR::YELLOW, COLOR::GREEN };
@@ -19,17 +19,20 @@ DestinationList::DestinationList()
   } };
 
   // 全ブロックを取得
-  std::array<Block, BLOCK_LENGTH> blocks;
-  for(int i = 0; i < BLOCK_LENGTH; i++) {
-    blocks[i] = bingoArea.getBlockInfo(static_cast<BlockNumber>(i));
+  std::array<Node&, BlockNumber::B_LENGTH> blockNodes;
+  for(int i = static_cast<int>(BlockNumber::B_0); i < static_cast<int>(BlockNumber::B_LENGTH);
+      i++) {
+    blockNodes[i] = bingoArea.getBlockInfo(static_cast<BlockNumber>(i));
   }
 
   // 各色について合計距離が短い組み合わせを探索する
   for(int color = 0; color < 4; color++) {
     // 色がcolorな、2つのブロックを探索
     int first = -1;
-    for(int i = 0; i < BLOCK_LENGTH; i++) {
-      if(blocks[i].color != COLORS[color]) continue;
+    for(int i = static_cast<int>(BlockNumber::B_0); i < BlockNumber::B_LENGTH; i++) {
+      // 色がcolorでなければ、次のブロックへ
+      if(blockNodes[i].getBlock().blockColor != COLORS[color]) continue;
+
       if(first == -1) {  // 1つめ
         first = i;
       } else {  // 2つめ
@@ -62,31 +65,9 @@ CircleNumber DestinationList::getDestination(BlockNumber blockNumber)
 // ブロックとサークル間のマンハッタン距離を計算する
 int DestinationList::calculateDistance(BlockNumber blockNumber, CircleNumber circleNumber)
 {
-  Coordinate blockCoord = convertBlockCoordinate(blockNumber);
-  Coordinate circleCoord = convertCircleCoordinate(circleNumber);
+  Coordinate blockCoord = bingoArea.getBlockInfo(blockNumber).getCoordinate();
+  Coordinate circleCoord = bingoArea.getCircleInfo(circleNumber).getCoordinate();
   int dx = std::abs(blockCoord.x - circleCoord.x);
   int dy = std::abs(blockCoord.y - circleCoord.y);
   return dx + dy;
-}
-
-// BingoAreaから取得できる？
-// ブロック番号に対応する座標を返す
-Coordinate DestinationList::convertBlockCoordinate(BlockNumber blockNumber)
-{
-  Coordinate coordinate = { 0, 0 };
-  int number = static_cast<int>(blockNumber);
-  int tmp = number % 4;
-  coordinate.x = (tmp == 0) ? 2 : (tmp == 1) ? 6 : (tmp == 2) ? 0 : 4;
-  coordinate.y = (number / 2) * 2;
-  return coordinate;
-}
-
-// サークル番号に対応する座標を返す
-Coordinate DestinationList::convertCircleCoordinate(CircleNumber circleNumber)
-{
-  Coordinate coordinate = { 0, 0 };
-  int number = static_cast<int>(circleNumber);
-  coordinate.x = (number % 3) * 2 + 1;
-  coordinate.y = (number / 3) * 2 + 1;
-  return coordinate;
 }
