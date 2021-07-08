@@ -26,7 +26,8 @@ class DestinationList {
   CircleId getDestination(BlockId blockId);
 
  private:
-  std::array<CircleId, BlockId::BLOCK_LENGTH> destinations;  // 各ブロックの運搬先サークルID
+  std::array<CircleId, static_cast<int>(BlockId::SIZE)>
+      destinations;  // 各ブロックの運搬先サークルID
 
   /**
    * 指定したブロックとサークル間のマンハッタン距離を計算する
@@ -34,14 +35,14 @@ class DestinationList {
    * @param circleCoord サークルの座標
    * @return マンハッタン距離
    */
-  int calculateDistance(Coordinate blockCoord, Coordinate circleCoord);
+  int calculateDistance(Coordinate& blockCoord, Coordinate& circleCoord);
 
   /**
    * 指定したサークルIDに対応する座標を返す
    * @param _circleId サークルID
    * @return サークルの座標
    */
-  Coordinate DestinationList::convertCircleCoordinate(CircleId _circleId);
+  Coordinate convertCircleCoordinate(CircleId _circleId);
 };
 
 #endif

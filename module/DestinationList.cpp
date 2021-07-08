@@ -19,11 +19,11 @@ DestinationList::DestinationList(BingoArea& bingoArea)
   } };
 
   const int B_ZERO = static_cast<int>(BlockId::B_0);
-  const int B_LENGTH = static_cast<int>(BlockId::B_LENGTH);
+  const int B_SIZE = static_cast<int>(BlockId::SIZE);
 
   // 全ブロックを取得
-  std::array<Node&, BlockId::B_LENGTH> blockNodes;
-  for(int i = B_ZERO; i < B_LENGTH; i++) {
+  std::array<Node, B_SIZE> blockNodes;
+  for(int i = B_ZERO; i < B_SIZE; i++) {
     blockNodes[i] = bingoArea.getBlockInfo(static_cast<BlockId>(i));
   }
 
@@ -31,9 +31,12 @@ DestinationList::DestinationList(BingoArea& bingoArea)
   for(int color = 0; color < 4; color++) {
     // 色がcolorな、2つのブロックを探索
     int first = -1;
-    for(int i = B_ZERO; i < B_LENGTH; i++) {
+    for(int i = B_ZERO; i < B_SIZE; i++) {
       // 色がcolorでなければ、次のブロックへ
-      if(blockNodes[i].getBlock().blockColor != COLORS[color]) continue;
+      if(blockNodes[i].getBlock().blockColor != COLORS[color]) {
+        printf("%d != %d\n", blockNodes[i].getBlock().blockColor, COLORS[color]);
+        continue;
+      }
       if(first == -1) {  // 1つめ
         first = i;
       } else {  // 2つめ
@@ -74,7 +77,7 @@ CircleId DestinationList::getDestination(BlockId blockId)
 }
 
 // 座標間のマンハッタン距離を計算する
-int DestinationList::calculateDistance(Coorinate& blockCoord, Node& circleCoord)
+int DestinationList::calculateDistance(Coordinate& blockCoord, Coordinate& circleCoord)
 {
   int dx = std::abs(blockCoord.x - circleCoord.x);
   int dy = std::abs(blockCoord.y - circleCoord.y);
