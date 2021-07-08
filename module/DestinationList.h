@@ -19,25 +19,29 @@ class DestinationList {
   DestinationList(BingoArea& _bingoArea);
 
   /**
-   * 指定されたブロックの運搬先サークル番号を返す
-   * @param blockNumber ブロック番号
-   * @return 運搬先サークル番号
+   * 指定されたブロックの運搬先サークルIDを返す
+   * @param blockId ブロックID
+   * @return 運搬先サークルID
    */
-  CircleNumber getDestination(BlockNumber blockNumber);
+  CircleId getDestination(BlockId blockId);
 
  private:
-  std::array<CircleNumber, BlockNumber::BLOCK_LENGTH>
-      destinations;  // 各ブロックの運搬先サークル番号
+  std::array<CircleId, BlockId::BLOCK_LENGTH> destinations;  // 各ブロックの運搬先サークルID
 
   /**
    * 指定したブロックとサークル間のマンハッタン距離を計算する
-   * @param blockNumber ブロック番号
-   * @param circleNumber サークル番号
-   * @return マンハッタン距離(本)
+   * @param blockCoord ブロックの座標
+   * @param circleCoord サークルの座標
+   * @return マンハッタン距離
    */
-  int calculateDistance(BlockNumber blockNumber, CircleNumber circleNumber);
+  int calculateDistance(Coordinate blockCoord, Coordinate circleCoord);
 
-  BingoArea& bingoArea;
+  /**
+   * 指定したサークルIDに対応する座標を返す
+   * @param _circleId サークルID
+   * @return サークルの座標
+   */
+  Coordinate DestinationList::convertCircleCoordinate(CircleId _circleId);
 };
 
 #endif
