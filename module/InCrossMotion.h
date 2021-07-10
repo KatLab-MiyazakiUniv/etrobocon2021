@@ -14,7 +14,7 @@
 
 class InCrossMotion : public BingoMotion {
  public:
-  InCrossMotion(bool _isLeftEdge);
+  InCrossMotion(LineTracer _lineTracer);
 
   /**
    * @brief 交点サークル上を前に進む

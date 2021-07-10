@@ -8,11 +8,12 @@
 #define TO_CROSS_MOTION_H
 
 #include "LineTracer.h"
+#include "StraightRunner.h"
 #include "BingoMotion.h"
 
 class ToCrossMotion : public BingoMotion {
  public:
-  ToCrossMotion(bool _isLeftEdge);
+  ToCrossMotion(LineTracer _lineTracer);
 
   /**
    * @brief 交点間を移動する
