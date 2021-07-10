@@ -7,12 +7,13 @@
 #ifndef BLOCK_SELECTOR_H
 #define BLOCK_SELECTOR_H
 
-#include "Robot.h"
+#define T true
+#define F false
+
 #include <array>
 #include "BingoAreaMock.h"
 #include "DestinationList.h"
-#define T true
-#define F false
+#include "Robot.h"
 
 class BlockSelector {
  public:
