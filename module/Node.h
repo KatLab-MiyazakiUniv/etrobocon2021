@@ -8,12 +8,36 @@
 #define NODE_H
 #include "ColorJudge.h"
 
+enum class CIRCLE_ID : int {
+  ID0 = 0,
+  ID1 = 1,
+  ID2 = 2,
+  ID3 = 3,
+  ID4 = 4,
+  ID5 = 5,
+  ID6 = 6,
+  ID7 = 7,
+  SIZE = 8,
+};
+
+enum class BLOCK_ID : int {
+  ID0 = 0,
+  ID1 = 1,
+  ID2 = 2,
+  ID3 = 3,
+  ID4 = 4,
+  ID5 = 5,
+  ID6 = 6,
+  ID7 = 7,
+  SIZE = 8,
+};
+
 //ブロックの色とブロックの番号を保持する構造体
 struct Block {
   COLOR blockColor;  //ブロックの色
-  int blockId;       //ブロックの番号
+  BLOCK_ID blockId;  //ブロックの番号
   //コンストラクタ
-  Block(COLOR blockColor = COLOR::NONE, int blockId = -1);
+  Block(COLOR blockColor = COLOR::NONE, BLOCK_ID blockId = BLOCK_ID::ID0);
 };
 
 //ブロックの座標を保持する構造体
@@ -28,7 +52,7 @@ class Node {
  public:
   //コンストラクタ
   //座標、サークルの色、ブロックの色、ブロック番号を初期化する
-  Node(int x = 0, int y = 0, COLOR circleColor = COLOR::NONE, int blockId = -1,
+  Node(int x = 0, int y = 0, COLOR circleColor = COLOR::NONE, BLOCK_ID blockId = BLOCK_ID::ID0,
        COLOR blockColor = COLOR::NONE);
 
   /**
@@ -45,7 +69,7 @@ class Node {
    *@param _blockId ブロック番号
    *@pamram _blockColor ブロックの色
    */
-  void setBlock(int _blockId, COLOR _blockColor);
+  void setBlock(BLOCK_ID _blockId, COLOR _blockColor);
 
   /**
    *@fn void setNodeInfo(int blockId, COLOR circleColor, COLOR blockColor);

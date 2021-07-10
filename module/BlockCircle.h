@@ -12,5 +12,10 @@ class BlockCircle : public Node {
  public:
   //コンストラクタ
   BlockCircle();
+  void setCircleId(CIRCLE_ID id);
+  CIRCLE_ID getCircleId();
+
+ private:
+  CIRCLE_ID circleId;  //サークルID
 };
 #endif

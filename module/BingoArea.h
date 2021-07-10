@@ -25,7 +25,7 @@ class BingoArea {
    *@param info ブロックの位置を表す数字
    *@pamram color ブロックの色
    */
-  void setBlockInfo(int info, int blockId, COLOR color);
+  void setBlockInfo(int info, COLOR color);
 
   /**
    *@fn Node& getBlockInfo(int blockId);
@@ -33,22 +33,24 @@ class BingoArea {
    *@param　 blockId ブロック番号
    *@return Nodeの参照
    */
-  Node& getBlockInfo(int blockId);
+  Node& getBlockInfo(BLOCK_ID blockId);
 
+  BlockCircle& getBlockCircleInfo(CIRCLE_ID circleId);
+  CrossCircle& getCrossCircleInfo(int index);
   /**
    *@fn void setBingoArea();
-   *@brief ビンゴエリア情報をセットする
+   *@brief APIから取得した情報を基にビンゴエリア情報を初期化する
    */
-  void setBingoArea();
+  void initBingoArea();
 
   // for Test
   //セットできているか表示するために設けた
   void printinfo();
 
-  std::array<CrossCircle, 16> leftCrossCircle;   // Lコースの交点サークル情報
-  std::array<BlockCircle, 8> leftBlockCircle;    // Lコースのブロックサークル情報
-  std::array<CrossCircle, 16> rightCrossCircle;  // Rコースの交点サークル情報
-  std::array<BlockCircle, 8> rightBlockCircle;   // Rコースのブロックサークル情報
+ private:
+  std::array<CrossCircle, 16> crossCircle;  // 交点サークル情報
+  std::array<BlockCircle, 8> blockCircle;   // ブロックサークル情報
+  CenterMark centerMark;                    //センターマーク情報
   Measurer measurer;
 };
 #endif
