@@ -13,7 +13,7 @@
 
 class ToCrossMotion : public BingoMotion {
  public:
-  ToCrossMotion(LineTracer _lineTracer);
+  ToCrossMotion(LineTracer& _lineTracer);
 
   /**
    * @brief 交点間を移動する

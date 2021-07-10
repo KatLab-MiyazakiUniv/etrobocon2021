@@ -6,7 +6,7 @@
 
 #include "ToCrossMotion.h"
 
-ToCrossMotion::ToCrossMotion(LineTracer _lineTracer) : lineTracer(_lineTracer) {}
+ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
 
 void ToCrossMotion::runToCross(void)
 {

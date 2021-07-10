@@ -6,7 +6,7 @@
 
 #include "InCrossMotion.h"
 
-InCrossMotion::InCrossMotion(LineTracer _lineTracer) : lineTracer(_lineTracer) {}
+InCrossMotion::InCrossMotion(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
 
 void InCrossMotion::runForward(void)
 {
@@ -21,7 +21,7 @@ void InCrossMotion::runBack(void)
 {
   double targetDistance = 35.0;
   int runPwm = 5;
-  //int angle = 180;
+  // int angle = 180;
   int angle = 85;
   int rotatePwm = 10;
 
