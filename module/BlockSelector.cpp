@@ -6,45 +6,29 @@
 
 #include "BlockSelector.h"
 
-BlockSelector::BlockSelctor()
-  : arrivableBlocks({
-      true,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-  }),
-    arrivableCircles({
-        true,
-        true,
-        false,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-    })
+BlockSelector::BlockSelector(BingoArea& bingoArea)
+  : bingoArea(bingoArea),
+    arrivableBlocks{ T, F, T, T, T, F, F, F },
+    arrivableCircles{
+      T, T, F, T, T, F, F, F, F,
+    }
 {
-  carriedBlocks.fill(false);
-};
+}
 
-BlockNumber BlockSelctor::selectBlockNumber()
+BlockId BlockSelector::selectBlockId()
 {
   int i;
-  BlockNumber bestBlockNumber;
+  BlockId bestBlockId;
   int minDist = 100;
   int maxCrossLine = 0;
   int maxDirectPoint = -1;
+  Robot robot;
 
   for(i = 0; i < BLOCK_LENGTH; i++) {
-    // 運搬済みだった場合
-    if(carriedBlocks[i]) continue;
+    BlockId blockNumber = static_cast<BlockId>(i);
 
-    BlockNumber blockNumber = static_cast<BlockNumber>(i);
+    // 運搬済みだった場合
+    if(isCarriedBlock(blockNumber)) continue;
 
     // 取得可能ブロックの判定
     if(!arrivableBlocks[i]) continue;
@@ -57,26 +41,26 @@ BlockNumber BlockSelctor::selectBlockNumber()
     if(!(arrivableCircles[targetCircle] || OPEN_CIRCLE[i][targetCircle])) continue;
 
     // ブロックを取りに行く距離(ここで計算)+ブロックを運ぶ距離(DestinationListから取得)　の和を計算
-    Block targetBlock = bingoArea.getBlockInfo();
-    Coordinate runnerCoord = runningInfo.getCoordinate();
-    int distance = std::abs(runnerCoord.x - targetBlock.coordinate.x)
-                   - std::abs(runnerCoord.y - targetBlock.coordinate.y);
+    &Node targetBlock = bingoArea.getBlockInfo();
+    Coordinate robotCoord = robot.getCoordinate();
+    int distance = std::abs(robotCoord.x - targetBlock.coordinate.x)
+                   - std::abs(robotCoord.y - targetBlock.coordinate.y);
     if(distance > minDist) continue;
     minDist = distance;
 
     // 運ぶブロックがある場所に交わっている黒線の数を取得(BingoAreaから取得)
-    CrossCircle crossCircle = bingoArea.get_____Info();
+    CrossCircle crossCircle = bingoArea.getEdgeNumber();
     if(crossCircle.crossLine < maxCrossLine) continue;
     maxCrossLine = crossCircle.crossLine;
 
     // 走行体の向きの進路を優先する(RunningInfoから取得)
     // 走行体の進行方向
-    Direction runnerDirection = runningInfo.getDirection();
-    int rdx = static_cast<int>(runnerDirection) % 3 - 1;  // dx 1,0,-1
-    int rdy = static_cast<int>(runnerDirection) / 3 - 1;  // dy 1,0,-1
+    Direction robotDirection = robot.getDirection();
+    int rdx = static_cast<int>(robotDirection) % 3 - 1;  // dx 1,0,-1
+    int rdy = static_cast<int>(robotDirection) / 3 - 1;  // dy 1,0,-1
     // 目標ブロックへの方向
-    int dx = runnerCoord.x - targetBlock.coordinate.x;
-    int dy = runnerCoord.y - targetBlock.coordinate.y;
+    int dx = robotCoord.x - targetBlock.coordinate.x;
+    int dy = robotCoord.y - targetBlock.coordinate.y;
     int directPoint = 0;
     if(dy * rdy > 0) directPoint++;  // yの進行方向が合致していれば、評価を上げる
     if(dx * rdx > 0) directPoint++;  // xの進行方向が合致していれば、評価を上げる
@@ -84,11 +68,16 @@ BlockNumber BlockSelctor::selectBlockNumber()
     maxDirectPoint = directPoint;
 
     // ここまで、同じであれば、処理順
-    bestBlockNumber = blockNumber;
+    bestBlockId = blockNumber;
   }
 
-  // この時点で「運搬済み」とするべき？
-  // carriedBlocks[static_cast<int>(bestBlockNumber)] = true;
+  return bestBlockId;
+}
 
-  return bestBlockNumber;
+// 指定されたブロックが運搬済みかを判定する
+bool BlockSelector::isCarriedBlock(BlockNumber blockNumber)
+{
+  Block block = bingoArea.getBlockInfo(blockNumber);
+  Coordinate coord = block.getCoorinate();
+  return (coord.x % 2 == 1 && coord.y % 2 == 1);
 }
