@@ -8,41 +8,7 @@
 #define ROBOT_H
 
 #include "ColorJudge.h"
-/* // 実際
-#include "BingoArea.h"
-/*/ // テスト用仮環境
-
-struct Coordinate {
-  int x;
-  int y;
-};
-
-enum class BlockId : int {
-  B_0 = 0,
-  B_1 = 1,
-  B_2 = 2,
-  B_3 = 3,
-  B_4 = 4,
-  B_5 = 5,
-  B_6 = 6,
-  B_7 = 7,
-};
-const int BLOCK_LENGTH = 8;
-
-enum class CircleNumber : int {
-  C_0 = 0,
-  C_1 = 1,
-  C_2 = 2,
-  C_3 = 3,
-  C_4 = 4,
-  C_5 = 5,
-  C_6 = 6,
-  C_7 = 7,
-  C_8 = 8,
-};
-const int CIRCLE_LENGTH = 9;
-// 仮環境終了
-//*/
+#include "BingoAreaMock.h"
 
 /*
 |NW|N|NE|      |6|7|8|

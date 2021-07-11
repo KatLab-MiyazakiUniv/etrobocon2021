@@ -17,50 +17,39 @@
 
 class BlockSelector {
  public:
-  BlockSelector(BingoArea& bingoArea);
+  /**
+   * コンストラクタ
+   */
+  BlockSelector(BingoArea& _bingoArea);
 
   /**
    * 運搬するブロックのIdを返す
    * @return ブロックのId
    */
-  BlockId selectBlockId();
+  BLOCK_ID selectBlock();
 
  private:
+  BingoArea& bingoArea;
+  DestinationList destinationList;
+
+  // 運搬可能ブロック
+  std::array<bool, static_cast<int>(BLOCK_ID::SIZE)> arrivableBlocks;
+  // 到着可能サークル
+  std::array<bool, static_cast<int>(CIRCLE_ID::SIZE)> arrivableCircles;
+
+  // ブロックがなくなった際、到着可能になるサークル
+  std::array<std::array<bool, static_cast<int>(CIRCLE_ID::SIZE)>, static_cast<int>(BLOCK_ID::SIZE)>
+      OPEN_CIRCLE_ID;
+
+  // ブロックがなくなった際、運搬可能になるブロック
+  std::array<std::array<bool, static_cast<int>(BLOCK_ID::SIZE)>, static_cast<int>(BLOCK_ID::SIZE)>
+      OPEN_BLOCK_ID;
+
   /**
    * ブロックが運搬済みかを判定する
    * @return 運搬済み(true) | 未運搬(false)
    */
-  bool isCarriedBlock(BlockNumber blockNumber);
-
-  // 運搬可能ブロック
-  std::array<bool, BLOCK_LENGTH> arrivableBlocks;
-  // 到着可能サークル
-  std::array<bool, CIRCLE_LENGTH> arrivableCircles;
-
-  // ブロックがなくなった際、到着可能になるサークル
-  static constexpr std::array<std::array<bool, CIRCLE_LENGTH>, BLOCK_LENGTH> OPEN_CIRCLE = { {
-      { T, T, T, T, T, F, F, F, F },
-      { F, T, T, F, F, T, F, F, F },
-      { T, T, F, T, T, F, T, F, F },
-      { T, T, T, T, T, T, F, T, T },
-      { T, T, F, T, T, T, T, T, T },
-      { F, F, T, F, T, T, F, T, T },
-      { F, F, F, T, F, F, T, T, F },
-      { F, F, F, F, T, T, T, T, T },
-  } };
-
-  // ブロックがなくなった際、運搬可能になるブロック
-  static constexpr std::array<std::array<bool, BLOCK_LENGTH>, BLOCK_LENGTH> OPEN_BLOCK = { {
-      { T, T, T, T, T, F, F, F },
-      { T, T, F, T, F, T, F, F },
-      { T, F, T, T, T, F, T, F },
-      { T, T, T, T, T, T, F, T },
-      { T, F, T, T, T, T, T, T },
-      { F, T, F, T, T, T, F, T },
-      { F, F, T, F, T, F, T, T },
-      { F, F, F, T, T, T, T, T },
-  } };
-
-  BingoArea& bingoArea;
+  bool isCarriedBlock(BLOCK_ID blockNumber);
 };
+
 #endif
