@@ -9,68 +9,85 @@ BingoArea::BingoArea()
 {
   int index = 0, index2 = 0;  //交点サークルの番号、ブロックサークルの番号
   //交点サークルの座標、サークルの色、黒線の本数をセット
-  for(int i = 0; i < 4; i++) {
-    for(int j = 0; j < 4; j++) {
+  for(int i = 0; i < 7; i += 2) {
+    for(int j = 0; j < 7; j += 2) {
       COLOR initCircleColor = COLOR::NONE;
       int initEfgeNumber = 0;
-      if((i == 0 && j == 0) || (i == 0 && j == 3) || (i == 3 && j == 0) || (i == 3 && j == 3)) {
+      if((i == 0 && j == 0) || (i == 0 && j == 6) || (i == 6 && j == 0) || (i == 6 && j == 6)) {
         initEfgeNumber = 2;
-      } else if((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1)
-                || (i == 2 && j == 2)) {
+      } else if((i == 2 && j == 2) || (i == 2 && j == 4) || (i == 4 && j == 2)
+                || (i == 4 && j == 4)) {
         initEfgeNumber = 4;
       } else {
         initEfgeNumber = 3;
       }
-      if(i == 0 || i == 1) {
-        if(j == 0 || j == 1) {
+      if(i == 0 || i == 2) {
+        if(j == 0 || j == 2) {
           initCircleColor = COLOR::RED;
-        } else if(j == 2 || j == 3) {
+        } else if(j == 4 || j == 6) {
           initCircleColor = COLOR::BLUE;
         }
-      } else if(i == 2 || i == 3) {
-        if(j == 0 || j == 1) {
+      } else if(i == 4 || i == 6) {
+        if(j == 0 || j == 2) {
           initCircleColor = COLOR::YELLOW;
-        } else if(j == 2 || j == 3) {
+        } else if(j == 4 || j == 6) {
           initCircleColor = COLOR::GREEN;
         }
       }
-      IS_LEFT_COURSE ? leftCrossCircle[index].setCoordinate(i, j),
-          leftCrossCircle[index].setCicleColor(initCircleColor),
-          leftCrossCircle[index].setEdgeNumber(initEfgeNumber)
-                     : rightCrossCircle[index].setCoordinate(i, j),
-          rightCrossCircle[index].setCicleColor(initCircleColor),
-          rightCrossCircle[index].setEdgeNumber(initEfgeNumber);
+      crossCircle[index].setCoordinate(i, j);
+      crossCircle[index].setCicleColor(initCircleColor);
+      crossCircle[index].setEdgeNumber(initEfgeNumber);
       index++;
     }
   }
+
   //ブロックサークルの座標、サークルの色をセット
-  for(int i = 0; i < 3; i++) {
-    for(int j = 0; j < 3; j++) {
+  CIRCLE_ID id = CIRCLE_ID::ID0;
+  for(int i = 1; i < 6; i += 2) {
+    for(int j = 1; j < 6; j += 2) {
       COLOR initCircleColor = COLOR::NONE;
-      if((i == 0 && j == 0) || (i == 1 && j == 2)) {
+      if(i == 1 && j == 1) {
         initCircleColor = COLOR::YELLOW;
-      } else if((i == 0 && j == 1) || (i == 2 && j == 0)) {
+        id = CIRCLE_ID::ID0;
+      } else if(i == 1 && j == 3) {
         initCircleColor = COLOR::GREEN;
-      } else if((i == 0 && j == 2) || (i == 2 && j == 1)) {
+        id = CIRCLE_ID::ID1;
+      } else if(i == 1 && j == 5) {
         initCircleColor = COLOR::RED;
-      } else if((i == 1 && j == 0) || (i == 2 && j == 2)) {
+        id = CIRCLE_ID::ID2;
+      } else if(i == 3 && j == 1) {
         initCircleColor = COLOR::BLUE;
+        id = CIRCLE_ID::ID3;
+      } else if(i == 3 && j == 5) {
+        initCircleColor = COLOR::YELLOW;
+        id = CIRCLE_ID::ID4;
+      } else if(i == 5 && j == 1) {
+        initCircleColor = COLOR::GREEN;
+        id = CIRCLE_ID::ID5;
+      } else if(i == 5 && j == 3) {
+        initCircleColor = COLOR::RED;
+        id = CIRCLE_ID::ID6;
+      } else if(i == 5 && j == 5) {
+        initCircleColor = COLOR::BLUE;
+        id = CIRCLE_ID::ID7;
       } else {
         continue;
       }
-      IS_LEFT_COURSE ? leftBlockCircle[index2].setCoordinate(i, j),
-          leftBlockCircle[index2].setCicleColor(initCircleColor)
-                     : rightBlockCircle[index2].setCoordinate(i, j),
-          rightBlockCircle[index2].setCicleColor(initCircleColor);
+      blockCircle[index2].setCoordinate(i, j);
+      blockCircle[index2].setCicleColor(initCircleColor);
+      blockCircle[index2].setCircleId(id);
       index2++;
     }
   }
+  centerMark.setCoordinate(3, 3);
+  centerMark.setCicleColor(COLOR::BLACK);
 }
 
-void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
+void BingoArea::setBlockInfo(int info, COLOR color)
 {
-  int index = 0, index2 = 0;
-  if(info >= 65 && info <= 83) {
+  int index = 0;
+  BLOCK_ID blockId = BLOCK_ID::ID0;
+  if(info >= 65 && info <= 83 && info != 73 && info != 78 && info != 79) {
     //交点サークルの場合
     switch(info) {
       case 65:  // Aのとき
@@ -78,21 +95,25 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
         break;
       case 66:  // Bのとき
         index = IS_LEFT_COURSE ? 1 : 2;
+        blockId = BLOCK_ID ::ID0;
         break;
       case 67:  // Cのとき
         index = IS_LEFT_COURSE ? 2 : 1;
         break;
       case 68:  // Dのとき
         index = IS_LEFT_COURSE ? 3 : 0;
+        blockId = BLOCK_ID ::ID1;
         break;
       case 69:  // Eのとき
         index = IS_LEFT_COURSE ? 4 : 7;
+        blockId = BLOCK_ID ::ID2;
         break;
       case 70:  // Fのとき
         index = IS_LEFT_COURSE ? 5 : 6;
         break;
       case 71:  // Gのとき
         index = IS_LEFT_COURSE ? 6 : 5;
+        blockId = BLOCK_ID ::ID3;
         break;
       case 72:  // Hのとき
         index = IS_LEFT_COURSE ? 7 : 4;
@@ -102,114 +123,96 @@ void BingoArea::setBlockInfo(int info, int blockId, COLOR color)
         break;
       case 75:  // Kのとき
         index = IS_LEFT_COURSE ? 9 : 10;
+        blockId = BLOCK_ID ::ID4;
         break;
       case 76:  // Lのとき
         index = IS_LEFT_COURSE ? 10 : 9;
         break;
       case 77:  // Mのとき
         index = IS_LEFT_COURSE ? 11 : 8;
+        blockId = BLOCK_ID ::ID5;
         break;
       case 80:  // Pのとき
         index = IS_LEFT_COURSE ? 12 : 15;
+        blockId = BLOCK_ID ::ID6;
         break;
       case 81:  // Qのとき
         index = IS_LEFT_COURSE ? 13 : 14;
         break;
       case 82:  // Rのとき
         index = IS_LEFT_COURSE ? 14 : 13;
+        blockId = BLOCK_ID ::ID7;
         break;
       case 83:  // Sのとき
         index = IS_LEFT_COURSE ? 15 : 12;
         break;
+      default:
+        index = -1;
     }
-    IS_LEFT_COURSE ? leftCrossCircle[index].setBlock(blockId, color)
-                   : rightCrossCircle[index].setBlock(blockId, color);
-  } else if(info >= 49 && info <= 57) {
-    //ブロックサークルの場合
-    switch(info) {
-      case 49:  // 1のとき
-        index2 = IS_LEFT_COURSE ? 0 : 2;
-        break;
-      case 50:  // 2のとき
-        index2 = IS_LEFT_COURSE ? 1 : 1;
-        break;
-      case 51:  // 3のとき
-        index2 = IS_LEFT_COURSE ? 2 : 0;
-        break;
-      case 52:  // 4のとき
-        index2 = IS_LEFT_COURSE ? 3 : 4;
-        break;
-      case 53:  // 5のとき
-        index2 = IS_LEFT_COURSE ? 4 : 3;
-        break;
-      case 54:  // 6のとき
-        index2 = IS_LEFT_COURSE ? 5 : 7;
-        break;
-      case 55:  // 7のとき
-        index2 = IS_LEFT_COURSE ? 6 : 6;
-        break;
-      case 56:  // 8のとき
-        index2 = IS_LEFT_COURSE ? 7 : 5;
-        break;
-    }
-    IS_LEFT_COURSE ? leftBlockCircle[index2].setBlock(blockId, color)
-                   : rightBlockCircle[index2].setBlock(blockId, color);
+    crossCircle[index].setBlock(blockId, color);
+  } else {
+    //ブロックサークル以外の番号が来たときは何もしない
   }
 }
 
-void BingoArea::setBingoArea()
+void BingoArea::initBingoArea()
 {
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_RED1), 2,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_RED1),
                COLOR::RED);  //赤ブロック1を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_RED2), 5,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_RED2),
                COLOR::RED);  //赤ブロック2を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1), 0,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1),
                COLOR::YELLOW);  //黄ブロック1を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2), 4,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2),
                COLOR::YELLOW);  //黄ブロック2を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1), 1,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1),
                COLOR::BLUE);  //青ブロック1を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2), 7,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2),
                COLOR::BLUE);  //青ブロック2を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1), 3,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1),
                COLOR::GREEN);  //緑ブロック1を設置
-  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2), 6,
+  setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2),
                COLOR::GREEN);  //緑ブロック2を設置
 }
 
-Node& BingoArea::getBlockInfo(int blockId)
+void BingoArea::moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid)
 {
-  for(int i = 0; i < 16; i++) {
-    if(IS_LEFT_COURSE) {
-      if(leftCrossCircle[i].getBlock().blockId == blockId) {
-        return leftCrossCircle[i];
-      }
-    } else {
-      if(rightCrossCircle[i].getBlock().blockId == blockId) {
-        return rightCrossCircle[i];
-      }
-    }
-  }
-  for(int i = 0; i < 8; i++) {
-    if(IS_LEFT_COURSE) {
-      if(leftBlockCircle[i].getBlock().blockId == blockId) {
-        return leftBlockCircle[i];
-      }
-    } else {
-      if(rightBlockCircle[i].getBlock().blockId == blockId) {
-        return rightBlockCircle[i];
-      }
-    }
+  if(blockCircle[static_cast<int>(circleid)].getBlock().blockId == BLOCK_ID::NONE) {
+    COLOR blockColor = getBlockInfo(blockid).getBlock().blockColor;
+    //移動元のブロック情報を変更
+    getBlockInfo(blockid).setBlock(BLOCK_ID::NONE, COLOR::NONE);
+    //移動先のブロック情報を変更
+    blockCircle[static_cast<int>(circleid)].setBlock(blockid, blockColor);
   }
 }
 
-// for Test
-// x座標　y座標　ブロックの色　サークルの色 黒線の本数
-void BingoArea::printinfo()
+Node& BingoArea::getBlockInfo(BLOCK_ID blockId)
 {
-  for(int i = 0; i < 8; i++) {
-    printf("%d %d %d %d\n", leftBlockCircle[i].getCoordinate().x,
-           leftBlockCircle[i].getCoordinate().y, leftBlockCircle[i].getBlock().blockColor,
-           leftBlockCircle[i].getCircleColor());
+  for(int i = 0; i < static_cast<int>(crossCircle.size()); i++) {
+    if(crossCircle[i].getBlock().blockId == blockId) {
+      return crossCircle[i];
+    }
   }
+  for(int i = 0; i < static_cast<int>(blockCircle.size()); i++) {
+    if(blockCircle[i].getBlock().blockId == blockId) {
+      return blockCircle[i];
+    }
+  }
+  //交点サークルにもブロックサークルにも置かれていない時
+  return centerMark;
+}
+
+BlockCircle& BingoArea::getBlockCircleInfo(CIRCLE_ID circleId)
+{
+  return blockCircle[static_cast<int>(circleId)];
+}
+
+CrossCircle& BingoArea::getCrossCircleInfo(int index)
+{
+  return crossCircle[index];
+}
+
+CenterMark& BingoArea::getCenterMarkInfo()
+{
+  return centerMark;
 }

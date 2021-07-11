@@ -16,14 +16,14 @@ class CrossCircle : public Node {
   /**
    *@fn int setEdgeNumber(int num);
    *@brief　黒線の数をセットする
-   *@param 黒線の本数[int]
+   *@param num 黒線の本数
    */
   void setEdgeNumber(int num);
 
   /**
    *@fn int getEdgeNumber(Coordinate info);
    *@brief　黒線の数を取得する
-   *@return 黒線の本数[int]
+   *@return 黒線の本数
    */
   int getEdgeNumber();
 

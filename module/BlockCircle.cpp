@@ -6,3 +6,13 @@
 
 #include "BlockCircle.h"
 BlockCircle::BlockCircle() : Node(){};
+
+void BlockCircle::setCircleId(CIRCLE_ID id)
+{
+  circleId = id;
+}
+
+CIRCLE_ID BlockCircle::getCircleId()
+{
+  return circleId;
+}

@@ -6,11 +6,11 @@
 
 #include "Node.h"
 
-Block::Block(COLOR blockColor, int blockId) : blockColor(blockColor), blockId(blockId){};
+Block::Block(COLOR blockColor, BLOCK_ID blockId) : blockColor(blockColor), blockId(blockId){};
 
 Coordinate::Coordinate(int x, int y) : x(x), y(y){};
 
-Node::Node(int x, int y, COLOR circleColor, int blockId, COLOR blockColor)
+Node::Node(int x, int y, COLOR circleColor, BLOCK_ID blockId, COLOR blockColor)
   : blockCoordinate(x, y), block(blockColor, blockId), circleColor(circleColor){};
 
 void Node::setCoordinate(int x, int y)
@@ -19,7 +19,7 @@ void Node::setCoordinate(int x, int y)
   blockCoordinate.y = y;
 }
 
-void Node::setBlock(int _blockId, COLOR _blockColor)
+void Node::setBlock(BLOCK_ID _blockId, COLOR _blockColor)
 {
   block.blockId = _blockId;
   block.blockColor = _blockColor;
