@@ -27,14 +27,7 @@ void InCrossMotion::runBack(void)
 
   //直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
-  // //180度回頭する
-  // rotation.rotateLeft(angle, rotatePwm);
-  // //エッジを逆にする
-  // if(lineTracer.getIsLeftEdge()) {
-  //   lineTracer.setIsLeftEdge(false);
-  // } else {
-  //   lineTracer.setIsLeftEdge(true);
-  // }
+
   if(lineTracer.getIsLeftEdge()) {
     // 90度回頭する
     rotation.rotateRight(angle, rotatePwm);
