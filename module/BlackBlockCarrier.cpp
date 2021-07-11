@@ -8,41 +8,38 @@
 void BlackBlockCarrier::carryBlackBlock()
 {
   bool _isLeftEdge;
-  int runPwm = 50;
-  int anglePwm = 40;
-  int blackAngle = 90;
+  int runPwm = 55;
+  int anglePwm = 15;
+  int blackAngle = 85;
   int targetBrightness = 12;
   double circleDistance = 150.0;
-  double firstBlackDistance = 450.0;
-  double secondBlackDistance = 700.0;
-  PidGain gain(1.2, 0.9, 0.9);
-  PidGain rungain(0.5, 0.5, 0.5);
+  double firstBlackDistance = 710.0;
+  double secondBlackDistance = 680.0;
+  PidGain gain(2.5, 1.2, 1.5);
+  PidGain rungain(1.5, 1, 1.3);
   Rotation rotation;
   StraightRunner straightrunner;
-  LineTracer linetracer(true);
-
+  LineTracer linetracer(false);
   //青の線を通過
-  straightrunner.runStraightToDistance(300, runPwm);
+  straightrunner.runStraightToDistance(310, runPwm);
   //青の線まで
-  linetracer.runToColor(11, runPwm, gain);
+  linetracer.runToColor(12, runPwm, gain);
   //青の線を通過
-  straightrunner.runStraightToDistance(300, runPwm);
+  straightrunner.runStraightToDistance(200, runPwm);
   //黄色の円まで
   linetracer.runToColor(targetBrightness, 60, rungain);
   //黄色の円を通過
   straightrunner.runStraightToDistance(circleDistance, 60);
   //緑の円まで
   linetracer.runToColor(targetBrightness, 60, rungain);
-  //右に９０度ターン
-  rotation.turnForwardRightPivot(blackAngle, anglePwm);
-  //黒のラインまで直進
-  straightrunner.runStraightToDistance(100, 60);
-  //赤の円まで
-  linetracer.runToColor(targetBrightness, 60, rungain);
+  //緑の円の中心まで移動
+  straightrunner.runStraightToDistance(60, 30);
+  //右に９０度回頭
+  rotation.rotateRight(blackAngle, anglePwm);
   //目標の奥行まで直進
   straightrunner.runStraightToDistance(firstBlackDistance, 60);
-  //右に９０度ターン
-  rotation.turnForwardRightPivot(95, anglePwm);
+  //右に９０度ピボットターン
+  rotation.turnForwardRightPivot(100, 40);
   //ビンゴの中心まで直進
-  straightrunner.runStraightToDistance(secondBlackDistance, 60);
+  straightrunner.runStraightToDistance(secondBlackDistance, 50);
 }
