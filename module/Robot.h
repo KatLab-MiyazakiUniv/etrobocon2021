@@ -8,7 +8,6 @@
 #define ROBOT_H
 
 #include "ColorJudge.h"
-#include "BingoAreaMock.h"
 
 /*
 |NW|N|NE|      |6|7|8|
