@@ -11,6 +11,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute1)
   {
     BingoArea bingoArea;
+    bingoArea.initBingoArea();
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
@@ -26,6 +27,7 @@ namespace etrobocon2021_test {
     };
 
     // 初期化
+    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getBlockInfo(blockId).setBlock(blockId, initBlockColor[i]);
@@ -38,29 +40,35 @@ namespace etrobocon2021_test {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
       CIRCLE_ID targetCircleId = destinationList.getDestination(targetBlockId);
+      // 正誤判定
       EXPECT_EQ(expecteds[i], targetBlockId);
 
-      // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
           = bingoArea.getBlockInfo(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
           = bingoArea.getBlockCircleInfo(targetCircleId).getCoordinate();  // 運搬先の座標
 
+      // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
+      // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
+      // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
-      // 座標の更新
+      // 走行体の座標を更新
       Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
-      // 進行方向の更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      // 走行体の進行方向を更新
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+
+      // 運搬されたものとして、ブロックの座標を更新する
+      bingoArea.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute2)
   {
     BingoArea bingoArea;
+    bingoArea.initBingoArea();
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
@@ -71,11 +79,12 @@ namespace etrobocon2021_test {
 
     // 手計算で求めた運搬ブロックの順番
     BLOCK_ID expecteds[B_SIZE] = {
-      BLOCK_ID::ID4, BLOCK_ID::ID2, BLOCK_ID::ID3, BLOCK_ID::ID5,
-      BLOCK_ID::ID1, BLOCK_ID::ID0, BLOCK_ID::ID7, BLOCK_ID::ID6,
+      BLOCK_ID::ID4, BLOCK_ID::ID2, BLOCK_ID::ID3, BLOCK_ID::ID0,
+      BLOCK_ID::ID1, BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6,
     };
 
     // 初期化
+    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getBlockInfo(blockId).setBlock(blockId, initBlockColor[i]);
@@ -88,29 +97,35 @@ namespace etrobocon2021_test {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
       CIRCLE_ID targetCircleId = destinationList.getDestination(targetBlockId);
+      // 正誤判定
       EXPECT_EQ(expecteds[i], targetBlockId);
 
-      // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
           = bingoArea.getBlockInfo(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
           = bingoArea.getBlockCircleInfo(targetCircleId).getCoordinate();  // 運搬先の座標
 
+      // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
+      // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
+      // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
-      // 座標の更新
+      // 走行体の座標を更新
       Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
-      // 進行方向の更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      // 走行体の進行方向を更新
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+
+      // 運搬されたものとして、ブロックの座標を更新する
+      bingoArea.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute3)
   {
     BingoArea bingoArea;
+    bingoArea.initBingoArea();
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
@@ -126,6 +141,7 @@ namespace etrobocon2021_test {
     };
 
     // 初期化
+    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getBlockInfo(blockId).setBlock(blockId, initBlockColor[i]);
@@ -138,29 +154,35 @@ namespace etrobocon2021_test {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
       CIRCLE_ID targetCircleId = destinationList.getDestination(targetBlockId);
+      // 正誤判定
       EXPECT_EQ(expecteds[i], targetBlockId);
 
-      // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
           = bingoArea.getBlockInfo(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
           = bingoArea.getBlockCircleInfo(targetCircleId).getCoordinate();  // 運搬先の座標
 
+      // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
+      // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
+      // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
-      // 座標の更新
+      // 走行体の座標を更新
       Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
-      // 進行方向の更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      // 走行体の進行方向を更新
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+
+      // 運搬されたものとして、ブロックの座標を更新する
+      bingoArea.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute4)
   {
     BingoArea bingoArea;
+    bingoArea.initBingoArea();
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
@@ -176,6 +198,7 @@ namespace etrobocon2021_test {
     };
 
     // 初期化
+    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getBlockInfo(blockId).setBlock(blockId, initBlockColor[i]);
@@ -188,29 +211,35 @@ namespace etrobocon2021_test {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
       CIRCLE_ID targetCircleId = destinationList.getDestination(targetBlockId);
+      // 正誤判定
       EXPECT_EQ(expecteds[i], targetBlockId);
 
-      // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
           = bingoArea.getBlockInfo(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
           = bingoArea.getBlockCircleInfo(targetCircleId).getCoordinate();  // 運搬先の座標
 
+      // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
+      // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
+      // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
-      // 座標の更新
+      // 走行体の座標を更新
       Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
-      // 進行方向の更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      // 走行体の進行方向を更新
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+
+      // 運搬されたものとして、ブロックの座標を更新する
+      bingoArea.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute5)
   {
     BingoArea bingoArea;
+    bingoArea.initBingoArea();
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
@@ -222,10 +251,11 @@ namespace etrobocon2021_test {
     // 手計算で求めた運搬ブロックの順番
     BLOCK_ID expecteds[B_SIZE] = {
       BLOCK_ID::ID4, BLOCK_ID::ID3, BLOCK_ID::ID2, BLOCK_ID::ID0,
-      BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID1, BLOCK_ID::ID6,
+      BLOCK_ID::ID7, BLOCK_ID::ID5, BLOCK_ID::ID1, BLOCK_ID::ID6,
     };
 
     // 初期化
+    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getBlockInfo(blockId).setBlock(blockId, initBlockColor[i]);
@@ -238,23 +268,28 @@ namespace etrobocon2021_test {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
       CIRCLE_ID targetCircleId = destinationList.getDestination(targetBlockId);
+      // 正誤判定
       EXPECT_EQ(expecteds[i], targetBlockId);
 
-      // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
           = bingoArea.getBlockInfo(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
           = bingoArea.getBlockCircleInfo(targetCircleId).getCoordinate();  // 運搬先の座標
 
+      // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
+      // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
+      // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
-      // 座標の更新
+      // 走行体の座標を更新
       Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
-      // 進行方向の更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      // 走行体の進行方向を更新
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+
+      // 運搬されたものとして、ブロックの座標を更新する
+      bingoArea.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
