@@ -7,13 +7,13 @@
 #ifndef BLOCK_SELECTOR_H
 #define BLOCK_SELECTOR_H
 
-#define T true
-#define F false
-
 #include <array>
 #include "BingoArea.h"
 #include "DestinationList.h"
 #include "Robot.h"
+
+const bool T = true;
+const bool F = false;
 
 class BlockSelector {
  public:
@@ -49,7 +49,7 @@ class BlockSelector {
    * ブロックが運搬済みかを判定する
    * @return 運搬済み(true) | 未運搬(false)
    */
-  bool isCarriedBlock(BLOCK_ID blockNumber);
+  bool isCarriedBlock(BLOCK_ID blockId);
 };
 
 #endif
