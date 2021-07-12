@@ -32,8 +32,6 @@ namespace etrobocon2021_test {
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    /*
-    Robot robot;
     DestinationList destinationList(bingoArea);
     BlockSelector blockSelector(bingoArea);
     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -54,11 +52,10 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 座標の更新
-      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 進行方向の更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
     }
-    //*/
   }
 
   TEST(selectBlockTest, selectBlockRoute2)
@@ -85,8 +82,6 @@ namespace etrobocon2021_test {
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    /*
-    Robot robot;
     DestinationList destinationList(bingoArea);
     BlockSelector blockSelector(bingoArea);
     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -107,11 +102,10 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 座標の更新
-      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 進行方向の更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
     }
-    //*/
   }
 
   TEST(selectBlockTest, selectBlockRoute3)
@@ -138,8 +132,6 @@ namespace etrobocon2021_test {
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    /*
-    Robot robot;
     DestinationList destinationList(bingoArea);
     BlockSelector blockSelector(bingoArea);
     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -160,11 +152,10 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 座標の更新
-      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 進行方向の更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
     }
-    //*/
   }
 
   TEST(selectBlockTest, selectBlockRoute4)
@@ -191,8 +182,6 @@ namespace etrobocon2021_test {
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    /*
-    Robot robot;
     DestinationList destinationList(bingoArea);
     BlockSelector blockSelector(bingoArea);
     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -213,11 +202,10 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 座標の更新
-      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 進行方向の更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
     }
-    //*/
   }
 
   TEST(selectBlockTest, selectBlockRoute5)
@@ -244,8 +232,6 @@ namespace etrobocon2021_test {
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    /*
-    Robot robot;
     DestinationList destinationList(bingoArea);
     BlockSelector blockSelector(bingoArea);
     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -266,11 +252,10 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 座標の更新
-      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 進行方向の更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
+      Robot::setDirection(static_cast<Direction>((dx + 1) + (1 - dy) * 3));
     }
-    //*/
   }
 
 }  // namespace etrobocon2021_test

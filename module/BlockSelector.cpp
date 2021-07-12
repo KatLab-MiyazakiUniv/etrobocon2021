@@ -41,7 +41,6 @@ BLOCK_ID BlockSelector::selectBlock()
   int minDist = 100;
   int maxCrossLine = 0;
   int maxDirectPoint = -1;
-  Robot& robot = Robot::getInstance();
 
   for(i = 0; i < static_cast<int>(BLOCK_ID::SIZE); i++) {
     BLOCK_ID blockNumber = static_cast<BLOCK_ID>(i);
@@ -61,7 +60,7 @@ BLOCK_ID BlockSelector::selectBlock()
 
     // ブロックを取りに行く距離(ここで計算)+ブロックを運ぶ距離(DestinationListから取得)　の和を計算
     Node& targetBlock = bingoArea.getBlockInfo(blockNumber);
-    Coordinate robotCoord = robot.getCoordinate();
+    Coordinate robotCoord = Robot::getCoordinate();
     int distance = std::abs(robotCoord.x - targetBlock.getCoordinate().x)
                    - std::abs(robotCoord.y - targetBlock.getCoordinate().y);
     if(distance > minDist) continue;
@@ -74,7 +73,7 @@ BLOCK_ID BlockSelector::selectBlock()
 
     // 走行体の向きの進路を優先する(RunningInfoから取得)
     // 走行体の進行方向
-    Direction robotDirection = robot.getDirection();
+    Direction robotDirection = Robot::getDirection();
     int rdx = static_cast<int>(robotDirection) % 3 - 1;  // dx 1,0,-1
     int rdy = static_cast<int>(robotDirection) / 3 - 1;  // dy 1,0,-1
     // 目標ブロックへの方向
