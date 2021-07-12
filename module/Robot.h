@@ -11,19 +11,19 @@
 #include "BingoArea.h"
 
 /*
-|NW|N|NE|      |6|7|8|
+|NW|N|NE|      |0|1|2|
 | W| | E|  =>  |3|x|5|
-|SW|S|SE|      |0|1|2|
+|SW|S|SE|      |6|7|8|
 */
 enum class Direction : int {
-  N = 7,
-  NE = 8,
+  N = 1,
+  NE = 2,
   E = 5,
-  SE = 2,
-  S = 1,
-  SW = 0,
+  SE = 8,
+  S = 7,
+  SW = 6,
   W = 3,
-  NW = 6,
+  NW = 0,
 };
 
 class Robot {
@@ -32,13 +32,13 @@ class Robot {
    * 走行体の向きの設定
    * @param direction 方向
    */
-  static void setDirection(Direction direction);
+  static void setDirection(Direction _direction);
 
   /**
    * 走行体の座標の設定
    * @param coordinate
    */
-  static void setCoordinate(Coordinate coordinate);
+  static void setCoordinate(Coordinate _coordinate);
 
   /**
    * 走行体の向きの取得
