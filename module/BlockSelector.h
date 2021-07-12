@@ -11,6 +11,7 @@
 #define F false
 
 #include <array>
+#include "BingoArea.h"
 #include "DestinationList.h"
 #include "Robot.h"
 

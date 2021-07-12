@@ -6,13 +6,19 @@
 
 #include "Robot.h"
 //コンストラクタ
-Robot::Robot() {}
+Robot::Robot() : coordinate({ 2, 3 }), direction(Direction::N) {}
+Robot::Robot(const Robot& other) {}
+Robot& Robot::operator=(const Robot& other)
+{
+  return *this;
+}
 
-//走行体の方向の初期化
-Direction Robot::direction = Direction::N;
-
-//走行体の座標の初期化
-Coordinate Robot::coordinate = { 2, 3 };
+//インスタンスを返す
+Robot& Robot::getInstance()
+{
+  static Robot robot;
+  return robot;
+}
 
 void Robot::setDirection(Direction direction){};
 
@@ -29,16 +35,3 @@ Coordinate Robot::getCoordinate()
 {
   return coordinate;
 }
-
-/*
-//シングルトン処理
-Robot::Robot() {}
-Robot::Robot(const Robot& other) {}
-Robot& Robot::operator=(const Robot& other) {}
-
-Robot& Robot::getInstance()
-{
-  static Robot runninginfo;
-  return runninginfo;
-}
-*/

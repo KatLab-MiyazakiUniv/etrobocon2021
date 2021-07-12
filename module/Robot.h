@@ -8,6 +8,7 @@
 #define ROBOT_H
 
 #include "ColorJudge.h"
+#include "BingoArea.h"
 
 /*
 |NW|N|NE|      |6|7|8|
@@ -28,35 +29,45 @@ enum class Direction : int {
 class Robot {
  public:
   /**
+   * インスタンスを返す
+   * @return Robotインスタンス
+   */
+  static Robot& getInstance();
+
+  /**
    * 走行体の向きの設定
    * @param direction 方向
    */
-  static void setDirection(Direction direction);
+  void setDirection(Direction direction);
 
   /**
    * 走行体の座標の設定
    * @param coordinate
    */
-  static void setCoordinate(Coordinate coordinate);
+  void setCoordinate(Coordinate coordinate);
 
   /**
    * 走行体の向きの取得
    * @return 方向
    */
-  static Direction getDirection();
+  Direction getDirection();
 
   /**
    * 走行体の座標の取得
    * @return 座標
    */
-  static Coordinate getCoordinate();
-
-  //コンストラクタ
-  Robot();
+  Coordinate getCoordinate();
 
  private:
-  static Coordinate coordinate;
-  static Direction direction;
+  // コンストラクタ
+  Robot();
+  // コピーコンストラクタ
+  Robot(const Robot& other);
+  // 代入演算子
+  Robot& operator=(const Robot& other);
+
+  Coordinate coordinate;
+  Direction direction;
 };
 
 #endif

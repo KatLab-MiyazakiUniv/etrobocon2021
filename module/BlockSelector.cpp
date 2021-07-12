@@ -10,16 +10,16 @@ BlockSelector::BlockSelector(BingoArea& _bingoArea)
   : bingoArea(_bingoArea),
     destinationList(DestinationList(_bingoArea)),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
-    arrivableCircles{ T, T, F, T, T, F, F, F, F },
+    arrivableCircles{ T, T, F, T, F, F, F, F },
     OPEN_CIRCLE_ID{ {
-        { T, T, T, T, T, F, F, F, F },
-        { F, T, T, F, F, T, F, F, F },
-        { T, T, F, T, T, F, T, F, F },
-        { T, T, T, T, T, T, F, T, T },
-        { T, T, F, T, T, T, T, T, T },
-        { F, F, T, F, T, T, F, T, T },
-        { F, F, F, T, F, F, T, T, F },
-        { F, F, F, F, T, T, T, T, T },
+        { T, T, T, T, F, F, F, F },
+        { F, T, T, F, T, F, F, F },
+        { T, T, F, T, F, T, F, F },
+        { T, T, T, T, T, F, T, T },
+        { T, T, F, T, T, T, T, T },
+        { F, F, T, F, T, F, T, T },
+        { F, F, F, T, F, T, T, F },
+        { F, F, F, F, T, T, T, T },
     } },
     OPEN_BLOCK_ID{ {
         { T, T, T, T, T, F, F, F },
@@ -41,7 +41,7 @@ BLOCK_ID BlockSelector::selectBlock()
   int minDist = 100;
   int maxCrossLine = 0;
   int maxDirectPoint = -1;
-  Robot robot;
+  Robot& robot = Robot::getInstance();
 
   for(i = 0; i < static_cast<int>(BLOCK_ID::SIZE); i++) {
     BLOCK_ID blockNumber = static_cast<BLOCK_ID>(i);
