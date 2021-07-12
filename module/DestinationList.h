@@ -30,7 +30,7 @@ class DestinationList {
   std::array<CIRCLE_ID, static_cast<int>(BLOCK_ID::SIZE)> destinations;
 
   /**
-   * 指定したブロックとサークル間のマンハッタン距離を計算する
+   * 座標間のマンハッタン距離を計算する
    * @param blockCoord ブロックの座標
    * @param circleCoord サークルの座標
    * @return マンハッタン距離
