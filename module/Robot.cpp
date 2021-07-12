@@ -6,9 +6,16 @@
 
 #include "Robot.h"
 
-void Robot::setDirection(Direction direction){};
+void Robot::setDirection(Direction _direction)
+{
+  direction = _direction;
+};
 
-void Robot::setCoordinate(Coordinate Coordinate){};
+void Robot::setCoordinate(Coordinate _coordinate)
+{
+  coordinate.x = _coordinate.x;
+  coordinate.y = _coordinate.y;
+};
 
 //走行体の進行方向を返す関数
 Direction Robot::getDirection()

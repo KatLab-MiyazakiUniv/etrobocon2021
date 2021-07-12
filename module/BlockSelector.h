@@ -32,9 +32,9 @@ class BlockSelector {
   BingoArea& bingoArea;
   DestinationList destinationList;
 
-  // 運搬可能ブロック
+  // 走行体が運びうるブロック
   std::array<bool, static_cast<int>(BLOCK_ID::SIZE)> arrivableBlocks;
-  // 到着可能サークル
+  // 走行体がブロックを運びうるサークル
   std::array<bool, static_cast<int>(CIRCLE_ID::SIZE)> arrivableCircles;
 
   // ブロックがなくなった際、到着可能になるサークル
