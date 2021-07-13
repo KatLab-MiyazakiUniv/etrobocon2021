@@ -1,7 +1,7 @@
 /**
  * @file etroboc_ext.cpp
  * @brief EV3拡張API（ダミー）
- * @author Takahiro55555
+ * @author Takahiro55555,Hisataka-Hagiyama,uchyam
  */
 
 #include "etroboc_ext.h"

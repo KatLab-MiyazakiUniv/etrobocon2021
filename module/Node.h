@@ -9,6 +9,7 @@
 #include "ColorJudge.h"
 
 //サークルID
+// Lコースは左上から、Rコースは右上から順にブロックサークルにID(0~7)を振る
 enum class CIRCLE_ID : int {
   NONE = -1,
   ID0 = 0,
@@ -23,6 +24,7 @@ enum class CIRCLE_ID : int {
 };
 
 //ブロックID
+// Lコースは左上から、Rコースは右上から順にブロックにID(0~7)を振る
 enum class BLOCK_ID : int {
   NONE = -1,
   ID0 = 0,
@@ -76,11 +78,11 @@ class Node {
   void setBlock(BLOCK_ID _blockId, COLOR _blockColor);
 
   /**
-   *@fn void setCicleColor(COLOR color);
+   *@fn void setCircleColor(COLOR color);
    *@brief ノードにサークルの色をセットする
    *@param color サークルの色
    */
-  void setCicleColor(COLOR color);
+  void setCircleColor(COLOR color);
 
   /**
    *@fn Coordinate& getCoordinate();

@@ -21,43 +21,35 @@ class BingoArea {
   BingoArea();
 
   /**
-   *@fn void setBlockInfo(int, COLOR);
-   *@brief　ブロックの情報をセットする
-   *@param info ブロックの位置を表す数字
-   *@param color ブロックの色
-   */
-  void setBlockInfo(int info, COLOR color);
-
-  /**
-   *@fn Node& getBlockInfo(int blockId);
+   *@fn Node& getNode(int blockId);
    *@brief　ブロック番号を指定し、ノードの情報を取得する
    *@param blockId ブロック番号
    *@return Nodeの参照
    */
-  Node& getBlockInfo(BLOCK_ID blockId);
+  Node& getNode(BLOCK_ID blockId);
 
- /**
-   *@fn BlockCircle& getBlockCircleInfo(CIRCLE_ID circleId);
+  /**
+   *@fn BlockCircle& getBlockCircle(CIRCLE_ID circleId);
    *@brief　ブロックサークルIDを指定し、ブロックサークルの情報を取得する
    *@param circleId ブロック番号
    *@return BlockCircleの参照
    */
-  BlockCircle& getBlockCircleInfo(CIRCLE_ID circleId);
+  BlockCircle& getBlockCircle(CIRCLE_ID circleId);
 
-   /**
-   *@fn CrossCircle& getCrossCircleInfo(int index);
+  /**
+   *@fn CrossCircle& getCrossCircle(int index);
    *@brief 添え字を指定し、交点サークルの情報を取得する
    *@param index 添え字
    *@return CrossCircleの参照
    */
-  CrossCircle& getCrossCircleInfo(int index);
+  CrossCircle& getCrossCircle(int index);
 
-   /**
-   *@fn CenterMark& getCenterMarkInfo();
+  /**
+   *@fn CenterMark& getCenterMark();
    *@brief センタマークの情報を取得する
    *@return CenterMarkの参照
    */
-  CenterMark& getCenterMarkInfo();
+  CenterMark& getCenterMark();
 
   /**
    *@fn void setBingoArea();
@@ -78,6 +70,14 @@ class BingoArea {
   std::array<BlockCircle, 8> blockCircle;   // ブロックサークル情報
   CenterMark centerMark;                    //センターマーク情報
   Measurer measurer;
+
+  /**
+   *@fn void setBlockInfo(int, COLOR);
+   *@brief　ブロックの情報をセットする
+   *@param info ブロックの位置を表す数字
+   *@param color ブロックの色
+   */
+  void setBlockInfo(int info, COLOR color);
 };
 
 #endif

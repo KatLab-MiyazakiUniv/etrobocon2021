@@ -7,80 +7,52 @@
 #include "BingoArea.h"
 BingoArea::BingoArea()
 {
-  int index = 0, index2 = 0;  //交点サークルの番号、ブロックサークルの番号
+  //交点サークルにおけるサークルの色の初期値
+  std::array<std::array<COLOR, 4>, 4> crossCircleColor
+      = { { { COLOR::RED, COLOR::RED, COLOR::BLUE, COLOR::BLUE },
+            { COLOR::RED, COLOR::RED, COLOR::BLUE, COLOR::BLUE },
+            { COLOR::YELLOW, COLOR::YELLOW, COLOR::GREEN, COLOR::GREEN },
+            { COLOR::YELLOW, COLOR::YELLOW, COLOR::GREEN, COLOR::GREEN } } };
+
+  //黒線の数の初期値
+  std::array<std::array<int, 4>, 4> initEdgeNumber
+      = { { { 2, 3, 3, 2 }, { 3, 4, 4, 3 }, { 3, 4, 4, 3 }, { 2, 3, 3, 2 } } };
+
+  //ブロックサークルにおけるサークルの色の初期値
+  std::array<COLOR, 8> blockCircleColor{ COLOR::YELLOW, COLOR::GREEN, COLOR::RED, COLOR::BLUE,
+                                         COLOR::YELLOW, COLOR::GREEN, COLOR::RED, COLOR::BLUE };
+
   //交点サークルの座標、サークルの色、黒線の本数をセット
-  for(int i = 0; i < 7; i += 2) {
-    for(int j = 0; j < 7; j += 2) {
-      COLOR initCircleColor = COLOR::NONE;
-      int initEfgeNumber = 0;
-      if((i == 0 && j == 0) || (i == 0 && j == 6) || (i == 6 && j == 0) || (i == 6 && j == 6)) {
-        initEfgeNumber = 2;
-      } else if((i == 2 && j == 2) || (i == 2 && j == 4) || (i == 4 && j == 2)
-                || (i == 4 && j == 4)) {
-        initEfgeNumber = 4;
-      } else {
-        initEfgeNumber = 3;
-      }
-      if(i == 0 || i == 2) {
-        if(j == 0 || j == 2) {
-          initCircleColor = COLOR::RED;
-        } else if(j == 4 || j == 6) {
-          initCircleColor = COLOR::BLUE;
-        }
-      } else if(i == 4 || i == 6) {
-        if(j == 0 || j == 2) {
-          initCircleColor = COLOR::YELLOW;
-        } else if(j == 4 || j == 6) {
-          initCircleColor = COLOR::GREEN;
-        }
-      }
-      crossCircle[index].setCoordinate(i, j);
-      crossCircle[index].setCicleColor(initCircleColor);
-      crossCircle[index].setEdgeNumber(initEfgeNumber);
+  int index = 0, index2 = 0, index3 = 0;
+  for(int y = 0; y < 7; y += 2) {
+    for(int x = 0; x < 7; x += 2) {
+      crossCircle[index].setCoordinate(x, y);
+      crossCircle[index].setCircleColor(crossCircleColor[index2][index3]);
+      crossCircle[index].setEdgeNumber(initEdgeNumber[index2][index3]);
+      index3++;
       index++;
     }
+    index3 = 0;
+    index2++;
   }
 
   //ブロックサークルの座標、サークルの色をセット
-  CIRCLE_ID id = CIRCLE_ID::ID0;
-  for(int i = 1; i < 6; i += 2) {
-    for(int j = 1; j < 6; j += 2) {
-      COLOR initCircleColor = COLOR::NONE;
-      if(i == 1 && j == 1) {
-        initCircleColor = COLOR::YELLOW;
-        id = CIRCLE_ID::ID0;
-      } else if(i == 1 && j == 3) {
-        initCircleColor = COLOR::GREEN;
-        id = CIRCLE_ID::ID1;
-      } else if(i == 1 && j == 5) {
-        initCircleColor = COLOR::RED;
-        id = CIRCLE_ID::ID2;
-      } else if(i == 3 && j == 1) {
-        initCircleColor = COLOR::BLUE;
-        id = CIRCLE_ID::ID3;
-      } else if(i == 3 && j == 5) {
-        initCircleColor = COLOR::YELLOW;
-        id = CIRCLE_ID::ID4;
-      } else if(i == 5 && j == 1) {
-        initCircleColor = COLOR::GREEN;
-        id = CIRCLE_ID::ID5;
-      } else if(i == 5 && j == 3) {
-        initCircleColor = COLOR::RED;
-        id = CIRCLE_ID::ID6;
-      } else if(i == 5 && j == 5) {
-        initCircleColor = COLOR::BLUE;
-        id = CIRCLE_ID::ID7;
-      } else {
+  int index4 = 0, index5 = 0;
+  for(int y = 1; y < 6; y += 2) {
+    for(int x = 1; x < 6; x += 2) {
+      if(x == 3 && y == 3) {
+        centerMark.setCoordinate(x, y);
+        centerMark.setCircleColor(COLOR::BLACK);
+        index5++;
         continue;
       }
-      blockCircle[index2].setCoordinate(i, j);
-      blockCircle[index2].setCicleColor(initCircleColor);
-      blockCircle[index2].setCircleId(id);
-      index2++;
+      blockCircle[index4].setCoordinate(x, y);
+      blockCircle[index4].setCircleColor(blockCircleColor[index4]);
+      blockCircle[index4].setCircleId(static_cast<CIRCLE_ID>(index5));
+      index4++;
+      index5++;
     }
   }
-  centerMark.setCoordinate(3, 3);
-  centerMark.setCicleColor(COLOR::BLACK);
 }
 
 void BingoArea::setBlockInfo(int info, COLOR color)
@@ -178,15 +150,15 @@ void BingoArea::initBingoArea()
 void BingoArea::moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid)
 {
   if(blockCircle[static_cast<int>(circleid)].getBlock().blockId == BLOCK_ID::NONE) {
-    COLOR blockColor = getBlockInfo(blockid).getBlock().blockColor;
+    COLOR blockColor = getNode(blockid).getBlock().blockColor;
     //移動元のブロック情報を変更
-    getBlockInfo(blockid).setBlock(BLOCK_ID::NONE, COLOR::NONE);
+    getNode(blockid).setBlock(BLOCK_ID::NONE, COLOR::NONE);
     //移動先のブロック情報を変更
     blockCircle[static_cast<int>(circleid)].setBlock(blockid, blockColor);
   }
 }
 
-Node& BingoArea::getBlockInfo(BLOCK_ID blockId)
+Node& BingoArea::getNode(BLOCK_ID blockId)
 {
   for(int i = 0; i < static_cast<int>(crossCircle.size()); i++) {
     if(crossCircle[i].getBlock().blockId == blockId) {
@@ -202,17 +174,17 @@ Node& BingoArea::getBlockInfo(BLOCK_ID blockId)
   return centerMark;
 }
 
-BlockCircle& BingoArea::getBlockCircleInfo(CIRCLE_ID circleId)
+BlockCircle& BingoArea::getBlockCircle(CIRCLE_ID circleId)
 {
   return blockCircle[static_cast<int>(circleId)];
 }
 
-CrossCircle& BingoArea::getCrossCircleInfo(int index)
+CrossCircle& BingoArea::getCrossCircle(int index)
 {
   return crossCircle[index];
 }
 
-CenterMark& BingoArea::getCenterMarkInfo()
+CenterMark& BingoArea::getCenterMark()
 {
   return centerMark;
 }

@@ -25,7 +25,7 @@ void Node::setBlock(BLOCK_ID _blockId, COLOR _blockColor)
   block.blockColor = _blockColor;
 }
 
-void Node::setCicleColor(COLOR color)
+void Node::setCircleColor(COLOR color)
 {
   circleColor = color;
 }
