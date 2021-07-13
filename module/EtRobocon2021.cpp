@@ -18,8 +18,7 @@ void EtRobocon2021::start()
 
   //ライントレースエリア攻略開始
   LineTraceArea::runLineTraceArea();
-  //黒ブロック運搬開始
-  BlackBlockCarrier::carryBlackBlock();
+
   //シミュレータへ競技の終了を通知する
   controller.notifyCompletedToSimulator();
 }
