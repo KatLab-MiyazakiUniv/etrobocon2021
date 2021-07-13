@@ -9,8 +9,8 @@ void BlackBlockCarrier::carryBlackBlock()
 {
   bool _isLeftEdge;
   int runPwm = 55;
-  int anglePwm = 15;
-  int blackAngle = 85;
+  int anglePwm = 10;
+  int blackAngle = 82;
   int targetBrightness = 12;
   double circleDistance = 150.0;
   double firstBlackDistance = 710.0;
@@ -39,7 +39,7 @@ void BlackBlockCarrier::carryBlackBlock()
   //目標の奥行まで直進
   straightrunner.runStraightToDistance(firstBlackDistance, 60);
   //右に９０度ピボットターン
-  rotation.turnForwardRightPivot(100, 40);
+  rotation.turnForwardRightPivot(90, 55);
   //ビンゴの中心まで直進
   straightrunner.runStraightToDistance(secondBlackDistance, 50);
 }
