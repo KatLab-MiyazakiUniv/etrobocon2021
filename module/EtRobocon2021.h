@@ -11,7 +11,6 @@
 #include "LineTraceArea.h"
 #include "Measurer.h"
 #include "BlackBlockCarrier.h"
-
 class EtRobocon2021 {
  public:
   static void start();
