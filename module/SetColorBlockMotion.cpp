@@ -26,13 +26,11 @@ void SetColorBlockMotion::throwBlock(bool isLeft)
   //アームを上げる
   while(measurer.getArmMotorCount() < 40) {
     controller.setArmMotorPwm(upArmPwm);
-    printf("%d\n", measurer.getArmMotorCount());
     controller.sleep();
   }
   //アームを戻す
   while(measurer.getArmMotorCount() > -40) {
     controller.setArmMotorPwm(downArmPwm);
-    printf("%d\n", measurer.getArmMotorCount());
     controller.sleep();
   }
   controller.stopArmMotor();

@@ -29,17 +29,17 @@ void Controller::setLeftMotorPwm(const int pwm)
   leftWheel.setPWM(limitPwmValue(pwm));
 }
 
-// PWM値をアームのモータにセット
-void Controller::setArmMotorPwm(const int pwm)
-{
-  armMotor.setPWM(limitPwmValue(pwm));
-}
-
-//モータを停止
+//タイヤのモータを停止
 void Controller::stopMotor()
 {
   leftWheel.stop();
   rightWheel.stop();
+}
+
+// PWM値をアームのモータにセット
+void Controller::setArmMotorPwm(const int pwm)
+{
+  armMotor.setPWM(limitPwmValue(pwm));
 }
 
 //アームのモータを停止

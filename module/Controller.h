@@ -25,12 +25,21 @@ class Controller {
    */
   void setRightMotorPwm(const int pwm);
   void setLeftMotorPwm(const int pwm);
+
+  /**
+   * モータを停止する
+   */
+  void stopMotor();
+
+  /**
+   * アームにPWM値をセット
+   * @param pwm PWM値
+   */
   void setArmMotorPwm(const int pwm);
 
   /**
-   * 停止する
+   * モータを停止する
    */
-  void stopMotor();
   void stopArmMotor();
 
   /**
