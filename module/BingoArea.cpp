@@ -123,7 +123,7 @@ void BingoArea::setBlockInfo(int info, COLOR color)
     }
     crossCircle[index].setBlock(blockId, color);
   } else {
-    //ブロックサークル以外の番号が来たときは何もしない
+    //交点サークル以外の番号が来たときは何もしない
   }
 }
 
