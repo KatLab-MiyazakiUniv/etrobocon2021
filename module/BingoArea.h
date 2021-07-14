@@ -31,7 +31,7 @@ class BingoArea {
   /**
    *@fn BlockCircle& getBlockCircle(CIRCLE_ID circleId);
    *@brief　ブロックサークルIDを指定し、ブロックサークルの情報を取得する
-   *@param circleId ブロック番号
+   *@param circleId ブロックサークルID
    *@return BlockCircleの参照
    */
   BlockCircle& getBlockCircle(CIRCLE_ID circleId);

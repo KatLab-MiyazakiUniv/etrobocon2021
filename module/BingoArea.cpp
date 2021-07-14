@@ -23,34 +23,29 @@ BingoArea::BingoArea()
                                          COLOR::YELLOW, COLOR::GREEN, COLOR::RED, COLOR::BLUE };
 
   //交点サークルの座標、サークルの色、黒線の本数をセット
-  int index = 0, index2 = 0, index3 = 0;
-  for(int y = 0; y < 7; y += 2) {
-    for(int x = 0; x < 7; x += 2) {
-      crossCircle[index].setCoordinate(x, y);
-      crossCircle[index].setCircleColor(crossCircleColor[index2][index3]);
-      crossCircle[index].setEdgeNumber(initEdgeNumber[index2][index3]);
-      index3++;
+  int index = 0;
+  for(int y = 0; y < 4; y++) {
+    for(int x = 0; x < 4; x++) {
+      crossCircle[index].setCoordinate(x * 2, y * 2);
+      crossCircle[index].setCircleColor(crossCircleColor[y][x]);
+      crossCircle[index].setEdgeNumber(initEdgeNumber[y][x]);
       index++;
     }
-    index3 = 0;
-    index2++;
   }
 
   //ブロックサークルの座標、サークルの色をセット
-  int index4 = 0, index5 = 0;
-  for(int y = 1; y < 6; y += 2) {
-    for(int x = 1; x < 6; x += 2) {
-      if(x == 3 && y == 3) {
-        centerMark.setCoordinate(x, y);
+  int index2 = 0;
+  for(int y = 0; y < 3; y++) {
+    for(int x = 0; x < 3; x++) {
+      if(x == 1 && y == 1) {
+        centerMark.setCoordinate(x * 2 + 1, y * 2 + 1);
         centerMark.setCircleColor(COLOR::BLACK);
-        index5++;
-        continue;
+      } else {
+        blockCircle[index2].setCoordinate(x * 2 + 1, y * 2 + 1);
+        blockCircle[index2].setCircleColor(blockCircleColor[index2]);
+        blockCircle[index2].setCircleId(static_cast<CIRCLE_ID>(index2));
+        index2++;
       }
-      blockCircle[index4].setCoordinate(x, y);
-      blockCircle[index4].setCircleColor(blockCircleColor[index4]);
-      blockCircle[index4].setCircleId(static_cast<CIRCLE_ID>(index5));
-      index4++;
-      index5++;
     }
   }
 }
