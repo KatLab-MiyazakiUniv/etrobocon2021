@@ -35,7 +35,7 @@ DestinationList::DestinationList(BingoArea& bingoArea)
     // 色がcolorな、2つのブロックを探索
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 色がcolorなブロックを発見した場合
-      if(blockNodes[i].getBlock().blockColor == COLORS[color]) {
+      if(blockNodes[i].getNode().blockColor == COLORS[color]) {
         if(firstBlockId == BLOCK_ID::NONE) {  // 1つめ
           firstBlockId = static_cast<BLOCK_ID>(i);
         } else {  // 2つめ
