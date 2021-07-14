@@ -24,7 +24,7 @@ DestinationList::DestinationList(BingoArea& bingoArea)
   // 全ブロックを取得
   std::array<Node, B_SIZE> blockNodes;
   for(int i = B_ZERO; i < B_SIZE; i++) {
-    blockNodes[i] = bingoArea.getBlockInfo(static_cast<BLOCK_ID>(i));
+    blockNodes[i] = bingoArea.getNode(static_cast<BLOCK_ID>(i));
   }
 
   // 各色について合計距離が短い組み合わせを探索する
@@ -46,11 +46,11 @@ DestinationList::DestinationList(BingoArea& bingoArea)
     }
 
     // 色がcolorなブロックの座標
-    Coordinate blockCoord1 = bingoArea.getBlockInfo(firstBlockId).getCoordinate();
-    Coordinate blockCoord2 = bingoArea.getBlockInfo(secondBlockId).getCoordinate();
+    Coordinate blockCoord1 = bingoArea.getNode(firstBlockId).getCoordinate();
+    Coordinate blockCoord2 = bingoArea.getNode(secondBlockId).getCoordinate();
     // 色がcolorなブロックサークルの座標
-    Coordinate circleCoord1 = bingoArea.getBlockCircleInfo(CIRCLE_IDS[color][0]).getCoordinate();
-    Coordinate circleCoord2 = bingoArea.getBlockCircleInfo(CIRCLE_IDS[color][1]).getCoordinate();
+    Coordinate circleCoord1 = bingoArea.getBlockCircle(CIRCLE_IDS[color][0]).getCoordinate();
+    Coordinate circleCoord2 = bingoArea.getBlockCircle(CIRCLE_IDS[color][1]).getCoordinate();
 
     // 各パターンの、運搬距離(マンハッタン)の合計を算出
     int pattern1 = calculateDistance(blockCoord1, circleCoord1)

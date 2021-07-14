@@ -23,7 +23,7 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getBlockInfo(blockId).setBlock(blockId, blockColors[i]);
+      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
     DestinationList destinationList(bingoArea);
@@ -53,7 +53,7 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getBlockInfo(blockId).setBlock(blockId, blockColors[i]);
+      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
     DestinationList destinationList(bingoArea);
@@ -83,7 +83,7 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getBlockInfo(blockId).setBlock(blockId, blockColors[i]);
+      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
     DestinationList destinationList(bingoArea);
@@ -113,7 +113,7 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getBlockInfo(blockId).setBlock(blockId, blockColors[i]);
+      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
     DestinationList destinationList(bingoArea);
@@ -143,7 +143,7 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getBlockInfo(blockId).setBlock(blockId, blockColors[i]);
+      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
     DestinationList destinationList(bingoArea);
