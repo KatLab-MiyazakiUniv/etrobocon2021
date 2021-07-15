@@ -7,9 +7,9 @@
 #include "BlockSelector.h"
 
 // コンストラクタ
-BlockSelector::BlockSelector(BingoArea& _bingoArea)
+BlockSelector::BlockSelector(BingoArea& _bingoArea, DestinationList& _destination)
   : bingoArea(_bingoArea),
-    destinationList(_destinationList),
+    destinationList(_destination),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
     arrivableCircles{ T, T, F, T, F, F, F, F },
     OPEN_CIRCLE_ID{ {

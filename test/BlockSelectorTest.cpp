@@ -35,7 +35,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea);
+    BlockSelector blockSelector(bingoArea, destinationList);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -92,7 +92,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea);
+    BlockSelector blockSelector(bingoArea, destinationList);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -149,7 +149,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea);
+    BlockSelector blockSelector(bingoArea, destinationList);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -206,7 +206,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea);
+    BlockSelector blockSelector(bingoArea, destinationList);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -263,7 +263,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea);
+    BlockSelector blockSelector(bingoArea, destinationList);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
