@@ -11,14 +11,17 @@
 class RoutePlanner {
  public:
   /**
-   * コンストラクタ
+   * ブロックビンゴエリアでの経路を計画する
    */
-  RoutePlanner();
+  static void planFullBingoRoute();
 
  private:
   // ブロックの運搬順
   std::array<BLOCK_ID, static_cast<int>(BLOCK_ID::ID7) + 1> blockOrder;
-  BingoArea bingoArea;
-  DestinationList destinationList;
-  BlockSelector blockSelector;
+
+  /**
+   * コンストラクタ
+   * インスタンス化を禁止するためにprivateにし、処理については記述していない
+   */
+  RoutePlanner();
 };

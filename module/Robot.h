@@ -56,7 +56,10 @@ class Robot {
   static Coordinate coordinate;
   static Direction direction;
 
-  //コンストラクタ
+  /**
+   * コンストラクタ
+   * インスタンス化を禁止するためにprivateにし、処理については記述していない
+   */
   Robot();
 };
 
