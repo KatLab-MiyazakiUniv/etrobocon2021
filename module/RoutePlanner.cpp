@@ -6,9 +6,10 @@
 
 #include "RoutePlanner.h"
 
+// コンストラクタ
 RoutePlanner::RoutePlanner()
 {
-  bingoArea = BingoArea();
-  destinationList = DestinationList(bingoArea);
-  blockSelector = BlockSelector(bingoArea, destinationList);
+  for(int i = static_cast<int>(BLOCK_ID::ID0); i < static_cast<int>(BLOCK_ID::ID7) + 1; i++) {
+    blockOrder[i] = blockSelector.selectBlock();
+  }
 }

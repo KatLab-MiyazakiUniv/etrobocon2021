@@ -90,7 +90,6 @@ BLOCK_ID BlockSelector::selectBlock()
     } else if(distance > minDist) {
       continue;
     }
-    // 距離が等しい場合は、
 
     // 運ぶブロックがある交点サークルに交わっている黒線の数を取得
     int crossCircleId = targetBlockCoord.x / 2 + targetBlockCoord.y / 2 * 4;

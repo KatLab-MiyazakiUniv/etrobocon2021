@@ -10,10 +10,14 @@
 
 class RoutePlanner {
  public:
+  /**
+   * コンストラクタ
+   */
   RoutePlanner();
 
  private:
+  std::array<BLOCK_ID, static_cast<int>(BLOCK_ID::ID7) + 1> blockOrder;
   BingoArea bingoArea;
-  DestinationList destinationList;
-  BlockSelector blockSelector;
+  DestinationList destinationList(BingoArea& bingoArea);
+  BlockSelector blockSelector(BingoArea& bingoArea);
 };
