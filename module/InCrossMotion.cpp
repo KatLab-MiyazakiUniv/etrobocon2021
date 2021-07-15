@@ -31,14 +31,14 @@ void InCrossMotion::runBack(void)
     // 90度回頭する
     rotation.rotateRight(angle, rotatePwm);
     // 黒線の幅分直進する
-    straightRunner.runStraightToDistance(25.0, 5);
+    straightRunner.runStraightToDistance(20.0, 5);
     // 90度回頭する
     rotation.rotateRight(angle, rotatePwm);
   } else {
     // 90度回頭する
     rotation.rotateLeft(angle, rotatePwm);
     // 黒線の幅分直進する
-    straightRunner.runStraightToDistance(25.0, 5);
+    straightRunner.runStraightToDistance(20.0, 5);
     // 90度回頭する
     rotation.rotateLeft(angle, rotatePwm);
   }
@@ -49,6 +49,10 @@ void InCrossMotion::runRight(void)
   int angle = 90;
   int pwm = 30;
 
+  //エッジを切り替えないようにするため、右コースなら黒線の幅だけ直進する
+  if(lineTracer.getIsLeftEdge()) {
+    straightRunner.runStraightToDistance(20, 20);
+  }
   //右に90度ピボットターンする
   rotation.turnForwardRightPivot(angle, pwm);
 }
@@ -58,8 +62,10 @@ void InCrossMotion::runLeft(void)
   int angle = 90;
   int pwm = 30;
 
-  //エッジを切り替えないようにするため、直進する
-  straightRunner.runStraightToDistance(20, 20);
+  //エッジを切り替えないようにするため、左コースなら黒線の幅だけ直進する
+  if(!lineTracer.getIsLeftEdge()) {
+    straightRunner.runStraightToDistance(20, 20);
+  }
   //左に90度ピボットターンする
   rotation.turnForwardLeftPivot(angle, pwm);
 }
