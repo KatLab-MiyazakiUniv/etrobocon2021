@@ -7,11 +7,11 @@
 
 void BlackBlockCarrier::carryBlackBlock()
 {
-  constexpr int runPwm = 50;
-  constexpr int targetBrightness = 12;
-  constexpr double circleDistance = 150.0;
-  constexpr double firstBlackDistance = 420.0;
-  constexpr double secondBlackDistance = 760.0;
+  constexpr int RUN_PWM = 50;
+  constexpr int TARGET_BRIGHTNESS = 12;
+  constexpr double CIRCLE_DISTANCE = 150.0;
+  constexpr double FIRST_BLACK_DISTANCE = 420.0;
+  constexpr double SECOND_BLACK_DISTANCE= 760.0;
   PidGain gain(4, 2, 2.2);
   PidGain rungain(1.5, 1, 1.5);
   Rotation rotation;
