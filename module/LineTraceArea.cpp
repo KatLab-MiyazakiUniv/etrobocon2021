@@ -15,7 +15,7 @@ const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::
         SectionParam{ 580, 12, 60, PidGain(0.9, 0.3, 0.6) },
         SectionParam{ 1450, 12, 100, PidGain(2, 0.9, 0.9) },
         SectionParam{ 400, 12, 50, PidGain(5, 0.8, 0.9) },
-        SectionParam{ 700, 12, 100, PidGain(3, 1, 1.8) } };
+        SectionParam{ 700, 12, 70, PidGain(1.5, 1.1, 1.3) } };
 
 // Rコースの情報を初期化する
 const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
