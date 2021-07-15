@@ -9,7 +9,7 @@
 // コンストラクタ
 BlockSelector::BlockSelector(BingoArea& _bingoArea)
   : bingoArea(_bingoArea),
-    destinationList(DestinationList(_bingoArea)),
+    destinationList(_destinationList),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
     arrivableCircles{ T, T, F, T, F, F, F, F },
     OPEN_CIRCLE_ID{ {
@@ -48,7 +48,7 @@ BLOCK_ID BlockSelector::selectBlock()
   bool updateFg = false;
 
   const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-  const int B_SIZE = static_cast<int>(BLOCK_ID::ID7)+1;
+  const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
   // 最善と思われる運搬ブロックを探索する
   for(i = B_ZERO; i < B_SIZE; i++) {

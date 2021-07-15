@@ -20,7 +20,7 @@ class BlockSelector {
   /**
    * コンストラクタ
    */
-  BlockSelector(BingoArea& _bingoArea);
+  BlockSelector(BingoArea& _bingoArea, DestinationList& _destinationList);
 
   /**
    * 運搬するブロックのIdを返す
