@@ -1,4 +1,8 @@
-FROM ubuntu:21.04
+FROM ubuntu:20.04
+
+# タイムゾーンを対話的に問われることによるハングアップを阻止
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update &&\
     apt-get install -y wget git cmake g++
@@ -7,13 +11,13 @@ RUN wget https://raw.githubusercontent.com/ETrobocon/etrobo/master/scripts/start
     sed -i -r 's/^(\s*)sudo/\1/g' ~/startetrobo && \
     chmod +x ~/startetrobo
 
+# etrobo 環境のセットアップ
 RUN git config --global user.name docker && \
     git config --global user.email example@example.com && \
     ~/startetrobo shell
 
-COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh && \
-    mkdir -p /tmp/etrobocon
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENV APP_NAME etrobocon2021
+ENV COURSE l
+ENV ADDITIONAL ""
+ENTRYPOINT ["/bin/bash", "-c", "echo 'ln -s /tmp/${APP_NAME} ${ETROBO_ROOT}/workspace/${APP_NAME}; make ${COURSE} app=${APP_NAME} ${ADDITIONAL}' | ~/startetrobo shell"]
