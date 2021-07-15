@@ -16,8 +16,9 @@ class RoutePlanner {
   RoutePlanner();
 
  private:
+  // ブロックの運搬順
   std::array<BLOCK_ID, static_cast<int>(BLOCK_ID::ID7) + 1> blockOrder;
   BingoArea bingoArea;
-  DestinationList destinationList(BingoArea& bingoArea);
-  BlockSelector blockSelector(BingoArea& bingoArea);
+  DestinationList destinationList;
+  BlockSelector blockSelector;
 };
