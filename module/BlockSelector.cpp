@@ -61,12 +61,12 @@ BLOCK_ID BlockSelector::selectBlock()
     // 運搬済みだった場合
     if(isCarriedBlock(blockId)) continue;
 
-    // ブロックに到着できるかの判定
+    // ブロックに到着できない場合
     if(!arrivableBlocks[i]) continue;
 
-    // ブロックの運搬先に到着できるかの判定
-    // 現在いけるブロックサークル or 対象ブロックを動かしたときに行けるようになるブロックサークル
-    if(!(arrivableCircles[targetCircleNumber] || OPEN_CIRCLE_ID[i][targetCircleNumber])) continue;
+    // ブロックの運搬先に到着できない場合
+    // 現在ブロックサークルに到着できない and 対象のブロックを運搬してもサークルが開放されない
+    if(!arrivableCircles[targetCircleNumber] && !OPEN_CIRCLE_ID[i][targetCircleNumber]) continue;
 
     // ブロックを取りに行く距離(ここで計算)+ブロックを運ぶ距離(DestinationListから取得)　の和を計算
     Node& targetBlock = bingoArea.getNode(blockId);
@@ -88,6 +88,7 @@ BLOCK_ID BlockSelector::selectBlock()
       updateFg = true;     // これ以降の要素を更新するフラグを立てる
       minDist = distance;  // 運搬距離の記録を更新
     } else if(distance > minDist) {
+      // 暫定の運搬ブロックより、運搬距離が長い場合
       continue;
     }
 
@@ -99,6 +100,7 @@ BLOCK_ID BlockSelector::selectBlock()
       updateFg = true;           // これ以降の要素を更新するフラグを立てる
       maxCrossLine = crossLine;  // 交線数の記録を更新
     } else if(crossLine < maxCrossLine) {
+      // 暫定の運搬ブロックより、交点サークルの交線が少ない場合
       continue;
     }
 
@@ -119,7 +121,7 @@ BLOCK_ID BlockSelector::selectBlock()
       maxDirectPoint = directPoint;  // 方向の評価点の記録を更新
       bestBlockId = blockId;         // 運搬ブロックの候補を更新
     }
-    // ここまでの項目が等しい場合でも、採用しない
+    // ここまでの項目が等しい場合は、既存(idが若い)のブロックを採用する
   }
 
   // ブロックが運搬されたとして、運搬可能範囲を開放
@@ -137,5 +139,6 @@ BLOCK_ID BlockSelector::selectBlock()
 bool BlockSelector::isCarriedBlock(BLOCK_ID blockId)
 {
   Coordinate coord = bingoArea.getNode(blockId).getCoordinate();
+  // x,y座標がどちらも奇数にある場合、「ブロックサークル上にある==運搬済み」と判断する
   return (coord.x % 2 == 1 && coord.y % 2 == 1);
 }
