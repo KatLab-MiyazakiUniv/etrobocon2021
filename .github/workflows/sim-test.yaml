@@ -1,0 +1,32 @@
+name: Simulator Test
+
+on: [push]
+
+jobs:
+  simulator-test:
+
+    runs-on: self-hosted
+    env:
+      ETROBO_ROOT: /home/etrobocon2021/etrobo
+    steps:
+    - uses: actions/checkout@v1
+    - name: sim-test
+      shell: bash
+      run: |
+        export DISPLAY=:0
+        SIM_COMMANDS=''
+        SIM_COMMANDS+='if [ -d ${ETROBO_HRP3_WORKSPACE}/etrobocon2021 ]; then rm -rf ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; fi; '
+        SIM_COMMANDS+='ln -s ${{ github.workspace }} ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
+        SIM_COMMANDS+='make app=etrobocon2021 sim up; '
+        SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
+
+        echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | \
+              echo RESULT_TIME="`grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
+              sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`" >> $GITHUB_ENV
+    - name: judge
+      shell: bash
+      run: |
+        echo ${{ env.RESULT_TIME }}
+        if [ "${{ env.RESULT_TIME }}" == "" ]; then
+          exit 1
+        fi
