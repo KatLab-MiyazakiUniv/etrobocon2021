@@ -20,7 +20,6 @@ enum class CIRCLE_ID : int {
   ID5 = 5,
   ID6 = 6,
   ID7 = 7,
-  SIZE = 8,
 };
 
 //ブロックID
@@ -35,7 +34,6 @@ enum class BLOCK_ID : int {
   ID5 = 5,
   ID6 = 6,
   ID7 = 7,
-  SIZE = 8,
 };
 
 //ブロックの色とブロックの番号を保持する構造体
