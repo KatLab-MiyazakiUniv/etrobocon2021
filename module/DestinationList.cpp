@@ -19,7 +19,7 @@ DestinationList::DestinationList(BingoArea& bingoArea)
   } };
 
   const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-  const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+  const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
   // 全ブロックを取得
   std::array<Node, B_SIZE> blockNodes;

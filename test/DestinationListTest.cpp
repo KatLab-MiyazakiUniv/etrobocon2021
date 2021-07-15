@@ -12,7 +12,7 @@ namespace etrobocon2021_test {
   TEST(getDestinatinoTest, getDestination1)
   {
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-    const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+    const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
     // ブロックの初期配置
     COLOR blockColors[8] = { COLOR::RED, COLOR::BLUE, COLOR::YELLOW, COLOR::GREEN,
@@ -42,7 +42,7 @@ namespace etrobocon2021_test {
   TEST(getDestinatinoTest, getDestination2)
   {
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-    const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+    const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
     // ブロックの初期配置
     COLOR blockColors[8] = { COLOR::RED,   COLOR::YELLOW, COLOR::BLUE, COLOR::YELLOW,
@@ -72,7 +72,7 @@ namespace etrobocon2021_test {
   TEST(getDestinatinoTest, getDestination3)
   {
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-    const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+    const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
     // ブロックの初期配置
     COLOR blockColors[8] = { COLOR::GREEN,  COLOR::BLUE, COLOR::RED,   COLOR::BLUE,
@@ -102,7 +102,7 @@ namespace etrobocon2021_test {
   TEST(getDestinatinoTest, getDestination4)
   {
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-    const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+    const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
     // ブロックの初期配置
     COLOR blockColors[8] = { COLOR::YELLOW, COLOR::GREEN, COLOR::RED,  COLOR::GREEN,
@@ -132,7 +132,7 @@ namespace etrobocon2021_test {
   TEST(getDestinatinoTest, getDestination5)
   {
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
-    const int B_SIZE = static_cast<int>(BLOCK_ID::SIZE);
+    const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
     // ブロックの初期配置
     COLOR blockColors[8] = { COLOR::GREEN, COLOR::GREEN, COLOR::YELLOW, COLOR::RED,

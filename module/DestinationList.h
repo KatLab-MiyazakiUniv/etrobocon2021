@@ -27,7 +27,7 @@ class DestinationList {
 
  private:
   // 各ブロックの運搬先サークルID
-  std::array<CIRCLE_ID, static_cast<int>(BLOCK_ID::SIZE)> destinations;
+  std::array<CIRCLE_ID, static_cast<int>(BLOCK_ID::ID7) + 1> destinations;
 
   /**
    * 座標間のマンハッタン距離を計算する
