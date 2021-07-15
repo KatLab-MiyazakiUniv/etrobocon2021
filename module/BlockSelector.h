@@ -33,16 +33,18 @@ class BlockSelector {
   DestinationList destinationList;
 
   // 走行体が運びうるブロック
-  std::array<bool, static_cast<int>(BLOCK_ID::SIZE)> arrivableBlocks;
+  std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1> arrivableBlocks;
   // 走行体がブロックを運びうるサークル
-  std::array<bool, static_cast<int>(CIRCLE_ID::SIZE)> arrivableCircles;
+  std::array<bool, static_cast<int>(CIRCLE_ID::ID7) + 1> arrivableCircles;
 
   // ブロックがなくなった際、到着可能になるサークル
-  std::array<std::array<bool, static_cast<int>(CIRCLE_ID::SIZE)>, static_cast<int>(BLOCK_ID::SIZE)>
+  std::array<std::array<bool, static_cast<int>(CIRCLE_ID::ID7) + 1>,
+             static_cast<int>(BLOCK_ID::ID7) + 1>
       OPEN_CIRCLE_ID;
 
   // ブロックがなくなった際、運搬可能になるブロック
-  std::array<std::array<bool, static_cast<int>(BLOCK_ID::SIZE)>, static_cast<int>(BLOCK_ID::SIZE)>
+  std::array<std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1>,
+             static_cast<int>(BLOCK_ID::ID7) + 1>
       OPEN_BLOCK_ID;
 
   /**
