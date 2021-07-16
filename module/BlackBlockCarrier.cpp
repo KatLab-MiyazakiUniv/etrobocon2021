@@ -8,9 +8,9 @@
 void BlackBlockCarrier::carryBlackBlock()
 {
   constexpr int RUN_PWM = 50;
-  constexpr int TARGET_BRIGHTNESS = 12;     //目標輝度
-  const PidGain CURBE_GAIN(4, 2, 2.2);      //カーブのライントレースに使用するゲイン
-  const PidGain RUN_GAIN(1.5, 1, 1.5);      //直進のライントレースに使用するゲイン
+  constexpr int TARGET_BRIGHTNESS = 12;  //目標輝度
+  const PidGain CURVE_GAIN(4, 2, 2.2);   //カーブのライントレースに使用するゲイン
+  const PidGain RUN_GAIN(1.5, 1, 1.5);   //直進のライントレースに使用するゲイン
   Rotation rotation;
   StraightRunner straightrunner;
   LineTracer linetracer(false);
@@ -18,7 +18,7 @@ void BlackBlockCarrier::carryBlackBlock()
   //青の線を通過
   straightrunner.runStraightToDistance(280, RUN_PWM);
   //青の線まで
-  linetracer.run(750, TARGET_BRIGHTNESS, RUN_PWM, CURBE_GAIN);
+  linetracer.run(750, TARGET_BRIGHTNESS, RUN_PWM, CURVE_GAIN);
   //青の線を通過
   straightrunner.runStraightToDistance(250, RUN_PWM);
   //黄色の円まで
