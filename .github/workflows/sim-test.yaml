@@ -62,7 +62,7 @@ jobs:
           exit 1
         fi
 
-    # 走行タイタイムをコメントとして載せる
+    # 走行タイムをコメントとして載せる
     - uses: actions/github-script@0.8.0
       with:
         script: |
