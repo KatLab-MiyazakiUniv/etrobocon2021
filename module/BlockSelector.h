@@ -37,8 +37,8 @@ class BlockSelector {
   // 走行体がブロックを運びうるサークル
   std::array<bool, static_cast<int>(CIRCLE_ID::ID7) + 1> arrivableCircles;
 
-  // ブロックがなくなった際、到着可能になるサークル
-  const std::array<std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1>,
+  // ブロックがなくなった際に到着可能になるサークル
+  const std::array<std::array<bool, static_cast<int>(CIRCLE_ID::ID7) + 1>,
                    static_cast<int>(BLOCK_ID::ID7) + 1>
       OPEN_CIRCLE_ID;
   // ブロックが運搬された際に開放されるブロック
