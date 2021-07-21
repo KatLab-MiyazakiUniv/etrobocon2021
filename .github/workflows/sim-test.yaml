@@ -8,6 +8,7 @@ jobs:
     env:
       IMAGE: github-actions-etrobocon2021
       APP_NAME: etrobocon2021
+
     steps:
       # ${{ github.workspace }} を使用するために必要
       - name: Checkout
@@ -35,6 +36,8 @@ jobs:
     needs: build-check
     env:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
+      SIM_LOG_FILE: sim-log.txt
+
     steps:
     - uses: actions/checkout@v1
 
@@ -49,18 +52,41 @@ jobs:
         SIM_COMMANDS+='make app=etrobocon2021 sim up; '
         SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
 
-        echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | \
-              echo RESULT_TIME="`grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-              sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`" >> $GITHUB_ENV
+        echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
     # 走行結果から、走行テストの成否を判定
     - name: judge
       shell: bash
       run: |
-        echo ${{ env.RESULT_TIME }}
-        if [ "${{ env.RESULT_TIME }}" == "" ]; then
+        # スタートできていない場合、テスト失敗
+        if [ `cat sim-log.txt | grep -oE '\[ launcher: Go!+ \]' | wc -l` -eq 0 ];
           exit 1
         fi
+
+        # 各ゲートを通過したかどうかの確認
+        PASSED_START_GATE="`cat ${SIM_LOG_FILE} | \
+                            grep -oE '\[ launcher: left: passed Start Gate \]' | \
+                            wc -l`"
+        PASSED_GATE_1="`cat ${SIM_LOG_FILE} | \
+                            grep -oE '\[ launcher: left: passed Gate 1 \]' | \
+                            wc -l`"
+        PASSED_GATE_2="`cat ${SIM_LOG_FILE} | \
+                            grep -oE '\[ launcher: left: passed Gate 2 \]' | \
+                            wc -l`"
+        RESULT_TIME="`cat ${SIM_LOG_FILE} | \
+                      grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
+                      sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
+
+        # ゴールしなかった場合  
+        if [ "${RESULT_TIME}" == '' ]; then
+          RESULT_TIME='None'
+        fi
+
+        # 結果を環境変数へ保存
+        echo PASSED_START_GATE=$PASSED_START_GATE >> $GITHUB_ENV
+        echo PASSED_GATE_1=$PASSED_GATE_1 >> $GITHUB_ENV
+        echo PASSED_GATE_2=$PASSED_GATE_2 >> $GITHUB_ENV
+        echo RESULT_TIME=$RESULT_TIME >> $GITHUB_ENV
 
     # 走行タイムをコメントとして載せる
     - uses: actions/github-script@0.8.0
@@ -70,5 +96,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: '走行タイム: ${{ env.RESULT_TIME }}s'
+            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)'
           })
