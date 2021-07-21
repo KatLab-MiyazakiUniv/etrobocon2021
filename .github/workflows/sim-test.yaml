@@ -59,7 +59,7 @@ jobs:
       shell: bash
       run: |
         # スタートできていない場合、テスト失敗
-        if [ `cat sim-log.txt | grep -oE '\[ launcher: Go!+ \]' | wc -l` -eq 0 ];
+        if [ "`cat sim-log.txt | grep -oE '\[ launcher: Go!+ \]' | wc -l`" == "0" ]; then
           exit 1
         fi
 
