@@ -58,8 +58,11 @@ jobs:
     - name: judge
       shell: bash
       run: |
+        # デバッグ用
+        cat ${SIM_LOG_FILE}
+
         # スタートできていない場合、テスト失敗
-        if [ "`cat sim-log.txt | grep -oE '\[ launcher: Go!+ \]' | wc -l`" == "0" ]; then
+        if [ "`cat ${SIM_LOG_FILE} | grep -oE '\[ launcher: Go!* \]' | wc -l`" == "0" ]; then
           exit 1
         fi
 
