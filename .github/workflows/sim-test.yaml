@@ -1,0 +1,101 @@
+name: Simulator Test
+
+on: [pull_request]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-20.04
+    env:
+      IMAGE: github-actions-etrobocon2021
+      APP_NAME: etrobocon2021
+
+    steps:
+      # ${{ github.workspace }} を使用するために必要
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # ログイン
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Docker image を GitHub Container Registry から Pull して、
+      # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
+      # https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+      - name: ETRobocon build test
+        run: |
+          docker run -e APP_NAME=${{ env.APP_NAME }} \
+                     -v ${{ github.workspace }}:/tmp/${{ env.APP_NAME }}:rw \
+                     ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
+
+  simulator-test:
+    runs-on: self-hosted
+    needs: build-check
+    env:
+      ETROBO_ROOT: /home/etrobocon2021/etrobo
+      SIM_LOG_FILE: sim-log.txt
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # シミュレータを研究室のPCで実行する
+    - name: sim-test
+      shell: bash
+      run: |
+        export DISPLAY=:0
+        SIM_COMMANDS=''
+        SIM_COMMANDS+='if [ -d ${ETROBO_HRP3_WORKSPACE}/etrobocon2021 ]; then rm -rf ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; fi; '
+        SIM_COMMANDS+='ln -s ${{ github.workspace }} ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
+        SIM_COMMANDS+='make app=etrobocon2021 sim up; '
+        SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
+
+        echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
+
+    # 走行結果から、走行テストの成否を判定
+    - name: judge
+      shell: bash
+      run: |
+        # スタートできていない場合、テスト失敗
+        if [ "`cat ${SIM_LOG_FILE} | grep -coE '\[ launcher: Go!* \]' || :`" == "0" ]; then
+          echo "Could not detect START"
+          exit 999
+        fi
+
+        # 各ゲートを通過したかどうかの確認
+        PASSED_START_GATE="`cat ${SIM_LOG_FILE} | \
+                            grep -coE '\[ launcher: left: passed Start Gate \]' || :`"
+        PASSED_GATE_1="`cat ${SIM_LOG_FILE} | \
+                            grep -coE '\[ launcher: left: passed Gate 1 \]' || :`"
+        PASSED_GATE_2="`cat ${SIM_LOG_FILE} | \
+                            grep -coE '\[ launcher: left: passed Gate 2 \]' || :`"
+        PASSED_GALE_GATE="`cat ${SIM_LOG_FILE} | \
+                      grep -coE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' || :`"
+
+        # 走行時間の取得
+        if [ "${PASSED_GALE_GATE}" == '0' ]; then
+          RESULT_TIME='None'
+        else
+          RESULT_TIME="`cat ${SIM_LOG_FILE} | \
+                        grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
+                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
+        fi
+
+        # 結果を環境変数へ保存
+        echo PASSED_START_GATE=$PASSED_START_GATE >> $GITHUB_ENV
+        echo PASSED_GATE_1=$PASSED_GATE_1 >> $GITHUB_ENV
+        echo PASSED_GATE_2=$PASSED_GATE_2 >> $GITHUB_ENV
+        echo RESULT_TIME=$RESULT_TIME >> $GITHUB_ENV
+
+    # 走行タイムをコメントとして載せる
+    - uses: actions/github-script@0.8.0
+      with:
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)'
+          })

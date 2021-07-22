@@ -11,7 +11,28 @@ BlockSelector::BlockSelector(BingoArea& _bingoArea, DestinationList& _destinatio
   : bingoArea(_bingoArea),
     destinationList(_destination),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
-    arrivableCircles{ T, T, F, T, F, F, F, F }
+    arrivableCircles{ T, T, F, T, F, F, F, F },
+    OPEN_CIRCLE_ID{ {
+        { T, T, T, T, F, F, F, F },
+        { F, T, T, F, T, F, F, F },
+        { T, T, F, T, F, T, F, F },
+        { T, T, T, T, T, F, T, T },
+        { T, T, F, T, T, T, T, T },
+        { F, F, T, F, T, F, T, T },
+        { F, F, F, T, F, T, T, F },
+        { F, F, F, F, T, T, T, T },
+    } },
+    OPEN_BLOCK_ID{ {
+        { T, T, T, T, T, F, F, F },
+        { T, T, F, T, F, T, F, F },
+        { T, F, T, T, T, F, T, F },
+        { T, T, T, T, T, T, F, T },
+        { T, F, T, T, T, T, T, T },
+        { F, T, F, T, T, T, F, T },
+        { F, F, T, F, T, F, T, T },
+        { F, F, F, T, T, T, T, T },
+    } }
+
 {
 }
 
