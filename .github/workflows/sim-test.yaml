@@ -58,31 +58,29 @@ jobs:
     - name: judge
       shell: bash
       run: |
-        # デバッグ用
-        cat ${SIM_LOG_FILE}
-
         # スタートできていない場合、テスト失敗
-        if [ "`cat ${SIM_LOG_FILE} | grep -oE '\[ launcher: Go!* \]' | wc -l`" == "0" ]; then
-          exit 1
+        if [ "`cat ${SIM_LOG_FILE} | grep -coE '\[ launcher: Go!* \]' || :`" == "0" ]; then
+          echo "Could not detect START"
+          exit 999
         fi
 
         # 各ゲートを通過したかどうかの確認
         PASSED_START_GATE="`cat ${SIM_LOG_FILE} | \
-                            grep -oE '\[ launcher: left: passed Start Gate \]' | \
-                            wc -l`"
+                            grep -coE '\[ launcher: left: passed Start Gate \]' || :`"
         PASSED_GATE_1="`cat ${SIM_LOG_FILE} | \
-                            grep -oE '\[ launcher: left: passed Gate 1 \]' | \
-                            wc -l`"
+                            grep -coE '\[ launcher: left: passed Gate 1 \]' || :`"
         PASSED_GATE_2="`cat ${SIM_LOG_FILE} | \
-                            grep -oE '\[ launcher: left: passed Gate 2 \]' | \
-                            wc -l`"
-        RESULT_TIME="`cat ${SIM_LOG_FILE} | \
-                      grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                      sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
+                            grep -coE '\[ launcher: left: passed Gate 2 \]' || :`"
+        PASSED_GALE_GATE="`cat ${SIM_LOG_FILE} | \
+                      grep -coE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' || :`"
 
-        # ゴールしなかった場合  
-        if [ "${RESULT_TIME}" == '' ]; then
+        # 走行時間の取得
+        if [ "${PASSED_GALE_GATE}" == '0' ]; then
           RESULT_TIME='None'
+        else
+          RESULT_TIME="`cat ${SIM_LOG_FILE} | \
+                        grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
+                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
         fi
 
         # 結果を環境変数へ保存
