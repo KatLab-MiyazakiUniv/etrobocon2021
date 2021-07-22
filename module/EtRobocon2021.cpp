@@ -17,7 +17,7 @@ void EtRobocon2021::start()
   }
 
   //ライントレースエリア攻略開始
-  // LineTraceArea::runLineTraceArea();
+  LineTraceArea::runLineTraceArea();
 
   //シミュレータへ競技の終了を通知する
   controller.notifyCompletedToSimulator();
