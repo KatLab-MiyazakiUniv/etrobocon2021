@@ -12,7 +12,7 @@ jobs:
     steps:
       # ${{ github.workspace }} を使用するために必要
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       # ログイン
       - name: Login to GitHub Container Registry
@@ -39,7 +39,7 @@ jobs:
       SIM_LOG_FILE: sim-log.txt
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
     # シミュレータを研究室のPCで実行する
     - name: sim-test
