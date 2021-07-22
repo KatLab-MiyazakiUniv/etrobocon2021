@@ -32,8 +32,8 @@ const sketch = (p: p5) => {
   }
   p.mouseClicked = () => {
     console.log(p.mouseX, p.mouseY);
-    document.getElementById("x").innerText = "X: " + String(Math.floor((p.mouseX - canvasWidth/2) * 1 / defaultScale)/150);
-    document.getElementById("y").innerText = "Z: " + String(Math.floor((p.mouseY - canvasHeight/2) * 1 / defaultScale)/150);
+    document.getElementById("x").innerText = "X: " + String(Math.floor((p.mouseX - canvasWidth/2) * 1 / defaultScale)/-140);
+    document.getElementById("y").innerText = "Z: " + String(Math.floor((p.mouseY - canvasHeight/2) * 1 / defaultScale)/140);
   }
 }
 
