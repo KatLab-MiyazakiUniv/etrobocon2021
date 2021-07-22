@@ -183,3 +183,15 @@ CenterMark& BingoArea::getCenterMark()
 {
   return centerMark;
 }
+
+bool BingoArea::existBlock(Coordinate &coordinate)
+{
+  for(int i= 0;i<static_cast<int>(blockCircle.size());i++)
+  {
+    if(blockCircle[i].getCoordinate()==coordinate&&blockCircle[i].getBlock().blockId==BLOCK_ID::NONE)
+    {
+      return true;
+    }
+    return false;
+  }
+}

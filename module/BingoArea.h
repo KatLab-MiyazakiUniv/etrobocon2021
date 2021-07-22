@@ -65,6 +65,13 @@ class BingoArea {
    */
   void moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid);
 
+  /**
+   *@fn bool existBlock();
+   *@brief
+   *@param coordinate
+   */
+  bool existBlock(Coordinate& coordinate);
+
  private:
   std::array<CrossCircle, 16> crossCircle;  // 交点サークル情報
   std::array<BlockCircle, 8> blockCircle;   // ブロックサークル情報

@@ -50,6 +50,15 @@ struct Coordinate {
   int y;  // y座標
   //コンストラクタ
   Coordinate(int x = 0, int y = 0);
+  bool operator==(const Coordinate& another) const
+  {
+    return ((x == another.x) && (y == another.y));
+  }
+
+  bool operator!=(const Coordinate& another) const
+  {
+    return ((x != another.x) || (y != another.y));
+  }
 };
 
 class Node {
