@@ -7,10 +7,9 @@
 
 using namespace std;
 
-RouteCalculater::RouteCalculater(BingoArea& bingoArea) : bingoArea(bingoArea), goal(0, 0) {}
+RouteCalculater::RouteCalculater(BingoArea& bingoArea) : bingoArea(bingoArea), goalNode(0, 0) {}
 
-void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate startCoordinate,
-                                     Coordinate goalCoordinate)
+void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate start, Coordinate goal)
 {
   vector<AstarInfo> open;
   vector<AstarInfo> close;
@@ -19,16 +18,15 @@ void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate startC
   Route route[BINGO_SIZE][BINGO_SIZE];
 
   list.clear();
-  goal = goalCoordinate;  // ゴールノードをセット
+  goalNode = goal;  // ゴールノードをセット
 
-  route[startCoordinate.y][startCoordinate.x].set(startCoordinate, 0);
-  open.push_back(AstarInfo(startCoordinate, route[startCoordinate.y][startCoordinate.x].currentCost
-                                                + calculateManhattan(startCoordinate)));
+  route[start.y][start.x].set(start, 0);
+  open.push_back(AstarInfo(start, route[start.y][start.x].currentCost + calculateManhattan(start)));
   while(!open.empty()) {
     sort(open.begin(), open.end(), std::greater<AstarInfo>());
     elem = open.back();
     open.pop_back();
-    if(elem.coordinate == goal) {
+    if(elem.coordinate == goalNode) {
       break;
     }
     vector<AstarInfo> next = nextNode(elem.coordinate, route);
@@ -50,7 +48,7 @@ void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate startC
     close.push_back(elem);
   }
 
-  setRoute(list, route, goal);
+  setRoute(list, route, goalNode);
 }
 
 vector<AstarInfo> RouteCalculater::nextNode(Coordinate coordinate,
@@ -76,7 +74,7 @@ vector<AstarInfo> RouteCalculater::nextNode(Coordinate coordinate,
 
 bool RouteCalculater::checkBlock(Coordinate coordinate)
 {
-  if(coordinate == goal) {
+  if(coordinate == goalNode) {
     return false;  // ゴールノードの場合はブロックがあっても避けない
   }
   // 交点サークルの場合
@@ -107,8 +105,8 @@ bool RouteCalculater::checkList(AstarInfo node, vector<AstarInfo>& list)
 
 int RouteCalculater::calculateManhattan(Coordinate coordinate)
 {
-  int diffX = abs(goal.x - coordinate.x);
-  int diffY = abs(goal.y - coordinate.y);
+  int diffX = abs(goalNode.x - coordinate.x);
+  int diffY = abs(goalNode.y - coordinate.y);
   return diffX + diffY;
 }
 
