@@ -12,7 +12,7 @@ void ToCrossMotion::runToCross(void)
 {
   int targetBrightness = 12;
   int pwm = 30;
-  PidGain gain(3.5, 1, 1);
+  PidGain gain(2, 1, 1);
   StraightRunner straightRunner;
 
   //白黒以外までライントレース

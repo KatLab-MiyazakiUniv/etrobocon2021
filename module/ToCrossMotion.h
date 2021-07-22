@@ -21,7 +21,7 @@ class ToCrossMotion : public BingoMotion {
   void runToCross(void);
 
  private:
-  LineTracer lineTracer;
+  LineTracer& lineTracer;
 };
 
 #endif
