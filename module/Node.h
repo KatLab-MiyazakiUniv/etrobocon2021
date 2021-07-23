@@ -50,11 +50,12 @@ struct Coordinate {
   int y;  // y座標
   //コンストラクタ
   Coordinate(int x = 0, int y = 0);
+  
+  //Coordinate型同士の比較ができるよう比較演算子をオーバーライド
   bool operator==(const Coordinate& another) const
   {
     return ((x == another.x) && (y == another.y));
   }
-
   bool operator!=(const Coordinate& another) const
   {
     return ((x != another.x) || (y != another.y));
