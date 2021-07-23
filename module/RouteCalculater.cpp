@@ -5,34 +5,37 @@
  */
 #include "RouteCalculater.h"
 
-using namespace std;
-
 RouteCalculater::RouteCalculater(BingoArea& bingoArea) : bingoArea(bingoArea), goalNode(0, 0) {}
 
-void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate start, Coordinate goal)
+std::vector<Coordinate> RouteCalculater::calculateRoute(Coordinate start, Coordinate goal)
 {
-  vector<AstarInfo> open;
-  vector<AstarInfo> close;
-  struct AstarInfo elem({ 0, 0 }, 0);
+  std::vector<AstarInfo> open;              //これから探索するノードを格納
+  std::vector<AstarInfo> close;             //探索済みのノードを格納
+  std::vector<Coordinate> routeCoordinate;  //最短経路の座標を格納
+  struct AstarInfo elem({ 0, 0 }, 0);  //現在探索しているノード(座標(0,0),コスト0で初期化)
   int actualCost;
-  Route route[BINGO_SIZE][BINGO_SIZE];
+  Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
 
-  list.clear();
   goalNode = goal;  // ゴールノードをセット
 
   route[start.y][start.x].set(start, 0);
   open.push_back(AstarInfo(start, route[start.y][start.x].currentCost + calculateManhattan(start)));
   while(!open.empty()) {
+    //予測コストの小さい順にソートする
     sort(open.begin(), open.end(), std::greater<AstarInfo>());
-    elem = open.back();
+    elem = open.back();  //現在探索しているノード
     open.pop_back();
+    //現在探索しているノードがゴールノードであれば探索を終了する
     if(elem.coordinate == goalNode) {
       break;
     }
-    vector<AstarInfo> next = nextNode(elem.coordinate, route);
+    std::vector<AstarInfo> next = nextNode(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
       if((m.coordinate == route[elem.coordinate.y][elem.coordinate.x].parent)) {
         // 親ノードの場合はopenに追加しない
+      } else if((elem.coordinate.x % 2 == 1 || elem.coordinate.y % 2 == 1)
+                && (m.coordinate.x % 2 == 1 || m.coordinate.y % 2 == 1)) {
+        //中点->中点に移動する場合は追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
       } else if(checkList(m, open)) {
@@ -47,14 +50,15 @@ void RouteCalculater::calculateRoute(vector<Coordinate>& list, Coordinate start,
     }
     close.push_back(elem);
   }
-
-  setRoute(list, route, goalNode);
+  //経路復元処理
+  setRoute(routeCoordinate, route, goalNode);
+  return routeCoordinate;
 }
 
-vector<AstarInfo> RouteCalculater::nextNode(Coordinate coordinate,
-                                            Route route[BINGO_SIZE][BINGO_SIZE])
+std::vector<AstarInfo> RouteCalculater::nextNode(Coordinate coordinate,
+                                                 Route route[BINGO_SIZE][BINGO_SIZE])
 {
-  vector<AstarInfo> nodeList;
+  std::vector<AstarInfo> nodeList;
   int nx, ny;
 
   for(int i = -1; i < 2; i++) {
@@ -87,7 +91,7 @@ bool RouteCalculater::checkBlock(Coordinate coordinate)
   }
 }
 
-bool RouteCalculater::checkList(AstarInfo node, vector<AstarInfo>& list)
+bool RouteCalculater::checkList(AstarInfo node, std::vector<AstarInfo>& list)
 {
   for(int i = 0; i < static_cast<int>(list.size()); i++) {
     // listに既に同じノードがあるか調べる
@@ -105,12 +109,12 @@ bool RouteCalculater::checkList(AstarInfo node, vector<AstarInfo>& list)
 
 int RouteCalculater::calculateManhattan(Coordinate coordinate)
 {
-  int diffX = abs(goalNode.x - coordinate.x);
-  int diffY = abs(goalNode.y - coordinate.y);
-  return diffX + diffY;
+  int distX = abs(goalNode.x - coordinate.x);
+  int distY = abs(goalNode.y - coordinate.y);
+  return distX + distY;
 }
 
-void RouteCalculater::setRoute(vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],
+void RouteCalculater::setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],
                                Coordinate coordinate)
 {
   // (x,y)を通っていないときのエラー処理

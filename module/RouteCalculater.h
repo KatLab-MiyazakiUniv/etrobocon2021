@@ -12,25 +12,27 @@
 #include "vector"
 #include "algorithm"
 
+//A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
   // ノードの座標
   Coordinate coordinate;
   int estimateCost;
-
+  //コンストラクタ
   AstarInfo(Coordinate _coordinate, int _estimateCost)
     : coordinate(_coordinate), estimateCost(_estimateCost)
   {
   }
-
+  //予測コストでソートできるように比較演算子をオーバーライド
   bool operator<(const AstarInfo& another) const { return estimateCost < another.estimateCost; }
   bool operator>(const AstarInfo& another) const { return estimateCost > another.estimateCost; }
 };
 
+//経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
   //親ノード
   Coordinate parent;
   int currentCost;  //このノードに到達するまでのコスト
-
+                    //コンストラクタ
   Route() : parent(-1, -1), currentCost(0) {}
 
   void set(Coordinate _parent, int _currentCost)
@@ -54,7 +56,7 @@ class RouteCalculater {
    *  @param start スタートノードの座標
    *  @param goal ゴールノードの座標
    */
-  void calculateRoute(std::vector<Coordinate>& list, Coordinate start, Coordinate goal);
+  std::vector<Coordinate> calculateRoute(Coordinate start, Coordinate goal);
 
  private:
   BingoArea& bingoArea;

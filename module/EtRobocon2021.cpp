@@ -11,7 +11,7 @@ void EtRobocon2021::start()
   Controller controller;
   Measurer measurer;
   BingoArea bingoArea;
-  std::vector<Coordinate> minroute;
+  LineTracer trace(true);
 
   //タッチセンサが押されるまで待機
   while(!measurer.isPressed()) {
@@ -19,10 +19,11 @@ void EtRobocon2021::start()
   }
 
   //ライントレースエリア攻略開始
-  LineTraceArea::runLineTraceArea();
+  // LineTraceArea::runLineTraceArea();
+  trace.run(350, 12, 60, PidGain(0.1, 0.8, 0.1));
   bingoArea.initBingoArea();
   RouteCalculater route(bingoArea);
-  route.calculateRoute(minroute, { 2, 4 }, { 5, 3 });
+  std::vector<Coordinate> minroute = route.calculateRoute({ 0, 0 }, { 3, 5 });
   for(auto i : minroute) {
     printf("%d %d\n", i.x, i.y);
   }

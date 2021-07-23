@@ -184,14 +184,23 @@ CenterMark& BingoArea::getCenterMark()
   return centerMark;
 }
 
-bool BingoArea::existBlock(Coordinate &coordinate)
+bool BingoArea::existBlock(Coordinate& coordinate)
 {
-  for(int i= 0;i<static_cast<int>(blockCircle.size());i++)
-  {
-    if(blockCircle[i].getCoordinate()==coordinate&&blockCircle[i].getBlock().blockId==BLOCK_ID::NONE)
-    {
-      return true;
-    }
+  //中点の場合は必ずブロックはおかれていない
+  if(coordinate.x % 2 != coordinate.y % 2) {
     return false;
   }
+  for(int i = 0; i < static_cast<int>(blockCircle.size()); i++) {
+    if(blockCircle[i].getCoordinate() == coordinate
+       && blockCircle[i].getBlock().blockId == BLOCK_ID::NONE) {
+      return false;
+    }
+  }
+  for(int i = 0; i < static_cast<int>(crossCircle.size()); i++) {
+    if(crossCircle[i].getCoordinate() == coordinate
+       && crossCircle[i].getBlock().blockId == BLOCK_ID::NONE) {
+      return false;
+    }
+  }
+  return true;
 }
