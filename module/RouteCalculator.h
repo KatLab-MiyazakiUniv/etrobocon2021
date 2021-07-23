@@ -4,13 +4,13 @@
  * @author	Hisataka-Hagiyama,uchyam
  */
 
-#ifndef ROUTE_CALCULATER_H
-#define ROUTE_CALCULATER_H
+#ifndef ROUTE_CALCULATOR_H
+#define ROUTE_CALCULATOR_H
 
 #include "BingoArea.h"
 #include "cmath"
 #include "vector"
-#include "robot.h"
+#include "Robot.h"
 #include "utility"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
@@ -37,11 +37,11 @@ struct Route {
   //コンストラクタ
   Route() : parent(-1, -1), cost(0) {}
   /**
-  * @fn void set(Coordinate _parent, int _currentCost)
-  * @brief 各ノードの親ノード、現在のコスト、現在の走行体の向きをセットする
-  * @param _parent 親ノード
-  * @param _currentCost　現在のコスト
-  */
+   * @fn void set(Coordinate _parent, int _currentCost)
+   * @brief 各ノードの親ノード、現在のコスト、現在の走行体の向きをセットする
+   * @param _parent 親ノード
+   * @param _currentCost　現在のコスト
+   */
   void set(Coordinate _parent, int _currentCost)
   {
     parent = _parent;
@@ -61,7 +61,7 @@ class RouteCalculator {
    * @param goal ゴールノードの座標
    * @return 最短経路の座標と走行体の向きのペアを格納した動的配列
    */
-  std::vector<std::pair<Coordinate,Direction>> calculateRoute(Coordinate start, Coordinate goal);
+  std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal);
 
  private:
   BingoArea& bingoArea;
@@ -111,10 +111,10 @@ class RouteCalculator {
    * @param route 経路情報
    * @param coordinate 指定ノードの座標
    */
-  void setRoute(std::vector<std::pair<Coordinate,Direction>>& list, Route route[BINGO_SIZE][BINGO_SIZE],
-                Coordinate coordinate);
+  void setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
+                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
 
-  Direction calculateDirection(Coordinate next,Coordinate current);
+  Direction calculateDirection(Coordinate next, Coordinate current);
 };
 
 #endif
