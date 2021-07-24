@@ -31,7 +31,9 @@ struct AstarInfo {
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
   Coordinate parent;  //親ノード
-  int cost;  //このノードに到達するまでのコスト
+  int cost;           //このノードに到達するまでのコスト
+  bool checked
+      = false;  //経路復元の際にこのノードをチェックしたかどうか(経路復元の際に再帰に制限を設けるために用意)
 
   //コンストラクタ
   Route() : parent(-1, -1), cost(0) {}
@@ -75,7 +77,8 @@ class RouteCalculator {
    * @param route 経路情報
    * @return 隣接ノードそれぞれの情報(エリア外のノードは除外する)
    */
-  std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route route[BINGO_SIZE][BINGO_SIZE]);
+  std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate,
+                                           Route route[BINGO_SIZE][BINGO_SIZE]);
 
   /**
    * @fn bool checkBlock(Coordinate coordinate);
@@ -103,7 +106,8 @@ class RouteCalculator {
   int calculateManhattan(Coordinate coordinate);
 
   /**
-   * @fn void setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],Coordinate coordinate);
+   * @fn void setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],Coordinate
+   * coordinate);
    * @brief 指定ノードまでの経路をセットする
    * @param list 経路座標を保持するリスト
    * @param route 経路情報
@@ -111,13 +115,13 @@ class RouteCalculator {
    */
   void setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
                 Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
-/**
-* @fn   Direction calculateDirection(Coordinate next, Coordinate current);
-* @brief 走行体の位置の変化から走行体の向きを計算する
-* @param next 移動後の座標
-* @param current 現在の座標
-* @return 移動後の走行体の向き
-*/
+  /**
+   * @fn   Direction calculateDirection(Coordinate next, Coordinate current);
+   * @brief 走行体の位置の変化から走行体の向きを計算する
+   * @param next 移動後の座標
+   * @param current 現在の座標
+   * @return 移動後の走行体の向き
+   */
   Direction calculateDirection(Coordinate next, Coordinate current);
 };
 

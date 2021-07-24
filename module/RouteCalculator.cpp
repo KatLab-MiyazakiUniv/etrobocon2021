@@ -44,11 +44,13 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         //中点->中点に移動する場合は追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
-      } else if(checkList(m, open)) {
-        // openにより大きいコストの同じ座標がある場合はopenから削除する
-      } else if(checkList(m, close)) {
-        // closeにより大きいコストの同じ座標がある場合はcloseから削除する
+        // } else if(checkList(m, open)) {
+        //   // openにより大きいコストの同じ座標がある場合はopenから削除する
+        // } else if(checkList(m, close)) {
+        //   // closeにより大きいコストの同じ座標がある場合はcloseから削除する
       } else {
+        checkList(m, open);
+        checkList(m, close);
         actualCost = route[elem.coordinate.y][elem.coordinate.x].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
         route[m.coordinate.y][m.coordinate.x].setInfo(elem.coordinate, actualCost);
@@ -123,12 +125,14 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
 {
   Direction direction = calculateDirection(
       coordinate, route[coordinate.y][coordinate.x].parent);  //この座標での走行体の向き
-  // (x,y)を通っていないときのエラー処理
-  if(route[coordinate.y][coordinate.x].parent == Coordinate{ -1, -1 }) {
+  // (x,y)を通っていない/同じ座標を2回チェックしたときのエラー処理
+  if(route[coordinate.y][coordinate.x].parent == Coordinate{ -1, -1 }
+     || route[coordinate.x][coordinate.y].checked) {
     // printf("[ERROR] This coordinate does not pass.\n");
   } else if(route[coordinate.y][coordinate.x].parent == coordinate) {  // スタートノードの場合
     list.push_back(std::make_pair(coordinate, direction));
   } else {
+    route[coordinate.x][coordinate.y].checked = true;
     setRoute(list, route, route[coordinate.y][coordinate.x].parent);
     //中点ではない場合かゴールノードの場合は最短経路リストに追加していく
     if((coordinate.x % 2 == 0 && coordinate.y % 2 == 0) || coordinate == goalNode) {
