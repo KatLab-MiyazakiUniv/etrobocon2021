@@ -3,6 +3,7 @@
  * @brief	経路計算クラス
  * @author	Hisataka-Hagiyama,uchyam
  */
+
 #include "RouteCalculator.h"
 
 RouteCalculator::RouteCalculator(BingoArea& bingoArea) : bingoArea(bingoArea), goalNode(0, 0) {}
@@ -19,7 +20,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
 
   goalNode = goal;  // ゴールノードをセット
 
-  route[start.y][start.x].set(start, 0);
+  route[start.y][start.x].setInfo(start, 0);
   open.push_back(AstarInfo(start, route[start.y][start.x].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
@@ -31,7 +32,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     if(elem.coordinate == goalNode) {
       break;
     }
-    std::vector<AstarInfo> next = nextNode(elem.coordinate, route);  //隣接しているノードを格納
+    std::vector<AstarInfo> next
+        = checkNeighborhood(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
       if((m.coordinate == route[elem.coordinate.y][elem.coordinate.x].parent)) {
         // 親ノードの場合はopenに追加しない
@@ -49,7 +51,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       } else {
         actualCost = route[elem.coordinate.y][elem.coordinate.x].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
-        route[m.coordinate.y][m.coordinate.x].set(elem.coordinate, actualCost);
+        route[m.coordinate.y][m.coordinate.x].setInfo(elem.coordinate, actualCost);
       }
     }
     close.push_back(elem);
@@ -59,8 +61,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   return routeCoordinate;
 }
 
-std::vector<AstarInfo> RouteCalculator::nextNode(Coordinate coordinate,
-                                                 Route route[BINGO_SIZE][BINGO_SIZE])
+std::vector<AstarInfo> RouteCalculator::checkNeighborhood(Coordinate coordinate,
+                                                          Route route[BINGO_SIZE][BINGO_SIZE])
 {
   std::vector<AstarInfo> nodeList;
   int nx, ny;
@@ -70,7 +72,7 @@ std::vector<AstarInfo> RouteCalculator::nextNode(Coordinate coordinate,
       if(i != 0 || j != 0) {
         nx = coordinate.x + i;
         ny = coordinate.y + j;
-        //ビンゴエリアの座標内にある座標はリストに追加する
+        //ビンゴエリアの座標内((0,0)~(6,6))にある座標はリストに追加する
         if((nx >= 0) && (nx < BINGO_SIZE) && (ny >= 0) && (ny < BINGO_SIZE)) {
           nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.y][coordinate.x].cost
                                                        + calculateManhattan({ nx, ny })));
@@ -119,7 +121,8 @@ int RouteCalculator::calculateManhattan(Coordinate coordinate)
 void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
                                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate)
 {
-  Direction direction = calculateDirection(coordinate, route[coordinate.y][coordinate.x].parent);
+  Direction direction = calculateDirection(
+      coordinate, route[coordinate.y][coordinate.x].parent);  //この座標での走行体の向き
   // (x,y)を通っていないときのエラー処理
   if(route[coordinate.y][coordinate.x].parent == Coordinate{ -1, -1 }) {
     // printf("[ERROR] This coordinate does not pass.\n");
@@ -127,6 +130,7 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
     list.push_back(std::make_pair(coordinate, direction));
   } else {
     setRoute(list, route, route[coordinate.y][coordinate.x].parent);
+    //中点ではない場合かゴールノードの場合は最短経路リストに追加していく
     if((coordinate.x % 2 == 0 && coordinate.y % 2 == 0) || coordinate == goalNode) {
       list.push_back(std::make_pair(coordinate, direction));
     }
@@ -141,28 +145,28 @@ Direction RouteCalculator::calculateDirection(Coordinate next, Coordinate curren
     if(gy == 0)
       return Robot::getDirection();  //移動していない場合は走行体の向きを取得
     else if(gy > 0) {
-      return Direction::S;  // 7
+      return Direction::S;
     } else {
-      return Direction::N;  // 1
+      return Direction::N;
     }
   } else if(gy == 0) {
     if(gx > 0) {
-      return Direction::E;  // 5
+      return Direction::E;
     } else {
-      return Direction::W;  // 3
+      return Direction::W;
     }
   } else {
     if(gx > 0) {
       if(gy > 0) {
-        return Direction::SE;  // 8
+        return Direction::SE;
       } else {
-        return Direction::NE;  // 2
+        return Direction::NE;
       }
     } else {
       if(gy > 0) {
-        return Direction::SW;  // 6
+        return Direction::SW;
       } else {
-        return Direction::NW;  // 0
+        return Direction::NW;
       }
     }
   }

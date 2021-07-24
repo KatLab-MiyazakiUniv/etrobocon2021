@@ -9,9 +9,9 @@
 
 #include "BingoArea.h"
 #include "cmath"
-#include "vector"
 #include "Robot.h"
 #include "utility"
+#include "vector"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
@@ -30,8 +30,7 @@ struct AstarInfo {
 
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
-  //親ノード
-  Coordinate parent;
+  Coordinate parent;  //親ノード
   int cost;  //このノードに到達するまでのコスト
 
   //コンストラクタ
@@ -42,7 +41,7 @@ struct Route {
    * @param _parent 親ノード
    * @param _currentCost　現在のコスト
    */
-  void set(Coordinate _parent, int _currentCost)
+  void setInfo(Coordinate _parent, int _currentCost)
   {
     parent = _parent;
     cost = _currentCost;
@@ -69,14 +68,14 @@ class RouteCalculator {
   static constexpr int BINGO_SIZE = 7;
 
   /**
-   * @fn std::vector<AstarInfo> nextNode(Coordinate coordinate, Route
+   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route
    * route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める
    * @param coordinate 指定ノードの座標
    * @param route 経路情報
    * @return 隣接ノードそれぞれの情報(エリア外のノードは除外する)
    */
-  std::vector<AstarInfo> nextNode(Coordinate coordinate, Route route[BINGO_SIZE][BINGO_SIZE]);
+  std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route route[BINGO_SIZE][BINGO_SIZE]);
 
   /**
    * @fn bool checkBlock(Coordinate coordinate);
