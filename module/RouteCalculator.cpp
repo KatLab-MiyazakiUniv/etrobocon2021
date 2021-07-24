@@ -105,7 +105,7 @@ int RouteCalculator::calculateManhattan(Coordinate coordinate)
 {
   int distX = abs(goalNode.x - coordinate.x);  // x方向の距離
   int distY = abs(goalNode.y - coordinate.y);  // y方向の距離
-  return distX + distY;  //マンハッタン距離=x方向の距離+y方向の距離
+  return distX + distY;  //マンハッタン距離=x方向の距離 + y方向の距離
 }
 
 void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
@@ -116,7 +116,7 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
      || route[coordinate.x][coordinate.y].checked) {
     // printf("[ERROR] This coordinate does not pass.\n");
   } else if(route[coordinate.x][coordinate.y].parent == coordinate) {  // スタートノードの場合
-    Direction direction = /*Robot::getDirection()*/ Direction::N;
+    Direction direction = Robot::getDirection();
     list.push_back(std::make_pair(coordinate, direction));
   } else {
     Direction direction = calculateDirection(
@@ -136,7 +136,7 @@ Direction RouteCalculator::calculateDirection(Coordinate next, Coordinate curren
   int gy = next.y - current.y;
   if(gx == 0) {
     if(gy == 0)
-      return Robot::getDirection();  //移動していない場合は走行体の向きを取得
+      return Robot::getDirection();  //移動していない場合は走行体の向きを戻り値とする
     else if(gy > 0) {
       return Direction::S;
     } else {

@@ -7,8 +7,9 @@
 #include "RouteCalculator.h"
 #include <gtest/gtest.h>
 namespace etrobocon2021_test {
-  TEST(RouteCalculator, pattern1)
+  TEST(RouteCalculator, fullBingo)
   {
+    Robot::setDirection(Direction::N);  //走行体の初期位置はNとする
     BingoArea bingoArea;
     bingoArea.initBingoArea();
     RouteCalculator route(bingoArea);
@@ -20,7 +21,6 @@ namespace etrobocon2021_test {
     std::vector<std::pair<Coordinate, Direction>> actual_route
         = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
-
     bingoArea.moveBlock(CIRCLE_ID::ID1, BLOCK_ID::ID3);
 
     coordinate_start = { 2, 0 };

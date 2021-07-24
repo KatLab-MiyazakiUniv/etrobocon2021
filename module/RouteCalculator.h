@@ -24,7 +24,7 @@ struct AstarInfo {
     : coordinate(_coordinate), estimateCost(_estimateCost)
   {
   }
-  //予測コストでソートできるように比較演算子をオーバーライド
+  //予測コストでソートできるように比較演算子をオーバーロード
   bool operator<(const AstarInfo& another) const { return estimateCost < another.estimateCost; }
   bool operator>(const AstarInfo& another) const { return estimateCost > another.estimateCost; }
 };
@@ -57,7 +57,7 @@ class RouteCalculator {
   RouteCalculator(BingoArea& bingoArea);
 
   /**
-   * @fn void calculateRoute(std::vector<Coordinate>& list, Coordinate start, Coordinate goal);
+   * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal)
    * @brief 経路計算をする
    * @param start スタートノードの座標
    * @param goal ゴールノードの座標
@@ -71,8 +71,7 @@ class RouteCalculator {
   static constexpr int BINGO_SIZE = 7;
 
   /**
-   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route
-   * route[BINGO_SIZE][BINGO_SIZE]);
+   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route, route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める
    * @param coordinate 指定ノードの座標
    * @param route 経路情報
@@ -90,7 +89,7 @@ class RouteCalculator {
   bool checkBlock(Coordinate coordinate);
 
   /**
-   * @fn bool checkList(AstarInfo node, std::vector<AstarInfo>& list);
+   * @fn void checkList(AstarInfo node, std::vector<AstarInfo>& list);
    * @brief リストに隣接ノードと同じノードがあるか調べて，ある場合は削除する
    * @param node 隣接ノードの情報
    * @param list オープンorクローズリスト

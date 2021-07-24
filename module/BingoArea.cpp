@@ -186,7 +186,7 @@ CenterMark& BingoArea::getCenterMark()
 
 bool BingoArea::existBlock(Coordinate& coordinate)
 {
-  //中点の場合は必ずブロックはおかれていない
+  //中点の場合は必ずブロックは置かれていない
   if(coordinate.x % 2 != coordinate.y % 2) {
     return false;
   }
