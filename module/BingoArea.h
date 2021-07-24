@@ -66,10 +66,10 @@ class BingoArea {
   void moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid);
 
   /**
-   *@fn bool existBlock(Coordinate& coordinate);
-   *@brief 指定された座標のブロックの有無を確認
-   *@param coordinate　座標
-   *@return 判定結果(true:ブロックあり false:ブロックなし)
+   * @fn bool existBlock(Coordinate& coordinate);
+   * @brief 指定された座標のブロックの有無を確認
+   * @param coordinate　座標
+   * @return 判定結果(true:ブロックあり false:ブロックなし)
    */
   bool existBlock(Coordinate& coordinate);
 
