@@ -19,7 +19,6 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
 
   goalNode = goal;  // ゴールノードをセット
-
   route[start.x][start.y].setInfo(start, 0);
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
@@ -45,10 +44,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
       } else {
-        // openにより大きいコストの同じ座標がある場合はopenから削除する
-        checkList(m, open);
-        // closeにより大きいコストの同じ座標がある場合はcloseから削除する
-        checkList(m, close);
+        checkList(m, open);  // openにより大きいコストの同じ座標がある場合はopenから削除する
+        checkList(m, close);  // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
         route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost);
@@ -87,28 +84,21 @@ bool RouteCalculator::checkBlock(Coordinate coordinate)
 {
   if(coordinate == goalNode) {
     return false;  // ゴールノードの場合はブロックがあっても避けない
-  }
-  if(bingoArea.existBlock(coordinate)) {
+  } else if(bingoArea.existBlock(coordinate)) {
     return true;  // ブロックがあるので処理を終える
   } else {
     return false;  // ブロックがないので次の処理に移る
   }
 }
 
-bool RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
+void RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
 {
   for(int i = 0; i < static_cast<int>(list.size()); i++) {
     // listに既に同じノードがあるか調べる
-    if(node.coordinate == list[i].coordinate) {
-      if(node < list[i]) {
-        list.erase(list.begin() + i);
-        return false;  // listにすでにあるノードよりもコストが低いため、listから削除して次の処理に移る
-      } else {
-        return true;  // listにすでに同コストのノードがある場合はこのノードの処理を終える
-      }
+    if(node.coordinate == list[i].coordinate && node < list[i]) {
+      list.erase(list.begin() + i);  //既に同じノードがあった場合削除する
     }
   }
-  return false;  // listにないノードなので次の処理に移る
 }
 
 int RouteCalculator::calculateManhattan(Coordinate coordinate)

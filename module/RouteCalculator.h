@@ -16,8 +16,9 @@
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
   // ノードの座標
-  Coordinate coordinate;
-  int estimateCost;
+  Coordinate coordinate;//座標
+  int estimateCost;//予測コスト
+
   //コンストラクタ
   AstarInfo(Coordinate _coordinate, int _estimateCost)
     : coordinate(_coordinate), estimateCost(_estimateCost)
@@ -93,28 +94,26 @@ class RouteCalculator {
    * @brief リストに隣接ノードと同じノードがあるか調べて，ある場合は削除する
    * @param node 隣接ノードの情報
    * @param list オープンorクローズリスト
-   * @return 判定結果(この隣接ノードを探索する必要がない場合true)
    */
-  bool checkList(AstarInfo node, std::vector<AstarInfo>& list);
+  void checkList(AstarInfo node, std::vector<AstarInfo>& list);
 
   /**
    * @fn int calculateManhattan(Coordinate coordinate);
-   * @brief ヒューリスティック関数としてマンハッタン距離を取る
-   * @param coordinate 指定ノードの座標
-   * @return 指定ノードとゴールノードのマンハッタン距離
+   * @brief ヒューリスティック関数としてマンハッタン距離を計算する
+   * @param coordinate ノードの座標
+   * @return 指定ノードとゴールノードとのマンハッタン距離
    */
   int calculateManhattan(Coordinate coordinate);
 
   /**
-   * @fn void setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],Coordinate
-   * coordinate);
+   * @fn void setRoute(std::vector<std::pair<Coordinate, Direction>>& list, Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
    * @brief 指定ノードまでの経路をセットする
-   * @param list 経路座標を保持するリスト
+   * @param list 最短経路の座標と走行体の向きのペアを保持する動的配列
    * @param route 経路情報
-   * @param coordinate 指定ノードの座標
+   * @param coordinate ノードの座標
    */
-  void setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
-                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
+  void setRoute(std::vector<std::pair<Coordinate, Direction>>& list, Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
+
   /**
    * @fn   Direction calculateDirection(Coordinate next, Coordinate current);
    * @brief 走行体の位置の変化から走行体の向きを計算する
