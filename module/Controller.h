@@ -25,11 +25,13 @@ class Controller {
    */
   void setRightMotorPwm(const int pwm);
   void setLeftMotorPwm(const int pwm);
+  void setArmMotorPwm(const int pwm);
 
   /**
    * 停止する
    */
   void stopMotor();
+  void stopArmMotor();
 
   /**
    * 自タスクスリープ
@@ -45,6 +47,7 @@ class Controller {
  private:
   ev3api::Motor rightWheel;
   ev3api::Motor leftWheel;
+  ev3api::Motor arm;
   ev3api::Clock clock;
   Measurer measurer;
   /**
