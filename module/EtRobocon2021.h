@@ -7,11 +7,9 @@
 #ifndef ETROBOCON2021_H
 #define ETROBOCON2021_H
 
-#include "BingoArea.h"
 #include "Controller.h"
 #include "LineTraceArea.h"
 #include "Measurer.h"
-#include "RouteCalculator.h"
 
 class EtRobocon2021 {
  public:
