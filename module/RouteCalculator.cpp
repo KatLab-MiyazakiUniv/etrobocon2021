@@ -20,8 +20,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
 
   goalNode = goal;  // ゴールノードをセット
 
-  route[start.y][start.x].setInfo(start, 0);
-  open.push_back(AstarInfo(start, route[start.y][start.x].cost + calculateManhattan(start)));
+  route[start.x][start.y].setInfo(start, 0);
+  open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
     sort(open.begin(), open.end(), std::greater<AstarInfo>());
@@ -35,7 +35,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     std::vector<AstarInfo> next
         = checkNeighborhood(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
-      if((m.coordinate == route[elem.coordinate.y][elem.coordinate.x].parent)) {
+      if((m.coordinate == route[elem.coordinate.x][elem.coordinate.y].parent)) {
         // 親ノードの場合はopenに追加しない
       } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
         //ゴールでない中点は追加しない
@@ -51,9 +51,9 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       } else {
         checkList(m, open);
         checkList(m, close);
-        actualCost = route[elem.coordinate.y][elem.coordinate.x].cost;
+        actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
-        route[m.coordinate.y][m.coordinate.x].setInfo(elem.coordinate, actualCost);
+        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost);
       }
     }
     close.push_back(elem);
@@ -76,7 +76,7 @@ std::vector<AstarInfo> RouteCalculator::checkNeighborhood(Coordinate coordinate,
         ny = coordinate.y + j;
         //ビンゴエリアの座標内((0,0)~(6,6))にある座標はリストに追加する
         if((nx >= 0) && (nx < BINGO_SIZE) && (ny >= 0) && (ny < BINGO_SIZE)) {
-          nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.y][coordinate.x].cost
+          nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.x][coordinate.y].cost
                                                        + calculateManhattan({ nx, ny })));
         }
       }
@@ -124,17 +124,17 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
                                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate)
 {
   // (x,y)を通っていない/同じ座標を2回チェックしたときのエラー処理
-  if(route[coordinate.y][coordinate.x].parent == Coordinate{ -1, -1 }
+  if(route[coordinate.x][coordinate.y].parent == Coordinate{ -1, -1 }
      || route[coordinate.x][coordinate.y].checked) {
     // printf("[ERROR] This coordinate does not pass.\n");
-  } else if(route[coordinate.y][coordinate.x].parent == coordinate) {  // スタートノードの場合
+  } else if(route[coordinate.x][coordinate.y].parent == coordinate) {  // スタートノードの場合
     Direction direction = /*Robot::getDirection()*/ Direction::N;
     list.push_back(std::make_pair(coordinate, direction));
   } else {
     Direction direction = calculateDirection(
-        coordinate, route[coordinate.y][coordinate.x].parent);  //この座標での走行体の向き
+        coordinate, route[coordinate.x][coordinate.y].parent);  //この座標での走行体の向き
     route[coordinate.x][coordinate.y].checked = true;
-    setRoute(list, route, route[coordinate.y][coordinate.x].parent);
+    setRoute(list, route, route[coordinate.x][coordinate.y].parent);
     //中点ではない場合かゴールノードの場合は最短経路リストに追加していく
     if((coordinate.x % 2 == 0 && coordinate.y % 2 == 0) || coordinate == goalNode) {
       list.push_back(std::make_pair(coordinate, direction));
