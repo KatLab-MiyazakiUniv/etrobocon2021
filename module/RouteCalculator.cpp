@@ -33,10 +33,10 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     }
     std::vector<AstarInfo> next = nextNode(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
-      // printf("%d %d %d\n", m.coordinate.x, m.coordinate.y,
-      // calculateDirection(m.coordinate, elem.coordinate));
       if((m.coordinate == route[elem.coordinate.y][elem.coordinate.x].parent)) {
         // 親ノードの場合はopenに追加しない
+      } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
+        //ゴールでない中点は追加しない
       } else if((elem.coordinate.x % 2 == 1 || elem.coordinate.y % 2 == 1)
                 && (m.coordinate.x % 2 == 1 || m.coordinate.y % 2 == 1)) {
         //中点->中点に移動する場合は追加しない
@@ -88,8 +88,6 @@ bool RouteCalculator::checkBlock(Coordinate coordinate)
   }
   if(bingoArea.existBlock(coordinate)) {
     return true;  // ブロックがあるので処理を終える
-  } else if(coordinate.x % 2 == 1 && coordinate.y % 2 == 1) {
-    return true;  //ゴールノードではないブロックサークルの場合は処理を終える
   } else {
     return false;  // ブロックがないので次の処理に移る
   }
@@ -129,7 +127,9 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
     list.push_back(std::make_pair(coordinate, direction));
   } else {
     setRoute(list, route, route[coordinate.y][coordinate.x].parent);
-    list.push_back(std::make_pair(coordinate, direction));
+    if((coordinate.x % 2 == 0 && coordinate.y % 2 == 0) || coordinate == goalNode) {
+      list.push_back(std::make_pair(coordinate, direction));
+    }
   }
 }
 
@@ -139,16 +139,14 @@ Direction RouteCalculator::calculateDirection(Coordinate next, Coordinate curren
   int gy = next.y - current.y;
   if(gx == 0) {
     if(gy == 0)
-      return Robot::getDirection();
+      return Robot::getDirection();  //移動していない場合は走行体の向きを取得
     else if(gy > 0) {
       return Direction::S;  // 7
     } else {
       return Direction::N;  // 1
     }
   } else if(gy == 0) {
-    if(gx == 0)
-      return Robot::getDirection();
-    else if(gx > 0) {
+    if(gx > 0) {
       return Direction::E;  // 5
     } else {
       return Direction::W;  // 3

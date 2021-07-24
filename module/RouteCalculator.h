@@ -104,8 +104,7 @@ class RouteCalculator {
   int calculateManhattan(Coordinate coordinate);
 
   /**
-   * @fn void setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],
-   * Coordinate coordinate);
+   * @fn void setRoute(std::vector<Coordinate>& list, Route route[BINGO_SIZE][BINGO_SIZE],Coordinate coordinate);
    * @brief 指定ノードまでの経路をセットする
    * @param list 経路座標を保持するリスト
    * @param route 経路情報
@@ -113,7 +112,13 @@ class RouteCalculator {
    */
   void setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
                 Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate);
-
+/**
+* @fn   Direction calculateDirection(Coordinate next, Coordinate current);
+* @brief 走行体の位置の変化から走行体の向きを計算する
+* @param next 移動後の座標
+* @param current 現在の座標
+* @return 移動後の走行体の向き
+*/
   Direction calculateDirection(Coordinate next, Coordinate current);
 };
 
