@@ -38,18 +38,16 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       if((m.coordinate == route[elem.coordinate.x][elem.coordinate.y].parent)) {
         // 親ノードの場合はopenに追加しない
       } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
-        //ゴールでない中点は追加しない
+        //ゴールでないブロックサークルは追加しない
       } else if((elem.coordinate.x % 2 == 1 || elem.coordinate.y % 2 == 1)
                 && (m.coordinate.x % 2 == 1 || m.coordinate.y % 2 == 1)) {
         //中点->中点に移動する場合は追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
-        // } else if(checkList(m, open)) {
-        //   // openにより大きいコストの同じ座標がある場合はopenから削除する
-        // } else if(checkList(m, close)) {
-        //   // closeにより大きいコストの同じ座標がある場合はcloseから削除する
       } else {
+        // openにより大きいコストの同じ座標がある場合はopenから削除する
         checkList(m, open);
+        // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         checkList(m, close);
         actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
