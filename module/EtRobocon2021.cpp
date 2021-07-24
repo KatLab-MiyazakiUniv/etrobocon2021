@@ -23,7 +23,7 @@ void EtRobocon2021::start()
   trace.run(350, 12, 60, PidGain(0.1, 0.8, 0.1));
   bingoArea.initBingoArea();
   RouteCalculator route(bingoArea);
-  std::vector<std::pair<Coordinate, Direction>> minroute = route.calculateRoute({ 0, 0 }, { 3, 5 });
+  std::vector<std::pair<Coordinate, Direction>> minroute = route.calculateRoute({ 2, 4 }, { 1, 1 });
   for(auto i : minroute) {
     printf("%d %d %d\n", i.first.x, i.first.y, i.second);
   }

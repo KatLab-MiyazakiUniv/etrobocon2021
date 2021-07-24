@@ -123,15 +123,16 @@ int RouteCalculator::calculateManhattan(Coordinate coordinate)
 void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
                                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate)
 {
-  Direction direction = calculateDirection(
-      coordinate, route[coordinate.y][coordinate.x].parent);  //この座標での走行体の向き
   // (x,y)を通っていない/同じ座標を2回チェックしたときのエラー処理
   if(route[coordinate.y][coordinate.x].parent == Coordinate{ -1, -1 }
      || route[coordinate.x][coordinate.y].checked) {
     // printf("[ERROR] This coordinate does not pass.\n");
   } else if(route[coordinate.y][coordinate.x].parent == coordinate) {  // スタートノードの場合
+    Direction direction = /*Robot::getDirection()*/ Direction::N;
     list.push_back(std::make_pair(coordinate, direction));
   } else {
+    Direction direction = calculateDirection(
+        coordinate, route[coordinate.y][coordinate.x].parent);  //この座標での走行体の向き
     route[coordinate.x][coordinate.y].checked = true;
     setRoute(list, route, route[coordinate.y][coordinate.x].parent);
     //中点ではない場合かゴールノードの場合は最短経路リストに追加していく
