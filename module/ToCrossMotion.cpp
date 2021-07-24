@@ -11,7 +11,7 @@ ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer) : lineTracer(_lineTracer) 
 void ToCrossMotion::runToCross(void)
 {
   int targetBrightness = 12;
-  int pwm = 30;
+  int pwm = 40;
   PidGain gain(2, 1, 1);
   StraightRunner straightRunner;
 

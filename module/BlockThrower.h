@@ -1,18 +1,18 @@
 /**
- * @file ThrowInBlock.h
+ * @file BlockThrower.h
  * @brief 投げ入れ設置クラス
  * @author kodama0720, yutotanaka24
  */
 
-#ifndef THROW_IN_BLOCK_H
-#define THROW_IN_BLOCK_H
+#ifndef BLOCK_THROWER_H
+#define BLOCK_THROWER_H
 
 #include "StraightRunner.h"
 #include "Rotation.h"
 #include "Controller.h"
 #include "BingoMotion.h"
 
-class ThrowInBlock : public BingoMotion{
+class BlockThrower : public BingoMotion{
   public:
   /**
    * @brief 投げ入れ設置する

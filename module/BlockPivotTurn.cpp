@@ -8,10 +8,10 @@
 
 void BlockPivotTurn::setBlockPivotTurn(bool isLeft)
 {
-  double targetDistance = 60;
+  double targetDistance = 105;
   double runPwm = 30;
-  double angle = 215;
-  int rotatePwm = 30;
+  double angle = 180;
+  int rotatePwm = 40;
   int upArmPwm = 100;
   int downArmPwm = -30;
 
@@ -26,12 +26,12 @@ void BlockPivotTurn::setBlockPivotTurn(bool isLeft)
       controller.sleep();
     }
     //アームを戻す
-    while(measurer.getArmMotorCount() > 0) {
+    while(measurer.getArmMotorCount() > -40) {
       controller.setArmMotorPwm(downArmPwm);
       controller.sleep();
     }
     controller.stopArmMotor();
-    rotation.turnBackLeftPivot(angle - 10, rotatePwm);
+    rotation.turnBackLeftPivot(angle, rotatePwm);
   } else {
     rotation.turnForwardRightPivot(angle, rotatePwm);
     //アームを上げる
@@ -40,11 +40,11 @@ void BlockPivotTurn::setBlockPivotTurn(bool isLeft)
       controller.sleep();
     }
     //アームを戻す
-    while(measurer.getArmMotorCount() > 0) {
+    while(measurer.getArmMotorCount() > -40) {
       controller.setArmMotorPwm(downArmPwm);
       controller.sleep();
     }
     controller.stopArmMotor();
-    rotation.turnBackRightPivot(angle - 10, rotatePwm);
+    rotation.turnBackRightPivot(angle, rotatePwm);
   }
 }

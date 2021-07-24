@@ -10,13 +10,15 @@ InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
 
 void InCrossLeft::runLeft(void)
 {
+  int targetDistance = 15;
+  int runPwm = 20;
   int angle = 90;
-  int pwm = 30;
+  int turnPwm = 30;
 
   //ピボットターン後の位置を調整するため、直進する
-  //straightRunner.runStraightToDistance(10, 20);
+  straightRunner.runStraightToDistance(targetDistance, runPwm);
   //左に90度ピボットターンする
-  rotation.turnForwardLeftPivot(angle, pwm);
+  rotation.turnForwardLeftPivot(angle, turnPwm);
   //エッジを左にする
   lineTracer.setIsLeftEdge(true);
 }

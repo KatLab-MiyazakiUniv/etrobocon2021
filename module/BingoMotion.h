@@ -19,9 +19,9 @@ class BingoMotion {
    * @brief 失敗リスクを取得する
    * @return 失敗リスク
    */
-  int getFailureRisk(void);//ゲッター
+  int getFailureRisk(void);
 
-  private:
+ private:
   int MOTION_TIME;
   int FAILURE_RISK;
 };

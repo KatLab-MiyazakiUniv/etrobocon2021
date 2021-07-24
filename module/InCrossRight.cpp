@@ -14,7 +14,7 @@ void InCrossRight::runRight(void)
   int pwm = 30;
 
   //ピボットターン後の位置を調整するため、直進する
-  //straightRunner.runStraightToDistance(10, 20);
+  straightRunner.runStraightToDistance(15, 20);
   //右に90度ピボットターンする
   rotation.turnForwardRightPivot(angle, pwm);
   //エッジを右にする

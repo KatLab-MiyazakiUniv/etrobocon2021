@@ -1,27 +1,27 @@
 /**
- * @file ThrowInBlock.cpp
+ * @file BlockThrower.cpp
  * @brief 投げ入れ設置クラス
  * @author kodama0720, yutotanaka24
  */
 
-#include "ThrowInBlock.h"
+#include "BlockThrower.h"
 
-void ThrowInBlock::throwBlock(bool isLeft)
+void BlockThrower::throwBlock(bool isLeft)
 {
-  double targetDistance = 60;
-  int runPwm = 10;
-  int angle = 55;
-  int rotatePwm = 15;
+  double targetDistance = 105;
+  int runPwm = 20;
+  int angle = 45;
+  int rotatePwm = 20;
   int upArmPwm = 100;
-  int downArmPwm = -30;
+  int downArmPwm = -100;
 
   //黒線の奥まで直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
-  //ピボットターンする
+  //回頭する
   if(isLeft) {
-    rotation.turnForwardLeftPivot(angle, rotatePwm);
+    rotation.rotateLeft(angle, rotatePwm);
   } else {
-    rotation.turnForwardRightPivot(angle, rotatePwm);
+    rotation.rotateRight(angle, rotatePwm);
   }
   //アームを上げる
   while(measurer.getArmMotorCount() < 40) {
@@ -29,7 +29,7 @@ void ThrowInBlock::throwBlock(bool isLeft)
     controller.sleep();
   }
   //アームを戻す
-  while(measurer.getArmMotorCount() > 0) {
+  while(measurer.getArmMotorCount() > -40) {
     controller.setArmMotorPwm(downArmPwm);
     controller.sleep();
   }
