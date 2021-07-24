@@ -11,6 +11,7 @@
 #include "ColorSensor.h"
 #include "Motor.h"
 #include "TouchSensor.h"
+#include "etroboc_ext.h"
 
 class Measurer {
  public:
@@ -54,6 +55,13 @@ class Measurer {
    * @return true:押されている状態, false:押されていない状態
    */
   bool isPressed();
+
+  /**
+   * コース情報の取得
+   * @param info 取得するコース情報のID
+   * @return コース情報(ブロックの座標)
+   */
+  int getCourseInfo(ETROBOC_COURSE_INFO_ID info);
 
  private:
   ev3api::ColorSensor colorSensor;
