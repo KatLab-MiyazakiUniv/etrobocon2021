@@ -23,7 +23,7 @@ COLOR ColorJudge::getColor(rgb_raw_t const& _rgb)
   hsv = convertRgbToHsv(rgb);
 
   // RGBの中の最小値を求める
-  min = std::min({ _rgb.r, _rgb.g, _rgb.b });
+  min = std::min({ rgb.r, rgb.g, rgb.b });
 
   // 明度が極端に低ければ、黒を返す
   if(hsv.value < BLACK_LIMIT_BORDER) return COLOR::BLACK;

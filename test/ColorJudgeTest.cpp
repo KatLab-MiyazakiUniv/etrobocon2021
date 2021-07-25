@@ -50,7 +50,7 @@ namespace etrobocon2021_test {
 
   TEST(getColorTest, getColorLightRed2)
   {
-    rgb_raw_t rgb = { 103, 90, 128 };
+    rgb_raw_t rgb = { 101, 76, 107 };
     COLOR expected = COLOR::RED;
 
     EXPECT_EQ(expected, ColorJudge::getColor(rgb));
