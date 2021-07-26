@@ -54,7 +54,7 @@ struct Route {
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(BingoArea& bingoArea);
+  RouteCalculator(BingoArea& bingoArea,Robot &robot);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal)
@@ -69,7 +69,8 @@ class RouteCalculator {
   BingoArea& bingoArea;
   Coordinate goalNode;  //クラス内でゴールノードを共有しておく
   static constexpr int BINGO_SIZE = 7;
-
+  Robot &robot;
+  
   /**
    * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route, route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める

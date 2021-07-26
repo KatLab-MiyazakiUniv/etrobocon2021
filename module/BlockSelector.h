@@ -20,7 +20,7 @@ class BlockSelector {
   /**
    * コンストラクタ
    */
-  BlockSelector(BingoArea& _bingoArea, DestinationList& _destinationList);
+  BlockSelector(BingoArea& _bingoArea, DestinationList& _destinationList, Robot& _robot);
 
   /**
    * 運搬するブロックのIdを返す
@@ -31,6 +31,7 @@ class BlockSelector {
  private:
   BingoArea& bingoArea;
   DestinationList destinationList;
+  Robot& robot;
 
   // 走行体が運びうるブロック
   std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1> arrivableBlocks;
