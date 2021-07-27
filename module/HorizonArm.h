@@ -25,7 +25,7 @@ class HorizonArm {
 
  private:
   // アームの角位置の目標値
-  static constexpr int targetArmCount = -45;
+  static constexpr int TARGET_ARM_COUNT = -45;
 };
 
 #endif
