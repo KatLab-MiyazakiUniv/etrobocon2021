@@ -117,7 +117,6 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
   // (x,y)を通っていない/同じ座標を2回チェックしたときのエラー処理
   if(route[coordinate.x][coordinate.y].parent == Coordinate{ -1, -1 }
      || route[coordinate.x][coordinate.y].checked) {
-    // printf("[ERROR] This coordinate does not pass.\n");
   } else if(route[coordinate.x][coordinate.y].parent == coordinate) {  // スタートノードの場合
     Direction direction = robot.getDirection();
     list.push_back(std::make_pair(coordinate, direction));
