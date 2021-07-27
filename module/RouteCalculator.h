@@ -34,7 +34,7 @@ struct Route {
   Coordinate parent;  //親ノード
   int cost;           //このノードに到達するまでのコスト
   bool checked
-      = false;  //経路復元の際にこのノードをチェックしたかどうか(経路復元の際に再帰に制限を設けるために用意/動作未確認)
+      = false;  //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
   Route() : parent(-1, -1), cost(0) {}
@@ -70,7 +70,7 @@ class RouteCalculator {
   Coordinate goalNode;  //クラス内でゴールノードを共有しておく
   static constexpr int BINGO_SIZE = 7;
   Robot &robot;
-  
+
   /**
    * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route, route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める
