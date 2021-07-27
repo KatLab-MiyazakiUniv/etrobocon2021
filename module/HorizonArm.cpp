@@ -15,7 +15,7 @@ void HorizonArm::keepArm()
   // アームの角度が目標値(水平)になるまで、アームを動かす
   Measurer measurer;
   Controller controller;
-  Pid pid(3.0, 0.3, 0.001, TARGET_ARM_COUNT);
+  Pid pid(1.0, 0.3, 0.001, TARGET_ARM_COUNT);
 
   int currentCount = measurer.getArmCount();
   while(true) {
