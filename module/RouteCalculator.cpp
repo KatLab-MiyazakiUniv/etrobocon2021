@@ -124,7 +124,7 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
       Direction direction = calculateDirection(c, p);
       list.push_back(std::make_pair(c, direction));
     }
-    route[c.x][c.y].checked == true;
+    route[c.x][c.y].checked = true;
     last = p;
   }
   list.push_back(std::make_pair(last, robot.getDirection()));  //スタートノードをリストに追加する
