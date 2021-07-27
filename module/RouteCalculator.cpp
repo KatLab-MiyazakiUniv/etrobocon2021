@@ -116,7 +116,8 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
 {
   Coordinate last;  //最後に確認したノードの親ノード
   //スタートノードでなく、このノードを通っている間チェックしていく
-  for(Coordinate c = coordinate; c != route[c.x][c.y].parent && c != Coordinate{ -1, -1 };
+  for(Coordinate c = coordinate;
+      c != route[c.x][c.y].parent && route[c.x][c.y].parent != Coordinate{ -1, -1 };
       c = route[c.x][c.y].parent) {
     Coordinate p = route[c.x][c.y].parent;
     //このノードを通っている・まだ最短経路としてチェックしていない・中点ではないorゴールである場合は最短経路リストに追加していく
