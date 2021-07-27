@@ -6,13 +6,13 @@
 
 #include "BlockSelector.h"
 #include <gtest/gtest.h>
-
 namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute1)
   {
+    constexpr bool IS_LEFT_COURSE = true;
     BingoArea bingoArea;
     bingoArea.initBingoArea();
-
+    Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
@@ -26,8 +26,6 @@ namespace etrobocon2021_test {
       BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6, BLOCK_ID::ID1,
     };
 
-    // 初期化
-    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
@@ -35,7 +33,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList);
+    BlockSelector blockSelector(bingoArea, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -56,9 +54,9 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 走行体の座標を更新
-      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -67,9 +65,10 @@ namespace etrobocon2021_test {
 
   TEST(selectBlockTest, selectBlockRoute2)
   {
+    constexpr bool IS_LEFT_COURSE = true;
     BingoArea bingoArea;
     bingoArea.initBingoArea();
-
+    Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
@@ -83,8 +82,6 @@ namespace etrobocon2021_test {
       BLOCK_ID::ID1, BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6,
     };
 
-    // 初期化
-    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
@@ -92,7 +89,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList);
+    BlockSelector blockSelector(bingoArea, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -113,9 +110,9 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 走行体の座標を更新
-      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -124,9 +121,10 @@ namespace etrobocon2021_test {
 
   TEST(selectBlockTest, selectBlockRoute3)
   {
+    constexpr bool IS_LEFT_COURSE = true;
     BingoArea bingoArea;
     bingoArea.initBingoArea();
-
+    Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
@@ -140,8 +138,6 @@ namespace etrobocon2021_test {
       BLOCK_ID::ID6, BLOCK_ID::ID7, BLOCK_ID::ID5, BLOCK_ID::ID1,
     };
 
-    // 初期化
-    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
@@ -149,7 +145,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList);
+    BlockSelector blockSelector(bingoArea, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -170,9 +166,9 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 走行体の座標を更新
-      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -181,9 +177,10 @@ namespace etrobocon2021_test {
 
   TEST(selectBlockTest, selectBlockRoute4)
   {
+    constexpr bool IS_LEFT_COURSE = true;
     BingoArea bingoArea;
     bingoArea.initBingoArea();
-
+    Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
 
@@ -197,8 +194,6 @@ namespace etrobocon2021_test {
       BLOCK_ID::ID3, BLOCK_ID::ID7, BLOCK_ID::ID6, BLOCK_ID::ID2,
     };
 
-    // 初期化
-    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
@@ -206,7 +201,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList);
+    BlockSelector blockSelector(bingoArea, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -227,9 +222,9 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 走行体の座標を更新
-      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -238,8 +233,10 @@ namespace etrobocon2021_test {
 
   TEST(selectBlockTest, selectBlockRoute5)
   {
+    constexpr bool IS_LEFT_COURSE = true;
     BingoArea bingoArea;
     bingoArea.initBingoArea();
+    Robot robot(IS_LEFT_COURSE);
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
@@ -254,8 +251,6 @@ namespace etrobocon2021_test {
       BLOCK_ID::ID7, BLOCK_ID::ID5, BLOCK_ID::ID1, BLOCK_ID::ID6,
     };
 
-    // 初期化
-    Robot::setCoordinate({ 2, 3 });
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
       bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
@@ -263,7 +258,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList);
+    BlockSelector blockSelector(bingoArea, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -284,9 +279,9 @@ namespace etrobocon2021_test {
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
 
       // 走行体の座標を更新
-      Robot::setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
+      robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      Robot::setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
