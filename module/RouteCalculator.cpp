@@ -115,16 +115,16 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
                                Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate)
 {
   Coordinate last;  //最後に確認したノードの親ノード
-  //スタートノードでない間チェックしていく
-  for(Coordinate c = coordinate; c != route[c.x][c.y].parent; c = route[c.x][c.y].parent) {
+  //スタートノードでなく、このノードを通っている間チェックしていく
+  for(Coordinate c = coordinate; c != route[c.x][c.y].parent && c != Coordinate{ -1, -1 };
+      c = route[c.x][c.y].parent) {
     Coordinate p = route[c.x][c.y].parent;
     //このノードを通っている・まだ最短経路としてチェックしていない・中点ではないorゴールである場合は最短経路リストに追加していく
-    if(p != Coordinate{ -1, -1 } && route[c.x][c.y].checked == false
-       && ((c.x % 2 == 0 && c.y % 2 == 0) || c == goalNode)) {
+    if(route[c.x][c.y].checked == false && ((c.x % 2 == 0 && c.y % 2 == 0) || c == goalNode)) {
       Direction direction = calculateDirection(c, p);
       list.push_back(std::make_pair(c, direction));
     }
-    route[c.x][c.y].checked = true;
+    route[c.x][c.y].checked = true;  //このノードはチェック済みとする
     last = p;
   }
   list.push_back(std::make_pair(last, robot.getDirection()));  //スタートノードをリストに追加する
