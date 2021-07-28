@@ -40,10 +40,10 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       if((m.coordinate == route[elem.coordinate.x][elem.coordinate.y].parent)) {
         // 親ノードの場合はopenに追加しない
       } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
-        //ゴールでないブロックサークルは追加しない
+        //ゴールでないブロックサークルはopenに追加しない
       } else if((elem.coordinate.x % 2 == 1 || elem.coordinate.y % 2 == 1)
                 && (m.coordinate.x % 2 == 1 || m.coordinate.y % 2 == 1)) {
-        //中点->中点に移動する場合は追加しない
+        //中点->中点に移動する場合はopenに追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
       } else {
@@ -57,7 +57,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     close.push_back(elem);
   }
   //経路復元処理
-  setRoute(routeCoordinate, route, goalNode);
+  setRoute(routeCoordinate, route);
   return routeCoordinate;
 }
 
@@ -99,7 +99,7 @@ void RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
   for(int i = 0; i < static_cast<int>(list.size()); i++) {
     // listに既に同じノードがあるか調べる
     if(node.coordinate == list[i].coordinate && node < list[i]) {
-      list.erase(list.begin() + i);  //既に同じノードがあった場合削除する
+      list.erase(list.begin() + i);  //既に同じノードがあり、コストがより大きい場合削除する
     }
   }
 }
@@ -112,11 +112,11 @@ int RouteCalculator::calculateManhattan(Coordinate coordinate)
 }
 
 void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
-                               Route route[BINGO_SIZE][BINGO_SIZE], Coordinate coordinate)
+                               Route route[BINGO_SIZE][BINGO_SIZE])
 {
   Coordinate last;  //最後に確認したノードの親ノード
-  //スタートノードでなく、このノードを通っている間チェックしていく
-  for(Coordinate c = coordinate;
+  //スタートノードでなく、このノードを通っている間チェックしていく(ゴールノードから辿っていく)
+  for(Coordinate c = goalNode;
       c != route[c.x][c.y].parent && route[c.x][c.y].parent != Coordinate{ -1, -1 };
       c = route[c.x][c.y].parent) {
     Coordinate p = route[c.x][c.y].parent;
