@@ -8,11 +8,11 @@
 
 DirectionChanger::DirectionChanger(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
 
-void DirectionChanger::changeDirection(int angle, bool isLeft)
+void DirectionChanger::changeDirection(int angle, bool isClockwise)
 {
   StraightRunner straightRunner;
   int rotatePwm = 30;
-  int targetDistance = 30;
+  int targetDistance = 10;
   int runPwm = 20;
 
   //回転方向を判定
@@ -24,11 +24,11 @@ void DirectionChanger::changeDirection(int angle, bool isLeft)
 
   //エッジ切り替え
   if(lineTracer.getIsLeftEdge()) {
-    if((isLeft && angle == -45) || (!isLeft && angle == 135) || angle == -135 || angle == -90 || angle == 180) {
+    if((isClockwise && angle == 135) || (!isClockwise && angle == -45) || angle == -135 || angle == -90 || angle == 180) {
       lineTracer.setIsLeftEdge(false);
     }
   } else {
-    if((isLeft && angle == -135) || (!isLeft && angle == 45) || angle == 135 || angle == 90 || angle == 180) { 
+    if((isClockwise && angle == 45) || (!isClockwise && angle == -135) || angle == 135 || angle == 90 || angle == 180) { 
       lineTracer.setIsLeftEdge(true);
     }
   }
@@ -37,5 +37,5 @@ void DirectionChanger::changeDirection(int angle, bool isLeft)
   straightRunner.runStraightToDistance(targetDistance, runPwm);
 
   //白黒を判定するまで進む
-  // straightRunner.runStraightToBlackWhite(runPwm);
+  //straightRunner.runStraightToBlackWhite(runPwm);
 }

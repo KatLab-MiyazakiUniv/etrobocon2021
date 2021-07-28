@@ -1,6 +1,6 @@
 /**
- * @file InCrossMotion.h
- * @brief 交点内移動のクラス
+ * @file InCrossStraight.h
+ * @brief 交点内移動（直進）のクラス
  * @author kodama0720, yutotanaka24
  */
 

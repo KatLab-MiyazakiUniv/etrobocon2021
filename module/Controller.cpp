@@ -29,7 +29,7 @@ void Controller::setLeftMotorPwm(const int pwm)
   leftWheel.setPWM(limitPwmValue(pwm));
 }
 
-//タイヤのモータを停止
+//タイヤのモータを停止する
 void Controller::stopMotor()
 {
   leftWheel.stop();

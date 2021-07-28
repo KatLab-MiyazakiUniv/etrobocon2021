@@ -38,7 +38,7 @@ class Controller {
   void setArmMotorPwm(const int pwm);
 
   /**
-   * モータを停止する
+   * タイヤのモータを停止する
    */
   void stopArmMotor();
 

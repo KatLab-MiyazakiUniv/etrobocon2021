@@ -20,9 +20,9 @@ class DirectionChanger : public BingoMotion{
   /**
    * @brief 方向転換する
    * @param angle 回転角度（deg） -180 < angle <= 180 45度刻み
-   * @param isLeft 直前に投げ入れた方向
+   * @param isClockwise 直前に投げ入れた方向
    */
-  void changeDirection(int angle, bool isLeft=true);
+  void changeDirection(int angle, bool isClockwise=true);
   
   private:
   Rotation rotation;

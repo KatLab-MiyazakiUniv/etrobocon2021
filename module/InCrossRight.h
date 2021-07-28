@@ -1,6 +1,6 @@
 /**
  * @file InCrossRight.h
- * @brief 交点内移動（右）のクラス
+ * @brief 交点内移動（右折）のクラス
  * @author kodama0720, yutotanaka24
  */
 
