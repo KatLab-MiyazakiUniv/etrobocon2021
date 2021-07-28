@@ -16,7 +16,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
 {
   std::vector<AstarInfo> open;   //これから探索するノードを格納
   std::vector<AstarInfo> close;  //探索済みのノードを格納
-  std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納(中点は除く)
+  std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納
   struct AstarInfo elem({ 0, 0 }, 0);  //現在探索しているノード(座標(0,0),コスト0で初期化)
   int actualCost = 0;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
@@ -120,8 +120,8 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
       c != route[c.x][c.y].parent && route[c.x][c.y].parent != Coordinate{ -1, -1 };
       c = route[c.x][c.y].parent) {
     Coordinate p = route[c.x][c.y].parent;
-    //このノードを通っている・まだ最短経路としてチェックしていない・中点ではないorゴールである場合は最短経路リストに追加していく
-    if(route[c.x][c.y].checked == false && ((c.x % 2 == 0 && c.y % 2 == 0) || c == goalNode)) {
+    //まだ最短経路としてチェックしていないorゴールである場合は最短経路リストに追加していく
+    if(route[c.x][c.y].checked == false || c == goalNode) {
       Direction direction = calculateDirection(c, p);
       list.push_back(std::make_pair(c, direction));
     }
