@@ -41,11 +41,12 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
       break;
     }
 
+    printf("%d\n", currentPwm);
     // PWM値を徐々に目標値に合わせる
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
       currentPwm
-          = (currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM) * ((pwm > 0) ? 1 : -1);
+          = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM * ((pwm > 0) ? 1 : -1);
       if(std::abs(currentPwm) > std::abs(pwm)) {
         currentPwm = pwm;
       }
@@ -105,7 +106,7 @@ void StraightRunner::runStraightToColor(int pwm)
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
       currentPwm
-          = (currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM) * ((pwm > 0) ? 1 : -1);
+          = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM * ((pwm > 0) ? 1 : -1);
       if(std::abs(currentPwm) > std::abs(pwm)) {
         currentPwm = pwm;
       }
@@ -165,7 +166,7 @@ void StraightRunner::runStraightToBlackWhite(int pwm)
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
       currentPwm
-          = (currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM) * ((pwm > 0) ? 1 : -1);
+          = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM * ((pwm > 0) ? 1 : -1);
       if(std::abs(currentPwm) > std::abs(pwm)) {
         currentPwm = pwm;
       }
