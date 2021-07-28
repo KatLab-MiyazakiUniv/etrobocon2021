@@ -12,12 +12,12 @@ StraightRunner::StraightRunner() {}
 void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
 {
   // 直進前の走行距離
-  int initialRightDistance = measurer.getRightCount();
-  int initialLeftDistance = measurer.getLeftCount();
-  double initialDistance = Mileage::calculateMileage(initialRightDistance, initialLeftDistance);
+  int initialRightMotorCount = measurer.getRightCount();
+  int initialLeftMotorCount = measurer.getLeftCount();
+  double initialDistance = Mileage::calculateMileage(initialRightMotorCount, initialLeftMotorCount);
   // 直進中の走行距離
-  int currentRightDistance = 0;
-  int currentLeftDistance = 0;
+  int currentRightMotorCount = 0;
+  int currentLeftMotorCount = 0;
   double currentDistance = 0;
   int error = 0;                // 左右の回転数の誤差
   Pid pid(1.2, 0.3, 0.001, 0);  // 左右の回転数を合わせるためのPID
@@ -32,9 +32,9 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
   // 走行距離が目標距離に到達するまで繰り返す
   while(true) {
     //現在の距離を取得する
-    currentRightDistance = measurer.getRightCount();
-    currentLeftDistance = measurer.getLeftCount();
-    currentDistance = Mileage::calculateMileage(currentLeftDistance, currentRightDistance);
+    currentRightMotorCount = measurer.getRightCount();
+    currentLeftMotorCount = measurer.getLeftCount();
+    currentDistance = Mileage::calculateMileage(currentLeftMotorCount, currentRightMotorCount);
 
     //現在の距離が目標距離に到達したらループを終了する
     if(std::abs(currentDistance - initialDistance) >= targetDistance) {
@@ -44,15 +44,15 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
     // PWM値を徐々に目標値に合わせる
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
-      currentPwm = (currentDistance + SECTION_DISTANCE) / SECTION_DISTANCE * ACCELE_PWM;
+      currentPwm = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM;
       if(currentPwm > pwm) {
         currentPwm = pwm;
       }
     }
 
-    // 左右の走行距離を合わせるた補正値計算
-    error = (currentLeftDistance - initialLeftDistance)
-            - (currentRightDistance - initialRightDistance);
+    // 左右のモーターカウントを合わせるための補正値計算
+    error = (currentLeftMotorCount - initialLeftMotorCount)
+            - (currentRightMotorCount - initialRightMotorCount);
     adjustment = static_cast<int>(pid.calculatePid(error));
 
     // モータのPWM値をセット
@@ -70,11 +70,11 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
 void StraightRunner::runStraightToColor(int pwm)
 {
   // 直進前の走行距離
-  int initialRightDistance = measurer.getRightCount();
-  int initialLeftDistance = measurer.getLeftCount();
+  int initialRightMotorCount = measurer.getRightCount();
+  int initialLeftMotorCount = measurer.getLeftCount();
   // 直進中の走行距離
-  int currentRightDistance = 0;
-  int currentLeftDistance = 0;
+  int currentRightMotorCount = 0;
+  int currentLeftMotorCount = 0;
   int currentDistance = 0;
   int error = 0;                // 左右の回転数の誤差
   Pid pid(1.2, 0.3, 0.001, 0);  // 左右の回転数を合わせるためのPID
@@ -96,22 +96,22 @@ void StraightRunner::runStraightToColor(int pwm)
     }
 
     //現在の距離を取得する
-    currentRightDistance = measurer.getRightCount();
-    currentLeftDistance = measurer.getLeftCount();
-    currentDistance = Mileage::calculateMileage(currentLeftDistance, currentRightDistance);
+    currentRightMotorCount = measurer.getRightCount();
+    currentLeftMotorCount = measurer.getLeftCount();
+    currentDistance = Mileage::calculateMileage(currentLeftMotorCount, currentRightMotorCount);
 
     // PWM値を徐々に目標値に合わせる
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
-      currentPwm = (currentDistance + SECTION_DISTANCE) / SECTION_DISTANCE * ACCELE_PWM;
+      currentPwm = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM;
       if(currentPwm > pwm) {
         currentPwm = pwm;
       }
     }
 
-    // 左右の走行距離を合わせるた補正値計算
-    error = (currentLeftDistance - initialLeftDistance)
-            - (currentRightDistance - initialRightDistance);
+    // 左右のモーターカウントを合わせるための補正値計算
+    error = (currentLeftMotorCount - initialLeftMotorCount)
+            - (currentRightMotorCount - initialRightMotorCount);
     adjustment = static_cast<int>(pid.calculatePid(error));
 
     // モータのPWM値をセット
@@ -129,11 +129,11 @@ void StraightRunner::runStraightToColor(int pwm)
 void StraightRunner::runStraightToBlackWhite(int pwm)
 {
   // 直進前の走行距離
-  int initialRightDistance = measurer.getRightCount();
-  int initialLeftDistance = measurer.getLeftCount();
+  int initialRightMotorCount = measurer.getRightCount();
+  int initialLeftMotorCount = measurer.getLeftCount();
   // 直進中の走行距離
-  int currentRightDistance = 0;
-  int currentLeftDistance = 0;
+  int currentRightMotorCount = 0;
+  int currentLeftMotorCount = 0;
   int currentDistance = 0;
   int error = 0;                // 左右の回転数の誤差
   Pid pid(1.2, 0.3, 0.001, 0);  // 左右の回転数を合わせるためのPID
@@ -155,22 +155,22 @@ void StraightRunner::runStraightToBlackWhite(int pwm)
     }
 
     //現在の距離を取得する
-    currentRightDistance = measurer.getRightCount();
-    currentLeftDistance = measurer.getLeftCount();
-    currentDistance = Mileage::calculateMileage(currentLeftDistance, currentRightDistance);
+    currentRightMotorCount = measurer.getRightCount();
+    currentLeftMotorCount = measurer.getLeftCount();
+    currentDistance = Mileage::calculateMileage(currentLeftMotorCount, currentRightMotorCount);
 
     // PWM値を徐々に目標値に合わせる
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
-      currentPwm = (currentDistance + SECTION_DISTANCE) / SECTION_DISTANCE * ACCELE_PWM;
+      currentPwm = currentDistance / SECTION_DISTANCE * ACCELE_PWM + ACCELE_PWM;
       if(currentPwm > pwm) {
         currentPwm = pwm;
       }
     }
 
-    // 左右の走行距離を合わせるた補正値計算
-    error = (currentLeftDistance - initialLeftDistance)
-            - (currentRightDistance - initialRightDistance);
+    // 左右のモーターカウントを合わせるための補正値計算
+    error = (currentLeftMotorCount - initialLeftMotorCount)
+            - (currentRightMotorCount - initialRightMotorCount);
     adjustment = static_cast<int>(pid.calculatePid(error));
 
     // モータのPWM値をセット
