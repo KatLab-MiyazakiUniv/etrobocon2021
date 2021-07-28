@@ -34,14 +34,14 @@ struct AstarInfo {
 struct Route {
   Coordinate parent;     //親ノード
   int cost;              //このノードに到達するまでのコスト
-  bool checked = false;  //経路復元の際にこのノードをチェックしたかどうか
+  bool checked;  //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
-  Route() : parent(-1, -1), cost(0) {}
+  Route() : parent(-1, -1), cost(0),checked(false) {}
 
   /**
    * @fn void set(Coordinate _parent, int _currentCost)
-   * @brief 各ノードの親ノード、現在のコスト、現在の走行体の向きをセットする
+   * @brief 各ノードの親ノード、現在のコストをセットする
    * @param _parent 親ノード
    * @param _currentCost　現在のコスト
    */
@@ -74,8 +74,7 @@ class RouteCalculator {
   Robot& robot;
 
   /**
-   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route,
-   * route[BINGO_SIZE][BINGO_SIZE]);
+   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route, route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める
    * @param coordinate 指定ノードの座標
    * @param route 経路情報

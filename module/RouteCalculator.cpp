@@ -16,7 +16,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
 {
   std::vector<AstarInfo> open;   //これから探索するノードを格納
   std::vector<AstarInfo> close;  //探索済みのノードを格納
-  std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納
+  std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納(中点は除く)
   struct AstarInfo elem({ 0, 0 }, 0);  //現在探索しているノード(座標(0,0),コスト0で初期化)
   int actualCost;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
