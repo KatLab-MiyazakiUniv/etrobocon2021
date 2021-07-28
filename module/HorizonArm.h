@@ -24,8 +24,8 @@ class HorizonArm {
   void keepArm();
 
  private:
-  // アームの角位置の目標値
-  static constexpr int TARGET_ARM_COUNT = -45;
+  // アームが水平なときの角位置
+  static constexpr int HORIZONTAL_ARM_COUNT = -45;
 };
 
 #endif
