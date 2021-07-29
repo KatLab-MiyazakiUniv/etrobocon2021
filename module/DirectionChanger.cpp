@@ -37,5 +37,5 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
   straightRunner.runStraightToDistance(targetDistance, runPwm);
 
   //白黒を判定するまで進む
-  //straightRunner.runStraightToBlackWhite(runPwm);
+  straightRunner.runStraightToBlackWhite(runPwm);
 }
