@@ -6,6 +6,9 @@
 
 #include "Robot.h"
 
+Robot::Robot(const bool IS_LEFT_COURSE)
+  : coordinate({ 2, 3 }), direction(IS_LEFT_COURSE ? Direction::E : Direction::W){};
+
 void Robot::setDirection(Direction _direction)
 {
   direction = _direction;
@@ -28,8 +31,3 @@ Coordinate Robot::getCoordinate()
 {
   return coordinate;
 }
-
-//走行体の方向の初期化
-Direction Robot::direction = Direction::N;
-//走行体の座標の初期化
-Coordinate Robot::coordinate = { 2, 3 };

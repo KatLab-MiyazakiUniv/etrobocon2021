@@ -28,39 +28,36 @@ enum class Direction : int {
 
 class Robot {
  public:
+  //コンストラクタ
+  Robot(bool const IS_LEFT_COURSE);
+
   /**
    * 走行体の向きの設定
    * @param direction 方向
    */
-  static void setDirection(Direction _direction);
+  void setDirection(Direction _direction);
 
   /**
    * 走行体の座標の設定
    * @param coordinate
    */
-  static void setCoordinate(Coordinate _coordinate);
+  void setCoordinate(Coordinate _coordinate);
 
   /**
    * 走行体の向きの取得
    * @return 方向
    */
-  static Direction getDirection();
+  Direction getDirection();
 
   /**
    * 走行体の座標の取得
    * @return 座標
    */
-  static Coordinate getCoordinate();
+  Coordinate getCoordinate();
 
  private:
-  static Coordinate coordinate;
-  static Direction direction;
-
-  /**
-   * コンストラクタ
-   * インスタンス化を禁止するためにprivateにし、処理については記述していない
-   */
-  Robot();
+  Coordinate coordinate;
+  Direction direction;
 };
 
 #endif

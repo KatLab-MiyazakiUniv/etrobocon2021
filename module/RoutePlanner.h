@@ -13,7 +13,7 @@ class RoutePlanner {
   /**
    * コンストラクタ
    */
-  RoutePlanner(BingoArea& _bingoArea);
+  RoutePlanner(BingoArea& _bingoArea, const bool IS_LEFT_COURSE);
 
   /**
    * 1つのブロックを運搬するまでの経路を計画する
@@ -22,6 +22,5 @@ class RoutePlanner {
 
  private:
   BingoArea& bingoArea;
-  DestinationList destinationList;
-  BlockSelector blockSelector;
+  bool isLeftCourse;
 };

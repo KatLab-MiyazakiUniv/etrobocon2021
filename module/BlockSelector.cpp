@@ -7,9 +7,10 @@
 #include "BlockSelector.h"
 
 // コンストラクタ
-BlockSelector::BlockSelector(BingoArea& _bingoArea, DestinationList& _destination)
+BlockSelector::BlockSelector(BingoArea& _bingoArea, DestinationList& _destination, Robot& _robot)
   : bingoArea(_bingoArea),
     destinationList(_destination),
+    robot(_robot),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
     arrivableCircles{ T, T, F, T, F, F, F, F },
     OPEN_CIRCLE_ID{ {
@@ -72,7 +73,7 @@ BLOCK_ID BlockSelector::selectBlock()
     Coordinate targetBlockCoord = targetBlock.getCoordinate();
     Coordinate targetCircleCoord
         = bingoArea.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
-    Coordinate robotCoord = Robot::getCoordinate();
+    Coordinate robotCoord = robot.getCoordinate();
     // ブロックを取得するまでの距離
     int toBlockDistance
         = std::abs(robotCoord.x - targetBlockCoord.x) + std::abs(robotCoord.y - targetBlockCoord.y);
@@ -105,7 +106,7 @@ BLOCK_ID BlockSelector::selectBlock()
 
     // 走行体の向きの進路を優先する
     // 走行体の進行方向
-    Direction robotDirection = Robot::getDirection();
+    Direction robotDirection = robot.getDirection();
     int rdx = static_cast<int>(robotDirection) % 3 - 1;  // dx 1,0,-1
     int rdy = static_cast<int>(robotDirection) / 3 - 1;  // dy 1,0,-1
     // 目標ブロックへの方向
