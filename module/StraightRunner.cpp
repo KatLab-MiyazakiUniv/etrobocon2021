@@ -41,7 +41,6 @@ void StraightRunner::runStraightToDistance(double targetDistance, int pwm)
       break;
     }
 
-    printf("%d\n", currentPwm);
     // PWM値を徐々に目標値に合わせる
     if(currentPwm != pwm) {
       // 調整距離毎にPWM値を加速値分だけ上げていく
