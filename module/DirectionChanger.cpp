@@ -12,7 +12,7 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
 {
   StraightRunner straightRunner;
   int rotatePwm = 30;
-  int targetDistance = 10;
+  int targetDistance = 20;
   int runPwm = 20;
 
   //回転方向を判定
@@ -33,9 +33,9 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
     }
   }
 
-  //色サークルに乗るまで直進
+  //色サークルに乗るまで直進(要調整)
   straightRunner.runStraightToDistance(targetDistance, runPwm);
 
   //白黒を判定するまで進む
-  straightRunner.runStraightToBlackWhite(runPwm);
+  //straightRunner.runStraightToBlackWhite(runPwm);
 }
