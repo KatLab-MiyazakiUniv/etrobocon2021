@@ -41,6 +41,18 @@ class LineTracer {
    */
   void runToColor(int targetBrightness, int pwm, const PidGain& gain);
 
+  /**
+   * エッジのゲッター
+   * @return true: 左エッジ, false: 右エッジ
+   */
+  bool getIsLeftEdge();
+
+  /**
+   * エッジのセッター
+   * @param _isLeftEdge true: 左エッジ, false: 右エッジ
+   */
+  void setIsLeftEdge(bool _isLeftEdge);
+
  private:
   bool isLeftEdge;
   Measurer measurer;

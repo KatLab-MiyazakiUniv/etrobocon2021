@@ -18,7 +18,7 @@ void HorizonArm::keepArm()
   Pid pid(1.0, 0.3, 0.001, HORIZONTAL_ARM_COUNT);
 
   while(true) {
-    int currentCount = measurer.getArmCount();
+    int currentCount = measurer.getArmMotorCount();
     if(currentCount == HORIZONTAL_ARM_COUNT) break;
 
     controller.setArmMotorPwm(pid.calculatePid(currentCount));

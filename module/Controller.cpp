@@ -5,7 +5,7 @@
  */
 #include "Controller.h"
 
-Controller::Controller() : rightWheel(PORT_B), leftWheel(PORT_C), arm(PORT_A) {}
+Controller::Controller() : rightWheel(PORT_B), leftWheel(PORT_C), armMotor(PORT_A) {}
 
 int Controller::limitPwmValue(const int value)
 {
@@ -29,23 +29,23 @@ void Controller::setLeftMotorPwm(const int pwm)
   leftWheel.setPWM(limitPwmValue(pwm));
 }
 
-// PWM値をアームモータにセット
-void Controller::setArmMotorPwm(const int pwm)
-{
-  arm.setPWM(limitPwmValue(pwm));
-}
-
-//モータを停止
+//タイヤのモータを停止する
 void Controller::stopMotor()
 {
   leftWheel.stop();
   rightWheel.stop();
 }
 
-//アーム用モータを停止
+// PWM値をアームのモータにセット
+void Controller::setArmMotorPwm(const int pwm)
+{
+  armMotor.setPWM(limitPwmValue(pwm));
+}
+
+//アームのモータを停止
 void Controller::stopArmMotor()
 {
-  arm.stop();
+  armMotor.stop();
 }
 
 //スリープ
