@@ -37,6 +37,7 @@ int Measurer::getRightCount()
   return rightWheel.getCount();
 }
 
+//アームモータ角位置取得
 int Measurer::getArmMotorCount()
 {
   return armMotor.getCount();

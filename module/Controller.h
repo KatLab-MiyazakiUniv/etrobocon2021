@@ -25,7 +25,7 @@ class Controller {
    */
   void setRightMotorPwm(const int pwm);
   void setLeftMotorPwm(const int pwm);
-
+  
   /**
    * タイヤのモータを停止する
    */
