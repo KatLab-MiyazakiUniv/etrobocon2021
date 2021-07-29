@@ -16,7 +16,7 @@ class BlockPivotTurn : public BingoMotion{
   public:
   /**
    * @brief ピボットターン設置する
-   * @param isClockwise ピボットターンする向き true: 右向き
+   * @param isClockwise ピボットターンする向き true: 右回転
    */
   void setBlockPivotTurn(bool isClockwise);
   

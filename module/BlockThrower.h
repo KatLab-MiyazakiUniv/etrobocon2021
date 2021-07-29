@@ -17,7 +17,7 @@ class BlockThrower : public BingoMotion{
   public:
   /**
    * @brief 投げ入れ設置する
-   * @param isClockwise 投げ入れる向き true: 右
+   * @param isClockwise 投げ入れる向き true: 右回転
    */
   void throwBlock(bool isClockwise);
   
