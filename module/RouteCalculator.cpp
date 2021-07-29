@@ -114,7 +114,8 @@ int RouteCalculator::calculateManhattan(Coordinate coordinate)
 void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& list,
                                Route route[BINGO_SIZE][BINGO_SIZE])
 {
-  Coordinate last;  //最後に確認したノードの親ノード
+  Coordinate last = route[goalNode.x][goalNode.y]
+                        .parent;  //最後に確認したノードの親ノード(ゴールノードの親で初期化)
   //スタートノードでなく、このノードを通っている間チェックしていく(ゴールノードから辿っていく)
   for(Coordinate c = goalNode;
       c != route[c.x][c.y].parent && route[c.x][c.y].parent != Coordinate{ -1, -1 };
