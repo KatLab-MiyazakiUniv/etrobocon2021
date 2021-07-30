@@ -21,8 +21,10 @@ void BlackBlockCarrier::carryBlackBlock()
   linetracer.run(550, TARGET_BRIGHTNESS, RUN_PWM, CURVE_GAIN);
   linetracer.run(200, TARGET_BRIGHTNESS, RUN_PWM - 10, CURVE_GAIN);
   //青の線を通過
-  straightrunner.runStraightToDistance(250, RUN_PWM - 10);
+  // straightrunner.runStraightToDistance(250, RUN_PWM - 10);
   // straightrunner.runStraightToBlackWhite(RUN_PWM - 10);
+  linetracer.run(150, TARGET_BRIGHTNESS - 1, RUN_PWM - 10, CURVE_GAIN);
+
   //黄色の円まで
   linetracer.runToColor(TARGET_BRIGHTNESS, RUN_PWM + 10, RUN_GAIN);
   //黄色の円を通過
