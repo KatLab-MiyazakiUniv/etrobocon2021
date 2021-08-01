@@ -37,6 +37,7 @@ jobs:
     env:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
+      MP4_SERVER_NAME: etrobocon2021.moyashi.dev
 
     steps:
     - uses: actions/checkout@v2
@@ -47,11 +48,28 @@ jobs:
       run: |
         export DISPLAY=:0
         SIM_COMMANDS=''
+        # etrobo環境に、etrobocon2021リポジトリへのシンボリックリンクを作成
         SIM_COMMANDS+='if [ -d ${ETROBO_HRP3_WORKSPACE}/etrobocon2021 ]; then rm -rf ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; fi; '
         SIM_COMMANDS+='ln -s ${{ github.workspace }} ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
-        SIM_COMMANDS+='make app=etrobocon2021 sim up; '
-        SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
 
+        # キャプチャ関連の設定 (FPS=30)
+        SIM_COMMANDS+='TMP_CAPTURE_DIR=$(mktemp -d); '
+        SIM_COMMANDS+='TMP_SETTINGS_FILE=$(mktemp --suffix=.json); '
+        SIM_COMMANDS+='cat ${{ github.workspace }}/sim-settings/default.json | jq ".captureDir=\"${TMP_CAPTURE_DIR}\"" | jq ".captureRate=\"2\"" > ${TMP_SETTINGS_FILE}; '
+        SIM_COMMANDS+='curl -X POST -H \"Content-Type: application/json\" -d @${TMP_SETTINGS_FILE} http://localhost:54000; '
+        
+        # シミュレーションの実行
+        SIM_COMMANDS+='make left app=etrobocon2021 sim up; '
+
+        # 動画生成
+        SIM_COMMANDS+='mkdir -p ${HOME}/Videos/mp4s'
+        SIM_COMMANDS+='ffmpeg -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/mp4s/${{ env.GITHUB_SHA }}.mp4; '
+
+        # 後始末
+        SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
+        SIM_COMMANDS+='rm -rf ${TMP_CAPTURE_DIR} ${TMP_SETTINGS_FILE}; '
+
+        # etrobo環境で上述のコマンドを実行
         echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
     # 走行結果から、走行テストの成否を判定
@@ -97,5 +115,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)'
+            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)\nhttps://${{MP4_SERVER_NAME}}/01/mp4s/${{ env.GITHUB_SHA }}.mp4'
           })
