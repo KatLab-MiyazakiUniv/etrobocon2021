@@ -115,5 +115,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)\nhttps://${{MP4_SERVER_NAME}}/01/mp4s/${{ env.GITHUB_SHA }}.mp4'
+            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)\nhttps://${{ env.MP4_SERVER_NAME }}/01/mp4s/${{ env.GITHUB_SHA }}.mp4'
           })
