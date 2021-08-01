@@ -62,7 +62,7 @@ jobs:
         SIM_COMMANDS+='make left app=etrobocon2021 sim up; '
 
         # 動画生成
-        SIM_COMMANDS+='mkdir -p ${HOME}/Videos/mp4s'
+        SIM_COMMANDS+='mkdir -p ${HOME}/Videos/mp4s; '
         SIM_COMMANDS+='ffmpeg -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/mp4s/${{ env.GITHUB_SHA }}.mp4; '
 
         # 後始末
