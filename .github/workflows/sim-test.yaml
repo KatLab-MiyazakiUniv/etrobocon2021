@@ -63,7 +63,7 @@ jobs:
 
         # 動画生成
         SIM_COMMANDS+='mkdir -p ${HOME}/Videos/mp4s; '
-        SIM_COMMANDS+='ffmpeg -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/mp4s/${{ github.sha }}.mp4; '
+        SIM_COMMANDS+='ffmpeg -y -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/mp4s/${{ github.sha }}.mp4; '
 
         # 後始末
         SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
