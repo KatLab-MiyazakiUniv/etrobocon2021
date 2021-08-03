@@ -92,7 +92,7 @@ jobs:
       run: |
         # ディレクトリの生成
         MP4_DIR=/mp4s/$(date '+%Y-%m-%d/%H-%M-%S')
-        mkdir -p ${MP4_DIR}
+        mkdir -p ./${MP4_DIR}
 
         # シミュレータのキャプチャ映像をMP4に変換
         ffmpeg -y -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
