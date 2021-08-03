@@ -137,7 +137,7 @@ jobs:
         RESULT_MESSAGE+='ゲート2通過: ${{ env.PASSED_GATE_2 }}\n'
         RESULT_MESSAGE+='走行タイム: ${{ env.RESULT_TIME }} [s]\n'
         RESULT_MESSAGE+='(0: 通過失敗, 1: 通過成功)\n\n'
-        RESULT_MESSAGE+='https://${{ env.MP4_SERVER_NAME }}/01${{ env.MP4_DIR }}/${{ github.sha }}.mp4'
+        RESULT_MESSAGE+='https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4'
 
         # 結果を環境変数へ保存
         echo PASSED_START_GATE=$PASSED_START_GATE >> $GITHUB_ENV
