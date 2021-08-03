@@ -75,23 +75,28 @@ jobs:
         # シミュレーションの実行
         SIM_COMMANDS+='make left app=etrobocon2021 sim up; '
 
-        # 動画生成
-        SIM_COMMANDS+='mkdir -p ${HOME}/Videos/mp4s; '
-        SIM_COMMANDS+='ffmpeg -y -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/mp4s/${{ github.sha }}.mp4; '
-
         # 後始末
         SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
-        SIM_COMMANDS+='rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}; '
 
         # etrobo環境で上述のコマンドを実行
         echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
-        # MP4保存先ディレクトリの生成
+    # シミュレータのキャプチャ映像をMP4に変換する
+    - name: create-mp4
+      shell: bash
+      run: |
+        # ディレクトリの生成
         MP4_DIR=/mp4s/$(date '+%Y-%m-%d/%H-%M-%S')
         mkdir -p ./${MP4_DIR}
 
         # シミュレータのキャプチャ映像をMP4に変換
-        ffmpeg -y -framerate 30 -i ${TMP_CAPTURE_DIR}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
+        ffmpeg -y -framerate 30 -i ${{ env.TMP_CAPTURE_DIR}}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
+
+        # CSVファイルのコピー
+        cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/
+
+        # 後始末
+        SIM_COMMANDS+='rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}; '
 
         # 環境変数へディレクトリ名を保存
         echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
