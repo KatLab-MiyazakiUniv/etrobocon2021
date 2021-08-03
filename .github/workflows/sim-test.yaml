@@ -43,7 +43,7 @@ jobs:
     - uses: actions/checkout@v2
 
     # シミュレータテストのための下準備
-    - name: setup
+    - name: Set up simulator
       shell: bash
       run: |
         # 一時ファイル、ディレクトリの作成
@@ -60,7 +60,7 @@ jobs:
         echo TMP_SETTINGS_FILE=$TMP_SETTINGS_FILE >> $GITHUB_ENV
 
     # シミュレータを研究室のPCで実行する
-    - name: sim-test
+    - name: Test on simulator
       shell: bash
       run: |
         export DISPLAY=:0
@@ -82,7 +82,7 @@ jobs:
         echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
     # シミュレータのキャプチャ映像をMP4に変換する
-    - name: create-mp4
+    - name: Convert capture image to MP4
       shell: bash
       run: |
         # ディレクトリの生成
@@ -106,7 +106,7 @@ jobs:
         echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
 
     # 走行結果から、走行テストの成否を判定
-    - name: judge
+    - name: Judge
       shell: bash
       run: |
         # スタートできていない場合、テスト失敗
