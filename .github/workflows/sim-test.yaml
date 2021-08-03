@@ -90,13 +90,17 @@ jobs:
         mkdir -p ${HOME}/Videos/${MP4_DIR}
 
         # シミュレータのキャプチャ映像をMP4に変換
-        ffmpeg -y -framerate 30 -i ${{ env.TMP_CAPTURE_DIR}}/L_%08d.png -vcodec libx264 -pix_fmt yuv420p -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
+        ffmpeg -y \
+               -framerate 30 \
+               -i ${{ env.TMP_CAPTURE_DIR}}/L_%08d.png \
+               -vcodec libx264 -pix_fmt yuv420p \
+               -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
 
         # CSVファイルのコピー
-        cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/
+        cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv
 
         # 後始末
-        SIM_COMMANDS+='rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}; '
+        rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}
 
         # 環境変数へディレクトリ名を保存
         echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
