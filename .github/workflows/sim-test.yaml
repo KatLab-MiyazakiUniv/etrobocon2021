@@ -99,6 +99,36 @@ jobs:
         # CSVファイルのコピー
         cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv
 
+        # CSVファイルをJSONファイルに変換
+        # jq --compact-output -s -R 'split("\n")|map(split(","))|map({
+        #     "Time": .[0], 
+        #     "Counter": .[1], 
+        #     "Filename": .[2], 
+        #     "TIME": .[3], 
+        #     "MEASUREMENT_TIME": .[4], 
+        #     "RUN_TIME": .[5], 
+        #     "GATE1": .[6], 
+        #     "GATE2": .[7], 
+        #     "GOAL": .[8], 
+        #     "GARAGE_STOP": .[9], 
+        #     "GARAGE_TIME": .[10], 
+        #     "SLALOM": .[11], 
+        #     "PETBOTTLE": .[12], 
+        #     "BLOCK_IN_GARAGE": .[13], 
+        #     "BLOCK_YUKOIDO": .[14], 
+        #     "CARD_NUMBER_CIRCLE": .[15], 
+        #     "BLOCK_NUMBER_CIRCLE": .[16], 
+        #     "BLOCK_BINGO": .[17], 
+        #     "ENTRY_BONUS": .[18], 
+        #     "BLOCK_YUKOIDOP": .[19], 
+        #     "BLOCK_YUKOIDOC": .[20], 
+        #     "BLOCK_BINGOP": .[21], 
+        #     "MeasurementMode": .[22]
+        #   })' cat ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv > ${{ github.sha }}.json
+
+        # jq '.[] | select(.MeasurementMode=="GO" or .MeasurementMode=="END")' ${{ github.sha }}.json | \
+        #   xargs -L1 -I{} echo 'hoge=\'{}\'; echo \'${hoge}\' | jq ".Time"' | bash
+
         # 後始末
         rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}
 
@@ -136,10 +166,12 @@ jobs:
 
         # GitHubへ投稿するメッセージの作成
         RESULT_MESSAGE=''
-        RESULT_MESSAGE+='スタートゲート通過: ${PASSED_START_GATE}}\n'
-        RESULT_MESSAGE+='ゲート1通過: ${PASSED_GATE_1}}\n'
-        RESULT_MESSAGE+='ゲート2通過: ${PASSED_GATE_2}}\n'
-        RESULT_MESSAGE+='走行タイム: ${RESULT_TIME}}\n'
+        RESULT_MESSAGE+='|項目|結果|'
+        RESULT_MESSAGE+='|---|---|'
+        RESULT_MESSAGE+='|スタートゲート通過| ${PASSED_START_GATE} |\n'
+        RESULT_MESSAGE+='|ゲート1通過| ${PASSED_GATE_1} |\n'
+        RESULT_MESSAGE+='|ゲート2通過| ${PASSED_GATE_2} |\n'
+        RESULT_MESSAGE+='|走行タイム| ${RESULT_TIME} |\n'
         RESULT_MESSAGE+='(0: 通過失敗, 1: 通過成功)\n\n'
         RESULT_MESSAGE+='https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4'
 
