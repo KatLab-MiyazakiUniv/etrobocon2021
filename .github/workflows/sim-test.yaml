@@ -171,8 +171,8 @@ jobs:
         RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |\n"
         RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |\n"
         RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
-        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n"
-        RESULT_MESSAGE+="(0: 通過失敗, 1: 通過成功)\n\n"
+        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n\n"
+        RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
         RESULT_MESSAGE+="https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4"
 
         # 生成したメッセージを環境変数へ保存
