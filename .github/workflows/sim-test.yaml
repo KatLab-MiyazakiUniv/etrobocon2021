@@ -144,6 +144,7 @@ jobs:
         echo PASSED_GATE_1=$PASSED_GATE_1 >> $GITHUB_ENV
         echo PASSED_GATE_2=$PASSED_GATE_2 >> $GITHUB_ENV
         echo RESULT_TIME=$RESULT_TIME >> $GITHUB_ENV
+        echo RESULT_MESSAGE=$RESULT_MESSAGE >> $GITHUB_ENV
 
     # 走行タイムをコメントとして載せる
     - uses: actions/github-script@0.8.0
