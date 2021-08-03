@@ -131,7 +131,7 @@ jobs:
         else
           RESULT_TIME="`cat ${SIM_LOG_FILE} | \
                         grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
+                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'` [s]"
         fi
 
         # GitHubへ投稿するメッセージの作成
@@ -139,15 +139,11 @@ jobs:
         RESULT_MESSAGE+='スタートゲート通過: ${{ env.PASSED_START_GATE }}\n'
         RESULT_MESSAGE+='ゲート1通過: ${{ env.PASSED_GATE_1 }}\n'
         RESULT_MESSAGE+='ゲート2通過: ${{ env.PASSED_GATE_2 }}\n'
-        RESULT_MESSAGE+='走行タイム: ${{ env.RESULT_TIME }} [s]\n'
+        RESULT_MESSAGE+='走行タイム: ${{ env.RESULT_TIME }}\n'
         RESULT_MESSAGE+='(0: 通過失敗, 1: 通過成功)\n\n'
         RESULT_MESSAGE+='https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4'
 
-        # 結果を環境変数へ保存
-        echo PASSED_START_GATE=$PASSED_START_GATE >> $GITHUB_ENV
-        echo PASSED_GATE_1=$PASSED_GATE_1 >> $GITHUB_ENV
-        echo PASSED_GATE_2=$PASSED_GATE_2 >> $GITHUB_ENV
-        echo RESULT_TIME=$RESULT_TIME >> $GITHUB_ENV
+        # 生成したメッセージを環境変数へ保存
         echo RESULT_MESSAGE=$RESULT_MESSAGE >> $GITHUB_ENV
 
     # 走行タイムをコメントとして載せる
