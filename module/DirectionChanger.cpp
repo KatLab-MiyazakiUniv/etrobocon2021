@@ -6,7 +6,10 @@
 
 #include "DirectionChanger.h"
 
-DirectionChanger::DirectionChanger(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
+DirectionChanger::DirectionChanger(LineTracer& _lineTracer)
+  : BingoMotion(0, 0), lineTracer(_lineTracer)
+{
+}
 
 void DirectionChanger::changeDirection(int angle, bool isClockwise)
 {
@@ -24,11 +27,13 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
 
   //エッジ切り替え
   if(lineTracer.getIsLeftEdge()) {
-    if((isClockwise && angle == 135) || (!isClockwise && angle == -45) || angle == -135 || angle == -90 || angle == 180) {
+    if((isClockwise && angle == 135) || (!isClockwise && angle == -45) || angle == -135
+       || angle == -90 || angle == 180) {
       lineTracer.setIsLeftEdge(false);
     }
   } else {
-    if((isClockwise && angle == 45) || (!isClockwise && angle == -135) || angle == 135 || angle == 90 || angle == 180) { 
+    if((isClockwise && angle == 45) || (!isClockwise && angle == -135) || angle == 135
+       || angle == 90 || angle == 180) {
       lineTracer.setIsLeftEdge(true);
     }
   }

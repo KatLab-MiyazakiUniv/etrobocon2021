@@ -6,7 +6,7 @@
 
 #include "InCrossLeft.h"
 
-InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
+InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : BingoMotion(6, 6), lineTracer(_lineTracer) {}
 
 void InCrossLeft::runLeft(void)
 {

@@ -10,7 +10,10 @@
 #include "Controller.h"
 #include "LineTraceArea.h"
 #include "Measurer.h"
-
+#include "BingoArea.h"
+#include "LineTracer.h"
+#include "RouteCalculator.h"
+#include "MotionConverter.h"
 class EtRobocon2021 {
  public:
   static void start();
