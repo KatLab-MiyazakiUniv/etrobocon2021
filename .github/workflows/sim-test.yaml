@@ -86,11 +86,7 @@ jobs:
         # etrobo環境で上述のコマンドを実行
         echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
-    # シミュレータのキャプチャ映像をMP4に変換する
-    - name: create-mp4
-      shell: bash
-      run: |
-        # ディレクトリの生成
+        # MP4保存先ディレクトリの生成
         MP4_DIR=/mp4s/$(date '+%Y-%m-%d/%H-%M-%S')
         mkdir -p ./${MP4_DIR}
 
