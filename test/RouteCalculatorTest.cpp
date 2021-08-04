@@ -165,7 +165,7 @@ namespace etrobocon2021_test {
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     bingoArea.moveBlock(CIRCLE_ID::ID5, BLOCK_ID::ID6);
-    robot.setDirection(Direction::E);  //走行体の向きを更新
+    robot.setDirection(Direction::W);  //走行体の向きを更新
 
     // BLOCK_ID::2の赤ブロックまで移動する
     coordinate_start = { 0, 6 };
@@ -175,7 +175,7 @@ namespace etrobocon2021_test {
     coordinate_goal = { 0, 2 };
     expected_route.clear();
     actual_route.clear();
-    expected_route.push_back(std::make_pair(coordinate_start, Direction::E));
+    expected_route.push_back(std::make_pair(coordinate_start, Direction::W));
     expected_route.push_back(std::make_pair(route_1, Direction::N));
     expected_route.push_back(std::make_pair(route_2, Direction::N));
     expected_route.push_back(std::make_pair(route_3, Direction::N));
