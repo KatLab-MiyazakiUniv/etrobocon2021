@@ -1,14 +1,12 @@
 /**
  * @file ToCrossMotion.cpp
- * @brief 交点間移動のクラス
+ * @brief 交点サークル間移動のクラス
  * @author kodama0720, yutotanaka24
  */
 
 #include "ToCrossMotion.h"
 
-ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer) : BingoMotion(3, 3), lineTracer(_lineTracer)
-{
-}
+ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
 
 void ToCrossMotion::runToCross(void)
 {

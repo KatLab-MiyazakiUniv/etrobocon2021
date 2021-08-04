@@ -6,8 +6,6 @@
 
 #include "InCrossStraight.h"
 
-InCrossStraight::InCrossStraight() : BingoMotion(7, 7) {}
-
 void InCrossStraight::runForward(void)
 {
   int targetDistance = 140.0;  //交点サークルの外径

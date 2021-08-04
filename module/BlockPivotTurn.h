@@ -12,18 +12,15 @@
 #include "BingoMotion.h"
 #include "ArmMotion.h"
 
-class BlockPivotTurn : public BingoMotion {
- public:
-  //コンストラクタ
-  BlockPivotTurn();
-
+class BlockPivotTurn : public BingoMotion{
+  public:
   /**
    * @brief ピボットターン設置する
    * @param isClockwise ピボットターンする向き true: 右回転
    */
   void setBlockPivotTurn(bool isClockwise);
-
- private:
+  
+  private:
   StraightRunner straightRunner;
   Rotation rotation;
 };

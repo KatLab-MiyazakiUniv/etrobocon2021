@@ -14,7 +14,6 @@
 
 class InCrossRight : public BingoMotion {
  public:
-  //コンストラクタ
   InCrossRight(LineTracer& _lineTracer);
 
   /**

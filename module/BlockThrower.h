@@ -13,18 +13,15 @@
 #include "BingoMotion.h"
 #include "ArmMotion.h"
 
-class BlockThrower : public BingoMotion {
- public:
-  // コンストラクタ
-  BlockThrower();
-
+class BlockThrower : public BingoMotion{
+  public:
   /**
    * @brief 投げ入れ設置する
    * @param isClockwise 投げ入れる向き true: 右回転
    */
   void throwBlock(bool isClockwise);
-
- private:
+  
+  private:
   StraightRunner straightRunner;
   Rotation rotation;
   Controller controller;

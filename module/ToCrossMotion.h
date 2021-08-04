@@ -13,7 +13,6 @@
 
 class ToCrossMotion : public BingoMotion {
  public:
-  //コンストラクタ
   ToCrossMotion(LineTracer& _lineTracer);
 
   /**

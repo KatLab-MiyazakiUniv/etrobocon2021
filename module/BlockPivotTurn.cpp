@@ -6,8 +6,6 @@
 
 #include "BlockPivotTurn.h"
 
-BlockPivotTurn::BlockPivotTurn() : BingoMotion(2, 2) {}
-
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
   double targetDistance = 105;

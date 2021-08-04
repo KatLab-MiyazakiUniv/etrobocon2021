@@ -14,8 +14,6 @@
 
 class InCrossStraight : public BingoMotion {
  public:
-  //コンストラクタ
-  InCrossStraight();
 
   /**
    * @brief 交点サークル上を前に進む
