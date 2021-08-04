@@ -17,12 +17,13 @@ namespace etrobocon2021_test {
     bingoArea.initBingoArea();
     RouteCalculator route(bingoArea, robot);
     MotionConverter motionConverter;
+
     // BLOCK_ID::3の緑ブロックまで移動する
     Coordinate start = { 2, 3 };
     Coordinate goal = { 4, 2 };
     std::vector<std::pair<Coordinate, Direction>> minroute = route.calculateRoute(start, goal);
     std::vector<MOTION> expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::TR, MOTION::BC };
-    std::vector<MOTION> actualmotion = motionConverter.convertMotion(minroute);
+    std::vector<MOTION> actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::E);  // 走行体の向きを更新
 
@@ -32,7 +33,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::PSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID1, BLOCK_ID::ID3);
     robot.setDirection(Direction::E);  //走行体の向きを更新
@@ -43,7 +44,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::TL, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::W);  //走行体の向きを更新
 
@@ -53,7 +54,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::TSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID0, BLOCK_ID::ID0);
     robot.setDirection(Direction::W);  //走行体の向きを更新
@@ -64,7 +65,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::ST, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::S);  //走行体の向きを更新
 
@@ -74,7 +75,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::TSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID4, BLOCK_ID::ID4);
     robot.setDirection(Direction::E);  //走行体の向きを更新
@@ -85,7 +86,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RC90, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::S);  //走行体の向きを更新
 
@@ -95,7 +96,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::PSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID7, BLOCK_ID::ID7);
     robot.setDirection(Direction::S);  //走行体の向きを更新
@@ -106,7 +107,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RC90, MOTION::BC, MOTION::ST, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::W);  //走行体の向きを更新
 
@@ -116,7 +117,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::PSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID5, BLOCK_ID::ID6);
     robot.setDirection(Direction::W);  //走行体の向きを更新
@@ -127,7 +128,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RC90, MOTION::BC, MOTION::ST, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::N);  //走行体の向きを更新
 
@@ -137,7 +138,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RC90, MOTION::BC, MOTION::TR, MOTION::BC, MOTION::TSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID6, BLOCK_ID::ID2);
     robot.setDirection(Direction::S);  //走行体の向きを更新
@@ -148,7 +149,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::ST, MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::E);  //走行体の向きを更新
 
@@ -158,7 +159,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::RRC90, MOTION::BC, MOTION::TSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID2, BLOCK_ID::ID5);
     robot.setDirection(Direction::N);  //走行体の向きを更新
@@ -169,7 +170,7 @@ namespace etrobocon2021_test {
     minroute.clear();
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::BC };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     for(auto i : actualmotion) printf("%d\n", i);
     EXPECT_EQ(expectedmotion, actualmotion);
     robot.setDirection(Direction::N);  //走行体の向きを更新
@@ -181,7 +182,7 @@ namespace etrobocon2021_test {
     minroute = route.calculateRoute(start, goal);
     expectedmotion = { MOTION::R180, MOTION::BC, MOTION::TR,  MOTION::BC,
                        MOTION::ST,   MOTION::BC, MOTION::TSET };
-    actualmotion = motionConverter.convertMotion(minroute);
+    actualmotion = motionConverter.convertToMotion(minroute);
     for(auto i : actualmotion) printf("%d\n", i);
     EXPECT_EQ(expectedmotion, actualmotion);
     bingoArea.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);

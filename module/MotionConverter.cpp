@@ -1,23 +1,24 @@
 /**
- * @file	MotionConverter.cpp
- * @brief	動作変換クラス
- * @author	Hisataka-Hagiyama,uchyam
+ * @file MotionConverter.cpp
+ * @brief 動作変換クラス
+ * @author Hisataka-Hagiyama,uchyam
  */
 
 #include "MotionConverter.h"
 
 MotionConverter::MotionConverter() {}
 
-MOTION MotionConverter::convertMove(std::pair<Coordinate, Direction> current,
-                                    std::pair<Coordinate, Direction> next)
+MOTION MotionConverter::determineMotion(std::pair<Coordinate, Direction> current,
+                                        std::pair<Coordinate, Direction> next)
 {
-  int cx = current.first.x;       //現在のx座標
-  int cy = current.first.y;       //現在のy座標
-  Direction cd = current.second;  //現在の向き
-  int nx = next.first.x;          //次のx座標
-  int ny = next.first.y;          //次のy座標
-  Direction nd = next.second;     //次の向き
-  int angle = calculateAngle(cd, nd);
+  int cx = current.first.x;            //現在のx座標
+  int cy = current.first.y;            //現在のy座標
+  Direction cd = current.second;       //現在の向き
+  int nx = next.first.x;               //次のx座標
+  int ny = next.first.y;               //次のy座標
+  Direction nd = next.second;          //次の向き
+  int angle = calculateAngle(cd, nd);  //角度
+
   if(cx % 2 == 0 && cy % 2 == 0 && ((nx % 2 == 1 && ny % 2 == 0) || (nx % 2 == 0 && ny % 2 == 1))) {
     //交点->中点の場合は交点内移動
     if(angle == 0) {
@@ -45,6 +46,7 @@ MOTION MotionConverter::convertMove(std::pair<Coordinate, Direction> current,
 
 int MotionConverter::calculateAngle(Direction current, Direction next)
 {
+  constexpr int MIN_ANGLE = 45;  //角度の最小単位(45度)
   // 2点の座標を角度に変換するためのテーブル(4を除く0~8を添え字とした8*8の配列)
   std::array<std::array<int, 8>, 8> table = { { { 0, 1, 2, -1, 3, -2, -3, 4 },
                                                 { -1, 0, 1, -2, 2, -3, 4, 3 },
@@ -59,16 +61,16 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
   // Directionに4がないため5以上の場合は-1する
   if(cindex >= 5) cindex--;
   if(nindex >= 5) nindex--;
-  return table[cindex][nindex] * 45;
+  return table[cindex][nindex] * MIN_ANGLE;
 }
 
-std::vector<MOTION> MotionConverter::convertMotion(
+std::vector<MOTION> MotionConverter::convertToMotion(
     std::vector<std::pair<Coordinate, Direction>>& route)
 {
   std::vector<MOTION> motionList;
   int angle = calculateAngle(route[0].second, route[1].second);
   if(route.size() > 2) {
-    //方向転換から開始する
+    //方向転換が必要かどうか判定する
     if(angle == 90)
       motionList.push_back(MOTION::RC90);
     else if(angle == -90)
@@ -76,10 +78,10 @@ std::vector<MOTION> MotionConverter::convertMotion(
     else if(abs(angle) == 180)
       motionList.push_back(MOTION::R180);
   }
-  // 方向転換後の動作を求める
+  // (方向転換があれば方向転換後の)動作を求める
   for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0 && route.size() > 2 ? 1 : 0);
       i < static_cast<int>(route.size()) - 1; i++) {
-    motionList.push_back(convertMove(route[i], route[i + 1]));
+    motionList.push_back(determineMotion(route[i], route[i + 1]));
   }
   return motionList;
 }
