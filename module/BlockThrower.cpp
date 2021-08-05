@@ -6,6 +6,8 @@
 
 #include "BlockThrower.h"
 
+BlockThrower::BlockThrower() : BingoMotion(1, 1) {}
+
 void BlockThrower::throwBlock(bool isClockwise)
 {
   double targetDistance = 105;
