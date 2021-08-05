@@ -163,11 +163,6 @@ class MotionPerformer {
    */
   int getFailureRiskThrowBlock(void);
 
-  /**
-   * 動作を記録する動的配列
-   */
-  std::vector<MOTION> motionLog;
-
  private:
   LineTracer& lineTracer;
   InCrossStraight inCrossStraight;
@@ -177,6 +172,11 @@ class MotionPerformer {
   DirectionChanger directionChanger;
   BlockPivotTurn blockPivotTurn;
   BlockThrower blockThrower;
+
+  /**
+   * 動作を記録する動的配列
+   */
+  std::vector<MOTION> motionLog;
 };
 
 #endif
