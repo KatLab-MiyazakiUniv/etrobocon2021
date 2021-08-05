@@ -62,7 +62,6 @@ endif()
 # Module source
 #-------------------
 # Google Test のために、ヘッダファイルのあるディレクトリを指定する？
-# テストではev3api.hが使えないため、Controller.cppは読み込まず、test/dummy/Controller.cppを読み込む
 include_directories(${PROJECT_SOURCE_DIR}/module)
 include_directories(${PROJECT_SOURCE_DIR}/test/dummy)
 include_directories(${PROJECT_SOURCE_DIR}/module/API)
