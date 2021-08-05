@@ -8,8 +8,8 @@
 
 MotionConverter::MotionConverter() {}
 
-MOTION MotionConverter::determineMotion(std::pair<Coordinate, Direction> current,
-                                        std::pair<Coordinate, Direction> next)
+MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
+                                     std::pair<Coordinate, Direction> next)
 {
   int cx = current.first.x;            //現在のx座標
   int cy = current.first.y;            //現在のy座標
@@ -67,21 +67,20 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
 std::vector<MOTION> MotionConverter::convertToMotion(
     std::vector<std::pair<Coordinate, Direction>>& route)
 {
-  std::vector<MOTION> motionList;
+  std::vector<MOTION> motionList;  //動作を格納するための動的配列
+  //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
-  if(route.size() > 2) {
-    //方向転換が必要かどうか判定する
-    if(angle == 90)
-      motionList.push_back(MOTION::RC90);
-    else if(angle == -90)
-      motionList.push_back(MOTION::RRC90);
-    else if(abs(angle) == 180)
-      motionList.push_back(MOTION::R180);
+  if(angle == 90) {
+    motionList.push_back(MOTION::TAC90);
+  } else if(angle == -90) {
+    motionList.push_back(MOTION::TARC90);
+  } else if(abs(angle) == 180) {
+    motionList.push_back(MOTION::TA180);
   }
   // (方向転換があれば方向転換後の)動作を求める
-  for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0 && route.size() > 2 ? 1 : 0);
+  for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0) && route.size() > 2 ? 1 : 0;
       i < static_cast<int>(route.size()) - 1; i++) {
-    motionList.push_back(determineMotion(route[i], route[i + 1]));
+    motionList.push_back(decideMotion(route[i], route[i + 1]));
   }
   return motionList;
 }
