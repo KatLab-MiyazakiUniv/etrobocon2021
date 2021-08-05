@@ -14,15 +14,19 @@
 #include "vector"
 
 enum class MOTION {
-  ST = 0,      //(直進:Straight)
-  TR = 1,      //(右折::Turn Right)
-  TL = 2,      //(左折:Turn Left)
-  BC = 3,      //(交点間:Between Cross)
-  PSET = 4,    //(ピボットターン設置:Pibot Turn Set)
-  TSET = 5,    //(投げ入れ設置:Throw Set)
-  TAC90 = 6,   //(時計回りに90度方向転換:Turn Around Clockwise)
-  TARC90 = 7,  //(反時計回りに90度方向転換:Turn Around Reverse Clockwise)
-  TA180 = 8,   //(180度方向転換Turn Around)
+  ST = 0,        //(直進:Straight)
+  TR = 1,        //(右折::Turn Right)
+  TL = 2,        //(左折:Turn Left)
+  BC = 3,        //(交点間:Between Cross)
+  PSET = 4,      //(ピボットターン設置:Pibot Turn Set)
+  TSET = 5,      //(投げ入れ設置:Throw Set)
+  TAC45 = 6,     //(時計回りに45度方向転換:Turn Around Clockwise)
+  TAC90 = 7,     //(時計回りに90度方向転換:Turn Around Clockwise)
+  TAC135 = 8,    //(時計回りに135度方向転換:Turn Around Clockwise)
+  TARC45 = 9,    //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
+  TARC90 = 10,   //(反時計回りに90度方向転換:Turn Around Reverse Clockwise)
+  TARC135 = 11,  //(反時計回りに135度方向転換:Turn Around Reverse Clockwise)
+  TA180 = 12,    //(180度方向転換Turn Around)
 };
 
 class MotionConverter {

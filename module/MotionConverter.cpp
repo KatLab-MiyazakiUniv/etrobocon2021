@@ -70,12 +70,22 @@ std::vector<MOTION> MotionConverter::convertToMotion(
   std::vector<MOTION> motionList;  //動作を格納するための動的配列
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
-  if(angle == 90) {
-    motionList.push_back(MOTION::TAC90);
-  } else if(angle == -90) {
-    motionList.push_back(MOTION::TARC90);
-  } else if(abs(angle) == 180) {
-    motionList.push_back(MOTION::TA180);
+  if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
+    if(angle == 45) {
+      motionList.push_back(MOTION::TAC45);
+    } else if(angle == 90) {
+      motionList.push_back(MOTION::TAC90);
+    } else if(angle == 135) {
+      motionList.push_back(MOTION::TAC135);
+    } else if(angle == -45) {
+      motionList.push_back(MOTION::TARC45);
+    } else if(angle == -90) {
+      motionList.push_back(MOTION::TARC90);
+    } else if(angle == -135) {
+      motionList.push_back(MOTION::TARC135);
+    } else if(abs(angle) == 180) {
+      motionList.push_back(MOTION::TA180);
+    }
   }
   // (方向転換があれば方向転換後の)動作を求める
   for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0) && route.size() > 2 ? 1 : 0;
