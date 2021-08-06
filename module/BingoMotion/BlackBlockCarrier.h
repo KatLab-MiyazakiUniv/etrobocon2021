@@ -13,7 +13,6 @@
 
 class BlackBlockCarrier {
  public:
- 
- static void carryBlackBlock();
+  static void carryBlackBlock();
 };
 #endif
