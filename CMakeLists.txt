@@ -61,12 +61,18 @@ endif()
 #-------------------
 # Module source
 #-------------------
-# テストではev3api.hが使えないため、Controller.cppは読み込まず、test/dummy/Controller.cppを読み込む
-include_directories(${PROJECT_SOURCE_DIR}/module/)
-include_directories(${PROJECT_SOURCE_DIR}/test/dummy/)
-include_directories(${GTEST_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/module/)
+# Google Test のために、ヘッダファイルのあるディレクトリを指定する？
+include_directories(${PROJECT_SOURCE_DIR}/module)
+include_directories(${PROJECT_SOURCE_DIR}/test/dummy)
+include_directories(${PROJECT_SOURCE_DIR}/module/API)
+include_directories(${PROJECT_SOURCE_DIR}/module/BingoMotion)
+include_directories(${PROJECT_SOURCE_DIR}/module/CourseInfo)
+include_directories(${PROJECT_SOURCE_DIR}/module/Motion)
+include_directories(${PROJECT_SOURCE_DIR}/module/RoutePlanner)
+include_directories(${GTEST_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/module)
 file(GLOB SRC_FILES
     ${PROJECT_SOURCE_DIR}/module/*.cpp
+    ${PROJECT_SOURCE_DIR}/module/*/*.cpp
     ${PROJECT_SOURCE_DIR}/test/dummy/*.cpp
 )
 add_library(etrobocon2021_impl ${SRC_FILES})
