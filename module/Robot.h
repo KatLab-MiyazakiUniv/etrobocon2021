@@ -10,20 +10,15 @@
 #include "ColorJudge.h"
 #include "BingoArea.h"
 
-/*
-|NW|N|NE|      |0|1|2|
-| W| | E|  =>  |3|x|5|
-|SW|S|SE|      |6|7|8|
-*/
 enum class Direction : int {
-  N = 1,
-  NE = 2,
-  E = 5,
-  SE = 8,
-  S = 7,
-  SW = 6,
-  W = 3,
-  NW = 0,
+  N = 0,
+  NE = 1,
+  E = 2,
+  SE = 3,
+  S = 4,
+  SW = 5,
+  W = 6,
+  NW = 7,
 };
 
 class Robot {

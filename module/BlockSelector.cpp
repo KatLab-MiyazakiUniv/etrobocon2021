@@ -107,8 +107,21 @@ BLOCK_ID BlockSelector::selectBlock()
     // 走行体の向きの進路を優先する
     // 走行体の進行方向
     Direction robotDirection = robot.getDirection();
-    int rdx = static_cast<int>(robotDirection) % 3 - 1;  // dx 1,0,-1
-    int rdy = static_cast<int>(robotDirection) / 3 - 1;  // dy 1,0,-1
+    // 方角の変換テーブル{dx,dy}
+    std::array<std::array<int, 2>, 8> robotVector = { {
+        { 0, -1 },  // N
+        { 1, -1 },  // NE
+        { 1, 0 },   // E
+        { 1, 1 },   // SE
+        { 0, 1 },   // S
+        { -1, 1 },  // SW
+        { -1, 0 },  // W
+        { -1, -1 }  // S
+    } };
+    int rdx = robotVector[static_cast<int>(robotDirection)][0];
+    int rdy = robotVector[static_cast<int>(robotDirection)][1];
+
+    //*/
     // 目標ブロックへの方向
     int dx = targetBlock.getCoordinate().x - robotCoord.x;
     int dy = targetBlock.getCoordinate().y - robotCoord.y;

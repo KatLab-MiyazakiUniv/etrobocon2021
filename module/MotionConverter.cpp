@@ -47,6 +47,7 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
 int MotionConverter::calculateAngle(Direction current, Direction next)
 {
   constexpr int MIN_ANGLE = 45;  //角度の最小単位(45度)
+  /*
   // 2点の座標を角度に変換するためのテーブル(4を除く0~8を添え字とした8*8の配列)
   std::array<std::array<int, 8>, 8> table = { { { 0, 1, 2, -1, 3, -2, -3, 4 },
                                                 { -1, 0, 1, -2, 2, -3, 4, 3 },
@@ -62,6 +63,19 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
   if(cindex >= 5) cindex--;
   if(nindex >= 5) nindex--;
   return table[cindex][nindex] * MIN_ANGLE;
+  /*/
+
+  int cdirect = static_cast<int>(current);
+  int ndirect = static_cast<int>(next);
+  int angle = (ndirect - cdirect) * MIN_ANGLE;
+  if(angle > 180) {
+    angle -= 360;
+  } else if(angle < -180) {
+    angle += 360;
+  }
+
+  return angle;
+  //*/
 }
 
 std::vector<MOTION> MotionConverter::convertToMotion(
