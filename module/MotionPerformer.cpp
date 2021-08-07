@@ -39,10 +39,18 @@ void MotionPerformer::moveBetweenCross()
   motionLog.push_back(MOTION::BC);
 }
 
-void MotionPerformer::turnAround()
+void MotionPerformer::turnAround(int angle, bool isClockwise)
 {
-  directionChanger.changeDirection(180, true);
-  motionLog.push_back(MOTION::TA);
+  directionChanger.changeDirection(angle, isClockwise);
+
+  int tmp = std::abs(angle / 45);
+  for(int i = 0; i < tmp; i++) {
+    if(angle>0){
+      motionLog.push_back(MOTION::TAC);
+    } else {
+      motionLog.push_back(MOTION::TARC);
+    }
+  }
 }
 
 void MotionPerformer::pibotTurn(bool isClockwise)

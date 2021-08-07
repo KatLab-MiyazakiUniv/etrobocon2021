@@ -48,8 +48,10 @@ class MotionPerformer {
   /**
    * @fn void turnAround(void);
    * @brief 180度方向転換を実行する
+   * @param angle 回転角度（deg） -180 < angle <= 180 45度刻み
+   * @param isClockwise 直前に投げ入れた方向
    */
-  void turnAround(void);
+  void turnAround(int angle, bool isClockwise);
 
   /**
    * @fn void pibotTurn(bool isClockwise);
@@ -162,6 +164,13 @@ class MotionPerformer {
    * @return 失敗リスク
    */
   int getFailureRiskThrowBlock(void);
+
+  /**
+   * @fn std::vector<MOTION> getMotionLog(void)
+   * @brief 動作が記録された動的配列を取得
+   * @return 動的配列
+   */
+  std::vector<MOTION> getMotionLog(void) { return motionLog; };
 
  private:
   LineTracer& lineTracer;
