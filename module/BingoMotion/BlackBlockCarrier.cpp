@@ -42,7 +42,7 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToDistance(70, 20);
   //黒ブロック手前までライントレース
   straightRunner.runStraightToColor(30);
-  //*弧を描いて曲がる
+  //弧を描いて曲がる
   double startDiff
       = IS_LEFT_COURSE
             ? Mileage::calculateWheelMileage(measurer.getLeftCount())
