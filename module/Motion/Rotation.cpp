@@ -1,4 +1,3 @@
-
 /**
  * @file Rotation.cpp
  * @brief 回頭・ピボットターンする
