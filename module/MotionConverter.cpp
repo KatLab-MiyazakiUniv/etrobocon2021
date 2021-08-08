@@ -36,13 +36,13 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
     return MOTION::BC;
   } else {
     if(angle == 45) {
-      return MOTION::TSET;  //投げ入れ設置(時計回り)
+      return MOTION::TSETR;  //投げ入れ設置(時計回り)
     } else if(angle == -45) {
-      return MOTION::TSET;  //投げ入れ設置(反時計回り)
+      return MOTION::TSETL;  //投げ入れ設置(反時計回り)
     } else if(angle == 135) {
-      return MOTION::PSET;  //ピボットターン設置(時計回り)
+      return MOTION::PSETR;  //ピボットターン設置(時計回り)
     } else {
-      return MOTION::PSET;  //ピボットターン設置(反時計回り)
+      return MOTION::PSETL;  //ピボットターン設置(反時計回り)
     }
   }
 }
