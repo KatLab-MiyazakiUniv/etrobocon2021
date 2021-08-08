@@ -63,8 +63,8 @@ class Rotation {
   Controller controller;
   Measurer measurer;
 
-  static constexpr double TREAD = 135.0; //回頭の円の直径
-  static constexpr double DIAMETER = 310.0; //ピボットターンの円の直径
+  static constexpr double RADIUS = 45.0;
+  static constexpr double TREAD = 140.0;
 };
 
 #endif
