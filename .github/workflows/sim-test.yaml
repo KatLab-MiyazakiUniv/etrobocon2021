@@ -37,25 +37,76 @@ jobs:
     env:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
+      MP4_SERVER_NAME: etrobocon2021.moyashi.dev
 
     steps:
     - uses: actions/checkout@v2
 
+    # シミュレータテストのための下準備
+    - name: Set up simulator
+      shell: bash
+      run: |
+        # 一時ファイル、ディレクトリの作成
+        TMP_CAPTURE_DIR=$(mktemp -d)
+        TMP_SETTINGS_FILE=$(mktemp --suffix=.json)
+
+        # キャプチャ関連の設定 (FPS=30)
+        cat ${{ github.workspace }}/sim-settings/default.json | \
+          jq ".captureDir=\"${TMP_CAPTURE_DIR}\"" | \
+          jq ".captureRate=\"2\"" > ${TMP_SETTINGS_FILE}
+
+        # 環境変数へ保存
+        echo TMP_CAPTURE_DIR=$TMP_CAPTURE_DIR >> $GITHUB_ENV
+        echo TMP_SETTINGS_FILE=$TMP_SETTINGS_FILE >> $GITHUB_ENV
+
     # シミュレータを研究室のPCで実行する
-    - name: sim-test
+    - name: Test on simulator
       shell: bash
       run: |
         export DISPLAY=:0
         SIM_COMMANDS=''
+        # etrobo環境に、etrobocon2021リポジトリへのシンボリックリンクを作成
         SIM_COMMANDS+='if [ -d ${ETROBO_HRP3_WORKSPACE}/etrobocon2021 ]; then rm -rf ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; fi; '
         SIM_COMMANDS+='ln -s ${{ github.workspace }} ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
-        SIM_COMMANDS+='make app=etrobocon2021 sim up; '
+
+        # シミュレータの設定を反映
+        SIM_COMMANDS+='curl -X POST -H \"Content-Type: application/json\" -d @${{ env.TMP_SETTINGS_FILE }} http://localhost:54000; '
+        
+        # シミュレーションの実行
+        SIM_COMMANDS+='make left app=etrobocon2021 sim up; '
+
+        # 後始末
         SIM_COMMANDS+='unlink ${ETROBO_HRP3_WORKSPACE}/etrobocon2021; '
 
+        # etrobo環境で上述のコマンドを実行
         echo ${SIM_COMMANDS} | ${HOME}/startetrobo shell | tee ${SIM_LOG_FILE}
 
+    # シミュレータのキャプチャ映像をMP4に変換する
+    - name: Convert capture image to MP4
+      shell: bash
+      run: |
+        # ディレクトリの生成
+        MP4_DIR=mp4s/$(date '+%Y-%m-%d/%H-%M-%S')
+        mkdir -p ${HOME}/Videos/${MP4_DIR}
+
+        # シミュレータのキャプチャ映像をMP4に変換
+        ffmpeg -y \
+               -framerate 30 \
+               -i ${{ env.TMP_CAPTURE_DIR}}/L_%08d.png \
+               -vcodec libx264 -pix_fmt yuv420p \
+               -r 30 ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.mp4
+
+        # CSVファイルのコピー
+        cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv
+
+        # 後始末
+        rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}
+
+        # 環境変数へディレクトリ名を保存
+        echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
+
     # 走行結果から、走行テストの成否を判定
-    - name: judge
+    - name: Judge
       shell: bash
       run: |
         # スタートできていない場合、テスト失敗
@@ -80,14 +131,22 @@ jobs:
         else
           RESULT_TIME="`cat ${SIM_LOG_FILE} | \
                         grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
+                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'` [s]"
         fi
 
-        # 結果を環境変数へ保存
-        echo PASSED_START_GATE=$PASSED_START_GATE >> $GITHUB_ENV
-        echo PASSED_GATE_1=$PASSED_GATE_1 >> $GITHUB_ENV
-        echo PASSED_GATE_2=$PASSED_GATE_2 >> $GITHUB_ENV
-        echo RESULT_TIME=$RESULT_TIME >> $GITHUB_ENV
+        # GitHubへ投稿するメッセージの作成
+        RESULT_MESSAGE=''
+        RESULT_MESSAGE+="|項目|結果|\n"
+        RESULT_MESSAGE+="|---|---|\n"
+        RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |\n"
+        RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |\n"
+        RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
+        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n\n"
+        RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
+        RESULT_MESSAGE+="[:arrow_forward: シミュレータの動画](https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4)"
+
+        # 生成したメッセージを環境変数へ保存
+        echo RESULT_MESSAGE=$RESULT_MESSAGE >> $GITHUB_ENV
 
     # 走行タイムをコメントとして載せる
     - uses: actions/github-script@0.8.0
@@ -97,5 +156,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'スタートゲート通過: ${{ env.PASSED_START_GATE }}\nゲート1通過: ${{ env.PASSED_GATE_1 }}\nゲート2通過: ${{ env.PASSED_GATE_2 }}\n走行タイム: ${{ env.RESULT_TIME }}s\n(0: 通過失敗, 1: 通過成功)'
+            body: '${{ env.RESULT_MESSAGE }}'
           })
