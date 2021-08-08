@@ -6,7 +6,7 @@
 
 #include "MotionConverter.h"
 
-MotionConverter::MotionConverter() {}
+MotionConverter::MotionConverter(bool isLeftEdge) : isLeftEdge(isLeftEdge) {}
 
 MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
                                      std::pair<Coordinate, Direction> next)
@@ -47,24 +47,6 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
 int MotionConverter::calculateAngle(Direction current, Direction next)
 {
   constexpr int MIN_ANGLE = 45;  //角度の最小単位(45度)
-  /*
-  // 2点の座標を角度に変換するためのテーブル(4を除く0~8を添え字とした8*8の配列)
-  std::array<std::array<int, 8>, 8> table = { { { 0, 1, 2, -1, 3, -2, -3, 4 },
-                                                { -1, 0, 1, -2, 2, -3, 4, 3 },
-                                                { -2, -1, 0, -3, 1, 4, 3, 2 },
-                                                { 1, 2, 3, 0, 4, -1, -2, -3 },
-                                                { -3, -2, -1, 4, 0, 3, 2, 1 },
-                                                { 2, 3, 4, 1, -3, 0, -1, -1 },
-                                                { 3, 4, -3, 2, -2, 1, 0, -1 },
-                                                { 4, -3, -2, 3, -1, 2, 1, 0 } } };
-  int cindex = static_cast<int>(current);
-  int nindex = static_cast<int>(next);
-  // Directionに4がないため5以上の場合は-1する
-  if(cindex >= 5) cindex--;
-  if(nindex >= 5) nindex--;
-  return table[cindex][nindex] * MIN_ANGLE;
-  /*/
-
   int cdirect = static_cast<int>(current);
   int ndirect = static_cast<int>(next);
   int angle = (ndirect - cdirect) * MIN_ANGLE;
@@ -73,38 +55,59 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
   } else if(angle < -180) {
     angle += 360;
   }
-
   return angle;
-  //*/
 }
 
-std::vector<MOTION> MotionConverter::convertToMotion(
-    std::vector<std::pair<Coordinate, Direction>>& route)
+void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route)
 {
-  std::vector<MOTION> motionList;  //動作を格納するための動的配列
+  LineTracer lineTracer(isLeftEdge);
+  MotionPerformer motionPerformer(lineTracer);
+
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
     if(angle == 45) {
-      motionList.push_back(MOTION::TAC45);
+      motionPerformer.turnAround(45, true);
     } else if(angle == 90) {
-      motionList.push_back(MOTION::TAC90);
+      motionPerformer.turnAround(90, true);
     } else if(angle == 135) {
-      motionList.push_back(MOTION::TAC135);
+      motionPerformer.turnAround(135, true);
     } else if(angle == -45) {
-      motionList.push_back(MOTION::TARC45);
+      motionPerformer.turnAround(45, false);
     } else if(angle == -90) {
-      motionList.push_back(MOTION::TARC90);
+      motionPerformer.turnAround(90, false);
     } else if(angle == -135) {
-      motionList.push_back(MOTION::TARC135);
+      motionPerformer.turnAround(135, false);
     } else if(abs(angle) == 180) {
-      motionList.push_back(MOTION::TA180);
+      motionPerformer.turnAround(180, true);
     }
   }
   // (方向転換があれば方向転換後の)動作を求める
   for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0) && route.size() > 2 ? 1 : 0;
       i < static_cast<int>(route.size()) - 1; i++) {
-    motionList.push_back(decideMotion(route[i], route[i + 1]));
+    MOTION nextMotion = decideMotion(route[i], route[i + 1]);
+    switch(static_cast<int>(nextMotion)) {
+      case 0:
+        motionPerformer.moveStraight();
+        break;
+      case 1:
+        motionPerformer.turnRight();
+        break;
+      case 2:
+        motionPerformer.turnLeft();
+        break;
+      case 3:
+        motionPerformer.moveBetweenCross();
+        break;
+      case 4:
+        motionPerformer.pibotTurn(true);
+        break;
+      case 5:
+        motionPerformer.throwBlock(true);
+        break;
+      default:
+        motionPerformer.moveStraight();
+        break;
+    }
   }
-  return motionList;
 }
