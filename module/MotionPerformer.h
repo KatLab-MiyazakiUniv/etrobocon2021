@@ -13,8 +13,18 @@
 #include "DirectionChanger.h"
 #include "BlockPivotTurn.h"
 #include "BlockThrower.h"
-#include "MotionConverter.h"
 #include "vector"
+
+enum class MOTION {
+  ST = 0,    //(直進:Straight)
+  TR = 1,    //(右折::Turn Right)
+  TL = 2,    //(左折:Turn Left)
+  BC = 3,    //(交点間:Between Cross)
+  PSET = 4,  //(ピボットターン設置:Pibot Turn Set)
+  TSET = 5,  //(投げ入れ設置:Throw Set)
+  TAC = 6,   //(時計回りに45度方向転換:Turn Around Clockwise)
+  TARC = 7,  //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
+};
 
 class MotionPerformer {
  public:
