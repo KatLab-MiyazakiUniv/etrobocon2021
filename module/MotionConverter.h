@@ -9,8 +9,6 @@
 
 #include "cmath"
 #include "MotionPerformer.h"
-#include "Node.h"
-#include "Robot.h"
 #include "utility"
 #include "vector"
 
@@ -20,7 +18,7 @@ class MotionConverter {
   MotionConverter(MotionPerformer& motionPerformer);
 
   /**
-   * @fn MOTION decideMotion(std::pair<Coordinate, Direction> current, std::pair<Coordinate,
+   * @fn   MOTION decideMotion(std::pair<Coordinate, Direction> current, std::pair<Coordinate,
    * Direction> next);
    * @brief 2つの座標から動作を判定する
    * @param current 現在の座標と向き
@@ -31,7 +29,7 @@ class MotionConverter {
                       std::pair<Coordinate, Direction> next);
 
   /**
-   * @fn std::vector<MOTION> convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route);
+   * @fn void convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route);
    * @brief 経路を実際の動作に変換し、動作させる
    * @param 経路の座標と走行体の向きを格納した動的配列
    */
@@ -40,6 +38,7 @@ class MotionConverter {
  private:
   bool isLeftEdge;
   MotionPerformer& motionPerformer;
+
   /**
    * @fn int calculateAngle(Direction current, Direction next);
    * @brief 走行体の向きの変化から回転角を計算する

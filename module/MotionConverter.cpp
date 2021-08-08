@@ -65,24 +65,29 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
 {
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
+  //直前の動作がないor直前の動作が時計回りのピボットターン設置の場合は方向転換のisClockWiseをtrueとする
+  bool isClockwise = *(motionPerformer.motionLog.end()) == MOTION::TSETR
+                     || motionPerformer.motionLog.size() == 0;
+  //方向転換がある場合は方向転換を行う
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
     if(angle == 45) {
-      motionPerformer.turnAround(45, true);
+      motionPerformer.turnAround(45, isClockwise);
     } else if(angle == 90) {
-      motionPerformer.turnAround(90, true);
+      motionPerformer.turnAround(90, isClockwise);
     } else if(angle == 135) {
-      motionPerformer.turnAround(135, true);
+      motionPerformer.turnAround(135, isClockwise);
     } else if(angle == -45) {
-      motionPerformer.turnAround(45, false);
+      motionPerformer.turnAround(-45, isClockwise);
     } else if(angle == -90) {
-      motionPerformer.turnAround(90, false);
+      motionPerformer.turnAround(-90, isClockwise);
     } else if(angle == -135) {
-      motionPerformer.turnAround(135, false);
+      motionPerformer.turnAround(-135, isClockwise);
     } else if(abs(angle) == 180) {
-      motionPerformer.turnAround(180, true);
+      motionPerformer.turnAround(180, isClockwise);
     }
   }
-  // (方向転換があれば方向転換後の)動作を求める
+  // 経路を実際の動作に変換し、動作を行う
+  //交点から始まっており、経路のサイズが2より大きい場合は経路のスタートを1とする
   for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0) && route.size() > 2 ? 1 : 0;
       i < static_cast<int>(route.size()) - 1; i++) {
     MOTION nextMotion = decideMotion(route[i], route[i + 1]);
@@ -103,7 +108,13 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
         motionPerformer.pibotTurn(true);
         break;
       case 5:
+        motionPerformer.pibotTurn(false);
+        break;
+      case 6:
         motionPerformer.throwBlock(true);
+        break;
+      case 7:
+        motionPerformer.throwBlock(false);
         break;
       default:
         motionPerformer.moveStraight();
