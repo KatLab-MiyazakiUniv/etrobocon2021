@@ -17,7 +17,7 @@
 class MotionConverter {
  public:
   //コンストラクタ
-  MotionConverter(bool isLeftEdge);
+  MotionConverter(MotionPerformer& motionPerformer);
 
   /**
    * @fn MOTION decideMotion(std::pair<Coordinate, Direction> current, std::pair<Coordinate,
@@ -38,6 +38,8 @@ class MotionConverter {
   void convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route);
 
  private:
+  bool isLeftEdge;
+  MotionPerformer& motionPerformer;
   /**
    * @fn int calculateAngle(Direction current, Direction next);
    * @brief 走行体の向きの変化から回転角を計算する
@@ -46,7 +48,6 @@ class MotionConverter {
    * @return 回転角[deg]
    */
   int calculateAngle(Direction current, Direction next);
-  bool isLeftEdge;
 };
 
 #endif

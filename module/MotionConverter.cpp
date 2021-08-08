@@ -6,7 +6,10 @@
 
 #include "MotionConverter.h"
 
-MotionConverter::MotionConverter(bool isLeftEdge) : isLeftEdge(isLeftEdge) {}
+MotionConverter::MotionConverter(MotionPerformer& motionPerformer)
+  : motionPerformer(motionPerformer)
+{
+}
 
 MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
                                      std::pair<Coordinate, Direction> next)
@@ -60,9 +63,6 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
 
 void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route)
 {
-  LineTracer lineTracer(isLeftEdge);
-  MotionPerformer motionPerformer(lineTracer);
-
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
