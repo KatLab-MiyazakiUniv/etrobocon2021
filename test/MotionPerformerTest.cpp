@@ -35,11 +35,11 @@ namespace etrobocon2021_test {
       expected_motionLog.push_back(MOTION::TARC);
     }
     motionPerformer.pibotTurn(true);
-    expected_motionLog.push_back(MOTION::PSET);
+    expected_motionLog.push_back(MOTION::PSETR);
     motionPerformer.throwBlock(false);
-    expected_motionLog.push_back(MOTION::TSET);
+    expected_motionLog.push_back(MOTION::TSETL);
 
-    motionLog = motionPerformer.getMotionLog();
-    EXPECT_EQ(motionLog, expected_motionLog);
+    // motionLog = motionPerformer.getMotionLog();
+    EXPECT_EQ(motionPerformer.motionLog, expected_motionLog);
   }
 }  // namespace etrobocon2021_test

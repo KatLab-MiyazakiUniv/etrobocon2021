@@ -16,14 +16,16 @@
 #include "vector"
 
 enum class MOTION {
-  ST = 0,    //(直進:Straight)
-  TR = 1,    //(右折::Turn Right)
-  TL = 2,    //(左折:Turn Left)
-  BC = 3,    //(交点間:Between Cross)
-  PSET = 4,  //(ピボットターン設置:Pibot Turn Set)
-  TSET = 5,  //(投げ入れ設置:Throw Set)
-  TAC = 6,   //(時計回りに45度方向転換:Turn Around Clockwise)
-  TARC = 7,  //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
+  ST = 0,     //(直進:Straight)
+  TR = 1,     //(右折:Turn Right)
+  TL = 2,     //(左折:Turn Left)
+  BC = 3,     //(交点間:Between Cross)
+  PSETR = 4,  //(ピボットターン設置:Pivot Turn Set Right)
+  PSETL = 5,  //(ピボットターン設置:Pivot Turn Set Left)
+  TSETR = 6,  //(投げ入れ設置:Throw Set Right)
+  TSETL = 7,  //(投げ入れ設置:Throw Set Left)
+  TAC = 8,    //(時計回りに45度方向転換:Turn Around Clockwise)
+  TARC = 9,   //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
 };
 
 class MotionPerformer {
@@ -176,11 +178,9 @@ class MotionPerformer {
   int getFailureRiskThrowBlock(void);
 
   /**
-   * @fn std::vector<MOTION> getMotionLog(void)
-   * @brief 動作が記録された動的配列を取得
-   * @return 動的配列
+   * 動作を記録する動的配列
    */
-  std::vector<MOTION> getMotionLog(void) { return motionLog; };
+  std::vector<MOTION> motionLog;
 
  private:
   LineTracer& lineTracer;
@@ -191,11 +191,6 @@ class MotionPerformer {
   DirectionChanger directionChanger;
   BlockPivotTurn blockPivotTurn;
   BlockThrower blockThrower;
-
-  /**
-   * 動作を記録する動的配列
-   */
-  std::vector<MOTION> motionLog;
 };
 
 #endif
