@@ -53,15 +53,15 @@ void RoutePlanner::planBingoRoute()
     robot.setCoordinate(prevGoal.first);
 
     // 目標サークルとその直前との走行体の方向の差を(-4~4)の範囲に変形する
-    int dd = static_cast<int>(goal.second) - static_cast<int>(prevGoal.second);
-    if(dd > 4) {
-      dd -= 8;
-    } else if(dd < -4) {
-      dd += 8;
+    int diffDirection = static_cast<int>(goal.second) - static_cast<int>(prevGoal.second);
+    if(diffDirection > 4) {
+      diffDirection -= 8;
+    } else if(diffDirection < -4) {
+      diffDirection += 8;
     }
 
     // 走行体の方向を更新
-    if(std::abs(dd) < 2) {
+    if(std::abs(diffDirection) < 2) {
       // 目標が前方にある場合、投げ入れ設置のため目標を向く
       robot.setDirection(goal.second);
     } else {
