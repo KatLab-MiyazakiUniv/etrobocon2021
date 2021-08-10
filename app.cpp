@@ -13,7 +13,7 @@ void arm_task(intptr_t unused)
 {
   while(true) {
     ArmMotion::keepArm();
-    tslp_tsk(10 * 1000);  // 10ミリ秒スリープ
+    tslp_tsk(10);  // 10ミリ秒スリープ
   }
   ext_tsk();
 }

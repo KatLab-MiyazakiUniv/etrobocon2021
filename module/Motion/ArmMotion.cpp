@@ -26,6 +26,7 @@ void ArmMotion::keepArm()
     controller.setArmMotorPwm(pid.calculatePid(currentCount));
     controller.sleep();
   }
+  controller.sleep();
 }
 
 // アームを上げる
