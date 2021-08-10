@@ -38,6 +38,8 @@ namespace etrobocon2021_test {
     expected_motionLog.push_back(MOTION::PSETR);
     motionPerformer.throwBlock(false);
     expected_motionLog.push_back(MOTION::TSETL);
+    motionPerformer.moveBetweenCross();
+    expected_motionLog.push_back(MOTION::BC);
 
     EXPECT_EQ(motionPerformer.motionLog, expected_motionLog);
   }
