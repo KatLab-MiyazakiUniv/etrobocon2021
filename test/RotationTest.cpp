@@ -22,7 +22,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 90度左回頭の回頭誤差が１度未満かテスト
@@ -90,7 +90,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 0度左回頭のテスト
@@ -120,7 +120,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -152,7 +152,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 回転角度がマイナス
@@ -203,7 +203,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 90度右回頭の回頭誤差が１度未満かテスト
@@ -253,7 +253,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 0度右回頭のテスト
@@ -283,7 +283,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -315,7 +315,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 4;  //誤差1度 * 4
     int angle, pwm;
 
     // 回転角度がマイナス
