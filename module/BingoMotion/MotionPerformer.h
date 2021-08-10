@@ -20,10 +20,10 @@ enum class MOTION {
   TR = 1,     //(右折:Turn Right)
   TL = 2,     //(左折:Turn Left)
   BC = 3,     //(交点間:Between Cross)
-  PSETR = 4,  //(ピボットターン設置:Pivot Turn Set Right)
-  PSETL = 5,  //(ピボットターン設置:Pivot Turn Set Left)
-  TSETR = 6,  //(投げ入れ設置:Throw Set Right)
-  TSETL = 7,  //(投げ入れ設置:Throw Set Left)
+  PSETR = 4,  //(右回転ピボットターン設置:Pivot turn SET Right)
+  PSETL = 5,  //(左回転ピボットターン設置:Pivot turn SET Left)
+  TSETR = 6,  //(右回転投げ入れ設置:Throw SET Right)
+  TSETL = 7,  //(左回転投げ入れ設置:Throw SET Left)
   TAC = 8,    //(時計回りに45度方向転換:Turn Around Clockwise)
   TARC = 9,   //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
 };
@@ -180,7 +180,7 @@ class MotionPerformer {
   /**
    * 動作を記録する動的配列
    */
-  std::vector<MOTION> motionLog;
+  static std::vector<MOTION> motionLog;
 
  private:
   LineTracer& lineTracer;

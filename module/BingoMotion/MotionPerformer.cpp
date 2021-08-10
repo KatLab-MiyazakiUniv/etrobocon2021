@@ -15,6 +15,8 @@ MotionPerformer::MotionPerformer(LineTracer& _lineTracer)
 {
 }
 
+std::vector<MOTION> MotionPerformer::motionLog = {};
+
 void MotionPerformer::moveStraight()
 {
   inCrossStraight.runForward();
@@ -45,7 +47,7 @@ void MotionPerformer::turnAround(int angle, bool isClockwise)
 
   int tmp = std::abs(angle / 45);
   for(int i = 0; i < tmp; i++) {
-    if(angle > 0){
+    if(angle > 0) {
       motionLog.push_back(MOTION::TAC);
     } else {
       motionLog.push_back(MOTION::TARC);
@@ -56,7 +58,7 @@ void MotionPerformer::turnAround(int angle, bool isClockwise)
 void MotionPerformer::pibotTurn(bool isClockwise)
 {
   blockPivotTurn.setBlockPivotTurn(isClockwise);
-  if(isClockwise){
+  if(isClockwise) {
     motionLog.push_back(MOTION::PSETR);
   } else {
     motionLog.push_back(MOTION::PSETL);
@@ -66,7 +68,7 @@ void MotionPerformer::pibotTurn(bool isClockwise)
 void MotionPerformer::throwBlock(bool isClockwise)
 {
   blockThrower.throwBlock(isClockwise);
-  if(isClockwise){
+  if(isClockwise) {
     motionLog.push_back(MOTION::TSETR);
   } else {
     motionLog.push_back(MOTION::TSETL);
