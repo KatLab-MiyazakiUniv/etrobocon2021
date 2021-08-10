@@ -7,6 +7,7 @@
 #include "BingoArea.h"
 #include "DestinationList.h"
 #include "BlockSelector.h"
+#include "RouteCalculator.h"
 
 class RoutePlanner {
  public:
