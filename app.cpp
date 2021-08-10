@@ -1,5 +1,6 @@
 #include "app.h"
 #include "EtRobocon2021.h"
+#include "ArmMotion.h"
 
 // tag::main_task_1[]
 void main_task(intptr_t unused)
@@ -10,7 +11,11 @@ void main_task(intptr_t unused)
 
 void arm_task(intptr_t unused)
 {
-  // ext_tsk();
+  while(true) {
+    ArmMotion::keepArm();
+    tslp_tsk(10 * 1000);  // 10ミリ秒スリープ
+  }
+  ext_tsk();
 }
 
 void route_task(intptr_t unused)
