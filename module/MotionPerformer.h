@@ -13,7 +13,7 @@
 #include "DirectionChanger.h"
 #include "BlockPivotTurn.h"
 #include "BlockThrower.h"
-#include "vector"
+#include <vector>
 
 enum class MOTION {
   ST = 0,     //(直進:Straight)

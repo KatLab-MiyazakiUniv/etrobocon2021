@@ -45,7 +45,7 @@ void MotionPerformer::turnAround(int angle, bool isClockwise)
 
   int tmp = std::abs(angle / 45);
   for(int i = 0; i < tmp; i++) {
-    if(angle>0){
+    if(angle > 0){
       motionLog.push_back(MOTION::TAC);
     } else {
       motionLog.push_back(MOTION::TARC);

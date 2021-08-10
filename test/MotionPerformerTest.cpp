@@ -27,11 +27,11 @@ namespace etrobocon2021_test {
       expected_motionLog.push_back(MOTION::TARC);
     }
     motionPerformer.turnAround(135, true);
-    for(int i2 = 0; i2 < 3; i2++) {
+    for(int i = 0; i < 3; i++) {
       expected_motionLog.push_back(MOTION::TAC);
     }
     motionPerformer.turnAround(-180, true);
-    for(int i3 = 0; i3 < 4; i3++) {
+    for(int i = 0; i < 4; i++) {
       expected_motionLog.push_back(MOTION::TARC);
     }
     motionPerformer.pibotTurn(true);
