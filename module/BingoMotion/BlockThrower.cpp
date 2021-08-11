@@ -8,7 +8,7 @@
 
 BlockThrower::BlockThrower() : BingoMotion(1, 1) {}
 
-void BlockThrower::throwBlock(bool isClockwise)
+void BlockThrower::setBlockThrow(bool isClockwise)
 {
   double targetDistance = 105;
   int runPwm = 20;

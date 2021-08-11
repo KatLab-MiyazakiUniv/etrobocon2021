@@ -67,7 +67,7 @@ void MotionPerformer::setBlockPivotTurn(bool isClockwise)
 
 void MotionPerformer::setBlockThrow(bool isClockwise)
 {
-  blockThrower.throwBlock(isClockwise);
+  blockThrower.setBlockThrow(isClockwise);
   if(isClockwise) {
     motionLog.push_back(MOTION::SBTR);
   } else {
