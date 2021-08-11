@@ -369,7 +369,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // 90度右軸前方ピボットターン誤差が5度未満かテスト
@@ -427,7 +428,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // 0度右軸前方ピボットターンのテスト
@@ -453,7 +455,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -480,7 +483,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 4;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // 90度右軸後方ピボットターン誤差が5度未満かテスト
@@ -538,7 +542,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 4;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // 0度右軸後方ピボットターンのテスト
@@ -564,7 +569,8 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -591,7 +597,8 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
+
     int angle, pwm;
 
     // 90度左軸前方ピボットターン誤差が5度未満かテスト
