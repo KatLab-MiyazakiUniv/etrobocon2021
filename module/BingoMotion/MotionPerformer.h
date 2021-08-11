@@ -16,16 +16,16 @@
 #include <vector>
 
 enum class MOTION {
-  RF = 0,     //(直進:Run Forward)
-  RR = 1,     //(右折:Run Right)
-  RL = 2,     //(左折:Run Left)
-  RTC = 3,     //(交点間:Run To Cross)
-  PSETR = 4,  //(右回転ピボットターン設置:Pivot turn SET Right)
-  PSETL = 5,  //(左回転ピボットターン設置:Pivot turn SET Left)
-  TSETR = 6,  //(右回転投げ入れ設置:Throw SET Right)
-  TSETL = 7,  //(左回転投げ入れ設置:Throw SET Left)
-  CDC = 8,    //(時計回りに45度方向転換:Change Direction Clockwise)
-  CDRC = 9,   //(反時計回りに45度方向転換:Change Direction Reverse Clockwise)
+  RF = 0,    //(直進:Run Forward)
+  RR = 1,    //(右折:Run Right)
+  RL = 2,    //(左折:Run Left)
+  RTC = 3,   //(交点間:Run To Cross)
+  SBPR = 4,  //(右回転ピボットターン設置:Set Block Pivot turn Right)
+  SBPL = 5,  //(左回転ピボットターン設置:Set Block Pivot turn Left)
+  SBTR = 6,  //(右回転投げ入れ設置:Set Block Throw Right)
+  SBTL = 7,  //(左回転投げ入れ設置:Set Block Throw Left)
+  CDC = 8,   //(時計回りに45度方向転換:Change Direction Clockwise)
+  CDRC = 9,  //(反時計回りに45度方向転換:Change Direction Reverse Clockwise)
 };
 
 class MotionPerformer {
@@ -73,11 +73,11 @@ class MotionPerformer {
   void setBlockPivotTurn(bool isClockwise);
 
   /**
-   * @fn void throwBlock(bool isClockwise);
+   * @fn void setBlockThrow(bool isClockwise);
    * @brief 投げ入れ設置を実行する
    * @param isClockwise 投げ入れる向き true: 右回転
    */
-  void throwBlock(bool isClockwise);
+  void setBlockThrow(bool isClockwise);
 
   /**
    * @fn void getMotionTimeRunForward(void);
