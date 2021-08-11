@@ -31,7 +31,8 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
     } else {
       return MOTION::RL;  //左折
     }
-  } else if((cx % 2 == 1 || cy % 2 == 1) && nx % 2 == 0 && ny % 2 == 0) {
+  } else if(((cx % 2 == 1 && cy % 2 == 0) || (cx % 2 == 0 && cy % 2 == 1)) && nx % 2 == 0
+            && ny % 2 == 0) {
     //中点->交点の場合は交点間移動
     return MOTION::RTC;
   } else {
