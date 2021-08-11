@@ -70,21 +70,7 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
                      || MotionPerformer::motionLog.size() == 0;
   //方向転換がある場合は方向転換を行う
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
-    if(angle == 45) {
-      motionPerformer.changeDirection(45, isClockwise);
-    } else if(angle == 90) {
-      motionPerformer.changeDirection(90, isClockwise);
-    } else if(angle == 135) {
-      motionPerformer.changeDirection(135, isClockwise);
-    } else if(angle == -45) {
-      motionPerformer.changeDirection(-45, isClockwise);
-    } else if(angle == -90) {
-      motionPerformer.changeDirection(-90, isClockwise);
-    } else if(angle == -135) {
-      motionPerformer.changeDirection(-135, isClockwise);
-    } else if(abs(angle) == 180) {
-      motionPerformer.changeDirection(180, isClockwise);
-    }
+    motionPerformer.changeDirection(angle, isClockwise);
   }
   //経路を実際の動作に変換し、動作を行う
   //交点から始まっており、経路のサイズが2より大きい場合は経路のスタートを1とする
@@ -106,10 +92,10 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
         motionPerformer.runToCross();
         break;
       case 4:
-        motionPerformer.pivotTurn(true);
+        motionPerformer.setBlockPivotTurn(true);
         break;
       case 5:
-        motionPerformer.pivotTurn(false);
+        motionPerformer.setBlockPivotTurn(false);
         break;
       case 6:
         motionPerformer.throwBlock(true);
