@@ -12,7 +12,7 @@ namespace etrobocon2021_test {
     LineTracer trace(true);
     MotionPerformer motionPerformer(trace);
     std::vector<MOTION> expected_motionLog;
-
+    MotionPerformer::motionLog.clear();  //他クラスで記録した履歴を消去する
     motionPerformer.runForward();
     expected_motionLog.push_back(MOTION::RF);
     motionPerformer.runRight();

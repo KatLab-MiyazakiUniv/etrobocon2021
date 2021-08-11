@@ -52,11 +52,35 @@ namespace etrobocon2021_test {
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
       // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
-
+      // 運搬後の方向を算出
+      Direction direction;
+      if(dy > 0) {
+        if(dx > 0) {
+          direction = Direction::SE;
+        } else if(dx < 0) {
+          direction = Direction::SW;
+        } else {
+          direction = Direction::S;
+        }
+      } else if(dy < 0) {
+        if(dx > 0) {
+          direction = Direction::NE;
+        } else if(dx < 0) {
+          direction = Direction::NW;
+        } else {
+          direction = Direction::N;
+        }
+      } else {
+        if(dx > 0) {
+          direction = Direction::E;
+        } else {
+          direction = Direction::W;
+        }
+      }
       // 走行体の座標を更新
       robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -108,11 +132,36 @@ namespace etrobocon2021_test {
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
       // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
+      // 運搬後の方向を算出
+      Direction direction;
+      if(dy > 0) {
+        if(dx > 0) {
+          direction = Direction::SE;
+        } else if(dx < 0) {
+          direction = Direction::SW;
+        } else {
+          direction = Direction::S;
+        }
+      } else if(dy < 0) {
+        if(dx > 0) {
+          direction = Direction::NE;
+        } else if(dx < 0) {
+          direction = Direction::NW;
+        } else {
+          direction = Direction::N;
+        }
+      } else {
+        if(dx > 0) {
+          direction = Direction::E;
+        } else {
+          direction = Direction::W;
+        }
+      }
 
       // 走行体の座標を更新
       robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -164,11 +213,36 @@ namespace etrobocon2021_test {
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
       // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
+      // 運搬後の方向を算出
+      Direction direction;
+      if(dy > 0) {
+        if(dx > 0) {
+          direction = Direction::SE;
+        } else if(dx < 0) {
+          direction = Direction::SW;
+        } else {
+          direction = Direction::S;
+        }
+      } else if(dy < 0) {
+        if(dx > 0) {
+          direction = Direction::NE;
+        } else if(dx < 0) {
+          direction = Direction::NW;
+        } else {
+          direction = Direction::N;
+        }
+      } else {
+        if(dx > 0) {
+          direction = Direction::E;
+        } else {
+          direction = Direction::W;
+        }
+      }
 
       // 走行体の座標を更新
       robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -220,11 +294,36 @@ namespace etrobocon2021_test {
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
       // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
+      // 運搬後の方向を算出
+      Direction direction;
+      if(dy > 0) {
+        if(dx > 0) {
+          direction = Direction::SE;
+        } else if(dx < 0) {
+          direction = Direction::SW;
+        } else {
+          direction = Direction::S;
+        }
+      } else if(dy < 0) {
+        if(dx > 0) {
+          direction = Direction::NE;
+        } else if(dx < 0) {
+          direction = Direction::NW;
+        } else {
+          direction = Direction::N;
+        }
+      } else {
+        if(dx > 0) {
+          direction = Direction::E;
+        } else {
+          direction = Direction::W;
+        }
+      }
 
       // 走行体の座標を更新
       robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
@@ -277,11 +376,36 @@ namespace etrobocon2021_test {
       int dx = (targetCoord.x - currentCoord.x > 0) ? 1 : -1;
       // 運搬先サークルに対し、下(1)から向かうか、上(-1)から向かうか
       int dy = (targetCoord.y - currentCoord.y > 0) ? 1 : -1;
+      // 運搬後の方向を算出
+      Direction direction;
+      if(dy > 0) {
+        if(dx > 0) {
+          direction = Direction::SE;
+        } else if(dx < 0) {
+          direction = Direction::SW;
+        } else {
+          direction = Direction::S;
+        }
+      } else if(dy < 0) {
+        if(dx > 0) {
+          direction = Direction::NE;
+        } else if(dx < 0) {
+          direction = Direction::NW;
+        } else {
+          direction = Direction::N;
+        }
+      } else {
+        if(dx > 0) {
+          direction = Direction::E;
+        } else {
+          direction = Direction::W;
+        }
+      }
 
       // 走行体の座標を更新
       robot.setCoordinate({ targetCoord.x - dx, targetCoord.y - dy });
       // 走行体の進行方向を更新
-      robot.setDirection(static_cast<Direction>((dx + 1) + (dy + 1) * 3));
+      robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
       bingoArea.moveBlock(targetCircleId, targetBlockId);
