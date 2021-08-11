@@ -1,7 +1,7 @@
 /**
  *  @file   RotationTest.cpp
  *  @brief  Rotationクラスのテストファイル
- *  @author mutotaka0426
+ *  @author kodama0720, yutotanaka24, Hisataka-Hagiyama
  */
 #include "Rotation.h"
 #include "Controller.h"
