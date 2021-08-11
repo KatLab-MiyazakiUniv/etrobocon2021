@@ -25,11 +25,11 @@ namespace etrobocon2021_test {
     Coordinate start = { 2, 3 };
     Coordinate goal = { 4, 2 };
     std::vector<std::pair<Coordinate, Direction>> minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::TR);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RR);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::E);  // 走行体の向きを更新
@@ -48,11 +48,11 @@ namespace etrobocon2021_test {
     start = { 4, 2 };
     goal = { 2, 0 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::TL);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RL);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::W);  //走行体の向きを更新
@@ -71,10 +71,10 @@ namespace etrobocon2021_test {
     start = { 2, 0 };
     goal = { 2, 4 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::ST);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::S);  //走行体の向きを更新
@@ -83,9 +83,9 @@ namespace etrobocon2021_test {
     start = { 2, 4 };
     goal = { 5, 3 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::TSETL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
@@ -96,10 +96,10 @@ namespace etrobocon2021_test {
     start = { 4, 4 };
     goal = { 4, 6 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::S);  //走行体の向きを更新
@@ -118,11 +118,11 @@ namespace etrobocon2021_test {
     start = { 4, 6 };
     goal = { 0, 6 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::ST);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::W);  //走行体の向きを更新
@@ -141,11 +141,11 @@ namespace etrobocon2021_test {
     start = { 0, 6 };
     goal = { 0, 2 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::ST);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::N);  //走行体の向きを更新
@@ -154,11 +154,11 @@ namespace etrobocon2021_test {
     start = { 0, 2 };
     goal = { 3, 5 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::TR);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RR);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::TSETL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
@@ -169,10 +169,10 @@ namespace etrobocon2021_test {
     start = { 2, 4 };
     goal = { 6, 4 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::ST);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::E);  //走行体の向きを更新
@@ -182,9 +182,9 @@ namespace etrobocon2021_test {
     goal = { 5, 1 };
     minRoute.clear();
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::TARC);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::TSETL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
@@ -195,8 +195,8 @@ namespace etrobocon2021_test {
     start = { 6, 2 };
     goal = { 6, 0 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);
     robot.setDirection(Direction::N);  //走行体の向きを更新
@@ -205,15 +205,15 @@ namespace etrobocon2021_test {
     start = { 6, 0 };
     goal = { 1, 3 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::TAC);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::TR);
-    expectedMotion.push_back(MOTION::BC);
-    expectedMotion.push_back(MOTION::ST);
-    expectedMotion.push_back(MOTION::BC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RR);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::TSETL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, motionPerformer.motionLog);

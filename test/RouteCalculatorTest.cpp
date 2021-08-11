@@ -78,7 +78,7 @@ namespace etrobocon2021_test {
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     bingoArea.moveBlock(CIRCLE_ID::ID0, BLOCK_ID::ID0);
-    robot.setDirection(Direction::W);  //走行体の向きを更新
+    robot.setDirection(Direction::SW);  //走行体の向きを更新
 
     // BLOCK_ID::4の黄ブロックまで移動する
     coordinate_start = { 2, 0 };
@@ -111,7 +111,7 @@ namespace etrobocon2021_test {
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     bingoArea.moveBlock(CIRCLE_ID::ID4, BLOCK_ID::ID4);
-    robot.setDirection(Direction::E);  //走行体の向きを更新
+    robot.setDirection(Direction::NE);  //走行体の向きを更新
 
     // BLOCK_ID::7の青ブロックまで移動する
     coordinate_start = { 4, 4 };
@@ -202,7 +202,7 @@ namespace etrobocon2021_test {
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     bingoArea.moveBlock(CIRCLE_ID::ID6, BLOCK_ID::ID2);
-    robot.setDirection(Direction::S);  //走行体の向きを更新
+    robot.setDirection(Direction::SE);  //走行体の向きを更新
 
     // BLOCK_ID::5の赤ブロックまで移動する
     coordinate_start = { 2, 4 };
@@ -235,7 +235,7 @@ namespace etrobocon2021_test {
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     bingoArea.moveBlock(CIRCLE_ID::ID2, BLOCK_ID::ID5);
-    robot.setDirection(Direction::N);  //走行体の向きを更新
+    robot.setDirection(Direction::NW);  //走行体の向きを更新
 
     // BLOCK_ID::1の青ブロックまで移動する
     coordinate_start = { 6, 2 };

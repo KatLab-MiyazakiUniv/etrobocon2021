@@ -25,15 +25,15 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
   if(cx % 2 == 0 && cy % 2 == 0 && ((nx % 2 == 1 && ny % 2 == 0) || (nx % 2 == 0 && ny % 2 == 1))) {
     //交点->中点の場合は交点内移動
     if(angle == 0) {
-      return MOTION::ST;  //直進
+      return MOTION::RF;  //直進
     } else if(angle == 90) {
-      return MOTION::TR;  //右折
+      return MOTION::RR;  //右折
     } else {
-      return MOTION::TL;  //左折
+      return MOTION::RL;  //左折
     }
   } else if((cx % 2 == 1 || cy % 2 == 1) && nx % 2 == 0 && ny % 2 == 0) {
     //中点->交点の場合は交点間移動
-    return MOTION::BC;
+    return MOTION::RTC;
   } else {
     if(angle == 45) {
       return MOTION::TSETR;  //投げ入れ設置(時計回り)
