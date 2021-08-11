@@ -45,7 +45,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected + error, rightActual);
 
     // 180度左回頭の回頭誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -64,7 +63,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected + error, rightActual);
 
     // 360度左回頭の回頭誤差が5度未満かテスト
-
     angle = 360;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -210,7 +208,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // 90度右回頭の回頭誤差が5度未満かテスト
-
     angle = 90;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -229,7 +226,6 @@ namespace etrobocon2021_test {
     EXPECT_LE(rightExpected - error, rightActual);
 
     // 180度右回頭の回頭誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -373,7 +369,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // 90度右軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -388,7 +383,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected + error, leftActual);
 
     // 180度右軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -403,7 +397,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected + error, leftActual);
 
     // 360度右軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -484,7 +477,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // 90度右軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -499,7 +491,6 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected - error, leftActual);
 
     // 180度右軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -514,7 +505,6 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected - error, leftActual);
 
     // 360度右軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -595,7 +585,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // 90度左軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -610,7 +599,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected + error, rightActual);
 
     // 180度左軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -625,7 +613,6 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected + error, rightActual);
 
     // 360度左軸前方ピボットターン誤差が5度未満かテスト
-
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -679,7 +666,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // PWM値が100の時のテスト
-    //誤差2度未満
     angle = 90;
     pwm = 100;
     distance = 2 * M_PI * tread * angle / 360;
@@ -691,7 +677,7 @@ namespace etrobocon2021_test {
     rightActual = Mileage::calculateWheelMileage(measurer.getRightCount());
 
     EXPECT_LE(rightExpected, rightActual);
-    EXPECT_GE(rightExpected + 2 * error, rightActual);
+    EXPECT_GE(rightExpected + error, rightActual);
   }
 
   TEST(Rotation, turnBackLeftPivot)
@@ -707,7 +693,6 @@ namespace etrobocon2021_test {
     int angle, pwm;
 
     // 90度左軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -722,7 +707,6 @@ namespace etrobocon2021_test {
     EXPECT_LE(rightExpected - error, rightActual);
 
     // 180度左軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -737,7 +721,6 @@ namespace etrobocon2021_test {
     EXPECT_LE(rightExpected - error, rightActual);
 
     // 360度左軸後方ピボットターン誤差が5度未満かテスト
-
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
