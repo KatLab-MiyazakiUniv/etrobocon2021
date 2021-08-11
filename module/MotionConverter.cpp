@@ -37,13 +37,13 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
     return MOTION::RTC;
   } else {
     if(angle == 45) {
-      return MOTION::TSETR;  //投げ入れ設置(時計回り)
+      return MOTION::SBTR;  //投げ入れ設置(右回り)
     } else if(angle == -45) {
-      return MOTION::TSETL;  //投げ入れ設置(反時計回り)
+      return MOTION::SBTL;  //投げ入れ設置(左回り)
     } else if(angle == 135) {
-      return MOTION::PSETR;  //ピボットターン設置(時計回り)
+      return MOTION::SBPR;  //ピボットターン設置(右回り)
     } else {
-      return MOTION::PSETL;  //ピボットターン設置(反時計回り)
+      return MOTION::SBPL;  //ピボットターン設置(左回り)
     }
   }
 }
@@ -67,8 +67,10 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
   //直前の動作がないor直前の動作が時計回りのピボットターン設置の場合は方向転換のisClockWiseをtrueとする
-  bool isClockwise = *(MotionPerformer::motionLog.end()) == MOTION::TSETR
-                     || MotionPerformer::motionLog.size() == 0;
+  bool isClockwise = MotionPerformer::motionLog.size() == 0;
+  if(MotionPerformer::motionLog.size() > 0) {
+    isClockwise = (MotionPerformer::motionLog.back() == MOTION::SBTR);
+  }
   //方向転換がある場合は方向転換を行う
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
     motionPerformer.changeDirection(angle, isClockwise);
@@ -99,10 +101,10 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
         motionPerformer.setBlockPivotTurn(false);
         break;
       case 6:
-        motionPerformer.throwBlock(true);
+        motionPerformer.setBlockThrow(true);
         break;
       case 7:
-        motionPerformer.throwBlock(false);
+        motionPerformer.setBlockThrow(false);
         break;
       default:
         motionPerformer.runForward();

@@ -22,10 +22,11 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
-    // 90度左回頭の回頭誤差が１度未満かテスト
+    // 90度左回頭の回頭誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -43,7 +44,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected - error, leftActual);
     EXPECT_GE(rightExpected + error, rightActual);
 
-    // 180度左回頭の回頭誤差が１度未満かテスト
+    // 180度左回頭の回頭誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -61,7 +63,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected - error, leftActual);
     EXPECT_GE(rightExpected + error, rightActual);
 
-    // 360度左回頭の回頭誤差が１度未満かテスト
+    // 360度左回頭の回頭誤差が5度未満かテスト
+
     angle = 360;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -90,7 +93,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 0度左回頭のテスト
@@ -120,7 +123,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -152,7 +155,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 回転角度がマイナス
@@ -203,10 +206,11 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
-    // 90度右回頭の回頭誤差が１度未満かテスト
+    // 90度右回頭の回頭誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -224,7 +228,8 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected + error, leftActual);
     EXPECT_LE(rightExpected - error, rightActual);
 
-    // 180度右回頭の回頭誤差が１度未満かテスト
+    // 180度右回頭の回頭誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     targetDistance = M_PI * tread * abs(angle) / 360;
@@ -253,7 +258,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 0度右回頭のテスト
@@ -283,7 +288,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -315,7 +320,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double targetDistance;
     double tread = 140.0;
-    double error = M_PI * tread / 360;  //誤差1度
+    double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 回転角度がマイナス
@@ -364,10 +369,11 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
     int angle, pwm;
 
-    // 90度右軸前方ピボットターン誤差が１度未満かテスト
+    // 90度右軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -381,7 +387,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected, leftActual);
     EXPECT_GE(leftExpected + error, leftActual);
 
-    // 180度右軸前方ピボットターン誤差が１度未満かテスト
+    // 180度右軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -395,7 +402,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(leftExpected, leftActual);
     EXPECT_GE(leftExpected + error, leftActual);
 
-    // 360度右軸前方ピボットターン誤差が１度未満かテスト
+    // 360度右軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -419,7 +427,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
     int angle, pwm;
 
     // 0度右軸前方ピボットターンのテスト
@@ -445,7 +453,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -472,10 +480,11 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 4;  //誤差1度
     int angle, pwm;
 
-    // 90度右軸後方ピボットターン誤差が１度未満かテスト
+    // 90度右軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -489,7 +498,8 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected, leftActual);
     EXPECT_LE(leftExpected - error, leftActual);
 
-    // 180度右軸後方ピボットターン誤差が１度未満かテスト
+    // 180度右軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -503,7 +513,8 @@ namespace etrobocon2021_test {
     EXPECT_GE(leftExpected, leftActual);
     EXPECT_LE(leftExpected - error, leftActual);
 
-    // 360度右軸後方ピボットターン誤差が１度未満かテスト
+    // 360度右軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -527,7 +538,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 4;  //誤差1度
     int angle, pwm;
 
     // 0度右軸後方ピボットターンのテスト
@@ -553,7 +564,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -580,10 +591,11 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差1度
     int angle, pwm;
 
-    // 90度左軸前方ピボットターン誤差が１度未満かテスト
+    // 90度左軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -597,7 +609,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(rightExpected, rightActual);
     EXPECT_GE(rightExpected + error, rightActual);
 
-    // 180度左軸前方ピボットターン誤差が１度未満かテスト
+    // 180度左軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -611,7 +624,8 @@ namespace etrobocon2021_test {
     EXPECT_LE(rightExpected, rightActual);
     EXPECT_GE(rightExpected + error, rightActual);
 
-    // 360度左軸前方ピボットターン誤差が１度未満かテスト
+    // 360度左軸前方ピボットターン誤差が5度未満かテスト
+
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -635,7 +649,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 0度左軸前方ピボットターンのテスト
@@ -661,7 +675,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // PWM値が100の時のテスト
@@ -689,10 +703,11 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
-    // 90度左軸後方ピボットターン誤差が１度未満かテスト
+    // 90度左軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 90;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -706,7 +721,8 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected, rightActual);
     EXPECT_LE(rightExpected - error, rightActual);
 
-    // 180度左軸後方ピボットターン誤差が１度未満かテスト
+    // 180度左軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 180;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -720,7 +736,8 @@ namespace etrobocon2021_test {
     EXPECT_GE(rightExpected, rightActual);
     EXPECT_LE(rightExpected - error, rightActual);
 
-    // 360度左軸後方ピボットターン誤差が１度未満かテスト
+    // 360度左軸後方ピボットターン誤差が5度未満かテスト
+
     angle = 360;
     pwm = 30;
     distance = 2 * M_PI * tread * angle / 360;
@@ -744,7 +761,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // 0度左軸後方ピボットターンのテスト
@@ -770,7 +787,7 @@ namespace etrobocon2021_test {
     double rightMotorCount;
     double distance;
     double tread = 140.0;
-    double error = 2 * M_PI * tread / 360;  //誤差1度
+    double error = 2 * M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
     // PWM値が100の時のテスト

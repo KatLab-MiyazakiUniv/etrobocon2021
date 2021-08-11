@@ -88,7 +88,7 @@ namespace etrobocon2021_test {
     coordinate_goal = { 2, 4 };
     expected_route.clear();
     actual_route.clear();
-    expected_route.push_back(std::make_pair(coordinate_start, Direction::W));
+    expected_route.push_back(std::make_pair(coordinate_start, Direction::SW));
     expected_route.push_back(std::make_pair(route_1, Direction::S));
     expected_route.push_back(std::make_pair(route_2, Direction::S));
     expected_route.push_back(std::make_pair(route_3, Direction::S));
@@ -119,7 +119,7 @@ namespace etrobocon2021_test {
     coordinate_goal = { 4, 6 };
     expected_route.clear();
     actual_route.clear();
-    expected_route.push_back(std::make_pair(coordinate_start, Direction::E));
+    expected_route.push_back(std::make_pair(coordinate_start, Direction::NE));
     expected_route.push_back(std::make_pair(route_1, Direction::S));
     expected_route.push_back(std::make_pair(coordinate_goal, Direction::S));
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
@@ -212,7 +212,7 @@ namespace etrobocon2021_test {
     coordinate_goal = { 6, 4 };
     expected_route.clear();
     actual_route.clear();
-    expected_route.push_back(std::make_pair(coordinate_start, Direction::S));
+    expected_route.push_back(std::make_pair(coordinate_start, Direction::SE));
     expected_route.push_back(std::make_pair(route_1, Direction::E));
     expected_route.push_back(std::make_pair(route_2, Direction::E));
     expected_route.push_back(std::make_pair(route_3, Direction::E));
@@ -243,7 +243,7 @@ namespace etrobocon2021_test {
     coordinate_goal = { 6, 0 };
     expected_route.clear();
     actual_route.clear();
-    expected_route.push_back(std::make_pair(coordinate_start, Direction::N));
+    expected_route.push_back(std::make_pair(coordinate_start, Direction::NW));
     expected_route.push_back(std::make_pair(route_1, Direction::N));
     expected_route.push_back(std::make_pair(coordinate_goal, Direction::N));
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);

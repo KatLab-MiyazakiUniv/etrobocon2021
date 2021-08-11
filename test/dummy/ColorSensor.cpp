@@ -19,5 +19,10 @@ int ColorSensor::getBrightness()
 // RGB値を取得
 void ColorSensor::getRawColor(rgb_raw_t& rgb)
 {
-  rgb = { 8, 9, 10 };
+  int index = rand() % 2;
+  if(index == 0){
+    rgb = { 8, 9, 10 };//black
+  } else {
+    rgb = { 111, 19, 19 };//red
+  }
 }

@@ -6,7 +6,9 @@
 
 #include "BlockThrower.h"
 
-void BlockThrower::throwBlock(bool isClockwise)
+BlockThrower::BlockThrower() : BingoMotion(1, 1) {}
+
+void BlockThrower::setBlockThrow(bool isClockwise)
 {
   double targetDistance = 105;
   int runPwm = 20;
