@@ -6,7 +6,10 @@
 
 #include "DirectionChanger.h"
 
-DirectionChanger::DirectionChanger(LineTracer& _lineTracer) : lineTracer(_lineTracer) {}
+DirectionChanger::DirectionChanger(LineTracer& _lineTracer)
+  : BingoMotion(0, 0), lineTracer(_lineTracer)
+{
+}
 
 void DirectionChanger::changeDirection(int angle, bool isClockwise)
 {

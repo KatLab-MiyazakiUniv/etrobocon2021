@@ -25,7 +25,7 @@ namespace etrobocon2021_test {
 
     double targetDistance = 350;
     int pwm = 50;
-    double distanceError = 1.5, differenceError = 0.8;
+    double distanceError = 3.0, differenceError = 0.8;
 
     // 初期値
     rightAngle = measurer.getRightCount();
@@ -123,7 +123,7 @@ namespace etrobocon2021_test {
 
     double targetDistance = 350;
     int pwm = -50;
-    double distanceError = 1.5, differenceError = 0.8;
+    double distanceError = 3.0, differenceError = 0.8;
 
     // 初期値
     leftAngle = measurer.getLeftCount();

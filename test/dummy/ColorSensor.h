@@ -8,6 +8,7 @@
 #define COLOR_SENSOR_H
 
 #include "Port.h"
+#include <stdlib.h>
 
 typedef struct {
   int r, g, b;
