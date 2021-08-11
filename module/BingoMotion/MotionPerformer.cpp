@@ -55,7 +55,7 @@ void MotionPerformer::changeDirection(int angle, bool isClockwise)
   }
 }
 
-void MotionPerformer::pivotTurn(bool isClockwise)
+void MotionPerformer::setBlockPivotTurn(bool isClockwise)
 {
   blockPivotTurn.setBlockPivotTurn(isClockwise);
   if(isClockwise) {

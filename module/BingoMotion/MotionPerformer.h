@@ -66,11 +66,11 @@ class MotionPerformer {
   void changeDirection(int angle, bool isClockwise);
 
   /**
-   * @fn void pivotTurn(bool isClockwise);
+   * @fn void setBlockPivotTurn(bool isClockwise);
    * @brief ピボットターン設置を実行する
    * @param isClockwise ピボットターンする向き true: 右回転
    */
-  void pivotTurn(bool isClockwise);
+  void setBlockPivotTurn(bool isClockwise);
 
   /**
    * @fn void throwBlock(bool isClockwise);

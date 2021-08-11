@@ -21,9 +21,9 @@ namespace etrobocon2021_test {
     expected_motionLog.push_back(MOTION::RL);
     motionPerformer.runToCross();
     expected_motionLog.push_back(MOTION::RTC);
-    motionPerformer.pivotTurn(true);
+    motionPerformer.setBlockPivotTurn(true);
     expected_motionLog.push_back(MOTION::PSETR);
-    motionPerformer.pivotTurn(false);
+    motionPerformer.setBlockPivotTurn(false);
     expected_motionLog.push_back(MOTION::PSETL);
     motionPerformer.throwBlock(true);
     expected_motionLog.push_back(MOTION::TSETR);
