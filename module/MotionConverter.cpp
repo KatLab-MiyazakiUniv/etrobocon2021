@@ -20,7 +20,7 @@ MOTION MotionConverter::decideMotion(std::pair<Coordinate, Direction> current,
   int nx = next.first.x;               //次のx座標
   int ny = next.first.y;               //次のy座標
   Direction nd = next.second;          //次の向き
-  int angle = calculateAngle(cd, nd);  //角度
+  int angle = calculateAngle(cd, nd);  //角度の変化
 
   if(cx % 2 == 0 && cy % 2 == 0 && ((nx % 2 == 1 && ny % 2 == 0) || (nx % 2 == 0 && ny % 2 == 1))) {
     //交点->中点の場合は交点内移動
@@ -86,8 +86,9 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
       motionPerformer.changeDirection(180, isClockwise);
     }
   }
-  // 経路を実際の動作に変換し、動作を行う
+  //経路を実際の動作に変換し、動作を行う
   //交点から始まっており、経路のサイズが2より大きい場合は経路のスタートを1とする
+  //(方向転換が無い場合と、黒ブロック運搬後に中点からスタートする場合の処理のみ処理が違うため)
   for(int i = (route[0].first.x % 2 == 0 && route[0].first.y % 2 == 0) && route.size() > 2 ? 1 : 0;
       i < static_cast<int>(route.size()) - 1; i++) {
     MOTION nextMotion = decideMotion(route[i], route[i + 1]);
