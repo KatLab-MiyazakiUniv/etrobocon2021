@@ -16,16 +16,16 @@
 #include <vector>
 
 enum class MOTION {
-  ST = 0,     //(直進:Straight)
-  TR = 1,     //(右折:Turn Right)
-  TL = 2,     //(左折:Turn Left)
-  BC = 3,     //(交点間:Between Cross)
+  RF = 0,     //(直進:Run Forward)
+  RR = 1,     //(右折:Run Right)
+  RL = 2,     //(左折:Run Left)
+  RTC = 3,     //(交点間:Run To Cross)
   PSETR = 4,  //(右回転ピボットターン設置:Pivot turn SET Right)
   PSETL = 5,  //(左回転ピボットターン設置:Pivot turn SET Left)
   TSETR = 6,  //(右回転投げ入れ設置:Throw SET Right)
   TSETL = 7,  //(左回転投げ入れ設置:Throw SET Left)
-  TAC = 8,    //(時計回りに45度方向転換:Turn Around Clockwise)
-  TARC = 9,   //(反時計回りに45度方向転換:Turn Around Reverse Clockwise)
+  CDC = 8,    //(時計回りに45度方向転換:Change Direction Clockwise)
+  CDRC = 9,   //(反時計回りに45度方向転換:Change Direction Reverse Clockwise)
 };
 
 class MotionPerformer {
@@ -34,43 +34,43 @@ class MotionPerformer {
   MotionPerformer(LineTracer& _lineTracer);
 
   /**
-   * @fn void moveStraight(void);
+   * @fn void runForward(void);
    * @brief 交点内移動（直進）を実行する
    */
-  void moveStraight(void);
+  void runForward(void);
 
   /**
-   * @fn void turnRight(void);
+   * @fn void runRight(void);
    * @brief 交点内移動（右折）を実行する
    */
-  void turnRight(void);
+  void runRight(void);
 
   /**
-   * @fn void turnLeft(void);
+   * @fn void runLeft(void);
    * @brief 交点内移動（左折）を実行する
    */
-  void turnLeft(void);
+  void runLeft(void);
 
   /**
-   * @fn void moveBetweenCross(void);
+   * @fn void runToCross(void);
    * @brief 交点間移動を実行する
    */
-  void moveBetweenCross(void);
+  void runToCross(void);
 
   /**
-   * @fn void turnAround(void);
-   * @brief 180度方向転換を実行する
+   * @fn void changeDirection(void);
+   * @brief 方向転換を実行する
    * @param angle 回転角度（deg） -180 < angle <= 180 45度刻み
    * @param isClockwise 直前に投げ入れた方向
    */
-  void turnAround(int angle, bool isClockwise);
+  void changeDirection(int angle, bool isClockwise);
 
   /**
-   * @fn void pibotTurn(bool isClockwise);
+   * @fn void pivotTurn(bool isClockwise);
    * @brief ピボットターン設置を実行する
    * @param isClockwise ピボットターンする向き true: 右回転
    */
-  void pibotTurn(bool isClockwise);
+  void pivotTurn(bool isClockwise);
 
   /**
    * @fn void throwBlock(bool isClockwise);
@@ -80,46 +80,46 @@ class MotionPerformer {
   void throwBlock(bool isClockwise);
 
   /**
-   * @fn void getMotionTimeInCrossStraight(void);
+   * @fn void getMotionTimeRunForward(void);
    * @brief 交点移動（直進）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeStraight(void);
+  int getMotionTimeRunForward(void);
 
   /**
-   * @fn int getMotionTimeTurnRight(void);
+   * @fn int getMotionTimeRunRight(void);
    * @brief 交点移動（右折）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeTurnRight(void);
+  int getMotionTimeRunRight(void);
 
   /**
-   * @fn int getMotionTimeTurnLeft(void);
+   * @fn int getMotionTimeRunLeft(void);
    * @brief 交点移動（左折）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeTurnLeft(void);
+  int getMotionTimeRunLeft(void);
 
   /**
-   * @fn int getMotionTimeBetweenCross(void);
+   * @fn int getMotionTimeRunToCross(void);
    * @brief 交点間移動の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeBetweenCross(void);
+  int getMotionTimeRunToCross(void);
 
   /**
-   * @fn int getMotionTimeTurnAround(void);
-   * @brief 180度方向転換の時間コストを取得
+   * @fn int getMotionTimechangeDirection(void);
+   * @brief 方向転換の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeTurnAround(void);
+  int getMotionTimeChangeDirection(void);
 
   /**
-   * @fn int getMotionTimePibotTurn(void);
+   * @fn int getMotionTimePivotTurn(void);
    * @brief ピボットターンの時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimePibotTurn(void);
+  int getMotionTimePivotTurn(void);
 
   /**
    * @fn int getMotionTimeThrowBlock(void);
@@ -129,46 +129,46 @@ class MotionPerformer {
   int getMotionTimeThrowBlock(void);
 
   /**
-   * @fn int getFailureRiskStraight(void);
+   * @fn int getFailureRiskRunForward(void);
    * @brief 交点移動（直進）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskStraight(void);
+  int getFailureRiskRunForward(void);
 
   /**
-   * @fn int getFailureRiskTurnRight(void);
+   * @fn int getFailureRiskRunRight(void);
    * @brief 交点移動（右折）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskTurnRight(void);
+  int getFailureRiskRunRight(void);
 
   /**
-   * @fn int getFailureRiskTurnLeft(void);
+   * @fn int getFailureRiskRunLeft(void);
    * @brief 交点移動（左折）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskTurnLeft(void);
+  int getFailureRiskRunLeft(void);
 
   /**
-   * @fn int getFailureRiskBetweenCross(void);
+   * @fn int getFailureRiskRunToCross(void);
    * @brief 交点間移動の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskBetweenCross(void);
+  int getFailureRiskRunToCross(void);
 
   /**
-   * @fn int getFailureRiskTurnAround(void);
-   * @brief 180度方向転換の誤差コストを取得
+   * @fn int getFailureRiskchangeDirection(void);
+   * @brief 方向転換の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskTurnAround(void);
+  int getFailureRiskChangeDirection(void);
 
   /**
-   * @fn int getFailureRiskPibotTurn(void);
+   * @fn int getFailureRiskPivotTurn(void);
    * @brief ピボットターンの誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskPibotTurn(void);
+  int getFailureRiskPivotTurn(void);
 
   /**
    * @fn int getFailureRiskThrowBlock(void);

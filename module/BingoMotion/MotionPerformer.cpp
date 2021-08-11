@@ -17,45 +17,45 @@ MotionPerformer::MotionPerformer(LineTracer& _lineTracer)
 
 std::vector<MOTION> MotionPerformer::motionLog = {};
 
-void MotionPerformer::moveStraight()
+void MotionPerformer::runForward()
 {
   inCrossStraight.runForward();
-  motionLog.push_back(MOTION::ST);
+  motionLog.push_back(MOTION::RF);
 }
 
-void MotionPerformer::turnRight()
+void MotionPerformer::runRight()
 {
   inCrossRight.runRight();
-  motionLog.push_back(MOTION::TR);
+  motionLog.push_back(MOTION::RR);
 }
 
-void MotionPerformer::turnLeft()
+void MotionPerformer::runLeft()
 {
   inCrossLeft.runLeft();
-  motionLog.push_back(MOTION::TL);
+  motionLog.push_back(MOTION::RL);
 }
 
-void MotionPerformer::moveBetweenCross()
+void MotionPerformer::runToCross()
 {
   toCrossMotion.runToCross();
-  motionLog.push_back(MOTION::BC);
+  motionLog.push_back(MOTION::RTC);
 }
 
-void MotionPerformer::turnAround(int angle, bool isClockwise)
+void MotionPerformer::changeDirection(int angle, bool isClockwise)
 {
   directionChanger.changeDirection(angle, isClockwise);
 
   int tmp = std::abs(angle / 45);
   for(int i = 0; i < tmp; i++) {
     if(angle > 0) {
-      motionLog.push_back(MOTION::TAC);
+      motionLog.push_back(MOTION::CDC);
     } else {
-      motionLog.push_back(MOTION::TARC);
+      motionLog.push_back(MOTION::CDRC);
     }
   }
 }
 
-void MotionPerformer::pibotTurn(bool isClockwise)
+void MotionPerformer::pivotTurn(bool isClockwise)
 {
   blockPivotTurn.setBlockPivotTurn(isClockwise);
   if(isClockwise) {
@@ -75,32 +75,32 @@ void MotionPerformer::throwBlock(bool isClockwise)
   }
 }
 
-int MotionPerformer::getMotionTimeStraight()
+int MotionPerformer::getMotionTimeRunForward()
 {
   return inCrossStraight.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeTurnRight()
+int MotionPerformer::getMotionTimeRunRight()
 {
   return inCrossRight.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeTurnLeft()
+int MotionPerformer::getMotionTimeRunLeft()
 {
   return inCrossLeft.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeBetweenCross()
+int MotionPerformer::getMotionTimeRunToCross()
 {
   return toCrossMotion.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeTurnAround()
+int MotionPerformer::getMotionTimeChangeDirection()
 {
   return directionChanger.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimePibotTurn()
+int MotionPerformer::getMotionTimePivotTurn()
 {
   return blockPivotTurn.getMotionTime();
 }
@@ -110,32 +110,32 @@ int MotionPerformer::getMotionTimeThrowBlock()
   return blockThrower.getMotionTime();
 }
 
-int MotionPerformer::getFailureRiskStraight()
+int MotionPerformer::getFailureRiskRunForward()
 {
   return inCrossStraight.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskTurnRight()
+int MotionPerformer::getFailureRiskRunRight()
 {
   return inCrossRight.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskTurnLeft()
+int MotionPerformer::getFailureRiskRunLeft()
 {
   return inCrossLeft.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskBetweenCross()
+int MotionPerformer::getFailureRiskRunToCross()
 {
   return toCrossMotion.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskTurnAround()
+int MotionPerformer::getFailureRiskChangeDirection()
 {
   return directionChanger.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskPibotTurn()
+int MotionPerformer::getFailureRiskPivotTurn()
 {
   return blockPivotTurn.getFailureRisk();
 }

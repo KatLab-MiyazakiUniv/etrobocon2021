@@ -13,27 +13,27 @@ namespace etrobocon2021_test {
     MotionPerformer motionPerformer(trace);
     std::vector<MOTION> expected_motionLog;
 
-    motionPerformer.moveStraight();
-    expected_motionLog.push_back(MOTION::ST);
-    motionPerformer.turnRight();
-    expected_motionLog.push_back(MOTION::TR);
-    motionPerformer.turnLeft();
-    expected_motionLog.push_back(MOTION::TL);
-    motionPerformer.moveBetweenCross();
-    expected_motionLog.push_back(MOTION::BC);
-    motionPerformer.pibotTurn(true);
+    motionPerformer.runForward();
+    expected_motionLog.push_back(MOTION::RF);
+    motionPerformer.runRight();
+    expected_motionLog.push_back(MOTION::RR);
+    motionPerformer.runLeft();
+    expected_motionLog.push_back(MOTION::RL);
+    motionPerformer.runToCross();
+    expected_motionLog.push_back(MOTION::RTC);
+    motionPerformer.pivotTurn(true);
     expected_motionLog.push_back(MOTION::PSETR);
-    motionPerformer.pibotTurn(false);
+    motionPerformer.pivotTurn(false);
     expected_motionLog.push_back(MOTION::PSETL);
     motionPerformer.throwBlock(true);
     expected_motionLog.push_back(MOTION::TSETR);
     motionPerformer.throwBlock(false);
     expected_motionLog.push_back(MOTION::TSETL);
-    motionPerformer.turnAround(45, true);
-    expected_motionLog.push_back(MOTION::TAC);
-    motionPerformer.turnAround(-180, true);
+    motionPerformer.changeDirection(45, true);
+    expected_motionLog.push_back(MOTION::CDC);
+    motionPerformer.changeDirection(-180, true);
     for(int i = 0; i < 4; i++) {
-      expected_motionLog.push_back(MOTION::TARC);
+      expected_motionLog.push_back(MOTION::CDRC);
     }
 
     EXPECT_EQ(MotionPerformer::motionLog, expected_motionLog);
