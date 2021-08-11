@@ -66,24 +66,24 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
   //直前の動作がないor直前の動作が時計回りのピボットターン設置の場合は方向転換のisClockWiseをtrueとする
-  bool isClockwise = *(motionPerformer.motionLog.end()) == MOTION::TSETR
-                     || motionPerformer.motionLog.size() == 0;
+  bool isClockwise = *(MotionPerformer::motionLog.end()) == MOTION::TSETR
+                     || MotionPerformer::motionLog.size() == 0;
   //方向転換がある場合は方向転換を行う
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
     if(angle == 45) {
-      motionPerformer.turnAround(45, isClockwise);
+      motionPerformer.changeDirection(45, isClockwise);
     } else if(angle == 90) {
-      motionPerformer.turnAround(90, isClockwise);
+      motionPerformer.changeDirection(90, isClockwise);
     } else if(angle == 135) {
-      motionPerformer.turnAround(135, isClockwise);
+      motionPerformer.changeDirection(135, isClockwise);
     } else if(angle == -45) {
-      motionPerformer.turnAround(-45, isClockwise);
+      motionPerformer.changeDirection(-45, isClockwise);
     } else if(angle == -90) {
-      motionPerformer.turnAround(-90, isClockwise);
+      motionPerformer.changeDirection(-90, isClockwise);
     } else if(angle == -135) {
-      motionPerformer.turnAround(-135, isClockwise);
+      motionPerformer.changeDirection(-135, isClockwise);
     } else if(abs(angle) == 180) {
-      motionPerformer.turnAround(180, isClockwise);
+      motionPerformer.changeDirection(180, isClockwise);
     }
   }
   // 経路を実際の動作に変換し、動作を行う
@@ -93,22 +93,22 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
     MOTION nextMotion = decideMotion(route[i], route[i + 1]);
     switch(static_cast<int>(nextMotion)) {
       case 0:
-        motionPerformer.moveStraight();
+        motionPerformer.runForward();
         break;
       case 1:
-        motionPerformer.turnRight();
+        motionPerformer.runRight();
         break;
       case 2:
-        motionPerformer.turnLeft();
+        motionPerformer.runLeft();
         break;
       case 3:
-        motionPerformer.moveBetweenCross();
+        motionPerformer.runToCross();
         break;
       case 4:
-        motionPerformer.pibotTurn(true);
+        motionPerformer.pivotTurn(true);
         break;
       case 5:
-        motionPerformer.pibotTurn(false);
+        motionPerformer.pivotTurn(false);
         break;
       case 6:
         motionPerformer.throwBlock(true);
@@ -117,7 +117,7 @@ void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Directio
         motionPerformer.throwBlock(false);
         break;
       default:
-        motionPerformer.moveStraight();
+        motionPerformer.runForward();
         break;
     }
   }

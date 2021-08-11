@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include "MotionPerformer.h"
+#include "RouteCalculator.h"
 #include <utility>
 #include <vector>
 
