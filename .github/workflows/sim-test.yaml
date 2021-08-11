@@ -99,9 +99,6 @@ jobs:
         # CSVファイルのコピー
         cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv
 
-        # 後始末
-        rm -rf ${{ env.TMP_CAPTURE_DIR }} ${{ env.TMP_SETTINGS_FILE }}
-
         # 環境変数へディレクトリ名を保存
         echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
 
