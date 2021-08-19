@@ -4,8 +4,8 @@
  * @author Hisataka-Hagiyama,uchyam
  */
 
-#ifndef BINGOAREA_H
-#define BINGOAREA_H
+#ifndef COURSEINFO_H
+#define COURSEINFO_H
 
 #include "array"
 #include "BlockCircle.h"
