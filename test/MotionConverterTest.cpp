@@ -14,9 +14,9 @@ namespace etrobocon2021_test {
     constexpr bool IS_LEFT_COURSE = true;
     LineTracer lineTracer(IS_LEFT_COURSE);
     Robot robot(IS_LEFT_COURSE);
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
-    RouteCalculator route(bingoArea, robot);
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
+    RouteCalculator route(courseInfo, robot);
     MotionPerformer motionPerformer(lineTracer);
     MotionConverter motionConverter(motionPerformer);
     std::vector<MOTION> expectedMotion;  //期待する動作を表す列挙子を記録していく動的配列
@@ -41,7 +41,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBPL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID1, BLOCK_ID::ID3);
+    courseInfo.moveBlock(CIRCLE_ID::ID1, BLOCK_ID::ID3);
     robot.setDirection(Direction::E);  //走行体の向きを更新
 
     // BLOCK_ID::0の黄ブロックまで移動する
@@ -64,7 +64,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID0, BLOCK_ID::ID0);
+    courseInfo.moveBlock(CIRCLE_ID::ID0, BLOCK_ID::ID0);
     robot.setDirection(Direction::SW);  //走行体の向きを更新
 
     // BLOCK_ID::4の黄ブロックまで移動する
@@ -89,7 +89,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID4, BLOCK_ID::ID4);
+    courseInfo.moveBlock(CIRCLE_ID::ID4, BLOCK_ID::ID4);
     robot.setDirection(Direction::NE);  //走行体の向きを更新
 
     // BLOCK_ID::7の青ブロックまで移動する
@@ -111,7 +111,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBPL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID7, BLOCK_ID::ID7);
+    courseInfo.moveBlock(CIRCLE_ID::ID7, BLOCK_ID::ID7);
     robot.setDirection(Direction::S);  //走行体の向きを更新
 
     // BLOCK_ID::6の緑ブロックまで移動する
@@ -134,7 +134,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBPR);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID5, BLOCK_ID::ID6);
+    courseInfo.moveBlock(CIRCLE_ID::ID5, BLOCK_ID::ID6);
     robot.setDirection(Direction::W);  //走行体の向きを更新
 
     // BLOCK_ID::2の赤ブロックまで移動する
@@ -162,7 +162,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID6, BLOCK_ID::ID2);
+    courseInfo.moveBlock(CIRCLE_ID::ID6, BLOCK_ID::ID2);
     robot.setDirection(Direction::SE);  //走行体の向きを更新
 
     // BLOCK_ID::5の赤ブロックまで移動する
@@ -188,7 +188,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID2, BLOCK_ID::ID5);
+    courseInfo.moveBlock(CIRCLE_ID::ID2, BLOCK_ID::ID5);
     robot.setDirection(Direction::NW);  //走行体の向きを更新
 
     // BLOCK_ID::1の青ブロックまで移動する
@@ -217,7 +217,7 @@ namespace etrobocon2021_test {
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
-    bingoArea.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);
+    courseInfo.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);
     robot.setDirection(Direction::W);  //走行体の向きを更新
     // この時点でフルビンゴ
   };

@@ -8,7 +8,7 @@
 #define ROBOT_H
 
 #include "ColorJudge.h"
-#include "BingoArea.h"
+#include "CourseInfo.h"
 
 enum class Direction : int {
   N = 0,

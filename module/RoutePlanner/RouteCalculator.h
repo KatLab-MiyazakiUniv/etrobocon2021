@@ -7,7 +7,7 @@
 #ifndef ROUTE_CALCULATOR_H
 #define ROUTE_CALCULATOR_H
 
-#include "BingoArea.h"
+#include "CourseInfo.h"
 #include "cmath"
 #include "Robot.h"
 #include "utility"
@@ -32,12 +32,12 @@ struct AstarInfo {
 
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
-  Coordinate parent;     //親ノード
-  int cost;              //このノードに到達するまでのコスト
-  bool checked;  //経路復元の際にこのノードをチェックしたかどうか
+  Coordinate parent;  //親ノード
+  int cost;           //このノードに到達するまでのコスト
+  bool checked;       //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
-  Route() : parent(-1, -1), cost(0),checked(false) {}
+  Route() : parent(-1, -1), cost(0), checked(false) {}
 
   /**
    * @fn void set(Coordinate _parent, int _currentCost)
@@ -55,7 +55,7 @@ struct Route {
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(BingoArea& bingoArea, Robot& robot);
+  RouteCalculator(CourseInfo& courseInfo, Robot& robot);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
@@ -68,13 +68,14 @@ class RouteCalculator {
   std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal);
 
  private:
-  BingoArea& bingoArea;
+  CourseInfo& courseInfo;
   Coordinate goalNode;  //クラス内でゴールノードを共有しておく
   static constexpr int BINGO_SIZE = 7;
   Robot& robot;
 
   /**
-   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route, route[BINGO_SIZE][BINGO_SIZE]);
+   * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route,
+   * route[BINGO_SIZE][BINGO_SIZE]);
    * @brief 指定ノードの隣接ノードをすべて求める
    * @param coordinate 指定ノードの座標
    * @param route 経路情報

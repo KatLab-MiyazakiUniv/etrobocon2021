@@ -1,11 +1,11 @@
 /**
- * @file BingoArea.cpp
+ * @file CourseInfo.cpp
  * @brief ビンゴエリアの情報を保持するクラス
  * @author Hisataka-Hagiyama,uchyam
  */
 
-#include "BingoArea.h"
-BingoArea::BingoArea()
+#include "CourseInfo.h"
+CourseInfo::CourseInfo()
 {
   //交点サークルにおけるサークルの色の初期値
   std::array<std::array<COLOR, 4>, 4> crossCircleColor
@@ -50,7 +50,7 @@ BingoArea::BingoArea()
   }
 }
 
-void BingoArea::setBlockInfo(int info, COLOR color)
+void CourseInfo::setBlockInfo(int info, COLOR color)
 {
   int index = 0;
   BLOCK_ID blockId = BLOCK_ID::ID0;
@@ -122,7 +122,7 @@ void BingoArea::setBlockInfo(int info, COLOR color)
   }
 }
 
-void BingoArea::initBingoArea()
+void CourseInfo::initCourseInfo()
 {
   setBlockInfo(measurer.getCourseInfo(ETROBOC_COURSE_INFO_BLOCK_POS_RED1),
                COLOR::RED);  //赤ブロック1を設置
@@ -142,7 +142,7 @@ void BingoArea::initBingoArea()
                COLOR::GREEN);  //緑ブロック2を設置
 }
 
-void BingoArea::moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid)
+void CourseInfo::moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid)
 {
   if(blockCircle[static_cast<int>(circleid)].getBlock().blockId == BLOCK_ID::NONE) {
     COLOR blockColor = getNode(blockid).getBlock().blockColor;
@@ -153,7 +153,7 @@ void BingoArea::moveBlock(CIRCLE_ID circleid, BLOCK_ID blockid)
   }
 }
 
-Node& BingoArea::getNode(BLOCK_ID blockId)
+Node& CourseInfo::getNode(BLOCK_ID blockId)
 {
   for(int i = 0; i < static_cast<int>(crossCircle.size()); i++) {
     if(crossCircle[i].getBlock().blockId == blockId) {
@@ -169,22 +169,22 @@ Node& BingoArea::getNode(BLOCK_ID blockId)
   return centerMark;
 }
 
-BlockCircle& BingoArea::getBlockCircle(CIRCLE_ID circleId)
+BlockCircle& CourseInfo::getBlockCircle(CIRCLE_ID circleId)
 {
   return blockCircle[static_cast<int>(circleId)];
 }
 
-CrossCircle& BingoArea::getCrossCircle(int index)
+CrossCircle& CourseInfo::getCrossCircle(int index)
 {
   return crossCircle[index];
 }
 
-CenterMark& BingoArea::getCenterMark()
+CenterMark& CourseInfo::getCenterMark()
 {
   return centerMark;
 }
 
-bool BingoArea::existBlock(Coordinate& coordinate)
+bool CourseInfo::existBlock(Coordinate& coordinate)
 {
   //中点の場合は必ずブロックは置かれていない
   if(coordinate.x % 2 != coordinate.y % 2) {

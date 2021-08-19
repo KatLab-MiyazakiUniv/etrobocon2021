@@ -10,8 +10,8 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute1)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
@@ -28,12 +28,12 @@ namespace etrobocon2021_test {
 
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, initBlockColor[i]);
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList, robot);
+    DestinationList destinationList(courseInfo);
+    BlockSelector blockSelector(courseInfo, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -43,9 +43,9 @@ namespace etrobocon2021_test {
 
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
-          = bingoArea.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
+          = courseInfo.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
-          = bingoArea.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
+          = courseInfo.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
 
       // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
       // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
@@ -83,15 +83,15 @@ namespace etrobocon2021_test {
       robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
+      courseInfo.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute2)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
@@ -108,12 +108,12 @@ namespace etrobocon2021_test {
 
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, initBlockColor[i]);
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList, robot);
+    DestinationList destinationList(courseInfo);
+    BlockSelector blockSelector(courseInfo, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -123,9 +123,9 @@ namespace etrobocon2021_test {
 
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
-          = bingoArea.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
+          = courseInfo.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
-          = bingoArea.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
+          = courseInfo.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
 
       // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
       // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
@@ -164,15 +164,15 @@ namespace etrobocon2021_test {
       robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
+      courseInfo.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute3)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
@@ -189,12 +189,12 @@ namespace etrobocon2021_test {
 
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, initBlockColor[i]);
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList, robot);
+    DestinationList destinationList(courseInfo);
+    BlockSelector blockSelector(courseInfo, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -204,9 +204,9 @@ namespace etrobocon2021_test {
 
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
-          = bingoArea.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
+          = courseInfo.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
-          = bingoArea.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
+          = courseInfo.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
 
       // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
       // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
@@ -245,15 +245,15 @@ namespace etrobocon2021_test {
       robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
+      courseInfo.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute4)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
     const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
@@ -270,12 +270,12 @@ namespace etrobocon2021_test {
 
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, initBlockColor[i]);
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList, robot);
+    DestinationList destinationList(courseInfo);
+    BlockSelector blockSelector(courseInfo, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -285,9 +285,9 @@ namespace etrobocon2021_test {
 
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
-          = bingoArea.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
+          = courseInfo.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
-          = bingoArea.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
+          = courseInfo.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
 
       // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
       // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
@@ -326,15 +326,15 @@ namespace etrobocon2021_test {
       robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
+      courseInfo.moveBlock(targetCircleId, targetBlockId);
     }
   }
 
   TEST(selectBlockTest, selectBlockRoute5)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
 
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
@@ -352,12 +352,12 @@ namespace etrobocon2021_test {
 
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, initBlockColor[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, initBlockColor[i]);
     }
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
-    DestinationList destinationList(bingoArea);
-    BlockSelector blockSelector(bingoArea, destinationList, robot);
+    DestinationList destinationList(courseInfo);
+    BlockSelector blockSelector(courseInfo, destinationList, robot);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -367,9 +367,9 @@ namespace etrobocon2021_test {
 
       // 運搬したものとして、走行体の座標と進行方向を更新する
       Coordinate currentCoord
-          = bingoArea.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
+          = courseInfo.getNode(targetBlockId).getCoordinate();  // 運搬ブロックの座標
       Coordinate targetCoord
-          = bingoArea.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
+          = courseInfo.getBlockCircle(targetCircleId).getCoordinate();  // 運搬先の座標
 
       // 走行体は、運搬先サークル周辺の交点サークルの内、最も近いものから侵入する
       // 運搬先サークルに対し、右(1)から向かうか、左(-1)から向かうか
@@ -408,7 +408,7 @@ namespace etrobocon2021_test {
       robot.setDirection(direction);
 
       // 運搬されたものとして、ブロックの座標を更新する
-      bingoArea.moveBlock(targetCircleId, targetBlockId);
+      courseInfo.moveBlock(targetCircleId, targetBlockId);
     }
   }
 

@@ -7,8 +7,8 @@
 #include "RoutePlanner.h"
 
 // コンストラクタ
-RoutePlanner::RoutePlanner(BingoArea& _bingoArea, const bool IS_LEFT_COURSE)
-  : bingoArea(_bingoArea), isLeftCourse(IS_LEFT_COURSE)
+RoutePlanner::RoutePlanner(CourseInfo& _courseInfo, const bool IS_LEFT_COURSE)
+  : courseInfo(_courseInfo), isLeftCourse(IS_LEFT_COURSE)
 {
 }
 
@@ -16,9 +16,9 @@ RoutePlanner::RoutePlanner(BingoArea& _bingoArea, const bool IS_LEFT_COURSE)
 void RoutePlanner::planBingoRoute()
 {
   Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
-  DestinationList destinationList(bingoArea);  // 運搬先を決定する
-  BlockSelector blockSelector(bingoArea, destinationList, robot);
-  RouteCalculator routeCalculator(bingoArea, robot);
+  DestinationList destinationList(courseInfo);  // 運搬先を決定する
+  BlockSelector blockSelector(courseInfo, destinationList, robot);
+  RouteCalculator routeCalculator(courseInfo, robot);
 
   while(true) {
     // 運搬ブロックを決定する
@@ -27,10 +27,10 @@ void RoutePlanner::planBingoRoute()
     if(carryBlockId == BLOCK_ID::NONE) break;
 
     // 運搬ブロックの座標を取得する
-    Coordinate carryBlockCoord = bingoArea.getNode(carryBlockId).getCoordinate();
+    Coordinate carryBlockCoord = courseInfo.getNode(carryBlockId).getCoordinate();
     // 目標サークルの座標を取得する
     CIRCLE_ID targetCircleId = destinationList.getDestination(carryBlockId);
-    Coordinate targetCircleCoord = bingoArea.getBlockCircle(targetCircleId).getCoordinate();
+    Coordinate targetCircleCoord = courseInfo.getBlockCircle(targetCircleId).getCoordinate();
     // 走行体から運搬ブロックまでの経路を決定する
     std::vector<std::pair<Coordinate, Direction>> toBlockRoute
         = routeCalculator.calculateRoute(robot.getCoordinate(), carryBlockCoord);
@@ -70,6 +70,6 @@ void RoutePlanner::planBingoRoute()
     }
 
     // ブロックを運搬したとして、ビンゴエリア情報を更新する
-    bingoArea.moveBlock(targetCircleId, carryBlockId);
+    courseInfo.moveBlock(targetCircleId, carryBlockId);
   }
 }
