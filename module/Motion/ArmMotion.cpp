@@ -13,7 +13,6 @@ void ArmMotion::keepArm()
 {
   Measurer measurer;
   Controller controller;
-  Pid pid(1.0, 0.3, 0.001, HORIZONTAL_ARM_COUNT);
 
   // アーム水平が有効な場合、アームを水平にする
   while(keepFlag) {
@@ -23,7 +22,7 @@ void ArmMotion::keepArm()
       break;
     }
     // アームの角度が目標値(水平)になるように、アームを動かす
-    controller.setArmMotorPwm(pid.calculatePid(currentCount));
+    controller.setArmMotorPwm(HORIZONTAL_ARM_COUNT - currentCount);
     controller.sleep();
   }
   controller.sleep();
