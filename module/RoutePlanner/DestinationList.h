@@ -9,14 +9,14 @@
 
 #include "array"
 #include "ColorJudge.h"
-#include "BingoArea.h"
+#include "CourseInfo.h"
 
 class DestinationList {
  public:
   /**
    * コンストラクタ
    */
-  DestinationList(BingoArea& _bingoArea);
+  DestinationList(CourseInfo& _courseInfo);
 
   /**
    * 指定されたブロックの運搬先サークルIDを返す

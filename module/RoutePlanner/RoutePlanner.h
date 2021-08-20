@@ -4,7 +4,7 @@
  * @author hiroto0927, miyashita64
  */
 
-#include "BingoArea.h"
+#include "CourseInfo.h"
 #include "DestinationList.h"
 #include "BlockSelector.h"
 #include "RouteCalculator.h"
@@ -14,7 +14,7 @@ class RoutePlanner {
   /**
    * コンストラクタ
    */
-  RoutePlanner(BingoArea& _bingoArea, const bool IS_LEFT_COURSE);
+  RoutePlanner(CourseInfo& _courseInfo, const bool IS_LEFT_COURSE);
 
   /**
    * 1つのブロックを運搬するまでの経路を計画する
@@ -22,6 +22,6 @@ class RoutePlanner {
   void planBingoRoute();
 
  private:
-  BingoArea& bingoArea;
+  CourseInfo& courseInfo;
   bool isLeftCourse;
 };

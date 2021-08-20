@@ -18,15 +18,15 @@ namespace etrobocon2021_test {
     COLOR blockColors[8] = { COLOR::RED, COLOR::BLUE, COLOR::YELLOW, COLOR::GREEN,
                              COLOR::RED, COLOR::BLUE, COLOR::YELLOW, COLOR::GREEN };
 
-    // BingoAreaの初期化
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    // CourseInfoの初期化
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
-    DestinationList destinationList(bingoArea);
+    DestinationList destinationList(courseInfo);
 
     // 手計算で求めた運搬先
     CIRCLE_ID expected[B_SIZE] = { CIRCLE_ID::ID2, CIRCLE_ID::ID3, CIRCLE_ID::ID0, CIRCLE_ID::ID1,
@@ -48,15 +48,15 @@ namespace etrobocon2021_test {
     COLOR blockColors[8] = { COLOR::RED,   COLOR::YELLOW, COLOR::BLUE, COLOR::YELLOW,
                              COLOR::GREEN, COLOR::BLUE,   COLOR::RED,  COLOR::GREEN };
 
-    // BingoAreaの初期化
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    // CourseInfoの初期化
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
-    DestinationList destinationList(bingoArea);
+    DestinationList destinationList(courseInfo);
 
     // 手計算で求めた運搬先
     CIRCLE_ID expected[B_SIZE] = { CIRCLE_ID::ID2, CIRCLE_ID::ID4, CIRCLE_ID::ID3, CIRCLE_ID::ID0,
@@ -78,15 +78,15 @@ namespace etrobocon2021_test {
     COLOR blockColors[8] = { COLOR::GREEN,  COLOR::BLUE, COLOR::RED,   COLOR::BLUE,
                              COLOR::YELLOW, COLOR::RED,  COLOR::GREEN, COLOR::YELLOW };
 
-    // BingoAreaの初期化
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    // CourseInfoの初期化
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
-    DestinationList destinationList(bingoArea);
+    DestinationList destinationList(courseInfo);
 
     // 正誤判定// 手計算で求めた運搬先
     CIRCLE_ID expected[B_SIZE] = { CIRCLE_ID::ID1, CIRCLE_ID::ID7, CIRCLE_ID::ID6, CIRCLE_ID::ID3,
@@ -108,15 +108,15 @@ namespace etrobocon2021_test {
     COLOR blockColors[8] = { COLOR::YELLOW, COLOR::GREEN, COLOR::RED,  COLOR::GREEN,
                              COLOR::BLUE,   COLOR::RED,   COLOR::BLUE, COLOR::YELLOW };
 
-    // BingoAreaの初期化
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    // CourseInfoの初期化
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
-    DestinationList destinationList(bingoArea);
+    DestinationList destinationList(courseInfo);
 
     // 手計算で求めた運搬先
     CIRCLE_ID expected[B_SIZE] = { CIRCLE_ID::ID0, CIRCLE_ID::ID1, CIRCLE_ID::ID6, CIRCLE_ID::ID5,
@@ -138,15 +138,15 @@ namespace etrobocon2021_test {
     COLOR blockColors[8] = { COLOR::GREEN, COLOR::GREEN, COLOR::YELLOW, COLOR::RED,
                              COLOR::BLUE,  COLOR::RED,   COLOR::YELLOW, COLOR::BLUE };
 
-    // BingoAreaの初期化
-    BingoArea bingoArea;
-    bingoArea.initBingoArea();
+    // CourseInfoの初期化
+    CourseInfo courseInfo;
+    courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
-      bingoArea.getNode(blockId).setBlock(blockId, blockColors[i]);
+      courseInfo.getNode(blockId).setBlock(blockId, blockColors[i]);
     }
     // 運搬先決定
-    DestinationList destinationList(bingoArea);
+    DestinationList destinationList(courseInfo);
 
     // 手計算で求めた運搬先
     CIRCLE_ID expected[B_SIZE] = { CIRCLE_ID::ID5, CIRCLE_ID::ID1, CIRCLE_ID::ID0, CIRCLE_ID::ID2,
