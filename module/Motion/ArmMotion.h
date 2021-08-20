@@ -9,7 +9,6 @@
 
 #include "Measurer.h"
 #include "Controller.h"
-#include "Pid.h"
 
 class ArmMotion {
  public:
