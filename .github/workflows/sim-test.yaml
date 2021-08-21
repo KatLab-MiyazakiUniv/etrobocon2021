@@ -99,6 +99,33 @@ jobs:
         # CSVファイルのコピー
         cp ${{ env.TMP_CAPTURE_DIR}}/*.csv ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv
 
+        # CSVファイルをJSONファイルに変換(OSの差異による改行文字の違いに注意)
+        jq --compact-output -s -R 'split("\n")|map(split(","))|map({
+            "Time": .[0], 
+            "Counter": .[1], 
+            "Filename": .[2], 
+            "TIME": .[3], 
+            "MEASUREMENT_TIME": .[4], 
+            "RUN_TIME": .[5], 
+            "GATE1": .[6], 
+            "GATE2": .[7], 
+            "GOAL": .[8], 
+            "GARAGE_STOP": .[9], 
+            "GARAGE_TIME": .[10], 
+            "SLALOM": .[11], 
+            "PETBOTTLE": .[12], 
+            "BLOCK_IN_GARAGE": .[13], 
+            "BLOCK_YUKOIDO": .[14], 
+            "CARD_NUMBER_CIRCLE": .[15], 
+            "BLOCK_NUMBER_CIRCLE": .[16], 
+            "BLOCK_BINGO": .[17], 
+            "ENTRY_BONUS": .[18], 
+            "BLOCK_YUKOIDOP": .[19], 
+            "BLOCK_YUKOIDOC": .[20], 
+            "BLOCK_BINGOP": .[21], 
+            "MeasurementMode": .[22]
+          })' ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.csv > ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.json
+
         # 環境変数へディレクトリ名を保存
         echo MP4_DIR=$MP4_DIR >> $GITHUB_ENV
 
@@ -131,14 +158,49 @@ jobs:
                         sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'` [s]"
         fi
 
+        # ビンゴエリアの結果を一時保存するためのJSONファイルを生成
+        TMP_JSON_FILE=$(mktemp --suffix=.json)
+
+        # ビンゴエリアの最終結果を抽出し、一時ファイルに保存
+        cat ${HOME}/Videos/${MP4_DIR}/${{ github.sha }}.json | \
+          jq '.[] | select(.MeasurementMode=="END")' | \
+          jq -s '.' | \
+          jq 'max_by(.TIME)' > ${TMP_JSON_FILE}
+
+        # ビンゴエリアの最終結果を集計する
+        BLOCK_YUKOIDO=$(jq -r '.BLOCK_YUKOIDO' ${TMP_JSON_FILE})
+        POWER_SPOT_YUKOIDO=$(jq -r '.BLOCK_YUKOIDOP' ${TMP_JSON_FILE})
+        CENTER_BLOCK_YUKOIDO=$(jq -r '.BLOCK_YUKOIDOC' ${TMP_JSON_FILE})
+        BLOCK_BINGO=$(jq -r '.BLOCK_BINGO' ${TMP_JSON_FILE})
+        POWERS_POT_BINGO=$(jq -r '.BLOCK_BINGOP' ${TMP_JSON_FILE})
+
+        # タイムの計算
+        BLOCK_YUKOIDO_BONUS_TIME=$((BLOCK_YUKOIDO * 1 / 2))
+        POWER_SPOT_YUKOIDO_BONUS_TIME=$((POWER_SPOT_YUKOIDO * 1))
+        CENTER_BLOCK_YUKOIDO_BONUS_TIME=$((CENTER_BLOCK_YUKOIDO * 2))
+        BLOCK_BINGO_BONUS_TIME=$((BLOCK_BINGO * 1))
+        POWERS_POT_BINGO_BONUS_TIME=$((POWERS_POT_BINGO * 2))
+        BONUS_TIME_SUM=$((BLOCK_YUKOIDO_BONUS_TIME + POWER_SPOT_YUKOIDO_BONUS_TIME + CENTER_BLOCK_YUKOIDO_BONUS_TIME + BLOCK_BINGO_BONUS_TIME + POWERS_POT_BINGO_BONUS_TIME))
+        RESULT_TIME=$((RESULT_TIME - BONUS_TIME_SUM))
+
         # GitHubへ投稿するメッセージの作成
         RESULT_MESSAGE=''
-        RESULT_MESSAGE+="|項目|結果|\n"
-        RESULT_MESSAGE+="|---|---|\n"
-        RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |\n"
-        RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |\n"
-        RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
-        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n\n"
+        RESULT_MESSAGE+="|項目|結果|ボーナスタイム[s]|\n"
+        RESULT_MESSAGE+="|---|---|---|\n"
+        RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |--|\n"
+        RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |--|\n"
+        RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |--|\n"
+        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |--|\n\n"
+
+        RESULT_MESSAGE+="|ブロックサークル有効移動| ${BLOCK_YUKOIDO} [個]|${BLOCK_YUKOIDO_BONUS_TIME}|\n"
+        RESULT_MESSAGE+="|パワースポット有効移動| ${POWER_SPOT_YUKOIDO} [個]|${POWER_SPOT_YUKOIDO_BONUS_TIME}|\n"
+        RESULT_MESSAGE+="|センターブロック有効移動| ${CENTER_BLOCK_YUKOIDO} [個]|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|\n"
+        RESULT_MESSAGE+="|ビンゴ| ${BLOCK_BINGO} [列]|${BLOCK_BINGO_BONUS_TIME}|\n"
+        RESULT_MESSAGE+="|パワースポットビンゴ| ${POWERS_POT_BINGO} [列]|${POWERS_POT_BINGO_BONUS_TIME}|\n"
+        
+        RESULT_MESSAGE+="|ボーナスタイム合計|--|${BONUS_TIME_SUM}|\n"
+        RESULT_MESSAGE+="|リザルトタイム|--|${RESULT_TIME}|\n"
+
         RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
         RESULT_MESSAGE+="[:arrow_forward: シミュレータの動画](https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4)"
 
