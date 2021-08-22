@@ -1,7 +1,7 @@
 /**
  * @file Rotation.cpp
  * @brief 回頭・ピボットターンする
- * @author kodama0720, yutotanaka24
+ * @author kodama0720, yutotanaka24, hiroto0927, miyashita64
  */
 
 #include "Rotation.h"
@@ -14,34 +14,43 @@ void Rotation::rotateLeft(int angle, int pwm)
 {
   int leftSign = -1;
   int rightSign = 1;
-  double currentLeftDistance = 0;
-  double currentRightDistance = 0;
   double targetDistance = M_PI * TREAD * abs(angle) / 360;  //弧の長さ
   //目標距離（呼び出し時の走行距離 ± 指定された回転量に必要な距離）
   double targetLeftDistance
-      = Mileage::calculateWheelMileage(measurer.getLeftCount()) - targetDistance;
+      = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
   double targetRightDistance
-      = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance;
+      = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
 
   //両輪が目標距離に到達するまでループ
   while(leftSign != 0 || rightSign != 0) {
-    //現在の走行距離を取得
-    currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    //目標距離に到達したらpwm値にかける値を0にする
-    if(currentLeftDistance <= targetLeftDistance) {
+    // 残りの移動距離
+    double diffLeftDistance
+        = (targetLeftDistance - Mileage::calculateWheelMileage(measurer.getLeftCount())) * leftSign;
+    double diffRightDistance
+        = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
+          * rightSign;
+
+    // 目標距離に到達した場合
+    if(diffLeftDistance <= 0) {
       leftSign = 0;
     }
-    if(currentRightDistance >= targetRightDistance) {
+    if(diffRightDistance <= 0) {
       rightSign = 0;
     }
-    //モータのPWM値をセット
-    controller.setLeftMotorPwm(abs(pwm) * leftSign);
-    controller.setRightMotorPwm(abs(pwm) * rightSign);
 
-    // 10ミリ秒待機
+    // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
+    int leftPwm = (diffLeftDistance / targetDistance * pwm >= MIN_PWM)
+                      ? diffLeftDistance / targetDistance * pwm
+                      : MIN_PWM;
+    int rightPwm = (diffRightDistance / targetDistance * pwm >= MIN_PWM)
+                       ? diffRightDistance / targetDistance * pwm
+                       : MIN_PWM;
+    controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+    controller.setRightMotorPwm(abs(rightPwm) * rightSign);
+
     controller.sleep();
   }
+
   //モータの停止
   controller.stopMotor();
 }
@@ -51,34 +60,43 @@ void Rotation::rotateRight(int angle, int pwm)
 {
   int leftSign = 1;
   int rightSign = -1;
-  double currentLeftDistance = 0;
-  double currentRightDistance = 0;
   double targetDistance = M_PI * TREAD * abs(angle) / 360;  //弧の長さ
-  //左右のタイヤの目標距離
+  //目標距離（呼び出し時の走行距離 ± 指定された回転量に必要な距離）
   double targetLeftDistance
-      = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance;
+      = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
   double targetRightDistance
-      = Mileage::calculateWheelMileage(measurer.getRightCount()) - targetDistance;
+      = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
 
   //両輪が目標距離に到達するまでループ
   while(leftSign != 0 || rightSign != 0) {
-    //現在の走行距離を取得
-    currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    //目標距離に到達したらpwm値にかける値を0にする
-    if(currentLeftDistance >= targetLeftDistance) {
+    // 残りの移動距離
+    double diffLeftDistance
+        = (targetLeftDistance - Mileage::calculateWheelMileage(measurer.getLeftCount())) * leftSign;
+    double diffRightDistance
+        = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
+          * rightSign;
+
+    // 目標距離に到達した場合
+    if(diffLeftDistance <= 0) {
       leftSign = 0;
     }
-    if(currentRightDistance <= targetRightDistance) {
+    if(diffRightDistance <= 0) {
       rightSign = 0;
     }
-    //モータのPWM値をセット
-    controller.setLeftMotorPwm(abs(pwm) * leftSign);
-    controller.setRightMotorPwm(abs(pwm) * rightSign);
 
-    // 10ミリ秒待機
+    // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
+    int leftPwm = (diffLeftDistance / targetDistance * pwm >= MIN_PWM)
+                      ? diffLeftDistance / targetDistance * pwm
+                      : MIN_PWM;
+    int rightPwm = (diffRightDistance / targetDistance * pwm >= MIN_PWM)
+                       ? diffRightDistance / targetDistance * pwm
+                       : MIN_PWM;
+    controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+    controller.setRightMotorPwm(abs(rightPwm) * rightSign);
+
     controller.sleep();
   }
+
   //モータの停止
   controller.stopMotor();
 }
