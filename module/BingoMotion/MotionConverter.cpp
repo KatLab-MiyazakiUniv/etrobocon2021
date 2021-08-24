@@ -62,7 +62,7 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
   return angle;
 }
 
-void MotionConverter::convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route)
+void MotionConverter::convertToMotion(const std::vector<std::pair<Coordinate, Direction>>& route)
 {
   //方向転換が必要かどうか判定する
   int angle = calculateAngle(route[0].second, route[1].second);
