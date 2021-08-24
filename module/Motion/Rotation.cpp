@@ -103,7 +103,8 @@ void Rotation::rotateRight(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardRightPivot(int angle, int pwm)
 {
-  double distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double _TREAD = TREAD + 5;                          //トレッド幅の調整
+  double distance = 2 * M_PI * _TREAD * angle / 360;  //弧の長さ
   int rightCount = 0;
 
   //目標距離を超えるまでループ
@@ -112,18 +113,20 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
     double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
     double targetDistance = distance - currentDistance;
 
-    if(currentDistance > distance) {
-      break;
-    }
-
+    //モーターの速度を徐々に遅くする
     int leftPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
                       ? targetDistance / distance * pwm
                       : PIVOT_MIN_PWM;
+
+    if(currentDistance > distance) {
+      break;
+    }
 
     //モータのPWM値をセット
     controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(leftPwm);
 
+    //軸足のずれの調整
     if(measurer.getRightCount() > rightCount) {
       controller.setRightMotorPwm(-10);
     }
@@ -131,13 +134,10 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
     if(measurer.getRightCount() < rightCount) {
       controller.setRightMotorPwm(10);
     }
-    printf("LefttMotorCount:: %d \n", measurer.getLeftCount());
 
     // 10ミリ秒待機
     controller.sleep();
   }
-
-  printf("----------------------------------------\n");
 
   //モータの停止
   controller.stopMotor();
@@ -146,25 +146,28 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
 void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  double distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double distance = -2 * M_PI * TREAD * angle / 360;  //弧の長さ
   int rightCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double targetDistance = distance + currentDistance;
+    double targetDistance = distance - currentDistance;
 
-    if(targetDistance == 0) {
+    //モーターの速度を徐々に遅くする
+    int leftPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM_2)
+                      ? targetDistance / distance * pwm
+                      : PIVOT_MIN_PWM_2;
+
+    if(currentDistance < distance) {
       break;
     }
-
-    int leftPwm
-        = (targetDistance / distance * pwm > PIVOT_MIN_PWM) ? targetDistance / distance * pwm : 10;
 
     //モータのPWM値をセット
     controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(-leftPwm);
 
+    //軸足のずれの調整
     if(measurer.getRightCount() > rightCount) {
       controller.setRightMotorPwm(-10);
     }
@@ -173,13 +176,10 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
       controller.setRightMotorPwm(10);
     }
 
-    printf("leftPwm::%d | RightMotorCount:: %d, target:: %lf\n", leftPwm, measurer.getRightCount(),
-           targetDistance);
     // 10ミリ秒待機
     controller.sleep();
   }
 
-  printf("----------------------END------------------\n");
   //モータの停止
   controller.stopMotor();
 }
@@ -187,18 +187,20 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
 //設定された角度とPWM値で左タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardLeftPivot(int angle, int pwm)
 {
-  double distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double _TREAD = TREAD + 5;                          //トレッド幅の調整
+  double distance = 2 * M_PI * _TREAD * angle / 360;  //弧の長さ
   int leftCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
+    //現在の距離を取得
     double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
     double targetDistance = distance - currentDistance;
 
     if(currentDistance > distance) {
       break;
     }
-
+    //モーターの速度を徐々に遅くする
     int rightPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
                        ? targetDistance / distance * pwm
                        : PIVOT_MIN_PWM;
@@ -207,6 +209,7 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
     controller.setRightMotorPwm(rightPwm);
     controller.setLeftMotorPwm(0);
 
+    //軸足のずれの調整
     if(measurer.getLeftCount() > leftCount) {
       controller.setLeftMotorPwm(-10);
     }
@@ -215,21 +218,9 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
       controller.setLeftMotorPwm(10);
     }
 
-    printf("LeftMotorCount:: %d  count:: %d\n", measurer.getLeftCount(), leftCount);
-
     // 10ミリ秒待機
     controller.sleep();
   }
-
-  while(measurer.getLeftCount() > leftCount) {
-    if(measurer.getLeftCount() <= leftCount) break;
-    controller.setLeftMotorPwm(-10);
-
-    printf("LeftMotorCount:: %d  count:: %d\n", measurer.getLeftCount(), leftCount);
-    controller.sleep();
-  }
-
-  printf("---------------------END");
 
   //モータの停止
   controller.stopMotor();
@@ -246,18 +237,20 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
     double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
     double targetDistance = distance - currentDistance;
 
+    //モーターの速度を徐々に遅くする
+    int rightPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM_2)
+                       ? targetDistance / distance * pwm
+                       : PIVOT_MIN_PWM_2;
+
     if(currentDistance < distance) {
       break;
     }
-
-    int rightPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
-                       ? targetDistance / distance * pwm
-                       : PIVOT_MIN_PWM;
 
     //モータのPWM値をセット
     controller.setRightMotorPwm(-rightPwm);
     controller.setLeftMotorPwm(0);
 
+    //軸足のずれの調整
     if(measurer.getLeftCount() > leftCount) {
       controller.setLeftMotorPwm(-10);
     }
@@ -266,11 +259,10 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
       controller.setLeftMotorPwm(10);
     }
 
-    printf("角度::%d | PWM:: %d\n", measurer.getRightCount(), rightPwm);  // 580
-
     // 10ミリ秒待機
     controller.sleep();
   }
+
   //モータの停止
   controller.stopMotor();
 }
