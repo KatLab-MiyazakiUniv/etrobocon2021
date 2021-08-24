@@ -18,12 +18,13 @@ void ArmMotion::keepArm()
   // アーム水平が有効な場合、アームを水平にする
   while(keepFlag) {
     int currentCount = measurer.getArmMotorCount();
+
     // 水平になったとき、ループを抜ける
     if(currentCount == HORIZONTAL_ARM_COUNT) {
       break;
     }
     // アームの角度が目標値(水平)になるように、アームを動かす
-    controller.setArmMotorPwm(pid.calculatePid(currentCount));
+    controller.setArmMotorPwm(HORIZONTAL_ARM_COUNT - currentCount);
     controller.sleep();
   }
   controller.sleep();
@@ -54,3 +55,9 @@ void ArmMotion::throwMotion(void)
   // アームを水平にする処理を有効化
   keepFlag = true;
 }
+
+// フラグのセット
+void ArmMotion::setKeepFlag(bool _keepFlag)
+{
+  keepFlag = _keepFlag;
+};
