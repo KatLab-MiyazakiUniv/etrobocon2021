@@ -64,8 +64,9 @@ class Rotation {
   Measurer measurer;
 
   static constexpr double RADIUS = 45.0;  // 車輪の半径[mm]
-  static constexpr double TREAD = 140.0;  // 走行体のトレッド幅（両輪の間の距離）[mm]
-  static constexpr int MIN_PWM = 10;      // モーターパワーの最小値
+  static constexpr double TREAD = 145;  // 走行体のトレッド幅（両輪の間の距離）[mm]
+  static constexpr int MIN_PWM = 10;    // モーターパワーの最小値
+  static constexpr int PIVOT_MIN_PWM = 20;  //ピボットターン時のモーターパワーの最小値
 };
 
 #endif
