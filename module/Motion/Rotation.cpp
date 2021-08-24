@@ -47,10 +47,9 @@ void Rotation::rotateLeft(int angle, int pwm)
                        : MIN_PWM;
     controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
     controller.setRightMotorPwm(abs(rightPwm) * rightSign);
-    printf("left::%d rgiht::%d \n", measurer.getLeftCount(), measurer.getRightCount());
     controller.sleep();
   }
-  printf("------------------END---------\n");
+
   //モータの停止
   controller.stopMotor();
 }
@@ -121,33 +120,22 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
                       ? targetDistance / distance * pwm
                       : PIVOT_MIN_PWM;
 
-    if(measurer.getRightCount() > rightCount) {
-      controller.setRightMotorPwm(-10);
-    }
-
-    if(rightCount > measurer.getRightCount()) {
-      controller.setRightMotorPwm(10);
-    }
-
     //モータのPWM値をセット
     controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(leftPwm);
 
-    printf("RightMotorCount:: %d \n", measurer.getRightCount());
+    if(measurer.getRightCount() > rightCount) {
+      controller.setRightMotorPwm(-10);
+    }
+
+    if(measurer.getRightCount() < rightCount) {
+      controller.setRightMotorPwm(10);
+    }
+    printf("LefttMotorCount:: %d \n", measurer.getLeftCount());
 
     // 10ミリ秒待機
     controller.sleep();
   }
-
-  /*
-    while(measurer.getRightCount() > rightCount) {
-      if(measurer.getRightCount() <= rightCount) break;
-      controller.setRightMotorPwm(-10);
-
-      printf("RightMotorCount:: %d  count:: %d\n", measurer.getRightCount(), rightCount);
-      controller.sleep();
-    }
-    */
 
   printf("----------------------------------------\n");
 
@@ -158,27 +146,35 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
 void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  double distance = -2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  int rightCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double targetDistance = distance - currentDistance;
+    double targetDistance = distance + currentDistance;
 
-    if(currentDistance < distance) {
+    if(targetDistance == 0) {
       break;
     }
 
-    int leftPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
-                      ? targetDistance / distance * pwm
-                      : PIVOT_MIN_PWM;
+    int leftPwm
+        = (targetDistance / distance * pwm > PIVOT_MIN_PWM) ? targetDistance / distance * pwm : 10;
 
     //モータのPWM値をセット
     controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(-leftPwm);
 
-    //  printf("leftPwm::%d\n", leftPwm);
-    printf("leftPwm::%d | RightMotorCount:: %d\n", leftPwm, measurer.getRightCount());
+    if(measurer.getRightCount() > rightCount) {
+      controller.setRightMotorPwm(-10);
+    }
+
+    if(measurer.getRightCount() < rightCount) {
+      controller.setRightMotorPwm(10);
+    }
+
+    printf("leftPwm::%d | RightMotorCount:: %d, target:: %lf\n", leftPwm, measurer.getRightCount(),
+           targetDistance);
     // 10ミリ秒待機
     controller.sleep();
   }
@@ -192,7 +188,7 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
 void Rotation::turnForwardLeftPivot(int angle, int pwm)
 {
   double distance = 2 * M_PI * TREAD * angle / 360;  //弧の長さ
-  int leftCount = measurer.getLeftCount();
+  int leftCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
@@ -211,8 +207,12 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
     controller.setRightMotorPwm(rightPwm);
     controller.setLeftMotorPwm(0);
 
-    if(leftCount > measurer.getLeftCount()) {
-      leftCount = measurer.getLeftCount();
+    if(measurer.getLeftCount() > leftCount) {
+      controller.setLeftMotorPwm(-10);
+    }
+
+    if(measurer.getLeftCount() < leftCount) {
+      controller.setLeftMotorPwm(10);
     }
 
     printf("LeftMotorCount:: %d  count:: %d\n", measurer.getLeftCount(), leftCount);
@@ -239,6 +239,7 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
 void Rotation::turnBackLeftPivot(int angle, int pwm)
 {
   double distance = -2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  int leftCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
@@ -257,7 +258,15 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
     controller.setRightMotorPwm(-rightPwm);
     controller.setLeftMotorPwm(0);
 
-    printf("角度::%d | PWM:: %d\n", measurer.getRightCount(), rightPwm);
+    if(measurer.getLeftCount() > leftCount) {
+      controller.setLeftMotorPwm(-10);
+    }
+
+    if(measurer.getLeftCount() < leftCount) {
+      controller.setLeftMotorPwm(10);
+    }
+
+    printf("角度::%d | PWM:: %d\n", measurer.getRightCount(), rightPwm);  // 580
 
     // 10ミリ秒待機
     controller.sleep();
