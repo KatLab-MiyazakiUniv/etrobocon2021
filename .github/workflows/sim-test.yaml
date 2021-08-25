@@ -197,6 +197,7 @@ jobs:
 
         RESULT_MESSAGE+='### ブロックビンゴエリア\n\n'
         RESULT_MESSAGE+="|項目|結果|ボーナスタイム[s]|\n"
+        RESULT_MESSAGE+="|---|---|---|\n"
         RESULT_MESSAGE+="|ブロックサークル有効移動| ${BLOCK_YUKOIDO} [個]|${BLOCK_YUKOIDO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|パワースポット有効移動| ${POWER_SPOT_YUKOIDO} [個]|${POWER_SPOT_YUKOIDO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|センターブロック有効移動| ${CENTER_BLOCK_YUKOIDO} [個]|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|\n"
