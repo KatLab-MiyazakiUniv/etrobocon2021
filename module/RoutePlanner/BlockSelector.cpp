@@ -7,8 +7,8 @@
 #include "BlockSelector.h"
 
 // コンストラクタ
-BlockSelector::BlockSelector(BingoArea& _bingoArea, DestinationList& _destination, Robot& _robot)
-  : bingoArea(_bingoArea),
+BlockSelector::BlockSelector(CourseInfo& _courseInfo, DestinationList& _destination, Robot& _robot)
+  : courseInfo(_courseInfo),
     destinationList(_destination),
     robot(_robot),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
@@ -69,10 +69,10 @@ BLOCK_ID BlockSelector::selectBlock()
     if(!arrivableCircles[targetCircleNumber] && !OPEN_CIRCLE_ID[i][targetCircleNumber]) continue;
 
     // ブロックを取りに行く距離(ここで計算)+ブロックを運ぶ距離(DestinationListから取得)　の和を計算
-    Node& targetBlock = bingoArea.getNode(blockId);
+    Node& targetBlock = courseInfo.getNode(blockId);
     Coordinate targetBlockCoord = targetBlock.getCoordinate();
     Coordinate targetCircleCoord
-        = bingoArea.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
+        = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
     Coordinate robotCoord = robot.getCoordinate();
     // ブロックを取得するまでの距離
     int toBlockDistance
@@ -94,7 +94,7 @@ BLOCK_ID BlockSelector::selectBlock()
 
     // 運ぶブロックがある交点サークルに交わっている黒線の数を取得
     int crossCircleId = targetBlockCoord.x / 2 + targetBlockCoord.y / 2 * 4;
-    int crossLine = bingoArea.getCrossCircle(crossCircleId).getEdgeNumber();
+    int crossLine = courseInfo.getCrossCircle(crossCircleId).getEdgeNumber();
     // 上位の項目で優れている、もしくは交線の数が多い場合
     if(updateFg || crossLine > maxCrossLine) {
       updateFg = true;           // これ以降の要素を更新するフラグを立てる
@@ -151,7 +151,7 @@ BLOCK_ID BlockSelector::selectBlock()
 // 指定されたブロックが運搬済みかを判定する
 bool BlockSelector::isCarriedBlock(BLOCK_ID blockId)
 {
-  Coordinate coord = bingoArea.getNode(blockId).getCoordinate();
+  Coordinate coord = courseInfo.getNode(blockId).getCoordinate();
   // x,y座標がどちらも奇数にある場合、「ブロックサークル上にある==運搬済み」と判断する
   return (coord.x % 2 == 1 && coord.y % 2 == 1);
 }

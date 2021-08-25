@@ -13,7 +13,6 @@ void ArmMotion::keepArm()
 {
   Measurer measurer;
   Controller controller;
-  Pid pid(1.0, 0.3, 0.001, HORIZONTAL_ARM_COUNT);
 
   // アーム水平が有効な場合、アームを水平にする
   while(keepFlag) {

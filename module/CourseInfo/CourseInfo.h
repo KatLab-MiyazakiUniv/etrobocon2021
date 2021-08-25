@@ -1,11 +1,11 @@
 /**
- * @file BingoArea.h
+ * @file CourseInfo.h
  * @brief ビンゴエリアの情報を保持するクラス
  * @author Hisataka-Hagiyama,uchyam
  */
 
-#ifndef BINGOAREA_H
-#define BINGOAREA_H
+#ifndef COURSEINFO_H
+#define COURSEINFO_H
 
 #include "array"
 #include "BlockCircle.h"
@@ -14,11 +14,11 @@
 #include "LineTraceArea.h"
 #include "Measurer.h"
 
-class BingoArea {
+class CourseInfo {
  public:
   //コンストラクタ
   //交点サークル、ブロックサークルについて座標、サークルの色を設定、交点サークルの黒線の本数を設定
-  BingoArea();
+  CourseInfo();
 
   /**
    *@fn Node& getNode(int blockId);
@@ -52,13 +52,13 @@ class BingoArea {
   CenterMark& getCenterMark();
 
   /**
-   *@fn void setBingoArea();
+   *@fn void setCourseInfo();
    *@brief APIから取得した情報を基にビンゴエリア情報を初期化する
    */
-  void initBingoArea();
+  void initCourseInfo();
 
   /**
-   *@fn void moveBingoArea();
+   *@fn void moveCourseInfo();
    *@brief ブロックを移動する
    *@param circleid 移動先のサークル番号
    *@param blockid　移動させるブロック番号

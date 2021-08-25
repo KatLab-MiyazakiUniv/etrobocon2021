@@ -6,8 +6,8 @@
 
 #include "RouteCalculator.h"
 
-RouteCalculator::RouteCalculator(BingoArea& bingoArea, Robot& robot)
-  : bingoArea(bingoArea), goalNode(0, 0), robot(robot)
+RouteCalculator::RouteCalculator(CourseInfo& courseInfo, Robot& robot)
+  : courseInfo(courseInfo), goalNode(0, 0), robot(robot)
 {
 }
 
@@ -87,7 +87,7 @@ bool RouteCalculator::checkBlock(Coordinate coordinate)
 {
   if(coordinate == goalNode) {
     return false;  // ゴールノードの場合はブロックがあっても避けない
-  } else if(bingoArea.existBlock(coordinate)) {
+  } else if(courseInfo.existBlock(coordinate)) {
     return true;  // ブロックがあるので処理を終える
   } else {
     return false;  // ブロックがないので次の処理に移る

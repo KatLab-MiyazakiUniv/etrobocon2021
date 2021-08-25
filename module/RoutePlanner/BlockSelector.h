@@ -8,7 +8,7 @@
 #define BLOCK_SELECTOR_H
 
 #include <array>
-#include "BingoArea.h"
+#include "CourseInfo.h"
 #include "DestinationList.h"
 #include "Robot.h"
 
@@ -20,7 +20,7 @@ class BlockSelector {
   /**
    * コンストラクタ
    */
-  BlockSelector(BingoArea& _bingoArea, DestinationList& _destinationList, Robot& _robot);
+  BlockSelector(CourseInfo& _courseInfo, DestinationList& _destinationList, Robot& _robot);
 
   /**
    * 運搬するブロックのIdを返す
@@ -29,7 +29,7 @@ class BlockSelector {
   BLOCK_ID selectBlock();
 
  private:
-  BingoArea& bingoArea;
+  CourseInfo& courseInfo;
   DestinationList destinationList;
   Robot& robot;
 
