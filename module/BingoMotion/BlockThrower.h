@@ -29,6 +29,9 @@ class BlockThrower : public BingoMotion {
   Rotation rotation;
   Controller controller;
   Measurer measurer;
+
+  static constexpr double TREAD = 140;  // 走行体のトレッド幅（両輪の間の距離）[mm]
+  static constexpr int MIN_PWM = 10;    // モーターパワーの最小値
 };
 
 #endif

@@ -13,15 +13,17 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   double runDistance = 105;
   int runPwm = 30;
   int angle = 45;
-  int rotatePwm = 55;
+  int rotatePwm = 100;
   int leftSign;
   int rightSign;
-  double currentLeftDistance = 0;
-  double currentRightDistance = 0;
-  double targetDistance = M_PI * 140 * angle / 360;
+  double diffLeftDistance;
+  double diffRightDistance;
+  int leftPwm;
+  int rightPwm;
+  double targetDistance = M_PI * TREAD * angle / 360;
   double targetLeftDistance;
   double targetRightDistance;
-  int armPwm = 80;
+  int armPwm = 90;
 
   //黒線の奥まで直進する
   straightRunner.runStraightToDistance(runDistance, runPwm);
@@ -31,27 +33,41 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   if(isClockwise) {
     leftSign = 1;
     rightSign = -1;
-    targetLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance;
-    targetRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount()) - targetDistance;
+    targetLeftDistance
+        = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
+    targetRightDistance
+        = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
 
     //両輪が目標距離に到達するまでループ
     while(leftSign != 0 || rightSign != 0) {
-      //現在の走行距離を取得
-      currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-      currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-      //目標距離に到達したらpwm値にかける値を0にする
-      if(currentLeftDistance >= targetLeftDistance) {
+      // 残りの移動距離
+      diffLeftDistance
+          = (targetLeftDistance - Mileage::calculateWheelMileage(measurer.getLeftCount()))
+            * leftSign;
+      diffRightDistance
+          = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
+            * rightSign;
+
+      // 目標距離に到達した場合
+      if(diffLeftDistance <= 0) {
         leftSign = 0;
       }
-      if(currentRightDistance <= targetRightDistance) {
+      if(diffRightDistance <= 0) {
         rightSign = 0;
       }
-      //モータのPWM値をセット
-      controller.setLeftMotorPwm(rotatePwm * leftSign);
-      controller.setRightMotorPwm(rotatePwm * rightSign);
 
-      //アームを動かす
-      while(measurer.getArmMotorCount() >= 40) {
+      // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
+      leftPwm = (diffLeftDistance / targetDistance * rotatePwm >= MIN_PWM)
+                    ? diffLeftDistance / targetDistance * rotatePwm
+                    : MIN_PWM;
+      rightPwm = (diffRightDistance / targetDistance * rotatePwm >= MIN_PWM)
+                     ? diffRightDistance / targetDistance * rotatePwm
+                     : MIN_PWM;
+      controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+      controller.setRightMotorPwm(abs(rightPwm) * rightSign);
+
+      //アームの動作
+      if(measurer.getArmMotorCount() >= 40) {
         armPwm = 0;
       }
       controller.setArmMotorPwm(armPwm);
@@ -62,27 +78,41 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   } else {
     leftSign = -1;
     rightSign = 1;
-    targetLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount()) - targetDistance;
-    targetRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance;
+    targetLeftDistance
+        = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
+    targetRightDistance
+        = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
 
     //両輪が目標距離に到達するまでループ
     while(leftSign != 0 || rightSign != 0) {
-      //現在の走行距離を取得
-      currentLeftDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-      currentRightDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-      //目標距離に到達したらpwm値にかける値を0にする
-      if(currentLeftDistance <= targetLeftDistance) {
+      // 残りの移動距離
+      diffLeftDistance
+          = (targetLeftDistance - Mileage::calculateWheelMileage(measurer.getLeftCount()))
+            * leftSign;
+      diffRightDistance
+          = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
+            * rightSign;
+
+      // 目標距離に到達した場合
+      if(diffLeftDistance <= 0) {
         leftSign = 0;
       }
-      if(currentRightDistance >= targetRightDistance) {
+      if(diffRightDistance <= 0) {
         rightSign = 0;
       }
-      //モータのPWM値をセット
-      controller.setLeftMotorPwm(rotatePwm * leftSign);
-      controller.setRightMotorPwm(rotatePwm * rightSign);
 
-      //アームを動かす
-      while(measurer.getArmMotorCount() >= 40) {
+      // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
+      leftPwm = (diffLeftDistance / targetDistance * rotatePwm >= MIN_PWM)
+                    ? diffLeftDistance / targetDistance * rotatePwm
+                    : MIN_PWM;
+      rightPwm = (diffRightDistance / targetDistance * rotatePwm >= MIN_PWM)
+                     ? diffRightDistance / targetDistance * rotatePwm
+                     : MIN_PWM;
+      controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+      controller.setRightMotorPwm(abs(rightPwm) * rightSign);
+
+      //アームの動作
+      if(measurer.getArmMotorCount() >= 40) {
         armPwm = 0;
       }
       controller.setArmMotorPwm(armPwm);

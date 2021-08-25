@@ -17,7 +17,6 @@ void ArmMotion::keepArm()
   // アーム水平が有効な場合、アームを水平にする
   while(keepFlag) {
     int currentCount = measurer.getArmMotorCount();
-
     // 水平になったとき、ループを抜ける
     if(currentCount == HORIZONTAL_ARM_COUNT) {
       break;
