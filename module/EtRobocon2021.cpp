@@ -5,7 +5,6 @@
  */
 
 #include "EtRobocon2021.h"
-#include "Rotation.h"
 
 void EtRobocon2021::start()
 {
@@ -14,21 +13,6 @@ void EtRobocon2021::start()
 
   //タッチセンサが押されるまで待機
   while(!measurer.isPressed()) {
-    controller.sleep();
-  }
-
-  printf("!!!!! START !!!!!\n");
-
-  Rotation rotation;
-  int angle = 180;
-  int pwm = 100;
-  int angleKey = 1;
-  while(true) {
-    if(measurer.isPressed()) {
-      angleKey = angleKey % 2 + 1;
-      angle = angleKey * 90;
-      rotation.rotateLeft(angle, pwm);
-    }
     controller.sleep();
   }
 
