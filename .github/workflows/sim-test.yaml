@@ -185,23 +185,26 @@ jobs:
 
         # GitHubへ投稿するメッセージの作成
         RESULT_MESSAGE=''
-        RESULT_MESSAGE+="|項目|結果|ボーナスタイム[s]|\n"
-        RESULT_MESSAGE+="|---|---|---|\n"
-        RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |--|\n"
-        RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |--|\n"
-        RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |--|\n"
-        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |--|\n"
+        RESULT_MESSAGE+='### ライントレースエリア\n\n'
+        RESULT_MESSAGE+="|項目|結果|\n"
+        RESULT_MESSAGE+="|---|---|\n"
+        RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |\n"
+        RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |\n"
+        RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
+        RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n\n"
 
+        RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
+
+        RESULT_MESSAGE+='### ブロックビンゴエリア\n\n'
+        RESULT_MESSAGE+="|項目|結果|ボーナスタイム[s]|\n"
         RESULT_MESSAGE+="|ブロックサークル有効移動| ${BLOCK_YUKOIDO} [個]|${BLOCK_YUKOIDO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|パワースポット有効移動| ${POWER_SPOT_YUKOIDO} [個]|${POWER_SPOT_YUKOIDO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|センターブロック有効移動| ${CENTER_BLOCK_YUKOIDO} [個]|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|ビンゴ| ${BLOCK_BINGO} [列]|${BLOCK_BINGO_BONUS_TIME}|\n"
         RESULT_MESSAGE+="|パワースポットビンゴ| ${POWERS_POT_BINGO} [列]|${POWERS_POT_BINGO_BONUS_TIME}|\n"
-        
         RESULT_MESSAGE+="|ボーナスタイム合計|--|${BONUS_TIME_SUM}|\n"
-        RESULT_MESSAGE+="|リザルトタイム|--|${RESULT_TIME}|\n"
-
-        RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
+        RESULT_MESSAGE+="|リザルトタイム|--|${RESULT_TIME}|\n\n"
+        
         RESULT_MESSAGE+="[:arrow_forward: シミュレータの動画](https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4)"
 
         # 生成したメッセージを環境変数へ保存
