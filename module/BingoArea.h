@@ -8,7 +8,7 @@
 #include "CourseInfo.h"
 #include "LineTraceArea.h"
 #include "LineTracer.h"
-
+#include "BlackBlockCarrier.h"
 #ifndef BINGOAREA_H
 #define BINGOAREA_H
 
