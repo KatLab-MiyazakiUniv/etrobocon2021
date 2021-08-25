@@ -12,9 +12,10 @@ using namespace std;
 //左回転
 void Rotation::rotateLeft(int angle, int pwm)
 {
+  double _TREAD = TREAD - 3;
   int leftSign = -1;
   int rightSign = 1;
-  double targetDistance = M_PI * TREAD * abs(angle) / 360;  //弧の長さ
+  double targetDistance = M_PI * _TREAD * abs(angle) / 360;  //弧の長さ
   //目標距離（呼び出し時の走行距離 ± 指定された回転量に必要な距離）
   double targetLeftDistance
       = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
@@ -46,7 +47,8 @@ void Rotation::rotateLeft(int angle, int pwm)
                        ? diffRightDistance / targetDistance * pwm
                        : MIN_PWM;
     controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
-    controller.setRightMotorPwm(abs(rightPwm) * rightSign);
+    controller.setRightMotorPwm(abs(leftPwm) * rightSign);
+    printf("%d\n", leftPwm);
     controller.sleep();
   }
 
