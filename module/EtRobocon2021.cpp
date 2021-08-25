@@ -20,7 +20,7 @@ void EtRobocon2021::start()
   LineTraceArea::runLineTraceArea();
   
   // ビンゴエリア攻略開始
-  BingoArea::runBingoArea()
+  BingoArea::runBingoArea();
   
   //シミュレータへ競技の終了を通知する
   controller.notifyCompletedToSimulator();
