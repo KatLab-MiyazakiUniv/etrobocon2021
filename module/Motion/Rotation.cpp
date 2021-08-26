@@ -40,12 +40,14 @@ void Rotation::rotateLeft(int angle, int pwm)
     }
 
     // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
-    int currentPwm = (diffLeftDistance / targetDistance * pwm >= MIN_PWM)
-                         ? diffLeftDistance / targetDistance * pwm
-                         : MIN_PWM;
-
-    controller.setLeftMotorPwm(abs(currentPwm) * leftSign);
-    controller.setRightMotorPwm(abs(currentPwm) * rightSign);
+    int leftPwm = (diffLeftDistance / targetDistance * pwm >= MIN_PWM)
+                      ? diffLeftDistance / targetDistance * pwm
+                      : MIN_PWM;
+    int rightPwm = (diffRightDistance / targetDistance * pwm >= MIN_PWM)
+                       ? diffRightDistance / targetDistance * pwm
+                       : MIN_PWM;
+    controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+    controller.setRightMotorPwm(abs(rightPwm) * rightSign);
 
     controller.sleep();
   }
@@ -84,12 +86,14 @@ void Rotation::rotateRight(int angle, int pwm)
     }
 
     // PWM値 = 残りの走行距離/走行距離 * 指定PWM値(最小値 MIN_PWM)
-    int currentPwm = (diffRightDistance / targetDistance * pwm >= MIN_PWM)
-                         ? diffRightDistance / targetDistance * pwm
-                         : MIN_PWM;
-
-    controller.setLeftMotorPwm(abs(currentPwm) * leftSign);
-    controller.setRightMotorPwm(abs(currentPwm) * rightSign);
+    int leftPwm = (diffLeftDistance / targetDistance * pwm >= MIN_PWM)
+                      ? diffLeftDistance / targetDistance * pwm
+                      : MIN_PWM;
+    int rightPwm = (diffRightDistance / targetDistance * pwm >= MIN_PWM)
+                       ? diffRightDistance / targetDistance * pwm
+                       : MIN_PWM;
+    controller.setLeftMotorPwm(abs(leftPwm) * leftSign);
+    controller.setRightMotorPwm(abs(rightPwm) * rightSign);
 
     controller.sleep();
   }
