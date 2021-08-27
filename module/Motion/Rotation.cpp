@@ -148,7 +148,8 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
 void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  double distance = -2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double _TREAD = TREAD - 5;
+  double distance = -2 * M_PI * _TREAD * angle / 360;  //弧の長さ
   int rightCount = 0;
 
   //目標距離を超えるまでループ
@@ -231,7 +232,8 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
 //設定された角度とPWM値で左タイヤを軸に後方へピボットターンする
 void Rotation::turnBackLeftPivot(int angle, int pwm)
 {
-  double distance = -2 * M_PI * TREAD * angle / 360;  //弧の長さ
+  double _TREAD = TREAD - 5;
+  double distance = -2 * M_PI * _TREAD * angle / 360;  //弧の長さ
   int leftCount = 0;
 
   //目標距離を超えるまでループ
