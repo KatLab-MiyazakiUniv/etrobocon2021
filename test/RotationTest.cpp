@@ -21,7 +21,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -90,7 +90,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -120,7 +120,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -152,7 +152,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -203,7 +203,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -253,7 +253,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -283,7 +283,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
@@ -315,7 +315,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 140.0;
+    double tread = 140.0 - 3;
     double error = M_PI * tread / 360 * 5;  //誤差5度
     int angle, pwm;
 
