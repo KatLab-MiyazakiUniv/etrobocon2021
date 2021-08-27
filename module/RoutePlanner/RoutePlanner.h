@@ -1,7 +1,7 @@
 /**
  * @file RoutePlanner.h
  * @brief 経路計画クラス
- * @author hiroto0927, miyashita64
+ * @author hiroto0927, miyashita64, Hisataka-Hagiyama, uchyam
  */
 
 #include "CourseInfo.h"
