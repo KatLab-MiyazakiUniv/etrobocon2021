@@ -175,13 +175,19 @@ jobs:
         POWERS_POT_BINGO=$(jq -r '.BLOCK_BINGOP' ${TMP_JSON_FILE})
 
         # タイムの計算
-        BLOCK_YUKOIDO_BONUS_TIME=$((BLOCK_YUKOIDO * 1 / 2))
-        POWER_SPOT_YUKOIDO_BONUS_TIME=$((POWER_SPOT_YUKOIDO * 1))
-        CENTER_BLOCK_YUKOIDO_BONUS_TIME=$((CENTER_BLOCK_YUKOIDO * 2))
-        BLOCK_BINGO_BONUS_TIME=$((BLOCK_BINGO * 1))
-        POWERS_POT_BINGO_BONUS_TIME=$((POWERS_POT_BINGO * 2))
-        BONUS_TIME_SUM=$((BLOCK_YUKOIDO_BONUS_TIME + POWER_SPOT_YUKOIDO_BONUS_TIME + CENTER_BLOCK_YUKOIDO_BONUS_TIME + BLOCK_BINGO_BONUS_TIME + POWERS_POT_BINGO_BONUS_TIME))
-        RESULT_TIME=$((RESULT_TIME - BONUS_TIME_SUM))
+        BLOCK_YUKOIDO_BONUS_TIME=$(echo ${BLOCK_YUKOIDO} | awk '{print $1 / 2}')
+        POWER_SPOT_YUKOIDO_BONUS_TIME=${POWER_SPOT_YUKOIDO}
+        CENTER_BLOCK_YUKOIDO_BONUS_TIME=$(echo ${CENTER_BLOCK_YUKOIDO} | awk '{print $1 * 2}')
+        BLOCK_BINGO_BONUS_TIME=${BLOCK_BINGO}
+        POWERS_POT_BINGO_BONUS_TIME=$(echo ${POWERS_POT_BINGO} | awk '{print $1 * 2}')
+        BONUS_TIME_SUM=$(echo ${BLOCK_YUKOIDO_BONUS_TIME} \
+                              ${POWER_SPOT_YUKOIDO_BONUS_TIME} \
+                              ${CENTER_BLOCK_YUKOIDO_BONUS_TIME} \
+                              ${BLOCK_BINGO_BONUS_TIME} \
+                              ${POWERS_POT_BINGO_BONUS_TIME} \
+                              | awk '{print $1 + $2 + $3 + $4 + $5}' \
+                        )
+        RESULT_TIME=$(echo ${RESULT_TIME} ${BONUS_TIME_SUM} | awk '{print $1 - $2}')
 
         # GitHubへ投稿するメッセージの作成
         RESULT_MESSAGE=''
