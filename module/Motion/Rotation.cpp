@@ -11,7 +11,7 @@ using namespace std;
 //左回転
 void Rotation::rotateLeft(int angle, int pwm)
 {
-  double _TREAD = TREAD - 3;  // 回頭距離の調整
+  constexpr double _TREAD = TREAD - 3;  // 回頭距離の調整
   int leftSign = -1;
   int rightSign = 1;
   double targetDistance = M_PI * _TREAD * abs(angle) / 360;  //弧の長さ
@@ -58,7 +58,7 @@ void Rotation::rotateLeft(int angle, int pwm)
 //右回転
 void Rotation::rotateRight(int angle, int pwm)
 {
-  double _TREAD = TREAD - 3;  // 回頭距離の調整
+  constexpr double _TREAD = TREAD - 3;  // 回頭距離の調整
   int leftSign = 1;
   int rightSign = -1;
   double targetDistance = M_PI * _TREAD * abs(angle) / 360;  //弧の長さ
@@ -105,22 +105,22 @@ void Rotation::rotateRight(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardRightPivot(int angle, int pwm)
 {
-  double _TREAD = TREAD + 5;                          //トレッド幅の調整
-  double distance = 2 * M_PI * _TREAD * angle / 360;  //弧の長さ
+  constexpr double _TREAD = TREAD + 5;                      //トレッド幅の調整
+  double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
   int rightCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     //現在の距離を取得
     double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double targetDistance = distance - currentDistance;
+    double restDistance = targetDistance - currentDistance;  //残りの距離
 
     //モーターの速度を徐々に遅くする
-    int leftPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
-                      ? targetDistance / distance * pwm
-                      : PIVOT_MIN_PWM;
+    int leftPwm = (restDistance / targetDistance * pwm > PIVOT_FRONT_MIN_PWM)
+                      ? restDistance / targetDistance * pwm
+                      : PIVOT_FRONT_MIN_PWM;
 
-    if(currentDistance > distance) {
+    if(currentDistance >= targetDistance) {
       break;
     }
 
@@ -148,21 +148,21 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
 void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  double _TREAD = TREAD - 5;
-  double distance = -2 * M_PI * _TREAD * angle / 360;  //弧の長さ
+  constexpr double _TREAD = TREAD - 5;
+  double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
   int rightCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double targetDistance = distance - currentDistance;
+    double restDistance = targetDistance - currentDistance;  //残りの距離
 
     //モーターの速度を徐々に遅くする
-    int leftPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM_2)
-                      ? targetDistance / distance * pwm
-                      : PIVOT_MIN_PWM_2;
+    int leftPwm = (restDistance / targetDistance * pwm > PIVOT_BACK_MIN_PWM)
+                      ? restDistance / targetDistance * pwm
+                      : PIVOT_BACK_MIN_PWM;
 
-    if(currentDistance < distance) {
+    if(currentDistance <= targetDistance) {
       break;
     }
 
@@ -190,23 +190,24 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
 //設定された角度とPWM値で左タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardLeftPivot(int angle, int pwm)
 {
-  double _TREAD = TREAD + 5;                          //トレッド幅の調整
-  double distance = 2 * M_PI * _TREAD * angle / 360;  //弧の長さ
+  constexpr double _TREAD = TREAD + 5;                      //トレッド幅の調整
+  double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
   int leftCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     //現在の距離を取得
     double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    double targetDistance = distance - currentDistance;
+    double restDistance = targetDistance - currentDistance;  //残りの距離
 
-    if(currentDistance > distance) {
+    //モーターの速度を徐々に遅くする
+    int rightPwm = (restDistance / targetDistance * pwm > PIVOT_FRONT_MIN_PWM)
+                       ? restDistance / targetDistance * pwm
+                       : PIVOT_FRONT_MIN_PWM;
+    
+    if(currentDistance >= targetDistance) {
       break;
     }
-    //モーターの速度を徐々に遅くする
-    int rightPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM)
-                       ? targetDistance / distance * pwm
-                       : PIVOT_MIN_PWM;
 
     //モータのPWM値をセット
     controller.setRightMotorPwm(rightPwm);
@@ -232,21 +233,21 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
 //設定された角度とPWM値で左タイヤを軸に後方へピボットターンする
 void Rotation::turnBackLeftPivot(int angle, int pwm)
 {
-  double _TREAD = TREAD - 5;
-  double distance = -2 * M_PI * _TREAD * angle / 360;  //弧の長さ
+  constexpr double _TREAD = TREAD - 5;
+  double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
   int leftCount = 0;
 
   //目標距離を超えるまでループ
   while(true) {
     double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    double targetDistance = distance - currentDistance;
+    double restDistance = targetDistance - currentDistance;  //残りの距離
 
     //モーターの速度を徐々に遅くする
-    int rightPwm = (targetDistance / distance * pwm > PIVOT_MIN_PWM_2)
-                       ? targetDistance / distance * pwm
-                       : PIVOT_MIN_PWM_2;
+    int rightPwm = (restDistance / targetDistance * pwm > PIVOT_BACK_MIN_PWM)
+                       ? restDistance / targetDistance * pwm
+                       : PIVOT_BACK_MIN_PWM;
 
-    if(currentDistance < distance) {
+    if(currentDistance <= targetDistance) {
       break;
     }
 
