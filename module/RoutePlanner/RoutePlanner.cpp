@@ -20,7 +20,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
   BlockSelector blockSelector(courseInfo, destinationList, robot);
   RouteCalculator routeCalculator(courseInfo, robot);
-  int cnt = 0;
+  int count = 0;
 
   while(true) {
     // 運搬ブロックを決定する
@@ -38,9 +38,9 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
         = routeCalculator.calculateRoute(robot.getCoordinate(), carryBlockCoord);
     //取得経路を運搬経路リストに追加する
     for(const auto& i : toBlockRoute) {
-      carryRoute[cnt].push_back(i);
+      carryRoute[count].push_back(i);
     }
-    cnt++;
+    count++;
     // 走行体が運搬ブロックを取得したとして、走行体の情報を更新する
     robot.setCoordinate(toBlockRoute.back().first);
     robot.setDirection(toBlockRoute.back().second);
@@ -50,9 +50,9 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
         = routeCalculator.calculateRoute(carryBlockCoord, targetCircleCoord);
     //設置経路を運搬経路リストに追加する
     for(const auto& i : toCircleRoute) {
-      carryRoute[cnt].push_back(i);
+      carryRoute[count].push_back(i);
     }
-    cnt++;
+    count++;
 
     int routeSize = toCircleRoute.size();
     // 運搬ブロックを設置する目標サークル
