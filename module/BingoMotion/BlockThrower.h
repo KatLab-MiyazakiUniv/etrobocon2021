@@ -8,7 +8,6 @@
 #define BLOCK_THROWER_H
 
 #include "StraightRunner.h"
-#include "Rotation.h"
 #include "Controller.h"
 #include "BingoMotion.h"
 #include "ArmMotion.h"
@@ -26,7 +25,6 @@ class BlockThrower : public BingoMotion {
 
  private:
   StraightRunner straightRunner;
-  Rotation rotation;
   Controller controller;
   Measurer measurer;
 
