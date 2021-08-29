@@ -8,7 +8,6 @@
 #define BLOCK_THROWER_H
 
 #include "StraightRunner.h"
-#include "Rotation.h"
 #include "Controller.h"
 #include "BingoMotion.h"
 #include "ArmMotion.h"
@@ -26,9 +25,11 @@ class BlockThrower : public BingoMotion {
 
  private:
   StraightRunner straightRunner;
-  Rotation rotation;
   Controller controller;
   Measurer measurer;
+
+  const double TREAD = 140;  // 走行体のトレッド幅（両輪の間の距離）[mm]
+  const int MIN_PWM = 10;    // モーターパワーの最小値
 };
 
 #endif

@@ -22,6 +22,12 @@ class ArmMotion {
    */
   static void throwMotion(void);
 
+  /**
+   * @brief フラグのセッター
+   * @param _keepFlag アームを水平に調整するかのフラグ
+   */
+  static void setKeepFlag(bool _keepFlag);
+
  private:
   // アームが水平なときの角位置
   static constexpr int HORIZONTAL_ARM_COUNT = -45;
