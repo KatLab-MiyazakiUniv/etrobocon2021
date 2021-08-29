@@ -113,7 +113,7 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
   const double _TREAD = TREAD + 5;  //トレッド幅の調整
   double initialDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
   double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int rightCount = 0;
+  int rightCount = Mileage::calculateWheelMileage(measurer.getRightCount());
 
   //目標距離を超えるまでループ
   while(true) {
@@ -157,7 +157,8 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
   const double _TREAD = TREAD - 5;
   double initialDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
   double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int rightCount = 0;
+  int rightCount = Mileage::calculateWheelMileage(measurer.getRightCount());
+  ;
 
   //目標距離を超えるまでループ
   while(true) {
@@ -200,7 +201,7 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
   const double _TREAD = TREAD + 5;  //トレッド幅の調整
   double initialDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
   double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int leftCount = 0;
+  int leftCount = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
   //目標距離を超えるまでループ
   while(true) {
@@ -244,7 +245,7 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
   const double _TREAD = TREAD - 5;
   double initialDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
   double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int leftCount = 0;
+  int leftCount = Mileage::calculateWheelMileage(measurer.getLeftCount());
 
   //目標距離を超えるまでループ
   while(true) {
