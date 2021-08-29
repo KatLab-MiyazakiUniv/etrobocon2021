@@ -34,7 +34,7 @@ class MotionConverter {
    * @brief 経路を実際の動作に変換し、各動作を実行する
    * @param 経路の座標と走行体の向きを格納した動的配列
    */
-  void convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route);
+  void convertToMotion(const std::vector<std::pair<Coordinate, Direction>>& route);
 
  private:
   MotionPerformer& motionPerformer;
