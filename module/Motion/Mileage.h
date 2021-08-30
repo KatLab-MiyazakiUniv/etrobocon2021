@@ -10,12 +10,12 @@
 
 class Mileage {
  public:
-   /**
-   ** @fn double calculateWheelMileage(int angle);
-   ** @brief タイヤの累計走行距離を計算する
-   ** @param angle タイヤの回転角度[deg]
-   ** @return タイヤの累計走行距離[mm]
-   **/
+  /**
+  ** @fn double calculateWheelMileage(int angle);
+  ** @brief タイヤの累計走行距離を計算する
+  ** @param angle タイヤの回転角度[deg]
+  ** @return タイヤの累計走行距離[mm]
+  **/
   static double calculateWheelMileage(int angle);
 
   /**
@@ -30,5 +30,6 @@ class Mileage {
  private:
   static const double RADIUS;
 
+  Mileage();
 };
 #endif

@@ -53,3 +53,9 @@ void ArmMotion::throwMotion(void)
   // アームを水平にする処理を有効化
   keepFlag = true;
 }
+
+// フラグのセット
+void ArmMotion::setKeepFlag(bool _keepFlag)
+{
+  keepFlag = _keepFlag;
+};

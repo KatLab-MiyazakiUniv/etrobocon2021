@@ -44,6 +44,7 @@ namespace ev3api {
    private:
     static double leftCount;
     static double rightCount;
+    static double armCount;
     ePortM port;
   };
 }  // namespace ev3api

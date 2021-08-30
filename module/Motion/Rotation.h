@@ -18,6 +18,11 @@
 class Rotation {
  public:
   /**
+   * コンストラクタ
+   */
+  Rotation();
+
+  /**
    * 左に回頭する関数
    * @param angle 回転角度(deg) 0~360
    * @param pwm PWM値 0~100
@@ -63,8 +68,11 @@ class Rotation {
   Controller controller;
   Measurer measurer;
 
-  static constexpr double RADIUS = 45.0;
-  static constexpr double TREAD = 140.0;
+  const double RADIUS;       // 車輪の半径[mm]
+  const double TREAD;        // 走行体のトレッド幅（両輪の間の距離）[mm]
+  const int ROTATE_MIN_PWM;  // 回頭の時のモーターパワーの最小値
+  const int PIVOT_FRONT_MIN_PWM;  //ピボットターン前方向の時のモーターパワーの最小値
+  const int PIVOT_BACK_MIN_PWM;  //ピボットターン後方向の時のモーターパワーの最小値
 };
 
 #endif
