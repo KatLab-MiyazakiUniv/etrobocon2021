@@ -49,7 +49,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     std::vector<std::pair<Coordinate, Direction>> toCircleRoute
         = routeCalculator.calculateRoute(carryBlockCoord, targetCircleCoord);
     //設置経路を運搬経路リストに追加する
-    for(int i =1;i<toCircleRoute.size();i++) {
+    for(int i = 1; i < toCircleRoute.size(); i++) {
       carryRoute[count].push_back(toCircleRoute[i]);
     }
     count++;
