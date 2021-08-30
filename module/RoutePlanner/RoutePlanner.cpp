@@ -15,7 +15,7 @@ RoutePlanner::RoutePlanner(CourseInfo& _courseInfo, const bool IS_LEFT_COURSE)
 // 経路計画を立てる
 std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBingoRoute()
 {
-  std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(16);  //運搬経路リスト
+  std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(8);  //運搬経路リスト
   Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
   BlockSelector blockSelector(courseInfo, destinationList, robot);
