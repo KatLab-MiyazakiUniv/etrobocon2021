@@ -2,6 +2,9 @@
 build/
 logs/
 
+# シミュレータ自動実行ツール関係
+.cancel-sim-test
+
 # Created by https://www.toptal.com/developers/gitignore/api/c++,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,macos,windows
 
