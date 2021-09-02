@@ -17,7 +17,7 @@ int Motor::getCount()
 {
   if(port == PORT_C) {
     return static_cast<int>(leftCount);
-  } else if (port == PORT_B) {
+  } else if(port == PORT_B) {
     return static_cast<int>(rightCount);
   } else {
     return static_cast<int>(armCount);
@@ -34,6 +34,12 @@ void Motor::setPWM(int pwm)
   } else {
     armCount += pwm * 0.05;
   }
+}
+
+void Motor::reset()
+{
+  leftCount = 0;
+  rightCount = 0;
 }
 
 double Motor::leftCount = 0.0;
