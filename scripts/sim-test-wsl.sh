@@ -33,11 +33,11 @@ elif [[ "$1" =~ ^\./.+$ ]]; then
 fi
 
 # ログファイルを出力するディレクトリへのパスをコマンドライン引数から取得する
-LOG_FILES_DIR_NAME="`pwd`/$3"
-if [[ "$3" =~ ^/.+$ ]]; then
-    LOG_FILES_DIR_NAME="$3"
-elif [[ "$3" =~ ^\./.+$ ]]; then
-    LOG_FILES_DIR_NAME="`pwd``echo $3 | cut -b 2-`"
+LOG_FILES_DIR_NAME="`pwd`/$2"
+if [[ "$2" =~ ^/.+$ ]]; then
+    LOG_FILES_DIR_NAME="$2"
+elif [[ "$2" =~ ^\./.+$ ]]; then
+    LOG_FILES_DIR_NAME="`pwd``echo $2 | cut -b 2-`"
 fi
 
 # ファイルが見つからない場合、プログラムを終了する
