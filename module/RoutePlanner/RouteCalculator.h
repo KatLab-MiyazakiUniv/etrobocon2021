@@ -39,13 +39,14 @@ struct Route {
   bool checked;         //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
-  Route() : parent(-1, -1), cost(0), checked(false) {}
+  Route() : parent(-1, -1), cost(0), checked(false) ,direction(Direction::N){}
 
   /**
    * @fn void set(Coordinate _parent, int _currentCost)
    * @brief 各ノードの親ノード、現在のコストをセットする
    * @param _parent 親ノード
-   * @param _currentCost　現在のコスト
+   * @param _currentCost　このノードでのコスト
+   * @param _direction このノードでの向き
    */
   void setInfo(Coordinate _parent, int _currentCost, Direction _direction)
   {

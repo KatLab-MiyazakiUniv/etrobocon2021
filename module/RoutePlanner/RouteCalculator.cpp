@@ -20,8 +20,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   struct AstarInfo elem({ 0, 0 }, 0);  //現在探索しているノード(座標(0,0),コスト0で初期化)
   int actualCost = 0;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
-
-  goalNode = goal;  // ゴールノードをセット
+  goalNode = goal;                      // ゴールノードをセット
   route[start.x][start.y].setInfo(start, 0, robot.getDirection());
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
@@ -48,14 +47,14 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         //中点->中点に移動する場合はopenに追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
-      } else if(abs(MotionConverter::calculateAngle(
-                    route[elem.coordinate.x][elem.coordinate.y].direction, currentDirection))
-                == 180) {
-        // 180度方向転換するような場合はopenに追加しない
+      } else if(courseInfo.existBlock(start)
+                && abs(MotionConverter::calculateAngle(
+                       route[elem.coordinate.x][elem.coordinate.y].direction, currentDirection))
+                       == 180) {
+        //経路の始点にブロックが置かれており(すなわち子の経路ではブロックを持って移動する)、180度方向転換するような場合はopenに追加しない
       } else {
         checkList(m, open);  // openにより大きいコストの同じ座標がある場合はopenから削除する
         checkList(m, close);  // closeにより大きいコストの同じ座標がある場合はcloseから削除する
-
         actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
         route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
