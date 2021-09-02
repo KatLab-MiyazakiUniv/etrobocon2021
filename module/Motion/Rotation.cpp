@@ -110,173 +110,128 @@ void Rotation::rotateRight(int angle, int pwm)
 //設定された角度とPWM値で右タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardRightPivot(int angle, int pwm)
 {
-  const double _TREAD = TREAD + 5;  //トレッド幅の調整
-  double initialDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-  double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int rightCount = 0 + measurer.getRightCount();
+  int leftPwm = pwm;
+  int rightPwm = -1;
 
-  //目標距離を超えるまでループ
-  while(true) {
-    //現在の距離を取得
-    double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double restDistance = initialDistance + targetDistance - currentDistance;  //残りの距離
+  // const double _TREAD = TREAD + 5;  //トレッド幅の調整
+  double motorCount = 0;
+  double targetMotorCount = calculate(angle);
+  int rightCount = measurer.getRightCount();
+  int leftCount = measurer.getLeftCount();
 
-    //モーターの速度を徐々に遅くする
-    int leftPwm = (restDistance / targetDistance * pwm > PIVOT_FRONT_MIN_PWM)
-                      ? restDistance / targetDistance * pwm
-                      : PIVOT_FRONT_MIN_PWM;
+  while(motorCount < targetMotorCount) {
+    double leftCountRate = 1 - (measurer.getLeftCount() - leftCount) / targetMotorCount;
+    leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
+                                                        : PIVOT_FRONT_MIN_PWM;
 
-    if(currentDistance >= initialDistance + targetDistance) {
-      break;
-    }
-
-    //モータのPWM値をセット
-    controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(leftPwm);
+    controller.setRightMotorPwm(rightPwm);
+    controller.sleep();
 
-    //軸足のずれの調整
-    if(measurer.getRightCount() > rightCount) {
-      controller.setRightMotorPwm(-10);
-    }
+    motorCount
+        = ((measurer.getLeftCount() - leftCount) + (measurer.getRightCount() - rightCount)) / 2;
 
-    if(measurer.getRightCount() < rightCount) {
-      controller.setRightMotorPwm(10);
-    }
-
-    // 10ミリ秒待機
     controller.sleep();
   }
 
-  //モータの停止
   controller.stopMotor();
 }
 
 //設定された角度とPWM値で右タイヤを軸に後方へピボットターンする
 void Rotation::turnBackRightPivot(int angle, int pwm)
 {
-  const double _TREAD = TREAD - 5;
-  double initialDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-  double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int rightCount = 0 + measurer.getRightCount();
+  angle = abs(angle);
+  int leftPwm = pwm;
+  int rightPwm = 1;
 
-  //目標距離を超えるまでループ
-  while(true) {
-    double currentDistance = Mileage::calculateWheelMileage(measurer.getLeftCount());
-    double restDistance = initialDistance + targetDistance - currentDistance;  //残りの距離
+  double motorCount = 0;
+  double targetMotorCount = calculate(angle);
+  int rightCount = abs(measurer.getRightCount());
+  int leftCount = abs(measurer.getLeftCount());
 
-    //モーターの速度を徐々に遅くする
-    int leftPwm = (restDistance / targetDistance * pwm > PIVOT_BACK_MIN_PWM)
-                      ? restDistance / targetDistance * pwm
-                      : PIVOT_BACK_MIN_PWM;
+  while(motorCount < targetMotorCount) {
+    double leftCountRate = 1 - (leftCount - abs(measurer.getLeftCount())) / targetMotorCount;
+    leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
+                                                        : PIVOT_FRONT_MIN_PWM;
 
-    if(currentDistance <= initialDistance + targetDistance) {
-      break;
-    }
-
-    //モータのPWM値をセット
-    controller.setRightMotorPwm(0);
     controller.setLeftMotorPwm(-leftPwm);
+    controller.setRightMotorPwm(rightPwm);
+    controller.sleep();
 
-    //軸足のずれの調整
-    if(measurer.getRightCount() > rightCount) {
-      controller.setRightMotorPwm(-10);
-    }
+    motorCount = ((leftCount - abs(measurer.getLeftCount()))
+                  + (rightCount - abs(measurer.getRightCount())))
+                 / 2;
 
-    if(measurer.getRightCount() < rightCount) {
-      controller.setRightMotorPwm(10);
-    }
-
-    // 10ミリ秒待機
     controller.sleep();
   }
 
-  //モータの停止
   controller.stopMotor();
 }
 
 //設定された角度とPWM値で左タイヤを軸に前方へピボットターンする
 void Rotation::turnForwardLeftPivot(int angle, int pwm)
 {
-  const double _TREAD = TREAD + 5;  //トレッド幅の調整
-  double initialDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-  double targetDistance = 2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int leftCount = 0 + measurer.getLeftCount();
+  int leftPwm = -1;
+  int rightPwm = pwm;
 
-  //目標距離を超えるまでループ
-  while(true) {
-    //現在の距離を取得
-    double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    double restDistance = initialDistance + targetDistance - currentDistance;  //残りの距離
+  double motorCount = 0;
+  double targetMotorCount = calculate(angle);
+  int rightCount = measurer.getRightCount();
+  int leftCount = measurer.getLeftCount();
 
-    //モーターの速度を徐々に遅くする
-    int rightPwm = (restDistance / targetDistance * pwm > PIVOT_FRONT_MIN_PWM)
-                       ? restDistance / targetDistance * pwm
-                       : PIVOT_FRONT_MIN_PWM;
+  while(motorCount < targetMotorCount) {
+    double rightCountRate = 1 - (measurer.getRightCount() - rightCount) / targetMotorCount;
+    rightPwm = pwm * rightCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * rightCountRate)
+                                                          : PIVOT_FRONT_MIN_PWM;
 
-    if(currentDistance >= initialDistance + targetDistance) {
-      break;
-    }
-
-    //モータのPWM値をセット
+    controller.setLeftMotorPwm(leftPwm);
     controller.setRightMotorPwm(rightPwm);
-    controller.setLeftMotorPwm(0);
+    controller.sleep();
 
-    //軸足のずれの調整
-    if(measurer.getLeftCount() > leftCount) {
-      controller.setLeftMotorPwm(-10);
-    }
+    motorCount
+        = ((measurer.getLeftCount() - leftCount) + (measurer.getRightCount() - rightCount)) / 2;
 
-    if(measurer.getLeftCount() < leftCount) {
-      controller.setLeftMotorPwm(10);
-    }
-
-    // 10ミリ秒待機
     controller.sleep();
   }
 
-  //モータの停止
   controller.stopMotor();
 }
 
 //設定された角度とPWM値で左タイヤを軸に後方へピボットターンする
 void Rotation::turnBackLeftPivot(int angle, int pwm)
 {
-  const double _TREAD = TREAD - 5;
-  double initialDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-  double targetDistance = -2 * M_PI * _TREAD * angle / 360;  //目標距離
-  int leftCount = 0 + measurer.getLeftCount();
+  angle = abs(angle);
+  int leftPwm = 1;
+  int rightPwm = pwm;
 
-  //目標距離を超えるまでループ
-  while(true) {
-    double currentDistance = Mileage::calculateWheelMileage(measurer.getRightCount());
-    double restDistance = initialDistance + targetDistance - currentDistance;  //残りの距離
+  double motorCount = 0;
+  double targetMotorCount = calculate(angle);
+  int rightCount = abs(measurer.getRightCount());
+  int leftCount = abs(measurer.getLeftCount());
 
-    //モーターの速度を徐々に遅くする
-    int rightPwm = (restDistance / targetDistance * pwm > PIVOT_BACK_MIN_PWM)
-                       ? restDistance / targetDistance * pwm
-                       : PIVOT_BACK_MIN_PWM;
+  while(motorCount < targetMotorCount) {
+    //徐々に速度を遅くする処理
+    double rightCountRate = 1 - (rightCount - abs(measurer.getRightCount())) / targetMotorCount;
+    rightPwm = pwm * rightCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * rightCountRate)
+                                                          : PIVOT_FRONT_MIN_PWM;
 
-    if(currentDistance <= initialDistance + targetDistance) {
-      break;
-    }
-
-    //モータのPWM値をセット
+    controller.setLeftMotorPwm(leftPwm);
     controller.setRightMotorPwm(-rightPwm);
-    controller.setLeftMotorPwm(0);
+    controller.sleep();
 
-    //軸足のずれの調整
-    if(measurer.getLeftCount() > leftCount) {
-      controller.setLeftMotorPwm(-10);
-    }
+    motorCount = ((leftCount - abs(measurer.getLeftCount()))
+                  + (rightCount - abs(measurer.getRightCount())))
+                 / 2;
 
-    if(measurer.getLeftCount() < leftCount) {
-      controller.setLeftMotorPwm(10);
-    }
-
-    // 10ミリ秒待機
     controller.sleep();
   }
 
-  //モータの停止
   controller.stopMotor();
+}
+
+double Rotation::calculate(int angle)
+{
+  // @see docs/Odometry/odometry.pdf
+  const double transform = 2.0 * RADIUS / TREAD;
+  return angle / transform;
 }
