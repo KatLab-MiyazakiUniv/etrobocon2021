@@ -9,7 +9,7 @@
 using namespace std;
 
 Rotation::Rotation()
-  : RADIUS(45.0), TREAD(140), ROTATE_MIN_PWM(20), PIVOT_FRONT_MIN_PWM(20), PIVOT_BACK_MIN_PWM(10)
+  : RADIUS(45.0), TREAD(140), ROTATE_MIN_PWM(20), PIVOT_FRONT_MIN_PWM(20), PIVOT_BACK_MIN_PWM(30)
 {
 }
 
@@ -113,6 +113,7 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
   int leftPwm = pwm;
   int rightPwm = -1;
 
+  controller.resetMotorCount();
   // const double _TREAD = TREAD + 5;  //トレッド幅の調整
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
@@ -120,7 +121,7 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
   int leftCount = measurer.getLeftCount();
 
   while(motorCount < targetMotorCount) {
-    double leftCountRate = 1 - (measurer.getLeftCount() - leftCount) / targetMotorCount;
+    double leftCountRate = 1 - (measurer.getLeftCount() / targetMotorCount);
     leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
                                                         : PIVOT_FRONT_MIN_PWM;
 
@@ -128,8 +129,7 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
     controller.setRightMotorPwm(rightPwm);
     controller.sleep();
 
-    motorCount
-        = ((measurer.getLeftCount() - leftCount) + (measurer.getRightCount() - rightCount)) / 2;
+    motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
 
     controller.sleep();
   }
@@ -142,15 +142,15 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
 {
   angle = abs(angle);
   int leftPwm = pwm;
-  int rightPwm = 1;
-
+  int rightPwm = 3;
+  controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
   int rightCount = abs(measurer.getRightCount());
   int leftCount = abs(measurer.getLeftCount());
 
   while(motorCount < targetMotorCount) {
-    double leftCountRate = 1 - (leftCount - abs(measurer.getLeftCount())) / targetMotorCount;
+    double leftCountRate = 1 - (abs(measurer.getLeftCount()) / targetMotorCount);
     leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
                                                         : PIVOT_FRONT_MIN_PWM;
 
@@ -158,9 +158,7 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
     controller.setRightMotorPwm(rightPwm);
     controller.sleep();
 
-    motorCount = ((leftCount - abs(measurer.getLeftCount()))
-                  + (rightCount - abs(measurer.getRightCount())))
-                 / 2;
+    motorCount = (abs(measurer.getLeftCount()) + abs(measurer.getRightCount())) / 2;
 
     controller.sleep();
   }
@@ -173,7 +171,7 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
 {
   int leftPwm = -1;
   int rightPwm = pwm;
-
+  controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
   int rightCount = measurer.getRightCount();
@@ -201,9 +199,9 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
 void Rotation::turnBackLeftPivot(int angle, int pwm)
 {
   angle = abs(angle);
-  int leftPwm = 1;
+  int leftPwm = 3;
   int rightPwm = pwm;
-
+  controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
   int rightCount = abs(measurer.getRightCount());
@@ -211,7 +209,7 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
 
   while(motorCount < targetMotorCount) {
     //徐々に速度を遅くする処理
-    double rightCountRate = 1 - (rightCount - abs(measurer.getRightCount())) / targetMotorCount;
+    double rightCountRate = 1 - (abs(measurer.getRightCount()) / targetMotorCount);
     rightPwm = pwm * rightCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * rightCountRate)
                                                           : PIVOT_FRONT_MIN_PWM;
 
@@ -219,9 +217,7 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
     controller.setRightMotorPwm(-rightPwm);
     controller.sleep();
 
-    motorCount = ((leftCount - abs(measurer.getLeftCount()))
-                  + (rightCount - abs(measurer.getRightCount())))
-                 / 2;
+    motorCount = (abs(measurer.getLeftCount()) + abs(measurer.getRightCount())) / 2;
 
     controller.sleep();
   }
