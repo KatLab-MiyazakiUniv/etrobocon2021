@@ -110,8 +110,19 @@ else
     # シミュレータ映像のキャプチャが有効化されていなかった場合、スクリプトを終了する
     exit 0
 fi
-# キャプチャ映像を MP4 に変換する
+
+
+# CSV ファイルをコピーする
 L_OR_R=`echo ${COURSE} | tr lr LR`
+cp ${CAPTURE_DIR_WSL}/${L_OR_R}.csv ${LOG_FILES_DIR_NAME}/.logs/${COURSE}-${NAME}.csv
+
+# スタート前に撮影されたキャプチャ画像を削除する
+# スタート前に撮影されたキャプチャ画像が無い場合、一番最後のフレームが消えることになるが影響は無いと判断
+CSV_TAIL_NUM=$(cat ${CAPTURE_DIR_WSL}/${L_OR_R}.csv | tail -n1 | sed -r 's/.*(L|R)_([0-9]{8})\.png.*/\2/g')
+PNG_TAIL_NUM=$(ls ${CAPTURE_DIR_WSL}/*.png | tail -n1 | sed -r 's/.*(L|R)_([0-9]{8})\.png/\2/g')
+echo "echo ${CAPTURE_DIR_WSL}/${L_OR_R}_{${CSV_TAIL_NUM}..${PNG_TAIL_NUM}}.png" | bash | xargs -L1 rm
+
+# キャプチャ映像を MP4 に変換する
 ffmpeg -framerate ${FRAME_RATE} \
        -i ${CAPTURE_DIR_WSL}/${L_OR_R}_%08d.png \
        -vcodec libx264 \
@@ -119,8 +130,6 @@ ffmpeg -framerate ${FRAME_RATE} \
        -r ${FRAME_RATE} \
        ${LOG_FILES_DIR_NAME}/${COURSE}-${NAME}.mp4
 
-# CSV ファイルをコピーする
-cp ${CAPTURE_DIR_WSL}/${L_OR_R}.csv ${LOG_FILES_DIR_NAME}/.logs/${COURSE}-${NAME}.csv
 
 # 一時ディレクトリを削除する
 rm -rf ${CAPTURE_DIR_WSL}
