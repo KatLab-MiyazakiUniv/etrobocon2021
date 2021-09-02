@@ -11,6 +11,11 @@ SETTINGS_FILES_DIR="`pwd`/sim-settings"
 DEFAULT_SETTINGS_FILE_NAME="${SETTINGS_FILES_DIR}/default.json"  # デフォルトのシミュレータ設定ファイル名
 ### 以上、設定  ###
 
+# シミュレータ自動実行ツールのキャンセル処理が実行されていないかを確認する
+if [ -f ".cancel-sim-test" ]; then
+    exit 0
+fi
+
 # WSL であるかどうかを確認する
 if [ ! -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
     echo "このスクリプトは、WSL上でしか動作しません"
