@@ -12,6 +12,7 @@
 #include "Robot.h"
 #include "utility"
 #include "vector"
+#include "MotionConverter.h"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
@@ -32,9 +33,10 @@ struct AstarInfo {
 
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
-  Coordinate parent;  //親ノード
-  int cost;           //このノードに到達するまでのコスト
-  bool checked;       //経路復元の際にこのノードをチェックしたかどうか
+  Coordinate parent;    //親ノード
+  int cost;             //このノードに到達するまでのコスト
+  Direction direction;  //このノードでの向き
+  bool checked;         //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
   Route() : parent(-1, -1), cost(0), checked(false) {}
@@ -45,10 +47,11 @@ struct Route {
    * @param _parent 親ノード
    * @param _currentCost　現在のコスト
    */
-  void setInfo(Coordinate _parent, int _currentCost)
+  void setInfo(Coordinate _parent, int _currentCost, Direction _direction)
   {
     parent = _parent;
     cost = _currentCost;
+    direction = _direction;
   }
 };
 

@@ -205,14 +205,12 @@ namespace etrobocon2021_test {
     start = { 6, 0 };
     goal = { 1, 3 };
     minRoute = route.calculateRoute(start, goal);
-    expectedMotion.push_back(MOTION::CDC);
-    expectedMotion.push_back(MOTION::CDC);
-    expectedMotion.push_back(MOTION::CDC);
-    expectedMotion.push_back(MOTION::CDC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::CDRC);
+    expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RL);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RR);
-    expectedMotion.push_back(MOTION::RTC);
-    expectedMotion.push_back(MOTION::RF);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);

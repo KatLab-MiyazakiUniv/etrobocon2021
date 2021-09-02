@@ -22,7 +22,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
 
   goalNode = goal;  // ゴールノードをセット
-  route[start.x][start.y].setInfo(start, 0);
+  route[start.x][start.y].setInfo(start, 0, robot.getDirection());
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
@@ -37,6 +37,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     std::vector<AstarInfo> next
         = checkNeighborhood(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
+      Direction currentDirection
+          = calculateDirection(m.coordinate, elem.coordinate);  //この時点での向きを計算する
       if((m.coordinate == route[elem.coordinate.x][elem.coordinate.y].parent)) {
         // 親ノードの場合はopenに追加しない
       } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
@@ -46,12 +48,18 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         //中点->中点に移動する場合はopenに追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
+      } else if(abs(MotionConverter::calculateAngle(
+                    route[elem.coordinate.x][elem.coordinate.y].direction, currentDirection))
+                == 180) {
+        // 180度方向転換するような場合はopenに追加しない
       } else {
         checkList(m, open);  // openにより大きいコストの同じ座標がある場合はopenから削除する
         checkList(m, close);  // closeにより大きいコストの同じ座標がある場合はcloseから削除する
+
         actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
-        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost);
+        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
+                                                      currentDirection);
       }
     }
     close.push_back(elem);
@@ -123,7 +131,7 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
     Coordinate p = route[c.x][c.y].parent;
     //まだ最短経路としてチェックしていないorゴールである場合は最短経路リストに追加していく
     if(route[c.x][c.y].checked == false || c == goalNode) {
-      Direction direction = calculateDirection(c, p);
+      Direction direction = route[c.x][c.y].direction;
       list.push_back(std::make_pair(c, direction));
     }
     route[c.x][c.y].checked = true;  //このノードはチェック済みとする
