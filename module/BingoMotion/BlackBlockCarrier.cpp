@@ -12,8 +12,8 @@ void BlackBlockCarrier::carryBlackBlock()
   constexpr int TARGET_BRIGHTNESS = 20;  //目標輝度
   const PidGain CURVE_GAIN(3, 1, 1);     //カーブのライントレースに使用するゲイン
   const PidGain RUN_GAIN(0.1, 0.8, 0.15);     //直進のライントレースに使用するゲイン
-  const PidGain BLUE_LINE_GAIN(0.2, 1, 0.5);
-  const PidGain LAST_LINE_GAIN(0.1, 0.8, 0.14);
+  const PidGain BLUE_LINE_GAIN(0.2, 1, 0.5);  //青線上をライントレースする際に使用するゲイン
+  const PidGain LAST_LINE_GAIN(0.12, 0.8, 0.175); //黒ブロックを取得するラインで使用するゲイン
   bool isLeftEdge = !IS_LEFT_COURSE;
   Rotation rotation;
   StraightRunner straightRunner;
@@ -35,31 +35,19 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM-30);
   //緑の円まで
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM-30, RUN_GAIN);
-  //右に９０度ピボットターン
+  //９０度ピボットターン
   IS_LEFT_COURSE ? inCrossRight.runRight() : inCrossLeft.runLeft();
   //黒ブロック手前まで直進
   lineTracer.runToColor(TARGET_BRIGHTNESS, 30, LAST_LINE_GAIN);
-  //弧を描いて曲がる
-  double startDiff
-      = IS_LEFT_COURSE
-            ? Mileage::calculateWheelMileage(measurer.getLeftCount())
-                  - Mileage::calculateWheelMileage(measurer.getRightCount())
-            : Mileage::calculateWheelMileage(measurer.getRightCount())
-                  - Mileage::calculateWheelMileage(measurer.getLeftCount());  //開始時の差
-  while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 215
-                       : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 210) {
-    //モータのPWM値をセット
-    controller.setRightMotorPwm(IS_LEFT_COURSE ? 44 : 58);
-    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 57.5 : 41);
-    controller.sleep();
-  }
-  controller.stopMotor();
+  //センターマークの平行線上まで直進
+ straightRunner.runStraightToDistance(465, RUN_STRAIGHT_PWM-30);
+  //90度ピボットターン
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(77.5,33) : rotation.turnForwardLeftPivot(90,40);
+  //センターマークまで直進する
+ straightRunner.runStraightToDistance(490, RUN_STRAIGHT_PWM-30);
+ straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM-50);
+ controller.stopMotor();
 
-  //ビンゴの中心まで直進
-  straightRunner.runStraightToDistance(130, RUN_STRAIGHT_PWM - 20);
-  straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 60);
-  //黒のラインまで下がる
-  straightRunner.runStraightToDistance(68, -20);
+ //タイヤの中心を黒線に合わせる
+ straightRunner.runStraightToDistance(50, -20);
 }
