@@ -145,7 +145,7 @@ jobs:
         RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
         RESULT_MESSAGE+="|走行タイム| ${RESULT_TIME} |\n\n"
         RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n"
-        RESULT_MESSAGE+="※ ブロックの初期配置 `${{ env.BLOCK_COORDINATE_L }}`\n\n"
+        RESULT_MESSAGE+="※ ブロックの初期配置 ${{ env.BLOCK_COORDINATE_L }}\n\n"
         RESULT_MESSAGE+="[:arrow_forward: シミュレータの動画](https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4)"
 
         # 生成したメッセージを環境変数へ保存
