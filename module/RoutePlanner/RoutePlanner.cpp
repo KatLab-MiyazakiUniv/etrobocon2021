@@ -15,7 +15,7 @@ RoutePlanner::RoutePlanner(CourseInfo& _courseInfo, const bool IS_LEFT_COURSE)
 // 経路計画を立てる
 std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBingoRoute()
 {
-  std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(16);  //運搬経路リスト
+  std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(8);  //運搬経路リスト
   Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
   BlockSelector blockSelector(courseInfo, destinationList, robot);
@@ -40,7 +40,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     for(const auto& i : toBlockRoute) {
       carryRoute[count].push_back(i);
     }
-    count++;
+
     // 走行体が運搬ブロックを取得したとして、走行体の情報を更新する
     robot.setCoordinate(toBlockRoute.back().first);
     robot.setDirection(toBlockRoute.back().second);
@@ -49,8 +49,8 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     std::vector<std::pair<Coordinate, Direction>> toCircleRoute
         = routeCalculator.calculateRoute(carryBlockCoord, targetCircleCoord);
     //設置経路を運搬経路リストに追加する
-    for(const auto& i : toCircleRoute) {
-      carryRoute[count].push_back(i);
+    for(int i = 1; i < toCircleRoute.size(); i++) {
+      carryRoute[count].push_back(toCircleRoute[i]);
     }
     count++;
 
