@@ -51,7 +51,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
                 && abs(MotionConverter::calculateAngle(
                        route[elem.coordinate.x][elem.coordinate.y].direction, currentDirection))
                        == 180) {
-        //経路の始点にブロックが置かれており(すなわち子の経路ではブロックを持って移動する)、180度方向転換するような場合はopenに追加しない
+        //経路の始点にブロックが置かれており(すなわちこの経路ではブロックを持って移動する)、180度方向転換するような場合はopenに追加しない
       } else {
         checkList(m, open);  // openにより大きいコストの同じ座標がある場合はopenから削除する
         checkList(m, close);  // closeにより大きいコストの同じ座標がある場合はcloseから削除する
