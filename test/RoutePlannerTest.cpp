@@ -216,17 +216,17 @@ namespace etrobocon2021_test {
     expected_route[7].push_back(std::make_pair(coordinate_goal, Direction::N));
 
     // BLOCK_ID::1の青ブロックをCIRCLE_ID::3の青サークルまで移動させる
-    route_1 = { 6, 1 };
-    route_2 = { 6, 2 };
-    route_3 = { 5, 2 };
+    route_1 = { 5, 0 };
+    route_2 = { 4, 0 };
+    route_3 = { 4, 1 };
     route_4 = { 4, 2 };
     route_5 = { 3, 2 };
     route_6 = { 2, 2 };
     coordinate_goal = { 1, 3 };
-    expected_route[7].push_back(std::make_pair(route_1, Direction::S));
-    expected_route[7].push_back(std::make_pair(route_2, Direction::S));
-    expected_route[7].push_back(std::make_pair(route_3, Direction::W));
-    expected_route[7].push_back(std::make_pair(route_4, Direction::W));
+    expected_route[7].push_back(std::make_pair(route_1, Direction::W));
+    expected_route[7].push_back(std::make_pair(route_2, Direction::W));
+    expected_route[7].push_back(std::make_pair(route_3, Direction::S));
+    expected_route[7].push_back(std::make_pair(route_4, Direction::S));
     expected_route[7].push_back(std::make_pair(route_5, Direction::W));
     expected_route[7].push_back(std::make_pair(route_6, Direction::W));
     expected_route[7].push_back(std::make_pair(coordinate_goal, Direction::SW));
