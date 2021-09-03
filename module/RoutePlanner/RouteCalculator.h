@@ -39,7 +39,7 @@ struct Route {
   bool checked;         //経路復元の際にこのノードをチェックしたかどうか
 
   //コンストラクタ
-  Route() : parent(-1, -1), cost(0), checked(false) ,direction(Direction::N){}
+  Route() : parent(-1, -1), cost(0), direction(Direction::N), checked(false) {}
 
   /**
    * @fn void set(Coordinate _parent, int _currentCost)
