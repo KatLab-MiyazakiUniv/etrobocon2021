@@ -114,13 +114,12 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
   int rightPwm = -1;
 
   controller.resetMotorCount();
-  // const double _TREAD = TREAD + 5;  //トレッド幅の調整
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
-  int rightCount = measurer.getRightCount();
-  int leftCount = measurer.getLeftCount();
 
-  while(motorCount < targetMotorCount) {
+  while(motorCount <= targetMotorCount) {
+    if(pwm == 0) break;
+
     double leftCountRate = 1 - (measurer.getLeftCount() / targetMotorCount);
     leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
                                                         : PIVOT_FRONT_MIN_PWM;
@@ -146,19 +145,19 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
   controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
-  int rightCount = abs(measurer.getRightCount());
-  int leftCount = abs(measurer.getLeftCount());
 
-  while(motorCount < targetMotorCount) {
+  while(motorCount <= targetMotorCount) {
+    if(pwm == 0) break;
+
     double leftCountRate = 1 - (abs(measurer.getLeftCount()) / targetMotorCount);
     leftPwm = pwm * leftCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * leftCountRate)
                                                         : PIVOT_FRONT_MIN_PWM;
 
+    motorCount = (abs(measurer.getLeftCount()) + abs(measurer.getRightCount())) / 2;
+
     controller.setLeftMotorPwm(-leftPwm);
     controller.setRightMotorPwm(rightPwm);
     controller.sleep();
-
-    motorCount = (abs(measurer.getLeftCount()) + abs(measurer.getRightCount())) / 2;
 
     controller.sleep();
   }
@@ -174,11 +173,11 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
   controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
-  int rightCount = measurer.getRightCount();
-  int leftCount = measurer.getLeftCount();
 
-  while(motorCount < targetMotorCount) {
-    double rightCountRate = 1 - (measurer.getRightCount() - rightCount) / targetMotorCount;
+  while(motorCount <= targetMotorCount) {
+    if(pwm == 0) break;
+
+    double rightCountRate = 1 - (measurer.getRightCount() / targetMotorCount);
     rightPwm = pwm * rightCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * rightCountRate)
                                                           : PIVOT_FRONT_MIN_PWM;
 
@@ -186,8 +185,7 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
     controller.setRightMotorPwm(rightPwm);
     controller.sleep();
 
-    motorCount
-        = ((measurer.getLeftCount() - leftCount) + (measurer.getRightCount() - rightCount)) / 2;
+    motorCount = ((measurer.getLeftCount()) + (measurer.getRightCount())) / 2;
 
     controller.sleep();
   }
@@ -204,10 +202,10 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
   controller.resetMotorCount();
   double motorCount = 0;
   double targetMotorCount = calculate(angle);
-  int rightCount = abs(measurer.getRightCount());
-  int leftCount = abs(measurer.getLeftCount());
 
-  while(motorCount < targetMotorCount) {
+  while(motorCount <= targetMotorCount) {
+    if(pwm == 0) break;
+
     //徐々に速度を遅くする処理
     double rightCountRate = 1 - (abs(measurer.getRightCount()) / targetMotorCount);
     rightPwm = pwm * rightCountRate > PIVOT_FRONT_MIN_PWM ? (int)(pwm * rightCountRate)
@@ -227,7 +225,7 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
 
 double Rotation::calculate(int angle)
 {
-  // @see docs/Odometry/odometry.pdf
+  // @see https://shogo82148.github.io/homepage/memo/tenchijin/odmetry.html
   const double transform = 2.0 * RADIUS / TREAD;
   return angle / transform;
 }
