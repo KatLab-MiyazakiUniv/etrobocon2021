@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Show GITHUB_ACTION
+      - name: Show GITHUB_ACTION and GITHUB_WORKFLOW
         shell: bash
         run: |
           echo ${GITHUB_ACTION}
+          echo ${GITHUB_WORKFLOW}
