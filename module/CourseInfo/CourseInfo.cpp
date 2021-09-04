@@ -59,6 +59,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
     switch(info) {
       case 65:  // Aのとき
         index = IS_LEFT_COURSE ? 0 : 3;
+        blockId = BLOCK_ID ::ID1;
         break;
       case 66:  // Bのとき
         index = IS_LEFT_COURSE ? 1 : 2;
@@ -66,6 +67,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 67:  // Cのとき
         index = IS_LEFT_COURSE ? 2 : 1;
+        blockId = BLOCK_ID ::ID0;
         break;
       case 68:  // Dのとき
         index = IS_LEFT_COURSE ? 3 : 0;
@@ -77,6 +79,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 70:  // Fのとき
         index = IS_LEFT_COURSE ? 5 : 6;
+        blockId = BLOCK_ID ::ID3;
         break;
       case 71:  // Gのとき
         index = IS_LEFT_COURSE ? 6 : 5;
@@ -84,9 +87,11 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 72:  // Hのとき
         index = IS_LEFT_COURSE ? 7 : 4;
+        blockId = BLOCK_ID ::ID2;
         break;
       case 74:  // Jのとき
         index = IS_LEFT_COURSE ? 8 : 11;
+        blockId = BLOCK_ID ::ID5;
         break;
       case 75:  // Kのとき
         index = IS_LEFT_COURSE ? 9 : 10;
@@ -94,6 +99,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 76:  // Lのとき
         index = IS_LEFT_COURSE ? 10 : 9;
+        blockId = BLOCK_ID ::ID4;
         break;
       case 77:  // Mのとき
         index = IS_LEFT_COURSE ? 11 : 8;
@@ -105,6 +111,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 81:  // Qのとき
         index = IS_LEFT_COURSE ? 13 : 14;
+        blockId = BLOCK_ID ::ID7;
         break;
       case 82:  // Rのとき
         index = IS_LEFT_COURSE ? 14 : 13;
@@ -112,6 +119,7 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
         break;
       case 83:  // Sのとき
         index = IS_LEFT_COURSE ? 15 : 12;
+        blockId = BLOCK_ID ::ID6;
         break;
       default:
         index = -1;

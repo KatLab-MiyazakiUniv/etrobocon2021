@@ -11,6 +11,7 @@
 #include "CourseInfo.h"
 #include "DestinationList.h"
 #include "Robot.h"
+#include "RouteCalculator.h"
 
 const bool T = true;
 const bool F = false;
@@ -20,7 +21,7 @@ class BlockSelector {
   /**
    * コンストラクタ
    */
-  BlockSelector(CourseInfo& _courseInfo, DestinationList& _destinationList, Robot& _robot);
+  BlockSelector(DestinationList& _destinationList, const bool IS_LEFT_COURSE);
 
   /**
    * 運搬するブロックのIdを返す
@@ -29,9 +30,9 @@ class BlockSelector {
   BLOCK_ID selectBlock();
 
  private:
-  CourseInfo& courseInfo;
+  CourseInfo courseInfo;
   DestinationList destinationList;
-  Robot& robot;
+  Robot robot;
 
   // 走行体が運びうるブロック
   std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1> arrivableBlocks;

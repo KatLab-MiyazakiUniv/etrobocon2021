@@ -18,7 +18,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
   std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(8);  //運搬経路リスト
   Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
-  BlockSelector blockSelector(courseInfo, destinationList, robot);
+  BlockSelector blockSelector(destinationList, isLeftCourse);
   RouteCalculator routeCalculator(courseInfo, robot);
   int count = 0;
 
@@ -27,7 +27,6 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     BLOCK_ID carryBlockId = blockSelector.selectBlock();
     // 運搬ブロックが存在しない場合、ループを抜ける
     if(carryBlockId == BLOCK_ID::NONE) break;
-
     // 運搬ブロックの座標を取得する
     Coordinate carryBlockCoord = courseInfo.getNode(carryBlockId).getCoordinate();
     // 目標サークルの座標を取得する
