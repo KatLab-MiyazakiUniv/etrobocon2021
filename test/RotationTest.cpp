@@ -6,6 +6,7 @@
 
 #include "Rotation.h"
 #include <gtest/gtest.h>
+#include <cmath>
 
 namespace etrobocon2021_test {
 
@@ -182,80 +183,85 @@ namespace etrobocon2021_test {
   TEST(RotationTest, leftBacktZero)
   {
     int angle = 0;
-    double expected = 0;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackLeftPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, leftBack45)
   {
     int angle = -45;
-    double expected = -45;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackLeftPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, leftBack90)
   {
     int angle = -90;
-    double expected = -90;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackLeftPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, leftBack135)
   {
     int angle = -135;
-    double expected = -135;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackLeftPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, leftBack180)
   {
     int angle = -180;
-    double expected = -180;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackLeftPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
@@ -264,80 +270,85 @@ namespace etrobocon2021_test {
   TEST(RotationTest, rightBacktZero)
   {
     int angle = 0;
-    double expected = 0;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackRightPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, rightBack45)
   {
     int angle = -45;
-    double expected = -45;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackRightPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, rightBack90)
   {
     int angle = -90;
-    double expected = -90;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackRightPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, rightBack135)
   {
     int angle = -135;
-    double expected = -135;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackRightPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 
   TEST(RotationTest, rightBack180)
   {
     int angle = -180;
-    double expected = -180;
+    double expected = std::abs(angle);
     double actual;
     Rotation rotation;
     Measurer measurer;
 
     rotation.turnBackRightPivot(angle, 100);
-    double motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
+    double motorCount
+        = (std::abs(measurer.getLeftCount()) + std::abs(measurer.getRightCount())) / 2;
 
     actual = transform * motorCount;
-    ASSERT_GE(expected, actual);
+    ASSERT_GE(expected + 1.5, actual);
     ASSERT_LE(expected - 1.5, actual);
   }
 }  // namespace etrobocon2021_test
