@@ -52,7 +52,7 @@ jobs:
         etrobo_cmd+='if [ -d ${ETROBO_HRP3_WOKSPACE}/${{ env.APP_NAME }} ]; then rm -rf ${ETROBO_HRP3_WORKSPACE}/${{ env.APP_NAME }}; fi '
 
         # etrobo環境に、etrobocon2021リポジトリへのシンボリックリンクを作成
-        etrobo_cmd+='ln -s ${{ github.GITHUB_WORKSPACE }} ${ETROBO_HRP3_WORKSPACE}/${{ env.APP_NAME }} '
+        etrobo_cmd+='ln -s ${{ github.workspace }} ${ETROBO_HRP3_WORKSPACE}/${{ env.APP_NAME }} '
 
         # etrobo環境で上述のコマンドを実行
         echo ${etrobo_cmd} | ${HOME}/startetrobo shell
