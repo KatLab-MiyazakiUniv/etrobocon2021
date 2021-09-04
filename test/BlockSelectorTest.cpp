@@ -22,8 +22,8 @@
 //
 //     // 手計算で求めた運搬ブロックの順番
 //     BLOCK_ID expecteds[B_SIZE] = {
-//       BLOCK_ID::ID4, BLOCK_ID::ID3, BLOCK_ID::ID2, BLOCK_ID::ID0,
-//       BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6, BLOCK_ID::ID1,
+//       BLOCK_ID::ID4, BLOCK_ID::ID3, BLOCK_ID::ID5, BLOCK_ID::ID7,
+//       BLOCK_ID::ID2, BLOCK_ID::ID0, BLOCK_ID::ID1, BLOCK_ID::ID6,
 //     };
 //
 //     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -103,7 +103,7 @@
 //     // 手計算で求めた運搬ブロックの順番
 //     BLOCK_ID expecteds[B_SIZE] = {
 //       BLOCK_ID::ID4, BLOCK_ID::ID2, BLOCK_ID::ID3, BLOCK_ID::ID0,
-//       BLOCK_ID::ID5, BLOCK_ID::ID6, BLOCK_ID::ID7, BLOCK_ID::ID1,
+//       BLOCK_ID::ID1, BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6,
 //     };
 //
 //     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -183,8 +183,8 @@
 //
 //     // 手計算で求めた運搬ブロックの順番
 //     BLOCK_ID expecteds[B_SIZE] = {
-//       BLOCK_ID::ID0, BLOCK_ID::ID3, BLOCK_ID::ID4, BLOCK_ID::ID6,
-//       BLOCK_ID::ID2, BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID1,
+//       BLOCK_ID::ID0, BLOCK_ID::ID3, BLOCK_ID::ID4, BLOCK_ID::ID2,
+//       BLOCK_ID::ID6, BLOCK_ID::ID7, BLOCK_ID::ID5, BLOCK_ID::ID1,
 //     };
 //
 //     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -264,8 +264,8 @@
 //
 //     // 手計算で求めた運搬ブロックの順番
 //     BLOCK_ID expecteds[B_SIZE] = {
-//       BLOCK_ID::ID4, BLOCK_ID::ID0, BLOCK_ID::ID3, BLOCK_ID::ID2,
-//       BLOCK_ID::ID5, BLOCK_ID::ID7, BLOCK_ID::ID6, BLOCK_ID::ID1,
+//       BLOCK_ID::ID4, BLOCK_ID::ID5, BLOCK_ID::ID0, BLOCK_ID::ID1,
+//       BLOCK_ID::ID3, BLOCK_ID::ID7, BLOCK_ID::ID6, BLOCK_ID::ID2,
 //     };
 //
 //     for(int i = B_ZERO; i < B_SIZE; i++) {
@@ -346,8 +346,8 @@
 //
 //     // 手計算で求めた運搬ブロックの順番
 //     BLOCK_ID expecteds[B_SIZE] = {
-//       BLOCK_ID::ID4, BLOCK_ID::ID3, BLOCK_ID::ID2, BLOCK_ID::ID7,
-//       BLOCK_ID::ID0, BLOCK_ID::ID5, BLOCK_ID::ID1, BLOCK_ID::ID6,
+//       BLOCK_ID::ID4, BLOCK_ID::ID3, BLOCK_ID::ID7, BLOCK_ID::ID5,
+//       BLOCK_ID::ID2, BLOCK_ID::ID0, BLOCK_ID::ID6, BLOCK_ID::ID1,
 //     };
 //
 //     for(int i = B_ZERO; i < B_SIZE; i++) {
