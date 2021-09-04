@@ -50,14 +50,19 @@ jobs:
         TMP_CAPTURE_DIR=$(mktemp -d)
         TMP_SETTINGS_FILE=$(mktemp --suffix=.json)
 
+        # 初期ブロック配置をランダムに生成
+        BLOCK_COORDINATE_L='09'$(echo "from random import *; print(''.join(sample('EMBKDRGP',8)))" | python3)
+
         # キャプチャ関連の設定 (FPS=30)
         cat ${{ github.workspace }}/sim-settings/default.json | \
           jq ".captureDir=\"${TMP_CAPTURE_DIR}\"" | \
-          jq ".captureRate=\"2\"" > ${TMP_SETTINGS_FILE}
+          jq ".captureRate=\"2\"" | \
+          jq ".initLBlockLayout=\"${BLOCK_COORDINATE_L}\"" > ${TMP_SETTINGS_FILE}
 
         # 環境変数へ保存
         echo TMP_CAPTURE_DIR=$TMP_CAPTURE_DIR >> $GITHUB_ENV
         echo TMP_SETTINGS_FILE=$TMP_SETTINGS_FILE >> $GITHUB_ENV
+        echo BLOCK_COORDINATE_L=$BLOCK_COORDINATE_L >> $GITHUB_ENV
 
     # シミュレータを研究室のPCで実行する
     - name: Test on simulator
@@ -212,6 +217,7 @@ jobs:
         RESULT_MESSAGE+="|ボーナスタイム合計|--|${BONUS_TIME_SUM}|\n"
         RESULT_MESSAGE+="|リザルトタイム|--|${RESULT_TIME}|\n\n"
         
+        RESULT_MESSAGE+="※ ブロックの初期配置 ${{ env.BLOCK_COORDINATE_L }}\n\n"
         RESULT_MESSAGE+="[:arrow_forward: シミュレータの動画](https://${{ env.MP4_SERVER_NAME }}/01/${{ env.MP4_DIR }}/${{ github.sha }}.mp4)"
 
         # 生成したメッセージを環境変数へ保存
