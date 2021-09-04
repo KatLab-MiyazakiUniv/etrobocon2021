@@ -39,6 +39,7 @@ jobs:
       SIM_LOG_FILE: sim-log.txt
       MP4_SERVER_NAME: etrobocon2021.moyashi.dev
       MAX_SIM_TIME: 4
+      APP_NAME: etrobocon2021
 
     steps:
     - uses: actions/checkout@v2
