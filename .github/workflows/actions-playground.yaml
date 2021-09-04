@@ -11,4 +11,3 @@ jobs:
         shell: bash
         run: |
           echo ${GITHUB_ACTION}
-
