@@ -280,7 +280,7 @@ jobs:
           # 走行回数カウンターの更新
           if [ "${COURSE_UPPER}" == "L" ]; then
             (( L_COUNTER++ ))
-          else if [ "${COURSE_UPPER}" == "R" ]; then
+          elif [ "${COURSE_UPPER}" == "R" ]; then
             (( R_COUNTER++ ))
           fi
 
