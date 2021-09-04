@@ -13,7 +13,8 @@ void BlackBlockCarrier::carryBlackBlock()
   const PidGain CURVE_GAIN(3, 1, 1);     //カーブのライントレースに使用するゲイン
   const PidGain RUN_GAIN(0.1, 0.8, 0.15);     //直進のライントレースに使用するゲイン
   const PidGain BLUE_LINE_GAIN(0.2, 1, 0.5);  //青線上をライントレースする際に使用するゲイン
-  const PidGain LAST_LINE_GAIN(0.12, 0.8, 0.175); //黒ブロックを取得するラインで使用するゲイン
+  const PidGain GAIN(0.2, 1, 0.3);  //青線上をライントレースする際に使用するゲイン
+  const PidGain LAST_LINE_GAIN(0.12, 0.1, 0.12); //黒ブロックを取得するラインで使用するゲイン
   bool isLeftEdge = !IS_LEFT_COURSE;
   Rotation rotation;
   StraightRunner straightRunner;
@@ -34,20 +35,21 @@ void BlackBlockCarrier::carryBlackBlock()
   //黄色の円を通過
   straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM-30);
   //緑の円まで
-  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM-30, RUN_GAIN);
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM-40, GAIN);
   //９０度ピボットターン
-  IS_LEFT_COURSE ? inCrossRight.runRight() : inCrossLeft.runLeft();
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(92, 33) : rotation.turnForwardLeftPivot(92, 33);;
   //黒ブロック手前まで直進
-  lineTracer.runToColor(TARGET_BRIGHTNESS, 30, LAST_LINE_GAIN);
+  lineTracer.run(65, 20, 20, LAST_LINE_GAIN);
   //センターマークの平行線上まで直進
- straightRunner.runStraightToDistance(465, RUN_STRAIGHT_PWM-30);
+ straightRunner.runStraightToDistance(475, RUN_STRAIGHT_PWM-30);
+ straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM-50);
   //90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(77.5,33) : rotation.turnForwardLeftPivot(90,40);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(88,33) : rotation.turnForwardLeftPivot(88,33);
   //センターマークまで直進する
  straightRunner.runStraightToDistance(490, RUN_STRAIGHT_PWM-30);
  straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM-50);
  controller.stopMotor();
 
  //タイヤの中心を黒線に合わせる
- straightRunner.runStraightToDistance(50, -20);
+ straightRunner.runStraightToDistance(40, -20);
 }
