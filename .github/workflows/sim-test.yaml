@@ -160,7 +160,7 @@ jobs:
         else
           LINE_TRACE_TIME="`cat ${SIM_LOG_FILE} | \
                         grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'` [s]"
+                        sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g'`"
         fi
 
         # ビンゴエリアの結果を一時保存するためのJSONファイルを生成
@@ -202,7 +202,7 @@ jobs:
         RESULT_MESSAGE+="|スタートゲート通過| ${PASSED_START_GATE} |\n"
         RESULT_MESSAGE+="|ゲート1通過| ${PASSED_GATE_1} |\n"
         RESULT_MESSAGE+="|ゲート2通過| ${PASSED_GATE_2} |\n"
-        RESULT_MESSAGE+="|走行タイム| ${LINE_TRACE_TIME} |\n\n"
+        RESULT_MESSAGE+="|走行タイム| ${LINE_TRACE_TIME} [s]|\n\n"
 
         RESULT_MESSAGE+="※ 0: 通過失敗, 1: 通過成功\n\n"
 
