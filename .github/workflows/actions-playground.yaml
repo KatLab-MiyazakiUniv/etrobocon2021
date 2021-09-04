@@ -1,0 +1,13 @@
+name: Actions Playground
+
+on: [push]
+
+jobs:
+  githubaction-id-check:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Show GITHUB_ACTION
+        shell: bash
+        run: |
+          echo ${GITHUB_ACTION}
