@@ -354,11 +354,15 @@ jobs:
                               jq ".workflow_runs[] | select( .name == \"${GITHUB_WORKFLOW}\" ) | .id" | \
                               wc -l)
 
+          echo "[DEBUG] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+
           # ループ終了時の片づけ
           if [[ "${i}" == "${MAX_SIM_TIME}" || "${QUEUED_JOB_NUM}" != "0" ]]; then
             MSG_TAIL=""
             i=${MAX_SIM_TIME}
           fi
+
+          echo "[DEBUG] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # プルリクコメントのアップデート
           MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_DISPLAY_ON_SLACK_HEAD}${MSG_DISPLAY_ON_SLACK}${MSG_DISPLAY_ON_SLACK_TAIL}${MSG_TAIL}"
