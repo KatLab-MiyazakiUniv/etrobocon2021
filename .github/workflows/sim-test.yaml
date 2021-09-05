@@ -265,6 +265,8 @@ jobs:
           fi
 
           echo "[DEBUG 05] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+          (( L_COUNTER++ ))
+          echo "[DEBUG 05.5] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # 走行回数カウンターの更新
           if [ "${COURSE_UPPER}" == "L" ]; then
