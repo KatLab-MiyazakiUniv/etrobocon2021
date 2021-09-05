@@ -15,7 +15,7 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
 {
   StraightRunner straightRunner;
   int rotatePwm = 30;
-  int targetDistance = 20;
+  int targetDistance = 10;
   int runPwm = 20;
 
   //回転方向を判定
@@ -27,17 +27,20 @@ void DirectionChanger::changeDirection(int angle, bool isClockwise)
 
   //エッジ切り替え
   if(lineTracer.getIsLeftEdge()) {
-    if((isClockwise && angle == 135) || (!isClockwise && angle == -45) || angle == -135 || angle == -90 || angle == 180) {
+    if((isClockwise && angle == 135) || (!isClockwise && angle == -45) || angle == -135
+       || angle == -90 || angle == 180) {
       lineTracer.setIsLeftEdge(false);
     }
   } else {
-    if((isClockwise && angle == 45) || (!isClockwise && angle == -135) || angle == 135 || angle == 90 || angle == 180) { 
+    if((isClockwise && angle == 45) || (!isClockwise && angle == -135) || angle == 135
+       || angle == 90 || angle == 180) {
       lineTracer.setIsLeftEdge(true);
     }
   }
 
   //色サークルに乗るまで直進(要調整)
   straightRunner.runStraightToDistance(targetDistance, runPwm);
+  straightRunner.runStraightToBlackWhite(runPwm);
 
   //白黒を判定するまで進む
   straightRunner.runStraightToBlackWhite(runPwm);

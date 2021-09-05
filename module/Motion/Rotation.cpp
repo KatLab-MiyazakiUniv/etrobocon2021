@@ -16,7 +16,7 @@ Rotation::Rotation()
 //左回転
 void Rotation::rotateLeft(int angle, int pwm)
 {
-  const double _TREAD = TREAD - 3;  // 回頭距離の調整
+  const double _TREAD = TREAD - 8;  // 回頭距離の調整
   int leftSign = -1;
   int rightSign = 1;
   double targetDistance = M_PI * _TREAD * abs(angle) / 360;  //弧の長さ
@@ -63,7 +63,7 @@ void Rotation::rotateLeft(int angle, int pwm)
 //右回転
 void Rotation::rotateRight(int angle, int pwm)
 {
-  const double _TREAD = TREAD - 3;  // 回頭距離の調整
+  const double _TREAD = TREAD - 8;  // 回頭距離の調整
   int leftSign = 1;
   int rightSign = -1;
   double targetDistance = M_PI * _TREAD * abs(angle) / 360;  //弧の長さ

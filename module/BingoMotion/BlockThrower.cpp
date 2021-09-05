@@ -20,7 +20,8 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   double diffRightDistance;
   int leftPwm;
   int rightPwm;
-  double targetDistance = M_PI * TREAD * angle / 360;
+  const double _TREAD = TREAD - 8;
+  double targetDistance = M_PI * _TREAD * angle / 360;
   double targetLeftDistance;
   double targetRightDistance;
   int armPwm = 90;
