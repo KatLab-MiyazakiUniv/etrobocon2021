@@ -44,8 +44,8 @@ jobs:
         MSG_DETAIL+="<details>\n"
         MSG_DETAIL+="<summary>詳細を表示</summary>\n"
         MSG_DETAIL+="\n"
-        MSG_DETAIL+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動|パワースポット有効移動|センターブロック有効移動|ビンゴ|パワースポットビンゴ|ボーナスタイム [s]|リザルトタイム [s]|ブロック配置|MP4|CSV|settings.json|\n"
-        MSG_DETAIL+="|--|----------------|----------|-----------|-------------|---------------------|---------------------|---------------------|------|------------------|-----------------|-----------------|----------|---|---|------------|\n"
+        MSG_DETAIL+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動|パワースポット有効移動|センターブロック有効移動|ビンゴ|パワースポットビンゴ|ボーナスタイム[s]|リザルトタイム[s]|ブロック配置|MP4|CSV|LOG|settings.json|\n"
+        MSG_DETAIL+="|--|---------------|---------|---------|-------------|-------------------|-------------------|-------------------|------|----------------|--------------|--------------|----------|---|---|---|-------------|\n"
 
         MSG_DETAIL_TAIL="</details>\n\n"
 
@@ -70,7 +70,7 @@ jobs:
                       -H "Accept: application/vnd.github.v3+json" \
                       -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                       ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
-                      -d "{\"body\":\"${MSG_TAIL}"}\" | jq -r '.id')
+                      -d "{\"body\":\"${MSG_TAIL}\"}" | jq -r '.id')
 
         # テスト結果公開用ディレクトリの生成
         TEST_RESULT_DIR_ROOT=${HOME}/Videos
@@ -239,7 +239,7 @@ jobs:
             echo "[DEBUG 03.2] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             GOAL_TIME="$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
                           grep -oE '\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                          sed -r 's/^\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\2/g')"
+                          sed -r 's/([0-9]*\.?[0-9]*)/\0/g')"
             
             echo "[DEBUG 03.3] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             # リザルトタイムの計算
@@ -251,7 +251,7 @@ jobs:
               BEST_RESULT_TIME=${RESULT_TIME}
             fi
 
-          echo "[DEBUG 04] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+            echo "[DEBUG 04] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
             # 集計用変数の更新
             if [ "${COURSE_UPPER}" == "L" ]; then
@@ -300,9 +300,11 @@ jobs:
           # コメントの作成
           MSG_RESULT+="|${i}|${COURSE_UPPER}|${GOAL_TIME}|${BONUS_TIME}|${RESULT_TIME}|"
 
-          MSG_DETAIL+="|${i}|${PASSED_START_GATE}|${PASSED_GATE_1}|${PASSED_GATE_2}|${PASSED_GALE_GATE}"
-          MSG_DETAIL+="|${GOAL_TIME}|${BLOCK_YUKOIDO_BONUS_TIME}|${POWER_SPOT_YUKOIDO_BONUS_TIME}|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|${BLOCK_BINGO_BONUS_TIME}|${POWER_SPOT_BINGO_BONUS_TIME}|${BONUS_TIME}|"
-          
+          MSG_DETAIL+="|${i}|${PASSED_START_GATE}|${PASSED_GATE_1}|${PASSED_GATE_2}|${GOAL_TIME}"
+          MSG_DETAIL+="|${BLOCK_YUKOIDO_BONUS_TIME}|${POWER_SPOT_YUKOIDO_BONUS_TIME}"
+          MSG_DETAIL+="|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|${BLOCK_BINGO_BONUS_TIME}"
+          MSG_DETAIL+="|${POWER_SPOT_BINGO_BONUS_TIME}|${BONUS_TIME}|${RESULT_TIME}|"
+
           if [ "${COURSE_UPPER}" == "L" ]; then
             MSG_RESULT+="${BLOCK_COORDINATE_L}|"
             MSG_DETAIL+="${BLOCK_COORDINATE_L}|"
@@ -313,7 +315,9 @@ jobs:
           MSG_RESULT+="[:arrow_forward: 動画](https://${MP4_SERVER_NAME}/01/${MP4_FILE})|\n"
           MSG_DETAIL+="[MP4](https://${MP4_SERVER_NAME}/01/${MP4_FILE})|"
           MSG_DETAIL+="[CSV](https://${MP4_SERVER_NAME}/01/${CSV_FILE})|"
+          MSG_DETAIL+="[LOG](https://${MP4_SERVER_NAME}/01/${LOG_FILE})|"
           MSG_DETAIL+="[JSON](https://${MP4_SERVER_NAME}/01/${SETTINGS_FILE})|\n"
+          
 
           MSG_SUMMARY=""
           MSG_SUMMARY+="全体ゴール率: ${LR_GOAL_RATE} [%]\n"
