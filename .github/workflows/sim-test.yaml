@@ -3,34 +3,6 @@ name: Simulator Test
 on: [pull_request]
 
 jobs:
-  # build-check:
-  #   runs-on: ubuntu-20.04
-  #   env:
-  #     IMAGE: github-actions-etrobocon2021
-  #     APP_NAME: etrobocon2021
-
-  #   steps:
-  #     # ${{ github.workspace }} を使用するために必要
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     # ログイン
-  #     - name: Login to GitHub Container Registry
-  #       uses: docker/login-action@v1
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{ github.repository_owner }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
-
-  #     # Docker image を GitHub Container Registry から Pull して、
-  #     # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
-  #     # https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
-  #     - name: ETRobocon build test
-  #       run: |
-  #         docker run -e APP_NAME=${{ env.APP_NAME }} \
-  #                    -v ${{ github.workspace }}:/tmp/${{ env.APP_NAME }}:rw \
-  #                    ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
-
   simulator-test:
     runs-on: self-hosted
     needs: build-check
