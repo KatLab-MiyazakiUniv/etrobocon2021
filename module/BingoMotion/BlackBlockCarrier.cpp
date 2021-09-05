@@ -23,6 +23,7 @@ void BlackBlockCarrier::carryBlackBlock()
   Controller controller;
   InCrossLeft inCrossLeft(lineTracer);
   InCrossRight inCrossRight(lineTracer);
+  ToCrossMotion toCrossMotion(lineTracer);
 
   //青の線を通過
   lineTracer.run(250, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM, BLUE_LINE_GAIN);
@@ -37,19 +38,28 @@ void BlackBlockCarrier::carryBlackBlock()
   //緑の円まで
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM-40, GAIN);
   //９０度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(92, 33) : rotation.turnForwardLeftPivot(92, 33);;
-  //黒ブロック手前まで直進
-  lineTracer.run(65, 20, 20, LAST_LINE_GAIN);
+  straightRunner.runStraightToDistance(10, RUN_STRAIGHT_PWM-50);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 33) : rotation.turnForwardLeftPivot(90, 33);
+  //黒ブロック手前までライントレース
+  lineTracer.run(75, 20, 20, LAST_LINE_GAIN);
   //センターマークの平行線上まで直進
- straightRunner.runStraightToDistance(475, RUN_STRAIGHT_PWM-30);
+ straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM-50);
+ straightRunner.runStraightToDistance(355, RUN_STRAIGHT_PWM-30);
  straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM-50);
+ controller.sleep(500);
   //90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(88,33) : rotation.turnForwardLeftPivot(88,33);
-  //センターマークまで直進する
- straightRunner.runStraightToDistance(490, RUN_STRAIGHT_PWM-30);
- straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM-50);
- controller.stopMotor();
-
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90,33) : rotation.turnForwardLeftPivot(90,33);
+  //センターマークまで直進する(黒→青→青→黒の順に認識する)
+  straightRunner.runStraightToDistance(70, RUN_STRAIGHT_PWM-50);
+ straightRunner.runStraightToColor(RUN_STRAIGHT_PWM-30, COLOR::BLACK);
+ straightRunner.runStraightToColor(RUN_STRAIGHT_PWM-10, COLOR::BLUE);
+ straightRunner.runStraightToColor(RUN_STRAIGHT_PWM-15, COLOR::BLUE);
+ straightRunner.runStraightToColor(RUN_STRAIGHT_PWM-30, COLOR::BLACK);
+ //センターマークまで直進する
+ straightRunner.runStraightToDistance(135, RUN_STRAIGHT_PWM-50);
  //タイヤの中心を黒線に合わせる
- straightRunner.runStraightToDistance(40, -20);
+ controller.sleep(500); //黒を認識するために少し止まる
+ straightRunner.runStraightToColor(-20, COLOR::BLACK); //黒を認識するまで下がる
+ straightRunner.runStraightToDistance(50, RUN_STRAIGHT_PWM-60);
+ controller.stopMotor();
 }

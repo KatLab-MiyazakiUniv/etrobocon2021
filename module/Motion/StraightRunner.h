@@ -39,6 +39,12 @@ class StraightRunner {
    */
   void runStraightToBlackWhite(int pwm);
 
+  /**
+   * 指定した色を検出するまで直進する関数
+   * @param pwm PWM値
+   */
+  void runStraightToColor(int pwm, COLOR destColor);
+
  private:
   // SECTION_DISTANCE毎にACCELE_PWMだけPWM値を上げる
   static constexpr int SECTION_DISTANCE = 10;  // 調整距離[mm]
