@@ -53,8 +53,8 @@ jobs:
         MSG_SUMMARY_HEAD+="### 集計結果\n"
 
         MSG_SUMMARY_DETAIL_HEAD=""
-        MSG_SUMMARY_DETAIL_HEAD+="<details>詳細\n"
-        MSG_SUMMARY_DETAIL_HEAD+="<summary></summary>\n\n"
+        MSG_SUMMARY_DETAIL_HEAD+="<details>\n"
+        MSG_SUMMARY_DETAIL_HEAD+="<summary>詳細を表示</summary>\n\n"
         MSG_SUMMARY_DETAIL_TAIL="</details>\n\n"
         MSG_SUMMARY_DETAIL_HEAD+="|項目|結果|\n"
         MSG_SUMMARY_DETAIL_HEAD+="|---|----|\n"
@@ -220,13 +220,13 @@ jobs:
 
           # 各ゲートを通過したかどうかの確認
           PASSED_START_GATE=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
-                              grep -coE '\[ launcher: left: passed Start Gate \]' || :)
+                              grep -coE '\[ launcher: ((left)|(right)): passed Start Gate \]' || :)
           PASSED_GATE_1=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
-                              grep -coE '\[ launcher: left: passed Gate 1 \]' || :)
+                              grep -coE '\[ launcher: ((left)|(right)): passed Gate 1 \]' || :)
           PASSED_GATE_2=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
-                              grep -coE '\[ launcher: left: passed Gate 2 \]' || :)
+                              grep -coE '\[ launcher: ((left)|(right)): passed Gate 2 \]' || :)
           PASSED_GALE_GATE=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
-                              grep -coE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' || :)
+                              grep -coE '\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' || :)
 
           echo "[DEBUG 03] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
@@ -238,8 +238,8 @@ jobs:
           else
             echo "[DEBUG 03.2] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             GOAL_TIME="$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
-                          grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' |)
-                          sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g')"
+                          grep -oE '\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' |)
+                          sed -r 's/^\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\2/g')"
             
             echo "[DEBUG 03.3] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             # リザルトタイムの計算
