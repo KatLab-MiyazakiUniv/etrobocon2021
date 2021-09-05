@@ -3,33 +3,33 @@ name: Simulator Test
 on: [pull_request]
 
 jobs:
-  build-check:
-    runs-on: ubuntu-20.04
-    env:
-      IMAGE: github-actions-etrobocon2021
-      APP_NAME: etrobocon2021
+  # build-check:
+  #   runs-on: ubuntu-20.04
+  #   env:
+  #     IMAGE: github-actions-etrobocon2021
+  #     APP_NAME: etrobocon2021
 
-    steps:
-      # ${{ github.workspace }} を使用するために必要
-      - name: Checkout
-        uses: actions/checkout@v2
+  #   steps:
+  #     # ${{ github.workspace }} を使用するために必要
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      # ログイン
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     # ログイン
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Docker image を GitHub Container Registry から Pull して、
-      # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
-      # https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
-      - name: ETRobocon build test
-        run: |
-          docker run -e APP_NAME=${{ env.APP_NAME }} \
-                     -v ${{ github.workspace }}:/tmp/${{ env.APP_NAME }}:rw \
-                     ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
+  #     # Docker image を GitHub Container Registry から Pull して、
+  #     # 実際に etrobo 環境でのビルドが実行できるかどうか確認する
+  #     # https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+  #     - name: ETRobocon build test
+  #       run: |
+  #         docker run -e APP_NAME=${{ env.APP_NAME }} \
+  #                    -v ${{ github.workspace }}:/tmp/${{ env.APP_NAME }}:rw \
+  #                    ghcr.io/katlab-miyazakiuniv/${{ env.IMAGE }}:latest
 
   simulator-test:
     runs-on: self-hosted
@@ -222,12 +222,16 @@ jobs:
             jq -s '.' | \
             jq 'max_by(.TIME)' > ${TMP_JSON_FILE}
 
+          echo "[DEBUG 00] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+
           # ビンゴエリアの最終結果を集計する
           BLOCK_YUKOIDO=$(jq -r '.BLOCK_YUKOIDO' ${TMP_JSON_FILE})
           POWER_SPOT_YUKOIDO=$(jq -r '.BLOCK_YUKOIDOP' ${TMP_JSON_FILE})
           CENTER_BLOCK_YUKOIDO=$(jq -r '.BLOCK_YUKOIDOC' ${TMP_JSON_FILE})
           BLOCK_BINGO=$(jq -r '.BLOCK_BINGO' ${TMP_JSON_FILE})
           POWERS_POT_BINGO=$(jq -r '.BLOCK_BINGOP' ${TMP_JSON_FILE})
+
+          echo "[DEBUG 01] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # ボーナスタイムの計算
           BLOCK_YUKOIDO_BONUS_TIME=$(echo ${BLOCK_YUKOIDO} | awk '{print $1 / 2}')
@@ -242,6 +246,8 @@ jobs:
                             ${POWER_SPOT_BINGO_BONUS_TIME} \
                             | awk '{print $1 + $2 + $3 + $4 + $5}')
 
+          echo "[DEBUG 02] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+
           # 各ゲートを通過したかどうかの確認
           PASSED_START_GATE=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
                               grep -coE '\[ launcher: left: passed Start Gate \]' || :)
@@ -251,6 +257,8 @@ jobs:
                               grep -coE '\[ launcher: left: passed Gate 2 \]' || :)
           PASSED_GALE_GATE=$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
                               grep -coE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' || :)
+
+          echo "[DEBUG 03] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # 走行時間の取得 (ゴールゲートの通過)、リザルトタイムの算出
           if [ "${PASSED_GALE_GATE}" == '0' ]; then
@@ -268,6 +276,8 @@ jobs:
               BEST_RESULT_TIME=${RESULT_TIME}
             fi
 
+          echo "[DEBUG 04] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+
             # 集計用変数の更新
             if [ "${COURSE_UPPER}" == "L" ]; then
               L_GOAL_TIME_SUM+=$(echo ${L_GOAL_TIME_SUM} ${GOAL_TIME} | awk '{print $1 + $2}')
@@ -282,12 +292,16 @@ jobs:
             fi
           fi
 
+          echo "[DEBUG 05] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+
           # 走行回数カウンターの更新
           if [ "${COURSE_UPPER}" == "L" ]; then
             (( L_COUNTER++ ))
           elif [ "${COURSE_UPPER}" == "R" ]; then
             (( R_COUNTER++ ))
           fi
+
+          echo "[DEBUG 06] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # コメント用集計結果の計算
           L_GOAL_RATE=$(echo ${L_GOAL_COUNTER} ${L_COUNTER} | awk '{if($2>0){print $1 / $2 * 100}else{print 0}}')
@@ -305,6 +319,8 @@ jobs:
           R_RESULT_TIME_AVG=$(echo ${R_RESULT_TIME_SUM} ${R_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           LR_RESULT_TIME_AVG=$(echo ${L_RESULT_TIME_SUM} ${R_RESULT_TIME_SUM} ${L_GOAL_COUNTER} ${R_GOAL_COUNTER} | \
                               awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{0}}')
+
+          echo "[DEBUG 07] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # コメントの作成
           MSG_RESULT+="|${i}|${COURSE_UPPER}|${GOAL_TIME}|${BONUS_TIME}|${RESULT_TIME}|"
@@ -354,7 +370,7 @@ jobs:
                               jq ".workflow_runs[] | select( .name == \"${GITHUB_WORKFLOW}\" ) | .id" | \
                               wc -l)
 
-          echo "[DEBUG] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+          echo "[DEBUG 07] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # ループ終了時の片づけ
           if [[ "${i}" == "${MAX_SIM_TIME}" || "${QUEUED_JOB_NUM}" != "0" ]]; then
@@ -362,7 +378,7 @@ jobs:
             i=${MAX_SIM_TIME}
           fi
 
-          echo "[DEBUG] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+          echo "[DEBUG 08] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # プルリクコメントのアップデート
           MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_DISPLAY_ON_SLACK_HEAD}${MSG_DISPLAY_ON_SLACK}${MSG_DISPLAY_ON_SLACK_TAIL}${MSG_TAIL}"
