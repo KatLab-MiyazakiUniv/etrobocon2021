@@ -25,7 +25,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -81,7 +81,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -108,7 +108,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -136,7 +136,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -181,7 +181,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -223,7 +223,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -250,7 +250,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
@@ -278,7 +278,7 @@ namespace etrobocon2021_test {
     double leftMotorCount;
     double rightMotorCount;
     double targetDistance;
-    double tread = 137.0;
+    double tread = 132.0;
     double error = M_PI * tread / 360;  //誤差1度
     int angle, pwm;
 
