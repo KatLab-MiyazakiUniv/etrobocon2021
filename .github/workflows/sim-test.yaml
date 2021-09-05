@@ -125,6 +125,7 @@ jobs:
         for ((i=1; i<=${MAX_SIM_TIME}; i++)); do
           # キャプチャ画像用一時ディレクトリの生成
           TMP_CAPTURE_DIR=$(mktemp -d)
+          echo ${TMP_CAPTURE_DIR}
 
           # 初期ブロック配置をランダムに生成
           BLOCK_COORDINATE_L='09'$(echo "from random import *; print(''.join(sample('EMBKDRGP',8)))" | python3)
@@ -210,6 +211,7 @@ jobs:
 
           # ビンゴエリアの結果を一時保存するためのJSONファイルを生成
           TMP_JSON_FILE=$(mktemp --suffix=.json)
+          echo ${TMP_JSON_FILE}
 
           # ビンゴエリアの最終結果を抽出し、一時ファイルに保存
           cat ${TEST_RESULT_DIR_ROOT}/${CSV_FILE}.json | \
@@ -369,7 +371,7 @@ jobs:
           jq -r '.html_url'
 
           # いらないファイル・ディレクトリの削除
-          rm -rf ${TMP_CAPTURE_DIR}
+          rm -rf ${TMP_CAPTURE_DIR} ${TMP_JSON_FILE}
         done
 
         # シンボリックリンクの削除（etrobo環境で実行）
