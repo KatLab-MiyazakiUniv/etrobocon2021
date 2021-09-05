@@ -255,24 +255,22 @@ jobs:
               L_GOAL_TIME_SUM+=$(echo ${L_GOAL_TIME_SUM} ${GOAL_TIME} | awk '{print $1 + $2}')
               L_BONUS_TIME_SUM+=$(echo ${L_BONUS_TIME_SUM} ${BONUS_TIME} | awk '{print $1 + $2}')
               L_RESULT_TIME_SUM+=$(echo ${L_RESULT_TIME_SUM} ${RESULT_TIME} | awk '{print $1 + $2}')
-              (( L_GOAL_COUNTER++ ))
+              echo $(( L_GOAL_COUNTER++ ))
             elif [ "${COURSE_UPPER}" == "R" ]; then
               R_GOAL_TIME_SUM+=$(echo ${R_GOAL_TIME_SUM} ${GOAL_TIME} | awk '{print $1 + $2}')
               R_BONUS_TIME_SUM+=$(echo ${R_BONUS_TIME_SUM} ${BONUS_TIME} | awk '{print $1 + $2}')
               R_RESULT_TIME_SUM+=$(echo ${R_RESULT_TIME_SUM} ${RESULT_TIME} | awk '{print $1 + $2}')
-              (( R_GOAL_COUNTER++ ))
+              echo $(( R_GOAL_COUNTER++ ))
             fi
           fi
 
           echo "[DEBUG 05] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
-          (( L_COUNTER++ ))
-          echo "[DEBUG 05.5] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
-
+          
           # 走行回数カウンターの更新
           if [ "${COURSE_UPPER}" == "L" ]; then
-            (( L_COUNTER++ ))
+            echo $(( L_COUNTER++ ))
           elif [ "${COURSE_UPPER}" == "R" ]; then
-            (( R_COUNTER++ ))
+            echo $(( R_COUNTER++ ))
           fi
 
           echo "[DEBUG 06] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
