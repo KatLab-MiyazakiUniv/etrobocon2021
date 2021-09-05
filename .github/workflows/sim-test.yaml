@@ -358,7 +358,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID} \
-            -d "{\"body\":\"${MSG_RESULT}${MSG_RESULT_TAIL}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_DISPLAY_ON_SLACK_HEAD}${}${MSG_TAIL}${MSG_SUFFIX}\"}" | \
+            -d "{\"body\":\"${MSG}\"}" | \
           jq -r '.html_url'
 
           # いらないファイル・ディレクトリの削除
