@@ -248,6 +248,14 @@ ls sim-settings/?/* | \
         print "走行エリア平均 : " run_time_average " [s] (n=" goaled_num ")";
         print "成功率        : " goal_persentage " [%] (n=" counter ")";
         ### 以上、標準出力 ###
-    }' && (cd ${LOG_FILES_DIR}; explorer.exe .)
+    }' && (cd ${LOG_FILES_DIR}; explorer.exe .) || :
     # 上記の && 以降で生成した Markdown 形式のファイルを開く処理を行っている
 ### 以上、シミュレータを実行し、結果を集計する ###
+
+
+if [ -f ".cancel-sim-test" ]; then
+    rm -f .cancel-sim-test
+    echo "sim stop" | ${HOME}/startetrobo shell
+    echo "キャンセルされました"
+    exit 800
+fi

@@ -73,6 +73,13 @@ class Rotation {
   const int ROTATE_MIN_PWM;  // 回頭の時のモーターパワーの最小値
   const int PIVOT_FRONT_MIN_PWM;  //ピボットターン前方向の時のモーターパワーの最小値
   const int PIVOT_BACK_MIN_PWM;  //ピボットターン後方向の時のモーターパワーの最小値
+
+  /**
+   *  @brief 指定角度回頭したときの片輪の回転角度を計算する
+   *  @param Angle [走行体が回頭する角度[deg]]
+   *  @return 片輪の回転角度(回転方向に関わらず正の数)
+   */
+  double calculate(int angle);
 };
 
 #endif
