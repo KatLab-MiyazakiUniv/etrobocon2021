@@ -16,9 +16,9 @@ namespace etrobocon2021_test {
     Robot robot(IS_LEFT_COURSE);
     CourseInfo courseInfo;
     courseInfo.initCourseInfo();
-    RouteCalculator route(courseInfo, robot);
+    RouteCalculator route(courseInfo, robot, IS_LEFT_COURSE);
     MotionPerformer motionPerformer(lineTracer);
-    MotionConverter motionConverter(motionPerformer);
+    MotionConverter motionConverter(motionPerformer, IS_LEFT_COURSE);
     std::vector<MOTION> expectedMotion;  //期待する動作を表す列挙子を記録していく動的配列
     MotionPerformer::motionLog.clear();  //他クラスで記録した履歴を消去する
     // BLOCK_ID::3の緑ブロックまで移動する

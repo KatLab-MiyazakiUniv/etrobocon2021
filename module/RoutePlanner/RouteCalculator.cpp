@@ -6,8 +6,8 @@
 
 #include "RouteCalculator.h"
 
-RouteCalculator::RouteCalculator(CourseInfo& courseInfo, Robot& robot)
-  : courseInfo(courseInfo), goalNode(0, 0), robot(robot)
+RouteCalculator::RouteCalculator(CourseInfo& courseInfo, Robot& robot, const bool IS_LEFT_COURSE)
+  : courseInfo(courseInfo), goalNode(0, 0), robot(robot), isLeftCourse(IS_LEFT_COURSE)
 {
 }
 
@@ -147,22 +147,22 @@ Direction RouteCalculator::calculateDirection(Coordinate next, Coordinate curren
     }
   } else if(gy == 0) {
     if(gx > 0) {
-      return Direction::E;
+      return isLeftCourse ? Direction::E : Direction::W;
     } else {
-      return Direction::W;
+      return isLeftCourse ? Direction::W : Direction::E;
     }
   } else {
     if(gx > 0) {
       if(gy > 0) {
-        return Direction::SE;
+        return isLeftCourse ? Direction::SE : Direction::SW;
       } else {
-        return Direction::NE;
+        return isLeftCourse ? Direction::NE : Direction::NW;
       }
     } else {
       if(gy > 0) {
-        return Direction::SW;
+        return isLeftCourse ? Direction::SW : Direction::SE;
       } else {
-        return Direction::NW;
+        return isLeftCourse ? Direction::NW : Direction::NE;
       }
     }
   }

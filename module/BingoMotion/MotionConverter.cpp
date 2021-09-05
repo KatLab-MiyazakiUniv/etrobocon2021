@@ -6,8 +6,8 @@
 
 #include "MotionConverter.h"
 
-MotionConverter::MotionConverter(MotionPerformer& motionPerformer)
-  : motionPerformer(motionPerformer)
+MotionConverter::MotionConverter(MotionPerformer& motionPerformer, const bool IS_LEFT_COURSE)
+  : motionPerformer(motionPerformer), isLeftCourse(IS_LEFT_COURSE)
 {
 }
 
@@ -86,29 +86,30 @@ void MotionConverter::convertToMotion(const std::vector<std::pair<Coordinate, Di
         motionPerformer.runForward();
         break;
       case 1:
-        motionPerformer.runRight();
+        isLeftCourse ? motionPerformer.runRight() : motionPerformer.runLeft();
         break;
       case 2:
-        motionPerformer.runLeft();
+        isLeftCourse ? motionPerformer.runLeft() : motionPerformer.runRight();
         break;
       case 3:
         motionPerformer.runToCross();
         break;
       case 4:
-        motionPerformer.setBlockPivotTurn(true);
+        motionPerformer.setBlockPivotTurn(isLeftCourse);
         break;
       case 5:
-        motionPerformer.setBlockPivotTurn(false);
+        motionPerformer.setBlockPivotTurn(!isLeftCourse);
         break;
       case 6:
-        motionPerformer.setBlockThrow(true);
+        motionPerformer.setBlockThrow(isLeftCourse);
         break;
       case 7:
-        motionPerformer.setBlockThrow(false);
+        motionPerformer.setBlockThrow(!isLeftCourse);
         break;
       default:
         motionPerformer.runForward();
         break;
     }
   }
+  puts("");
 }

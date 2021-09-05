@@ -16,7 +16,7 @@
 class MotionConverter {
  public:
   //コンストラクタ
-  MotionConverter(MotionPerformer& motionPerformer);
+  MotionConverter(MotionPerformer& motionPerformer, const bool IS_LEFT_COURSE);
 
   /**
    * @fn   MOTION decideMotion(std::pair<Coordinate, Direction> current, std::pair<Coordinate,
@@ -38,6 +38,7 @@ class MotionConverter {
 
  private:
   MotionPerformer& motionPerformer;
+  const bool isLeftCourse;
 
   /**
    * @fn int calculateAngle(Direction current, Direction next);

@@ -14,7 +14,7 @@ namespace etrobocon2021_test {
     Robot robot(IS_LEFT_COURSE);
     CourseInfo courseInfo;
     courseInfo.initCourseInfo();
-    RouteCalculator route(courseInfo, robot);
+    RouteCalculator route(courseInfo, robot, IS_LEFT_COURSE);
     Coordinate coordinate_start(0, 0);
     Coordinate route_1(0, 0);
     Coordinate route_2(0, 0);

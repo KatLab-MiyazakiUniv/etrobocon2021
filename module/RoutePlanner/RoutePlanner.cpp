@@ -19,7 +19,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
   Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
   BlockSelector blockSelector(courseInfo, destinationList, robot);
-  RouteCalculator routeCalculator(courseInfo, robot);
+  RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
   int count = 0;
 
   while(true) {
