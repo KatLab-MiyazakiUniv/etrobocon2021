@@ -19,7 +19,8 @@ namespace etrobocon2021_test {
                              COLOR::RED, COLOR::BLUE, COLOR::YELLOW, COLOR::GREEN };
 
     // CourseInfoの初期化
-    CourseInfo courseInfo;
+    const bool IS_LEFT_COURSE = true;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
@@ -49,7 +50,8 @@ namespace etrobocon2021_test {
                              COLOR::GREEN, COLOR::BLUE,   COLOR::RED,  COLOR::GREEN };
 
     // CourseInfoの初期化
-    CourseInfo courseInfo;
+    const bool IS_LEFT_COURSE = true;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
@@ -79,7 +81,8 @@ namespace etrobocon2021_test {
                              COLOR::YELLOW, COLOR::RED,  COLOR::GREEN, COLOR::YELLOW };
 
     // CourseInfoの初期化
-    CourseInfo courseInfo;
+    const bool IS_LEFT_COURSE = true;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
@@ -109,7 +112,8 @@ namespace etrobocon2021_test {
                              COLOR::BLUE,   COLOR::RED,   COLOR::BLUE, COLOR::YELLOW };
 
     // CourseInfoの初期化
-    CourseInfo courseInfo;
+    const bool IS_LEFT_COURSE = true;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
@@ -139,7 +143,8 @@ namespace etrobocon2021_test {
                              COLOR::BLUE,  COLOR::RED,   COLOR::YELLOW, COLOR::BLUE };
 
     // CourseInfoの初期化
-    CourseInfo courseInfo;
+    const bool IS_LEFT_COURSE = true;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     for(int i = B_ZERO; i < B_SIZE; i++) {
       BLOCK_ID blockId = static_cast<BLOCK_ID>(i);

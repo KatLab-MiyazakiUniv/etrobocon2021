@@ -8,7 +8,7 @@
 
 void BingoArea::runBingoArea()
 {
-  CourseInfo courseInfo;
+  CourseInfo courseInfo(IS_LEFT_COURSE);
   LineTracer lineTracer(IS_LEFT_COURSE);
   MotionPerformer motionPerformer(lineTracer);
   MotionConverter motionConverter(motionPerformer);

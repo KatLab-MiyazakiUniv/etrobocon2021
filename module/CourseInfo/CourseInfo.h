@@ -18,7 +18,7 @@ class CourseInfo {
  public:
   //コンストラクタ
   //交点サークル、ブロックサークルについて座標、サークルの色を設定、交点サークルの黒線の本数を設定
-  CourseInfo();
+  CourseInfo(const bool IS_LEFT_COURSE);
 
   /**
    *@fn Node& getNode(int blockId);
@@ -78,6 +78,7 @@ class CourseInfo {
   std::array<BlockCircle, 8> blockCircle;   // ブロックサークル情報
   CenterMark centerMark;                    //センターマーク情報
   Measurer measurer;
+  const bool isLeftCourse;
 
   /**
    *@fn void setBlockInfo(int, COLOR);
