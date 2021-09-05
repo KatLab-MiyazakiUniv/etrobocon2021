@@ -10,10 +10,10 @@ InCrossRight::InCrossRight(LineTracer& _lineTracer) : BingoMotion(5, 5), lineTra
 
 void InCrossRight::runRight(void)
 {
-  int targetDistance = 15;
-  int runPwm = 20;
+  int targetDistance = 5;
+  int runPwm = 30;
   int angle = 90;
-  int rotatePwm = 30;
+  int rotatePwm = 100;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
