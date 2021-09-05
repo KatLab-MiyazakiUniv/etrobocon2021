@@ -144,7 +144,7 @@ jobs:
           PNG_TAIL_NUM=$(ls ${TMP_CAPTURE_DIR}/*.png | \
                             tail -n1 | \
                             sed -r 's/.*(L|R)_([0-9]{8})\.png/\2/g')
-          echo "echo ${TMP_CAPTURE_DIR}/${COURSE_UPPER}_{${CSV_TAIL_NUM}..${PNG_TAIL_NUM}}.png" | bash | xargs -L1 rm
+          echo "echo ${TMP_CAPTURE_DIR}/${COURSE_UPPER}_{${CSV_TAIL_NUM}..${PNG_TAIL_NUM}}.png" | bash | xargs -L1 rm -f
 
           # キャプチャ画像をMP4に変換
           MP4_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-${i}.mp4
