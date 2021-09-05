@@ -299,7 +299,6 @@ jobs:
 
           MSG_DETAIL+="|${i}|${PASSED_START_GATE}|${PASSED_GATE_1}|${PASSED_GATE_2}|${PASSED_GALE_GATE}"
           MSG_DETAIL+="${GOAL_TIME}|${BLOCK_YUKOIDO_BONUS_TIME}|${POWER_SPOT_YUKOIDO_BONUS_TIME}|${CENTER_BLOCK_YUKOIDO_BONUS_TIME}|${BLOCK_BINGO_BONUS_TIME}|${POWER_SPOT_BINGO_BONUS_TIME}|${BONUS_TIME}|"
-          MSG_DETAIL+="${}|${}|${}|${}|\n"
           
           if [ "${COURSE_UPPER}" == "L" ]; then
             MSG_RESULT+="${BLOCK_COORDINATE_L}|"
@@ -342,7 +341,7 @@ jobs:
                               jq ".workflow_runs[] | select( .name == \"${GITHUB_WORKFLOW}\" ) | .id" | \
                               wc -l)
 
-          echo "[DEBUG 07] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
+          echo "[DEBUG 08] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # ループ終了時の片づけ
           if [[ "${i}" == "${MAX_SIM_TIME}" || "${QUEUED_JOB_NUM}" != "0" ]]; then
