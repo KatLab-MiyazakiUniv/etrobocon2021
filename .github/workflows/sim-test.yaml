@@ -51,15 +51,13 @@ jobs:
 
         MSG_SUMMARY_HEAD=""
         MSG_SUMMARY_HEAD+="### 集計結果\n"
-        MSG_SUMMARY_HEAD+="|項目|結果|\n"
-        MSG_SUMMARY_HEAD+="|---|----|\n"
 
-        # NOTE: 表はSlackのメッセージに表示されないため、
-        #       details タグを隠し要素兼Slackに表示するためのメッセージとして利用
-        MSG_DISPLAY_ON_SLACK_HEAD=""
-        MSG_DISPLAY_ON_SLACK_HEAD+="<details>\n"
-        MSG_DISPLAY_ON_SLACK_HEAD+="<summary></summary>\n\n"
-        MSG_DISPLAY_ON_SLACK_TAIL="</details>\n\n"
+        MSG_SUMMARY_DETAIL_HEAD=""
+        MSG_SUMMARY_DETAIL_HEAD+="<details>詳細\n"
+        MSG_SUMMARY_DETAIL_HEAD+="<summary></summary>\n\n"
+        MSG_SUMMARY_DETAIL_TAIL="</details>\n\n"
+        MSG_SUMMARY_DETAIL_HEAD+="|項目|結果|\n"
+        MSG_SUMMARY_DETAIL_HEAD+="|---|----|\n"
 
         MSG_TAIL=":arrows_counterclockwise: Testing now... (1/${MAX_SIM_TIME})"
 
@@ -287,15 +285,15 @@ jobs:
           L_GOAL_TIME_AVG=$(echo ${L_GOAL_TIME_SUM} ${L_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           R_GOAL_TIME_AVG=$(echo ${R_GOAL_TIME_SUM} ${R_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           LR_GOAL_TIME_AVG=$(echo ${L_GOAL_TIME_SUM} ${R_GOAL_TIME_SUM} ${L_GOAL_COUNTER} ${R_GOAL_COUNTER} | \
-                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{0}}')
+                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{print 0}}')
           L_BONUS_TIME_AVG=$(echo ${L_BONUS_TIME_SUM} ${L_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           R_BONUS_TIME_AVG=$(echo ${R_BONUS_TIME_SUM} ${R_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           LR_BONUS_TIME_AVG=$(echo ${L_BONUS_TIME_SUM} ${R_BONUS_TIME_SUM} ${L_GOAL_COUNTER} ${R_GOAL_COUNTER} | \
-                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{0}}')
+                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{print 0}}')
           L_RESULT_TIME_AVG=$(echo ${L_RESULT_TIME_SUM} ${L_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           R_RESULT_TIME_AVG=$(echo ${R_RESULT_TIME_SUM} ${R_GOAL_COUNTER} | awk '{if($2>0){print $1 / $2}else{print 0}}')
           LR_RESULT_TIME_AVG=$(echo ${L_RESULT_TIME_SUM} ${R_RESULT_TIME_SUM} ${L_GOAL_COUNTER} ${R_GOAL_COUNTER} | \
-                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{0}}')
+                              awk '{if(($3+$4)>0){print ($1 + $2) / ($3 + $4)}else{print 0}}')
 
           echo "[DEBUG 07] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
@@ -317,26 +315,24 @@ jobs:
           MSG_DETAIL+="[CSV](https://${MP4_SERVER_NAME}/01/${CSV_FILE})|"
           MSG_DETAIL+="[JSON](https://${MP4_SERVER_NAME}/01/${JSON_FILE})|\n"
 
-
           MSG_SUMMARY=""
-          MSG_SUMMARY+="|Lゴール率[%]|${L_GOAL_RATE}|\n"
-          MSG_SUMMARY+="|Rゴール率[%]|${R_GOAL_RATE}|\n"
-          MSG_SUMMARY+="|全体ゴール率[%]|${LR_GOAL_RATE}|\n"
-          MSG_SUMMARY+="|L平均ゴールタイム[S]|${L_GOAL_TIME_AVG}|\n"
-          MSG_SUMMARY+="|R平均ゴールタイム[S]|${R_GOAL_TIME_AVG}|\n"
-          MSG_SUMMARY+="|全体平均ゴールタイム[S]|${LR_GOAL_TIME_AVG}|\n"
-          MSG_SUMMARY+="|L平均ボーナスタイム[S]|${L_BONUS_TIME_AVG}|\n"
-          MSG_SUMMARY+="|R平均ボーナスタイム[S]|${R_BONUS_TIME_AVG}|\n"
-          MSG_SUMMARY+="|全体平均ボーナスタイム[S]|${LR_BONUS_TIME_AVG}|\n"
-          MSG_SUMMARY+="|L平均リザルトタイム[S]|${L_RESULT_TIME_AVG}|\n"
-          MSG_SUMMARY+="|R平均リザルトタイム[S]|${R_RESULT_TIME_AVG}|\n"
-          MSG_SUMMARY+="|平均リザルトタイム[S]|${LR_RESULT_TIME_AVG}|\n"
+          MSG_SUMMARY+="全体ゴール率: ${LR_GOAL_RATE} [%]\n"
+          MSG_SUMMARY+="全体平均リザルトタイム: ${LR_RESULT_TIME_AVG} [S]\n"
+          MSG_SUMMARY+="最高記録: ${BEST_RESULT_TIME} [S]\n"
 
-          # NOTE: 表はSlackのメッセージに表示されないため、
-          #       details タグを隠し要素兼Slackに表示するためのメッセージとして利用
-          MSG_DISPLAY_ON_SLACK=""
-          MSG_DISPLAY_ON_SLACK+="全体ゴール率: ${LR_GOAL_RATE} [%]\n"
-          MSG_DISPLAY_ON_SLACK+="平均リザルトタイム: ${LR_RESULT_TIME_AVG} [S]\n"
+          MSG_SUMMARY_DETAIL=""
+          MSG_SUMMARY_DETAIL+="|Lゴール率[%]|${L_GOAL_RATE}|\n"
+          MSG_SUMMARY_DETAIL+="|Rゴール率[%]|${R_GOAL_RATE}|\n"
+          MSG_SUMMARY_DETAIL+="|全体ゴール率[%]|${LR_GOAL_RATE}|\n"
+          MSG_SUMMARY_DETAIL+="|L平均ゴールタイム[S]|${L_GOAL_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均ゴールタイム[S]|${R_GOAL_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|全体平均ゴールタイム[S]|${LR_GOAL_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|L平均ボーナスタイム[S]|${L_BONUS_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均ボーナスタイム[S]|${R_BONUS_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|全体平均ボーナスタイム[S]|${LR_BONUS_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|L平均リザルトタイム[S]|${L_RESULT_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均リザルトタイム[S]|${R_RESULT_TIME_AVG}|\n"
+          MSG_SUMMARY_DETAIL+="|平均リザルトタイム[S]|${LR_RESULT_TIME_AVG}|\n"
 
           MSG_TAIL=":arrows_counterclockwise: Testing now... ($((i + 1))/${MAX_SIM_TIME})"
 
@@ -357,7 +353,7 @@ jobs:
           echo "[DEBUG 08] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
 
           # プルリクコメントのアップデート
-          MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_DISPLAY_ON_SLACK_HEAD}${MSG_DISPLAY_ON_SLACK}${MSG_DISPLAY_ON_SLACK_TAIL}${MSG_TAIL}"
+          MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_TAIL}"
           curl \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
