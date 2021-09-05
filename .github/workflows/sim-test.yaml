@@ -234,15 +234,20 @@ jobs:
 
           # 走行時間の取得 (ゴールゲートの通過)、リザルトタイムの算出
           if [ "${PASSED_GALE_GATE}" == '0' ]; then
+            echo "[DEBUG 03.1] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             GOAL_TIME='None'
             RESULT_TIME='None'
           else
+            echo "[DEBUG 03.2] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             GOAL_TIME="$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
                           grep -oE '\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' |)
                           sed -r 's/^\[ launcher: left: GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]$/\1/g')"
+            
+            echo "[DEBUG 03.3] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             # リザルトタイムの計算
             RESULT_TIME=$(echo ${GOAL_TIME} ${BONUS_TIME} | awk '{print $1 - $2}')
 
+            echo "[DEBUG 03.4] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             # ベストタイムの更新
             if [ "$(echo "${RESULT_TIME} < ${BEST_RESULT_TIME}" | bc)" -eq 1 ]; then
               BEST_RESULT_TIME=${RESULT_TIME}
