@@ -59,59 +59,67 @@ void CourseInfo::setBlockInfo(int info, COLOR color)
     switch(info) {
       case 65:  // Aのとき
         index = IS_LEFT_COURSE ? 0 : 3;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID1;
         break;
       case 66:  // Bのとき
         index = IS_LEFT_COURSE ? 1 : 2;
-        blockId = BLOCK_ID ::ID0;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID0;
         break;
       case 67:  // Cのとき
         index = IS_LEFT_COURSE ? 2 : 1;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID0;
         break;
       case 68:  // Dのとき
         index = IS_LEFT_COURSE ? 3 : 0;
-        blockId = BLOCK_ID ::ID1;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID1;
         break;
       case 69:  // Eのとき
         index = IS_LEFT_COURSE ? 4 : 7;
-        blockId = BLOCK_ID ::ID2;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID2;
         break;
       case 70:  // Fのとき
         index = IS_LEFT_COURSE ? 5 : 6;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID3;
         break;
       case 71:  // Gのとき
         index = IS_LEFT_COURSE ? 6 : 5;
-        blockId = BLOCK_ID ::ID3;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID3;
         break;
       case 72:  // Hのとき
         index = IS_LEFT_COURSE ? 7 : 4;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID2;
         break;
       case 74:  // Jのとき
         index = IS_LEFT_COURSE ? 8 : 11;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID5;
         break;
       case 75:  // Kのとき
         index = IS_LEFT_COURSE ? 9 : 10;
-        blockId = BLOCK_ID ::ID4;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID4;
         break;
       case 76:  // Lのとき
         index = IS_LEFT_COURSE ? 10 : 9;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID4;
         break;
       case 77:  // Mのとき
         index = IS_LEFT_COURSE ? 11 : 8;
-        blockId = BLOCK_ID ::ID5;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID5;
         break;
       case 80:  // Pのとき
         index = IS_LEFT_COURSE ? 12 : 15;
-        blockId = BLOCK_ID ::ID6;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID6;
         break;
       case 81:  // Qのとき
         index = IS_LEFT_COURSE ? 13 : 14;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID7;
         break;
       case 82:  // Rのとき
         index = IS_LEFT_COURSE ? 14 : 13;
-        blockId = BLOCK_ID ::ID7;
+        if(IS_LEFT_COURSE) blockId = BLOCK_ID ::ID7;
         break;
       case 83:  // Sのとき
         index = IS_LEFT_COURSE ? 15 : 12;
+        if(!IS_LEFT_COURSE) blockId = BLOCK_ID ::ID6;
         break;
       default:
         index = -1;
