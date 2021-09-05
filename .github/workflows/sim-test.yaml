@@ -311,9 +311,9 @@ jobs:
             MSG_DETAIL+="${BLOCK_COORDINATE_R}|"
           fi
           MSG_RESULT+="[:arrow_forward: 動画](https://${MP4_SERVER_NAME}/01/${MP4_FILE})|\n"
-          MSG_DETAIL+="[:arrow_forward: 動画](https://${MP4_SERVER_NAME}/01/${MP4_FILE})|"
+          MSG_DETAIL+="[MP4](https://${MP4_SERVER_NAME}/01/${MP4_FILE})|"
           MSG_DETAIL+="[CSV](https://${MP4_SERVER_NAME}/01/${CSV_FILE})|"
-          MSG_DETAIL+="[JSON](https://${MP4_SERVER_NAME}/01/${JSON_FILE})|\n"
+          MSG_DETAIL+="[JSON](https://${MP4_SERVER_NAME}/01/${SETTINGS_FILE})|\n"
 
           MSG_SUMMARY=""
           MSG_SUMMARY+="全体ゴール率: ${LR_GOAL_RATE} [%]\n"
