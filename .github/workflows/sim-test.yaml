@@ -91,8 +91,8 @@ jobs:
 
         MSG_TAIL=":arrows_counterclockwise: Testing now... (1/${MAX_SIM_TIME})"
 
-      # プルリクの Issue 番号の取得 (on: pull_request のイベントによってトリガーされた場合のみ)
-          ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
+        # プルリクの Issue 番号の取得 (on: pull_request のイベントによってトリガーされた場合のみ)
+        ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
 
         # プルリクコメントの投稿とコメントIDの取得
         COMMENT_ID=$(curl \
