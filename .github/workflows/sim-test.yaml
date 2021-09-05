@@ -239,7 +239,7 @@ jobs:
             echo "[DEBUG 03.2] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             GOAL_TIME="$(cat ${TEST_RESULT_DIR_ROOT}/${LOG_FILE} | \
                           grep -oE '\[ launcher: ((left)|(right)): GOAL!  Goal Time: ([0-9]*\.?[0-9]*) \]' | \
-                          sed -r 's/([0-9]*\.?[0-9]*)/\0/g')"
+                          grep -oE '[0-9]*\.?[0-9]*')"
             
             echo "[DEBUG 03.3] HOGEHGOHEOHGOEHGOHEOGHEOGHEHGOEH"
             # リザルトタイムの計算
