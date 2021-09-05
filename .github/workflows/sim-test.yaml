@@ -269,7 +269,7 @@ jobs:
               L_BONUS_TIME_SUM+=$(echo ${L_BONUS_TIME_SUM} ${BONUS_TIME} | awk '{print $1 + $2}')
               L_RESULT_TIME_SUM+=$(echo ${L_RESULT_TIME_SUM} ${RESULT_TIME} | awk '{print $1 + $2}')
               (( L_GOAL_COUNTER++ ))
-            else if [ "${COURSE_UPPER}" == "R" ]; then
+            elif [ "${COURSE_UPPER}" == "R" ]; then
               R_GOAL_TIME_SUM+=$(echo ${R_GOAL_TIME_SUM} ${GOAL_TIME} | awk '{print $1 + $2}')
               R_BONUS_TIME_SUM+=$(echo ${R_BONUS_TIME_SUM} ${BONUS_TIME} | awk '{print $1 + $2}')
               R_RESULT_TIME_SUM+=$(echo ${R_RESULT_TIME_SUM} ${RESULT_TIME} | awk '{print $1 + $2}')
@@ -311,7 +311,7 @@ jobs:
           if [ "${COURSE_UPPER}" == "L" ]; then
             MSG_RESULT+="${BLOCK_COORDINATE_L}|"
             MSG_DETAIL+="${BLOCK_COORDINATE_L}|"
-          else if [ "${COURSE_UPPER}" == "R" ]; then
+          elif [ "${COURSE_UPPER}" == "R" ]; then
             MSG_RESULT+="${BLOCK_COORDINATE_R}|"
             MSG_DETAIL+="${BLOCK_COORDINATE_R}|"
           fi
