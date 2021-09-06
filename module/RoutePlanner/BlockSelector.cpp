@@ -8,10 +8,12 @@
 
 // コンストラクタ
 BlockSelector::BlockSelector(DestinationList& _destination, const bool IS_LEFT_COURSE)
-  : destinationList(_destination),
+  : courseInfo(IS_LEFT_COURSE),
+    destinationList(_destination),
+    robot(IS_LEFT_COURSE),
+    isLeftCourse(IS_LEFT_COURSE),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
     arrivableCircles{ T, T, F, T, F, F, F, F },
-    robot(IS_LEFT_COURSE),
     OPEN_CIRCLE_ID{ {
         { T, T, T, T, F, F, F, F },
         { F, T, T, F, T, F, F, F },
@@ -45,7 +47,7 @@ BLOCK_ID BlockSelector::selectBlock()
   int maxCrossLine = 0;                   // 候補の交線数
   int maxDirectPoint = -1;  // 候補と走行体の進行方向についての評価点
   bool updateFg = false;
-  RouteCalculator routeCalculator(courseInfo, robot);
+  RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
   const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
   const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
   Coordinate currentCoordinate = robot.getCoordinate();

@@ -33,6 +33,7 @@ class BlockSelector {
   CourseInfo courseInfo;
   DestinationList destinationList;
   Robot robot;
+  const bool isLeftCourse;
 
   // 走行体が運びうるブロック
   std::array<bool, static_cast<int>(BLOCK_ID::ID7) + 1> arrivableBlocks;
