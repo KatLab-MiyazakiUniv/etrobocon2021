@@ -59,7 +59,7 @@ struct Route {
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(CourseInfo& courseInfo, Robot& robot);
+  RouteCalculator(CourseInfo& courseInfo, Robot& robot,const bool IS_LEFT_COURSE);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
@@ -76,6 +76,7 @@ class RouteCalculator {
   Coordinate goalNode;  //クラス内でゴールノードを共有しておく
   static constexpr int BINGO_SIZE = 7;
   Robot& robot;
+  const bool isLeftCourse;
 
   /**
    * @fn std::vector<AstarInfo> checkNeighborhood(Coordinate coordinate, Route,

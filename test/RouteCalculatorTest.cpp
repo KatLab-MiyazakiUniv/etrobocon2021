@@ -12,9 +12,9 @@ namespace etrobocon2021_test {
   {
     constexpr bool IS_LEFT_COURSE = true;
     Robot robot(IS_LEFT_COURSE);
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
-    RouteCalculator route(courseInfo, robot);
+    RouteCalculator route(courseInfo, robot, IS_LEFT_COURSE);
     Coordinate coordinate_start(0, 0);
     Coordinate route_1(0, 0);
     Coordinate route_2(0, 0);

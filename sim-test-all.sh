@@ -39,8 +39,7 @@ fi
 
 
 ### 以下、シミュレータを実行し、結果を集計する ###
-mkdir -p ${LOG_FILES_DIR};
-CAPTURE_DIR=${DAY}\\${TIME}
+mkdir -p ${LOG_FILES_DIR}/.logs
 
 # シミュレータを起動
 echo 'sim' | ${HOME}/startetrobo shell
@@ -48,7 +47,7 @@ echo 'sim' | ${HOME}/startetrobo shell
 # 設定ファイルをシミュレータに反映した後、プログラムを実行する
 # awk コマンドの -v オプションで awk 中のスクリプトにシェル変数を渡している
 ls sim-settings/?/* | \
-    xargs -L1 -I{} ./scripts/sim-test-wsl.sh {} ${CAPTURE_DIR} ${LOG_FILES_DIR} | \
+    xargs -L1 -I{} ./scripts/sim-test-wsl.sh {} ${LOG_FILES_DIR} | \
     awk -v md_file_path=${LOG_FILES_DIR}/${MD_FILE_NAME} \
         -v csv_file_name=${LOG_FILES_DIR}/${CSV_FILE_NAME} '
     BEGIN {
@@ -248,6 +247,14 @@ ls sim-settings/?/* | \
         print "走行エリア平均 : " run_time_average " [s] (n=" goaled_num ")";
         print "成功率        : " goal_persentage " [%] (n=" counter ")";
         ### 以上、標準出力 ###
-    }' && (cd ${LOG_FILES_DIR}; explorer.exe .)
+    }' && (cd ${LOG_FILES_DIR}; explorer.exe .) || :
     # 上記の && 以降で生成した Markdown 形式のファイルを開く処理を行っている
 ### 以上、シミュレータを実行し、結果を集計する ###
+
+
+if [ -f ".cancel-sim-test" ]; then
+    rm -f .cancel-sim-test
+    echo "sim stop" | ${HOME}/startetrobo shell
+    echo "キャンセルされました"
+    exit 800
+fi

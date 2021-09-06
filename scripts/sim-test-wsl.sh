@@ -11,6 +11,11 @@ SETTINGS_FILES_DIR="`pwd`/sim-settings"
 DEFAULT_SETTINGS_FILE_NAME="${SETTINGS_FILES_DIR}/default.json"  # デフォルトのシミュレータ設定ファイル名
 ### 以上、設定  ###
 
+# シミュレータ自動実行ツールのキャンセル処理が実行されていないかを確認する
+if [ -f ".cancel-sim-test" ]; then
+    exit 0
+fi
+
 # WSL であるかどうかを確認する
 if [ ! -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
     echo "このスクリプトは、WSL上でしか動作しません"
@@ -33,11 +38,11 @@ elif [[ "$1" =~ ^\./.+$ ]]; then
 fi
 
 # ログファイルを出力するディレクトリへのパスをコマンドライン引数から取得する
-LOG_FILES_DIR_NAME="`pwd`/$3"
-if [[ "$3" =~ ^/.+$ ]]; then
-    LOG_FILES_DIR_NAME="$3"
-elif [[ "$3" =~ ^\./.+$ ]]; then
-    LOG_FILES_DIR_NAME="`pwd``echo $3 | cut -b 2-`"
+LOG_FILES_DIR_NAME="`pwd`/$2"
+if [[ "$2" =~ ^/.+$ ]]; then
+    LOG_FILES_DIR_NAME="$2"
+elif [[ "$2" =~ ^\./.+$ ]]; then
+    LOG_FILES_DIR_NAME="`pwd``echo $2 | cut -b 2-`"
 fi
 
 # ファイルが見つからない場合、プログラムを終了する
@@ -66,33 +71,12 @@ if [ ! -f "${DEFAULT_SETTINGS_FILE_NAME}" ]; then
     exit 1
 fi
 
-# 設定ファイルから、ベースとなるキャプチャディレクトリへのパスを取得する
-BASE_CAPTURE_DIR_WIN=$(jq -sc add ${DEFAULT_SETTINGS_FILE_NAME} ${OVERWRITE_SETTINGS_FILE_NAME} | jq -r '.captureDir')
-if [[ "$BASE_CAPTURE_DIR_WIN" =~ ^$ ]]; then
-    UBUNTU_VER=$(lsb_release -a | grep -oE '^Release:\s*[0-9]{2}\.[0-9]{2}' | cut -f 2)
-    BASE_CAPTURE_DIR_WIN="\\\\wsl\$\\Ubuntu-${UBUNTU_VER}\\tmp\\etrobo\\capture"
-fi
+# キャプチャファイルを生成する一時ディレクトリを生成する
+CAPTURE_DIR_WSL=$(mktemp -d)
 
-# ベースとなるキャプチャディレクトリ配下に生成するディレクトリ名
-if [[ "$2" =~ ^$ ]]; then
-    CAPTURE_DIR_WIN="${BASE_CAPTURE_DIR_WIN}\\`date '+%Y-%m-%d'`\\`date '+%H-%M-%S'`\\${COURSE}\\${NAME}"
-else
-    if [[ "$2" =~ ^([0-9a-zA-Z_\-]+)(\\[0-9a-zA-Z_\-]+)?$ ]]; then
-        CAPTURE_DIR_WIN="${BASE_CAPTURE_DIR_WIN}\\$2\\${COURSE}\\${NAME}"
-    else
-        echo "Format Error (File path): ${2}"
-        echo 'Expected File Path Regex: ^([0-9a-zA-Z_\-]+)(\\[0-9a-zA-Z_\-]+)?$'
-        exit 1
-    fi
-fi
-
-# パスのフォーマットを WSL で扱える形式に変換する
-if [[ "${CAPTURE_DIR_WIN}" =~ ^\\\\wsl.+$ ]]; then
-    CAPTURE_DIR_WSL=$(echo "${CAPTURE_DIR_WIN}" | sed -r 's/^\\{2}wsl\$\\Ubuntu-[0-9\.]+\\/\\/g' | sed -e 's/\\/\//g')
-elif [[ ${CAPTURE_DIR_WIN} =~ ^[A-Z]:(\\.*)+$ ]]; then
-    CAPTURE_DIR_WSL="/mnt/`echo ${CAPTURE_DIR_WIN,} | cut -b 1`"
-    CAPTURE_DIR_WSL+=$(echo "${CAPTURE_DIR_WIN}" | sed -r 's/[A-Z]:(.+)/\1/g' | sed -e 's/\\/\//g')
-fi
+# 生成したキャプチャディレクトリをシミュレータからアクセスできる Windows 側のパスに変換する
+UBUNTU_VER=$(lsb_release -a | grep -oE '^Release:\s*[0-9]{2}\.[0-9]{2}' | cut -f 2)
+CAPTURE_DIR_WIN="\\\\wsl\$\\Ubuntu-${UBUNTU_VER}$(echo ${CAPTURE_DIR_WSL} | sed -r 's/\//\\/g')"
 
 # 設定ファイルの書き込み
 mkdir -p ${ETROBO_HRP3_WORKSPACE}/simdist/${APP_NAME};
@@ -105,11 +89,6 @@ jq -sc add ${DEFAULT_SETTINGS_FILE_NAME} ${OVERWRITE_SETTINGS_FILE_NAME} | \
 
 # キャプチャする際のフレームレートを取得
 CAPTURE_RATE=$(jq -r '.captureRate' ${EDITED_SETTINGS_FILE_NAME})
-
-# シミュレータによるキャプチャが有効化されている場合、キャプチャ先のディレクトリを生成
-if [[ ${CAPTURE_RATE} -ne 0 ]]; then
-    mkdir -p $CAPTURE_DIR_WSL
-fi
 
 # シミュレータに設定ファイルの内容を反映し、実行する
 echo "[ script: starting: $APP_NAME ]"
@@ -136,12 +115,26 @@ else
     # シミュレータ映像のキャプチャが有効化されていなかった場合、スクリプトを終了する
     exit 0
 fi
+
+
+# CSV ファイルをコピーする
+L_OR_R=`echo ${COURSE} | tr lr LR`
+cp ${CAPTURE_DIR_WSL}/${L_OR_R}.csv ${LOG_FILES_DIR_NAME}/.logs/${COURSE}-${NAME}.csv
+
+# スタート前に撮影されたキャプチャ画像を削除する
+# スタート前に撮影されたキャプチャ画像が無い場合、一番最後のフレームが消えることになるが影響は無いと判断
+CSV_TAIL_NUM=$(cat ${CAPTURE_DIR_WSL}/${L_OR_R}.csv | tail -n1 | sed -r 's/.*(L|R)_([0-9]{8})\.png.*/\2/g')
+PNG_TAIL_NUM=$(ls ${CAPTURE_DIR_WSL}/*.png | tail -n1 | sed -r 's/.*(L|R)_([0-9]{8})\.png/\2/g')
+echo "echo ${CAPTURE_DIR_WSL}/${L_OR_R}_{${CSV_TAIL_NUM}..${PNG_TAIL_NUM}}.png" | bash | xargs -L1 rm
+
 # キャプチャ映像を MP4 に変換する
-cd $CAPTURE_DIR_WSL
-cd ../../
 ffmpeg -framerate ${FRAME_RATE} \
-       -i ${CAPTURE_DIR_WSL}/`echo ${COURSE} | tr lr LR`_%08d.png \
+       -i ${CAPTURE_DIR_WSL}/${L_OR_R}_%08d.png \
        -vcodec libx264 \
        -pix_fmt yuv420p \
        -r ${FRAME_RATE} \
        ${LOG_FILES_DIR_NAME}/${COURSE}-${NAME}.mp4
+
+
+# 一時ディレクトリを削除する
+rm -rf ${CAPTURE_DIR_WSL}

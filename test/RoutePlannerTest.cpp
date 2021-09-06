@@ -10,7 +10,7 @@ namespace etrobocon2021_test {
   // TEST(planBingoRouteTest, planBingoRouteLeft)
   // {
   //   constexpr bool IS_LEFT_COURSE = true;
-  //   CourseInfo courseInfo;
+  //   CourseInfo courseInfo(IS_LEFT_COURSE);
   //   courseInfo.initCourseInfo();
   //   RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
   //
@@ -23,8 +23,7 @@ namespace etrobocon2021_test {
   //     CIRCLE_ID blockCircleId = static_cast<CIRCLE_ID>(blockCircleNum);
   //     BlockCircle blockCircle = courseInfo.getBlockCircle(blockCircleId);
   //     Coordinate blockCircleCoord = blockCircle.getCoordinate();
-  //     bool blockCircleActual = courseInfo.existBlock(blockCircleCoord);
-  //     // EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
+  //     EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
   //   }
   //
   //   // 全ての交点サークルにブロックがないことを確認
@@ -32,13 +31,14 @@ namespace etrobocon2021_test {
   //   for(int crossCircleNum = 0; crossCircleNum < 16; crossCircleNum++) {
   //     CrossCircle crossCircle = courseInfo.getCrossCircle(crossCircleNum);
   //     Coordinate crossCircleCoord = crossCircle.getCoordinate();
-  //     // EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
+  //     EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
   //   }
   // }
+  //
   // TEST(planBingoRouteTest, planBingoRouteRight)
   // {
   //   constexpr bool IS_LEFT_COURSE = false;
-  //   CourseInfo courseInfo;
+  //   CourseInfo courseInfo(IS_LEFT_COURSE);
   //   courseInfo.initCourseInfo();
   //   RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
   //
@@ -51,7 +51,7 @@ namespace etrobocon2021_test {
   //     CIRCLE_ID blockCircleId = static_cast<CIRCLE_ID>(blockCircleNum);
   //     BlockCircle blockCircle = courseInfo.getBlockCircle(blockCircleId);
   //     Coordinate blockCircleCoord = blockCircle.getCoordinate();
-  //     // EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
+  //     EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
   //   }
   //
   //   // 全ての交点サークルにブロックがないことを確認
@@ -59,14 +59,14 @@ namespace etrobocon2021_test {
   //   for(int crossCircleNum = 0; crossCircleNum < 16; crossCircleNum++) {
   //     CrossCircle crossCircle = courseInfo.getCrossCircle(crossCircleNum);
   //     Coordinate crossCircleCoord = crossCircle.getCoordinate();
-  //     // EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
+  //     EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
   //   }
   // }
 
   TEST(planBingoRouteTest, planBingoRoute_carryRoute)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
 
