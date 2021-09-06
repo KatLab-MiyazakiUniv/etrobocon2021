@@ -23,6 +23,14 @@ class BlockThrower : public BingoMotion {
    */
   void setBlockThrow(bool isClockwise);
 
+  /**
+   * @brief ピボットターン設置用の投げ入れ設置
+   * @param isClockwise 投げ入れる向き true: 右回転
+   */
+  void setBlockPivotThrow(bool isClockwise);
+
+
+
  private:
   StraightRunner straightRunner;
   Controller controller;

@@ -10,21 +10,31 @@ BlockPivotTurn::BlockPivotTurn() : BingoMotion(2, 2) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  double targetDistance = 105;
+  double targetDistance = 30;
   double runPwm = 30;
-  double angle = 180;
-  int rotatePwm = 40;
+  double angle = 90;
+  int rotatePwm = 100;
+  int rotateAngle = 60;
+  LineTracer lineTracer(isClockwise);
+  StraightRunner straightRunner;
+  InCrossLeft inCrossLeft(lineTracer);
+  InCrossRight inCrossRight(lineTracer);
 
-  //黒線の奥まで直進する
-  straightRunner.runStraightToDistance(targetDistance, runPwm);
+  
   //ピボットターンする
   if(isClockwise) {
-    rotation.turnForwardRightPivot(angle, rotatePwm);
-    ArmMotion::throwMotion();
-    rotation.turnBackRightPivot(angle, rotatePwm);
+    inCrossRight.runRight();
+    blockThrower.setBlockPivotThrow(isClockwise);
+    rotation.rotateLeft(44, 100);
+    straightRunner.runStraightToColor(-10);
+    straightRunner.runStraightToDistance(4, -10);
+    rotation.rotateLeft(87.5, 100);
   } else {
-    rotation.turnForwardLeftPivot(angle, rotatePwm);
-    ArmMotion::throwMotion();
-    rotation.turnBackLeftPivot(angle, rotatePwm);
+    inCrossLeft.runLeft();
+    blockThrower.setBlockPivotThrow(isClockwise);
+    rotation.rotateRight(44, 100);
+    straightRunner.runStraightToColor(-10);
+    straightRunner.runStraightToDistance(4, -10);
+    rotation.rotateRight(87.5, 100);
   }
 }
