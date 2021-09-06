@@ -21,11 +21,11 @@ const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::
 const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
     = { SectionParam{ 150, 12, 60, PidGain(0.2, 0.1, 0.1) },
         SectionParam{ 1445, 12, 100, PidGain(3.5, 1, 1) },
-        SectionParam{ 670, 12, 80, PidGain(1.6, 1.05, 1.3) },
+        SectionParam{ 670, 12, 80, PidGain(1.7, 0.8, 0.8) },  //(1.6, 1.05, 1.3)
         SectionParam{ 600, 12, 100, PidGain(3.3, 1, 1) },
-        SectionParam{ 580, 12, 80, PidGain(1.6, 0.67, 0.65) },
+        SectionParam{ 580, 12, 80, PidGain(1.6, 0.67, 0.6) },
         SectionParam{ 1450, 12, 100, PidGain(4, 0.3, 0.3) },
-        SectionParam{ 400, 12, 60, PidGain(5, 1.3, 0.15) },
+        SectionParam{ 400, 12, 60, PidGain(6, 2, 0.5) },
         SectionParam{ 700, 12, 100, PidGain(3, 1, 1.8) } };
 
 void LineTraceArea::runLineTraceArea()
