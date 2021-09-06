@@ -111,5 +111,4 @@ void MotionConverter::convertToMotion(const std::vector<std::pair<Coordinate, Di
         break;
     }
   }
-  puts("");
 }
