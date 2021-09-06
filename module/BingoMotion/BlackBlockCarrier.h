@@ -11,15 +11,12 @@
 #include "LineTracer.h"
 #include "StraightRunner.h"
 #include "Controller.h"
-#include "InCrossLeft.h"
 #include "LineTraceArea.h"
-#include "InCrossRight.h"
 #include "Mileage.h"
 #include "Measurer.h"
 
 class BlackBlockCarrier {
  public:
- 
- static void carryBlackBlock();
+  static void carryBlackBlock();
 };
 #endif
