@@ -10,22 +10,22 @@
 const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::LEFT_COURSE_INFO
     = { SectionParam{ 150, 12, 60, PidGain(0.1, 0.8, 0.1) },
         SectionParam{ 1445, 12, 100, PidGain(3.5, 1, 1) },
-        SectionParam{ 670, 12, 80, PidGain(1.3, 0.8, 1.6) },
-        SectionParam{ 600, 12, 100, PidGain(3.3, 2, 1.2) },
-        SectionParam{ 580, 12, 80, PidGain(0.95, 0.675, 0.67) },
+        SectionParam{ 670, 12, 80, PidGain(1.3, 0.8, 1.3) },
+        SectionParam{ 600, 12, 100, PidGain(3.3, 1, 1) },
+        SectionParam{ 580, 12, 80, PidGain(0.95, 0.675, 0.66) },
         SectionParam{ 1450, 12, 100, PidGain(3.75, 0.3, 0.3) },
-        SectionParam{ 400, 12, 60, PidGain(4, 1.2, 0.1) }, //(4, 0.8, 0.1)
+        SectionParam{ 400, 12, 60, PidGain(4.1, 1.2, 0.1) },
         SectionParam{ 700, 12, 100, PidGain(3, 1, 1.8) } };
 
 // Rコースの情報を初期化する
 const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
-    = { SectionParam{ 150, 12, 60, PidGain(0.1, 0.8, 0.1) },
+    = { SectionParam{ 150, 12, 60, PidGain(0.2, 0.1, 0.1) },
         SectionParam{ 1445, 12, 100, PidGain(3.5, 1, 1) },
-        SectionParam{ 670, 12, 55, PidGain(1, 0.8, 1) },
-        SectionParam{ 600, 12, 100, PidGain(3, 2.7, 1.2) },
-        SectionParam{ 580, 12, 60, PidGain(0.9, 0.3, 0.6) },
-        SectionParam{ 1450, 12, 100, PidGain(2, 0.9, 0.9) },
-        SectionParam{ 400, 12, 50, PidGain(5, 0.8, 0.9) },
+        SectionParam{ 670, 12, 80, PidGain(1.25, 1.05, 1.3) },
+        SectionParam{ 600, 12, 100, PidGain(3.3, 1, 1) },
+        SectionParam{ 580, 12, 80, PidGain(0.95, 0.675, 0.65) },
+        SectionParam{ 1450, 12, 100, PidGain(3.75, 0.3, 0.3) },
+        SectionParam{ 400, 12, 60, PidGain(4.2, 1.3, 0.15) },
         SectionParam{ 700, 12, 100, PidGain(3, 1, 1.8) } };
 
 void LineTraceArea::runLineTraceArea()
