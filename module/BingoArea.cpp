@@ -8,10 +8,10 @@
 
 void BingoArea::runBingoArea()
 {
-  CourseInfo courseInfo;
+  CourseInfo courseInfo(IS_LEFT_COURSE);
   LineTracer lineTracer(IS_LEFT_COURSE);
   MotionPerformer motionPerformer(lineTracer);
-  MotionConverter motionConverter(motionPerformer, IS_LEFT_COURSE);
+  MotionConverter motionConverter(motionPerformer);
   //コース情報を初期化する
   courseInfo.initCourseInfo();
   //黒ブロックを運搬する

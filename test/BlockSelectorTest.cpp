@@ -10,7 +10,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute1)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
@@ -90,7 +90,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute2)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
@@ -171,7 +171,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute3)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
@@ -252,7 +252,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute4)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
     const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
@@ -333,7 +333,7 @@ namespace etrobocon2021_test {
   TEST(selectBlockTest, selectBlockRoute5)
   {
     constexpr bool IS_LEFT_COURSE = true;
-    CourseInfo courseInfo;
+    CourseInfo courseInfo(IS_LEFT_COURSE);
     courseInfo.initCourseInfo();
     Robot robot(IS_LEFT_COURSE);
 

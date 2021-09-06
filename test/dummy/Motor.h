@@ -41,6 +41,8 @@ namespace ev3api {
      */
     void stop(){};
 
+    void reset();
+
    private:
     static double leftCount;
     static double rightCount;

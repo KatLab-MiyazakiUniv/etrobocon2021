@@ -6,27 +6,34 @@
 
 #include "etroboc_ext.h"
 
+bool isLeft = true;
+
 int ETRoboc_getCourseInfo(ETROBOC_COURSE_INFO_ID id)
 {
   if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1) {
     return 48;
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED1) {
-    return 69;
+    return (isLeft ? 69 : 72);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED2) {
-    return 77;
+    return (isLeft ? 77 : 74);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1) {
-    return 66;
+    return (isLeft ? 66 : 67);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2) {
-    return 75;
+    return (isLeft ? 75 : 76);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1) {
-    return 68;
+    return (isLeft ? 68 : 65);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2) {
-    return 82;
+    return (isLeft ? 82 : 81);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1) {
-    return 71;
+    return (isLeft ? 71 : 70);
   } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2) {
-    return 80;
+    return (isLeft ? 80 : 83);
   } else {
     return -1;
   }
+}
+
+void setIsLeft(bool _isLeft)
+{
+  isLeft = _isLeft;
 }

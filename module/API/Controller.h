@@ -53,11 +53,14 @@ class Controller {
    */
   void notifyCompletedToSimulator();
 
+  void resetMotorCount();
+
  private:
   ev3api::Motor rightWheel;
   ev3api::Motor leftWheel;
   ev3api::Motor armMotor;
   ev3api::Clock clock;
+  
   Measurer measurer;
   /**
    * モータに設定するPWM値の制限
