@@ -56,5 +56,5 @@ void BlackBlockCarrier::carryBlackBlock()
   controller.sleep(500);
   straightRunner.runStraightToColor(-20, COLOR::BLACK);
   controller.sleep(200);
-  straightRunner.runStraightToDistance(50, RUN_STRAIGHT_PWM - 60);
+  straightRunner.runStraightToDistance(47, RUN_STRAIGHT_PWM - 60);
 }
