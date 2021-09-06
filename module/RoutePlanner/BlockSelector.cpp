@@ -50,8 +50,8 @@ BLOCK_ID BlockSelector::selectBlock()
   RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
   const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
   const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
-  Coordinate currentCoordinate = robot.getCoordinate();
-  Direction currentDirection = robot.getDirection();
+  Coordinate currentCoordinate = robot.getCoordinate();  //現時点での走行体の座標
+  Direction currentDirection = robot.getDirection();     //現時点での走行体の向き
 
   // 最善と思われる運搬ブロックを探索する
   for(i = B_ZERO; i < B_SIZE; i++) {
@@ -72,6 +72,7 @@ BLOCK_ID BlockSelector::selectBlock()
     if(!arrivableBlocks[i]) continue;
 
     // // ブロックの運搬先に到着できない場合
+    robot.setDirection(currentDirection);
     robot.setDirection(
         routeCalculator.calculateRoute(robot.getCoordinate(), targetBlockCoord).back().second);
     if(routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord).front().first
@@ -161,11 +162,23 @@ BLOCK_ID BlockSelector::selectBlock()
   Node& bestBlock = courseInfo.getNode(bestBlockId);
   Coordinate bestBlockCoord = bestBlock.getCoordinate();
 
-  // // ロボットの向きと座標を更新する
+  //最善と思われるブロックまで走行体が移動したものとして座標と向きを更新
+  robot.setCoordinate(bestBlockCoord);
+  robot.setDirection(currentDirection);
+  robot.setDirection(
+      routeCalculator.calculateRoute(currentCoordinate, bestBlockCoord).back().second);
+
+  //最善と思われるブロックを運搬したものとしてロボットの向きと座標を更新する
   std::vector<std::pair<Coordinate, Direction>> bestSetRoute
       = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord);
   robot.setCoordinate(bestSetRoute[bestSetRoute.size() - 2].first);
-  robot.setDirection(bestSetRoute[bestSetRoute.size() - 2].second);
+  if(abs(MotionConverter::calculateAngle(bestSetRoute[bestSetRoute.size() - 2].second,
+                                         bestSetRoute[bestSetRoute.size() - 1].second))
+     == 45) {
+    robot.setDirection(bestSetRoute[bestSetRoute.size() - 1].second);  //投げ入れ設置
+  } else {
+    robot.setDirection(bestSetRoute[bestSetRoute.size() - 2].second);  //ピボットターン設置
+  }
   courseInfo.moveBlock(static_cast<CIRCLE_ID>(bestCircleNumber), bestBlockId);
 
   // 最良と思われる候補を返す

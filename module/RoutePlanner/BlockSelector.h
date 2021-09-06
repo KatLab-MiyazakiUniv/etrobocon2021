@@ -12,6 +12,7 @@
 #include "DestinationList.h"
 #include "Robot.h"
 #include "RouteCalculator.h"
+#include "MotionConverter.h"
 
 const bool T = true;
 const bool F = false;
