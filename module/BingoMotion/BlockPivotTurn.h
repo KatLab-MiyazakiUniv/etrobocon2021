@@ -11,6 +11,9 @@
 #include "Rotation.h"
 #include "BingoMotion.h"
 #include "ArmMotion.h"
+#include "BlockThrower.h"
+#include "InCrossLeft.h"
+#include "InCrossRight.h"
 
 class BlockPivotTurn : public BingoMotion {
  public:
@@ -26,6 +29,12 @@ class BlockPivotTurn : public BingoMotion {
  private:
   StraightRunner straightRunner;
   Rotation rotation;
+  BlockThrower blockThrower;
+  Measurer measurer;
+  Controller controller;
+
+  const double TREAD = 140;  // 走行体のトレッド幅（両輪の間の距離）[mm]
+  const int MIN_PWM = 10;    // モーターパワーの最小値
 };
 
 #endif
