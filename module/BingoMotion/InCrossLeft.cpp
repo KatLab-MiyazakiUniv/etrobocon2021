@@ -10,7 +10,7 @@ InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : BingoMotion(6, 6), lineTrace
 
 void InCrossLeft::runLeft(void)
 {
-  int targetDistance = 5;
+  int targetDistance = 10;
   int runPwm = 30;
   int angle = 90;
   int turnPwm = 100;
