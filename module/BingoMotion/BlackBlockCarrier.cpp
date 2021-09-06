@@ -14,7 +14,7 @@ void BlackBlockCarrier::carryBlackBlock()
   const PidGain RUN_GAIN(0.1, 0.8, 0.15);  //直進のライントレースに使用するゲイン
   const PidGain BLUE_LINE_GAIN(0.2, 1, 0.4);  //青線上をライントレースする際に使用するゲイン
   const PidGain TO_GREEN_LINE_GAIN(0.15, 1, 0.2);  //緑の円までライントレースする際に使用するゲイン
-  const PidGain LAST_LINE_GAIN(0.1, 0.1, 0.12);  //黒ブロックを取得するラインで使用するゲイン
+  const PidGain LAST_LINE_GAIN(0.1, 0.1, 0.15);  //黒ブロックを取得するラインで使用するゲイン
   bool isLeftEdge = !IS_LEFT_COURSE;
   Rotation rotation;
   StraightRunner straightRunner;
@@ -38,14 +38,14 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, TO_GREEN_LINE_GAIN);
   //９０度ピボットターン
   straightRunner.runStraightToDistance(10, RUN_STRAIGHT_PWM - 50);
-  controller.sleep(500);
+  controller.sleep(300);
   IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 33) : rotation.turnForwardLeftPivot(90, 33);
   //黒ブロック手前までライントレース
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, LAST_LINE_GAIN);
   //センターマークの平行線上まで直進
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 40);
-  straightRunner.runStraightToDistance(290, RUN_STRAIGHT_PWM - 30);
+  straightRunner.runStraightToDistance(250, RUN_STRAIGHT_PWM - 30);
   straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM - 50);
   controller.sleep(500);
   // 90度ピボットターン
