@@ -6,8 +6,8 @@
 
 #include "MotionConverter.h"
 
-MotionConverter::MotionConverter(MotionPerformer& motionPerformer)
-  : motionPerformer(motionPerformer)
+MotionConverter::MotionConverter(MotionPerformer& motionPerformer, const bool IS_LEFT_COURSE)
+  : motionPerformer(motionPerformer), isLeftCourse(IS_LEFT_COURSE)
 {
 }
 
