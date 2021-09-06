@@ -71,7 +71,7 @@ BLOCK_ID BlockSelector::selectBlock()
     // ブロックに到着できない場合
     if(!arrivableBlocks[i]) continue;
 
-    // // ブロックの運搬先に到着できない場合
+    // ブロックの運搬先に到着できない場合
     robot.setDirection(currentDirection);
     robot.setDirection(
         routeCalculator.calculateRoute(robot.getCoordinate(), targetBlockCoord).back().second);
