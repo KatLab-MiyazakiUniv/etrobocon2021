@@ -74,6 +74,10 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   }
   // アームを水平にする処理を有効化
   ArmMotion::setKeepFlag(true);
+
+  // 反動を打ち消すため直進する
+  straightRunner.runStraightToDistance(15.0, 20);
+
   //モータの停止
   controller.stopMotor();
 }
