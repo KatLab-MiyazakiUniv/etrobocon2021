@@ -33,7 +33,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(courseInfo);
-    BlockSelector blockSelector(courseInfo, destinationList, robot);
+    BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -113,7 +113,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(courseInfo);
-    BlockSelector blockSelector(courseInfo, destinationList, robot);
+    BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -183,7 +183,7 @@ namespace etrobocon2021_test {
 
     // 手計算で求めた運搬ブロックの順番
     BLOCK_ID expecteds[B_SIZE] = {
-      BLOCK_ID::ID4, BLOCK_ID::ID0, BLOCK_ID::ID3, BLOCK_ID::ID2,
+      BLOCK_ID::ID0, BLOCK_ID::ID3, BLOCK_ID::ID4, BLOCK_ID::ID2,
       BLOCK_ID::ID6, BLOCK_ID::ID7, BLOCK_ID::ID5, BLOCK_ID::ID1,
     };
 
@@ -194,7 +194,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(courseInfo);
-    BlockSelector blockSelector(courseInfo, destinationList, robot);
+    BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -275,7 +275,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(courseInfo);
-    BlockSelector blockSelector(courseInfo, destinationList, robot);
+    BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();
@@ -357,7 +357,7 @@ namespace etrobocon2021_test {
 
     // フルビンゴになるまで運搬するブロックを探索し、正しいかを判定する
     DestinationList destinationList(courseInfo);
-    BlockSelector blockSelector(courseInfo, destinationList, robot);
+    BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
     for(int i = B_ZERO; i < B_SIZE; i++) {
       // 次に運搬するブロックを決定する
       BLOCK_ID targetBlockId = blockSelector.selectBlock();

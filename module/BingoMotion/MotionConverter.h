@@ -36,10 +36,6 @@ class MotionConverter {
    */
   void convertToMotion(const std::vector<std::pair<Coordinate, Direction>>& route);
 
- private:
-  MotionPerformer& motionPerformer;
-  const bool isLeftCourse;
-
   /**
    * @fn int calculateAngle(Direction current, Direction next);
    * @brief 走行体の向きの変化から回転角を計算する
@@ -47,7 +43,11 @@ class MotionConverter {
    * @param next 次の向き
    * @return 回転角[deg]
    */
-  int calculateAngle(Direction current, Direction next);
+  static int calculateAngle(Direction current, Direction next);
+
+ private:
+  MotionPerformer& motionPerformer;
+  const bool isLeftCourse;
 };
 
 #endif

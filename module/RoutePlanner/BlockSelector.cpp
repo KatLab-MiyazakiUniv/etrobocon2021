@@ -7,10 +7,11 @@
 #include "BlockSelector.h"
 
 // コンストラクタ
-BlockSelector::BlockSelector(CourseInfo& _courseInfo, DestinationList& _destination, Robot& _robot)
-  : courseInfo(_courseInfo),
+BlockSelector::BlockSelector(DestinationList& _destination, const bool IS_LEFT_COURSE)
+  : courseInfo(IS_LEFT_COURSE),
     destinationList(_destination),
-    robot(_robot),
+    robot(IS_LEFT_COURSE),
+    isLeftCourse(IS_LEFT_COURSE),
     arrivableBlocks{ T, F, T, T, T, F, F, F },
     arrivableCircles{ T, T, F, T, F, F, F, F },
     OPEN_CIRCLE_ID{ {
@@ -33,8 +34,8 @@ BlockSelector::BlockSelector(CourseInfo& _courseInfo, DestinationList& _destinat
         { F, F, T, F, T, F, T, T },
         { F, F, F, T, T, T, T, T },
     } }
-
 {
+  courseInfo.initCourseInfo();
 }
 
 // 運搬するブロックを決定する
@@ -46,17 +47,23 @@ BLOCK_ID BlockSelector::selectBlock()
   int maxCrossLine = 0;                   // 候補の交線数
   int maxDirectPoint = -1;  // 候補と走行体の進行方向についての評価点
   bool updateFg = false;
-
+  RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
   const int B_ZERO = static_cast<int>(BLOCK_ID::ID0);
   const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
+  Coordinate currentCoordinate = robot.getCoordinate();  //現時点での走行体の座標
+  Direction currentDirection = robot.getDirection();     //現時点での走行体の向き
 
   // 最善と思われる運搬ブロックを探索する
   for(i = B_ZERO; i < B_SIZE; i++) {
     BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
     updateFg = false;
 
-    // 運搬先サークル番号
+    //運搬するブロックの座標と運搬先の座標を求める
     int targetCircleNumber = static_cast<int>(destinationList.getDestination(blockId));
+    Node& targetBlock = courseInfo.getNode(blockId);
+    Coordinate targetCircleCoord
+        = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
+    Coordinate targetBlockCoord = targetBlock.getCoordinate();
 
     // 運搬済みだった場合
     if(isCarriedBlock(blockId)) continue;
@@ -65,15 +72,20 @@ BLOCK_ID BlockSelector::selectBlock()
     if(!arrivableBlocks[i]) continue;
 
     // ブロックの運搬先に到着できない場合
+    robot.setDirection(currentDirection);
+    robot.setDirection(
+        routeCalculator.calculateRoute(robot.getCoordinate(), targetBlockCoord).back().second);
+    if(routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord).front().first
+           != targetBlockCoord
+       || routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord).back().first
+              != targetCircleCoord)
+      continue;
+
     // 現在ブロックサークルに到着できない and 対象のブロックを運搬してもサークルが開放されない
     if(!arrivableCircles[targetCircleNumber] && !OPEN_CIRCLE_ID[i][targetCircleNumber]) continue;
 
     // ブロックを取りに行く距離(ここで計算)+ブロックを運ぶ距離(DestinationListから取得)　の和を計算
-    Node& targetBlock = courseInfo.getNode(blockId);
-    Coordinate targetBlockCoord = targetBlock.getCoordinate();
-    Coordinate targetCircleCoord
-        = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
-    Coordinate robotCoord = robot.getCoordinate();
+    Coordinate robotCoord = currentCoordinate;
     // ブロックを取得するまでの距離
     int toBlockDistance
         = std::abs(robotCoord.x - targetBlockCoord.x) + std::abs(robotCoord.y - targetBlockCoord.y);
@@ -106,7 +118,7 @@ BLOCK_ID BlockSelector::selectBlock()
 
     // 走行体の向きの進路を優先する
     // 走行体の進行方向
-    Direction robotDirection = robot.getDirection();
+    Direction robotDirection = currentDirection;
     // 方角の変換テーブル{dx,dy}
     std::array<std::array<int, 2>, 8> robotVector = { {
         { 0, -1 },  // N
@@ -143,6 +155,31 @@ BLOCK_ID BlockSelector::selectBlock()
     arrivableBlocks[i] = arrivableBlocks[i] || OPEN_BLOCK_ID[bestBlockNumber][i];
     arrivableCircles[i] = arrivableCircles[i] || OPEN_CIRCLE_ID[bestBlockNumber][i];
   }
+  //最善と思われるブロックの運搬先
+  int bestCircleNumber = static_cast<int>(destinationList.getDestination(bestBlockId));
+  Coordinate bestCircleCoord
+      = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(bestCircleNumber)).getCoordinate();
+  Node& bestBlock = courseInfo.getNode(bestBlockId);
+  Coordinate bestBlockCoord = bestBlock.getCoordinate();
+
+  //最善と思われるブロックまで走行体が移動したものとして座標と向きを更新
+  robot.setCoordinate(bestBlockCoord);
+  robot.setDirection(currentDirection);
+  robot.setDirection(
+      routeCalculator.calculateRoute(currentCoordinate, bestBlockCoord).back().second);
+
+  //最善と思われるブロックを運搬したものとしてロボットの向きと座標を更新する
+  std::vector<std::pair<Coordinate, Direction>> bestSetRoute
+      = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord);
+  robot.setCoordinate(bestSetRoute[bestSetRoute.size() - 2].first);
+  if(abs(MotionConverter::calculateAngle(bestSetRoute[bestSetRoute.size() - 2].second,
+                                         bestSetRoute[bestSetRoute.size() - 1].second))
+     == 45) {
+    robot.setDirection(bestSetRoute[bestSetRoute.size() - 1].second);  //投げ入れ設置
+  } else {
+    robot.setDirection(bestSetRoute[bestSetRoute.size() - 2].second);  //ピボットターン設置
+  }
+  courseInfo.moveBlock(static_cast<CIRCLE_ID>(bestCircleNumber), bestBlockId);
 
   // 最良と思われる候補を返す
   return bestBlockId;
