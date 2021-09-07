@@ -72,13 +72,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     }
 
     // 走行体の方向を更新
-    if(std::abs(diffDirection) < 2) {
-      // 目標が前方にある場合、投げ入れ設置のため目標を向く
-      robot.setDirection(goal.second);
-    } else {
-      // 目標が後方にある場合、ピボット設置のため設置動作前の方向を向く
-      robot.setDirection(prevGoal.second);
-    }
+    robot.setDirection(goal.second);
 
     // ブロックを運搬したとして、ビンゴエリア情報を更新する
     courseInfo.moveBlock(targetCircleId, carryBlockId);

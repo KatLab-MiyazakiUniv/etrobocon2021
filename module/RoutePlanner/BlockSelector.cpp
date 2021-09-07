@@ -171,14 +171,11 @@ BLOCK_ID BlockSelector::selectBlock()
   //最善と思われるブロックを運搬したものとしてロボットの向きと座標を更新する
   std::vector<std::pair<Coordinate, Direction>> bestSetRoute
       = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord);
+  int routeSize = bestSetRoute.size();
+
   robot.setCoordinate(bestSetRoute[bestSetRoute.size() - 2].first);
-  if(abs(MotionConverter::calculateAngle(bestSetRoute[bestSetRoute.size() - 2].second,
-                                         bestSetRoute[bestSetRoute.size() - 1].second))
-     == 45) {
-    robot.setDirection(bestSetRoute[bestSetRoute.size() - 1].second);  //投げ入れ設置
-  } else {
-    robot.setDirection(bestSetRoute[bestSetRoute.size() - 2].second);  //ピボットターン設置
-  }
+  std::pair<Coordinate, Direction> Goal = bestSetRoute[routeSize - 1];
+  robot.setDirection(Goal.second);
   courseInfo.moveBlock(static_cast<CIRCLE_ID>(bestCircleNumber), bestBlockId);
 
   // 最良と思われる候補を返す
