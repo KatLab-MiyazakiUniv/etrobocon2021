@@ -10,12 +10,11 @@ BlockPivotTurn::BlockPivotTurn() : BingoMotion(2, 2) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  double targetDistance = 4;
-  double runPwm = 30;
-  double angle = 93;
-  int rotatePwm = 85;
-  int rotateAngle = 45;
-  int backPwm = -10;
+  int runDistance = 86;  //最初に直進する距離
+  int runPwm = 10;       //最初に直進する際のPwm値
+  int rotateAngle = 45;  //回頭の角度
+  int rotatePwm = 10;    //回頭のPwm値
+  int backPwm = -15;     //位置調整用のPwm値
 
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
@@ -23,19 +22,17 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 
   //ピボットターンする
   if(isClockwise) {
-    straightRunner.runStraightToDistance(86, 10);
-    rotation.rotateRight(45, 10);
+    straightRunner.runStraightToDistance(runDistance, runPwm);
+    rotation.rotateRight(rotateAngle, rotatePwm);
     straightRunner.runStraightToDistance(20, 15);
-    rotation.rotateRight(45, 10);
-    // straightRunner.runStraightToDistance(10, 15);
+    rotation.rotateRight(rotateAngle, rotatePwm);
     setBlockPivotThrow(isClockwise);
-    straightRunner.runStraightToDistance(20, -15);
+    straightRunner.runStraightToDistance(20, backPwm);
   } else {
-    straightRunner.runStraightToDistance(86, 10);
-    rotation.rotateLeft(45, 10);
+    straightRunner.runStraightToDistance(86, runPwm);
+    rotation.rotateLeft(rotateAngle, rotatePwm);
     straightRunner.runStraightToDistance(22, 15);
-    rotation.rotateLeft(45, 10);
-    // straightRunner.runStraightToDistance(20, 15);
+    rotation.rotateLeft(rotateAngle, rotatePwm);
     setBlockPivotThrow(isClockwise);
   }
 }
