@@ -92,6 +92,15 @@ jobs:
         # プルリクの Issue 番号の取得 (on: pull_request のイベントによってトリガーされた場合のみ)
         ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
 
+        # このプルリクに新たなコミットがPushされていることを検知した場合、テストをスキップする
+        IS_SKIP=$(curl -H "Accept: application/vnd.github.v3+json" \
+                       ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
+                    jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
+                    grep -oE ${ISSUE_NUMBER} | wc -l)
+        if [ "${IS_SKIP}" != "0" ]; then
+          MSG_TAIL=":fast_forward: Skiped"
+        fi
+
         # プルリクコメントの投稿とコメントIDの取得
         COMMENT_ID=$(curl \
                       -X POST \
@@ -99,6 +108,11 @@ jobs:
                       -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                       ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
                       -d "{\"body\":\"${MSG_TAIL}\"}" | jq -r '.id')
+
+        # シミュレータテストのスキップ
+        if [ "${IS_SKIP}" != "0" ]; then
+          MSG_TAIL=":fast_forward: Skiped"
+        fi
 
         # テスト結果公開用ディレクトリの生成
         TEST_RESULT_DIR_ROOT=${HOME}/Videos
@@ -357,12 +371,14 @@ jobs:
 
           # ループ終了時の片づけ
           if [[ "${i}" == "${MAX_SIM_TIME}" || "${QUEUED_JOB_NUM}" != "0" ]]; then
-            MSG_TAIL=""
+            MSG_TAIL=":white_check_mark: Test complete !!!"
             i=${MAX_SIM_TIME}
           fi
 
           # プルリクコメントのアップデート
-          MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_TAIL}"
+          MSG=''
+          MSG+="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}"
+          MSG+="${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_TAIL}"
           curl \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
