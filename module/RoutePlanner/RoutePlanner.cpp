@@ -53,7 +53,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     }
     count++;
 
-    int routeSize = toCircleRoute.size();
+    int routeSize = static_cast<int>(toCircleRoute.size());
     // 運搬ブロックを設置する目標サークル
     std::pair<Coordinate, Direction> goal = toCircleRoute[routeSize - 1];
     // ブロック設置動作を開始する交点サークル
