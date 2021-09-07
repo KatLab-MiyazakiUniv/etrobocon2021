@@ -34,6 +34,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(22, 15);
     rotation.rotateLeft(rotateAngle, rotatePwm);
     setBlockPivotThrow(isClockwise);
+    straightRunner.runStraightToDistance(20, backPwm);
   }
 }
 
