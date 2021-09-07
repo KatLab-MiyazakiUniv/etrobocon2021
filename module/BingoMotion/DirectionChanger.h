@@ -13,18 +13,18 @@
 #include "LineTracer.h"
 #include "BingoMotion.h"
 
-class DirectionChanger : public BingoMotion{
-  public:
+class DirectionChanger : public BingoMotion {
+ public:
   DirectionChanger(LineTracer& _lineTracer);
 
   /**
    * @brief 方向転換する
-   * @param angle 回転角度（deg） -180 < angle <= 180 45度刻み
-   * @param isClockwise 直前に投げ入れた方向
+   * @param ratateAngle 回転角度（deg） -180 < angle <= 180 45度刻み
+   * @param changeAngle 設置動作の直前方向から見て回頭する角度
    */
-  void changeDirection(int angle, bool isClockwise=true);
-  
-  private:
+  void changeDirection(int rotateAngle, int changeAngle);
+
+ private:
   Rotation rotation;
   LineTracer& lineTracer;
   Controller controller;
