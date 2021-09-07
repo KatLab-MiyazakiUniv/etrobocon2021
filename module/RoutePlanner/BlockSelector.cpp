@@ -52,12 +52,11 @@ BLOCK_ID BlockSelector::selectBlock()
   const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
   Coordinate currentCoordinate = robot.getCoordinate();  //現時点での走行体の座標
   Direction currentDirection = robot.getDirection();     //現時点での走行体の向き
-
+  printf("%d %d\n", currentCoordinate.x, currentCoordinate.y);
   // 最善と思われる運搬ブロックを探索する
   for(i = B_ZERO; i < B_SIZE; i++) {
     BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
     updateFg = false;
-
     //運搬するブロックの座標と運搬先の座標を求める
     int targetCircleNumber = static_cast<int>(destinationList.getDestination(blockId));
     Node& targetBlock = courseInfo.getNode(blockId);
@@ -72,14 +71,19 @@ BLOCK_ID BlockSelector::selectBlock()
     if(!arrivableBlocks[i]) continue;
 
     // ブロックの運搬先に到着できない場合
-    robot.setDirection(currentDirection);
-    robot.setDirection(
-        routeCalculator.calculateRoute(robot.getCoordinate(), targetBlockCoord).back().second);
-    if(routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord).front().first
-           != targetBlockCoord
-       || routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord).back().first
-              != targetCircleCoord)
-      continue;
+    robot.setDirection(currentDirection);    //ブロックを取得しに行く前の向き
+    robot.setCoordinate(currentCoordinate);  //ブロックを取得しに行く前の座標
+
+    std::vector<std::pair<Coordinate, Direction>> route = routeCalculator.calculateRoute(
+        robot.getCoordinate(), targetBlockCoord);  //ブロックを取得しに行く経路
+
+    robot.setDirection(route.back().second);  //ブロックを取得した後の向き
+    robot.setCoordinate(route.back().first);  //ブロックを取得した後の座標
+    printf("%d %d -> %d %d\n", targetBlockCoord.x, targetBlockCoord.y, targetCircleCoord.x,
+           targetCircleCoord.y);
+    route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord);
+    // if(route.front().first != targetBlockCoord || route.back().first != targetCircleCoord)
+    // continue;
 
     // 現在ブロックサークルに到着できない and 対象のブロックを運搬してもサークルが開放されない
     if(!arrivableCircles[targetCircleNumber] && !OPEN_CIRCLE_ID[i][targetCircleNumber]) continue;
@@ -172,7 +176,6 @@ BLOCK_ID BlockSelector::selectBlock()
   std::vector<std::pair<Coordinate, Direction>> bestSetRoute
       = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord);
   int routeSize = bestSetRoute.size();
-
   robot.setCoordinate(bestSetRoute[bestSetRoute.size() - 2].first);
   std::pair<Coordinate, Direction> Goal = bestSetRoute[routeSize - 1];
   robot.setDirection(Goal.second);

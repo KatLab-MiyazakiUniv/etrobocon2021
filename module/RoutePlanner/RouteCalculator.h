@@ -1,7 +1,7 @@
 /**
- * @file	RouteCalculator.h
- * @brief	経路計算クラス
- * @author	Hisataka-Hagiyama,uchyam
+ * @file  RouteCalculator.h
+ * @brief 経路計算クラス
+ * @author  Hisataka-Hagiyama,uchyam
  */
 
 #ifndef ROUTE_CALCULATOR_H
@@ -36,7 +36,7 @@ struct Route {
   Coordinate parent;    //親ノード
   int cost;             //このノードに到達するまでのコスト
   Direction direction;  //このノードでの向き
-  bool checked;         //経路復元の際にこのノードをチェックしたかどうか
+  bool checked;         //このノードを探索したかどうか
 
   //コンストラクタ
   Route() : parent(-1, -1), cost(0), direction(Direction::N), checked(false) {}
@@ -47,12 +47,14 @@ struct Route {
    * @param _parent 親ノード
    * @param _currentCost　このノードでのコスト
    * @param _direction このノードでの向き
+   * @param _checked このノードを探索したかどうか
    */
-  void setInfo(Coordinate _parent, int _currentCost, Direction _direction)
+  void setInfo(Coordinate _parent, int _currentCost, Direction _direction,bool _checked)
   {
     parent = _parent;
     cost = _currentCost;
     direction = _direction;
+    checked=_checked;
   }
 };
 
@@ -103,7 +105,7 @@ class RouteCalculator {
    * @param node 隣接ノードの情報
    * @param list オープンorクローズリスト
    */
-  void checkList(AstarInfo node, std::vector<AstarInfo>& list);
+  bool checkList(AstarInfo node, std::vector<AstarInfo>& list);
 
   /**
    * @fn int calculateManhattan(Coordinate coordinate);
