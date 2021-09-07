@@ -23,7 +23,7 @@ void BlackBlockCarrier::carryBlackBlock()
   //青の線まで
   lineTracer.run(780, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
   //青の線を通過
-  lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.16, 0.8, 0.15));
+  lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.19, 0.8, 0.19));
   //黄色の円まで
   lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.12, 0.8, 0.15));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.15, 0.8, 0.2));
@@ -34,22 +34,24 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.run(100, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 45, PidGain(0.12, 0.8, 0.15));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.13));
   //９０度ピボットターン
-  straightRunner.runStraightToDistance(16, RUN_STRAIGHT_PWM - 60);
+  straightRunner.runStraightToDistance(17, RUN_STRAIGHT_PWM - 60);
   controller.sleep(300);
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.7, 33) : rotation.turnForwardLeftPivot(91.7, 33);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.3, 33) : rotation.turnForwardLeftPivot(91.3, 33);
   //黒ブロック手前までライントレース
-  lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.12, 0.1, 0.12));
+  lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
   //センターマークの平行線上まで直進
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 40);
   straightRunner.runStraightToDistance(240, RUN_STRAIGHT_PWM - 30);
   straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM - 50);
-  controller.sleep(100);
+  controller.sleep(200);
   // 90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.5, 33) : rotation.turnForwardLeftPivot(91.5, 33);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.3, 33) : rotation.turnForwardLeftPivot(91.3, 33);
   controller.sleep(200);
   //センターマークまで直進する(黒→青→青→黒の順に認識する)
-  straightRunner.runStraightToDistance(70, RUN_STRAIGHT_PWM - 50);
+  straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 70);
+  straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 60);
+  straightRunner.runStraightToDistance(20, RUN_STRAIGHT_PWM - 50);
   straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 40, COLOR::BLACK);
   straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLUE);
   straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLUE);
@@ -59,5 +61,5 @@ void BlackBlockCarrier::carryBlackBlock()
   controller.sleep(500);
   straightRunner.runStraightToColor(-20, COLOR::BLACK);
   controller.sleep(200);
-  straightRunner.runStraightToDistance(40, RUN_STRAIGHT_PWM - 60);
+  straightRunner.runStraightToDistance(30, RUN_STRAIGHT_PWM - 60);
 }
