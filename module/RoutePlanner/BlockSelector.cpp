@@ -52,7 +52,7 @@ BLOCK_ID BlockSelector::selectBlock()
   const int B_SIZE = static_cast<int>(BLOCK_ID::ID7) + 1;
   Coordinate currentCoordinate = robot.getCoordinate();  //現時点での走行体の座標
   Direction currentDirection = robot.getDirection();     //現時点での走行体の向き
-  printf("%d %d\n", currentCoordinate.x, currentCoordinate.y);
+
   // 最善と思われる運搬ブロックを探索する
   for(i = B_ZERO; i < B_SIZE; i++) {
     BLOCK_ID blockId = static_cast<BLOCK_ID>(i);
@@ -79,11 +79,9 @@ BLOCK_ID BlockSelector::selectBlock()
 
     robot.setDirection(route.back().second);  //ブロックを取得した後の向き
     robot.setCoordinate(route.back().first);  //ブロックを取得した後の座標
-    printf("%d %d -> %d %d\n", targetBlockCoord.x, targetBlockCoord.y, targetCircleCoord.x,
-           targetCircleCoord.y);
+
     route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord);
-    // if(route.front().first != targetBlockCoord || route.back().first != targetCircleCoord)
-    // continue;
+    if(route.front().first != targetBlockCoord || route.back().first != targetCircleCoord) continue;
 
     // 現在ブロックサークルに到着できない and 対象のブロックを運搬してもサークルが開放されない
     if(!arrivableCircles[targetCircleNumber] && !OPEN_CIRCLE_ID[i][targetCircleNumber]) continue;
