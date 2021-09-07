@@ -34,7 +34,7 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.run(100, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 45, PidGain(0.12, 0.8, 0.15));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.13));
   //９０度ピボットターン
-  straightRunner.runStraightToDistance(17, RUN_STRAIGHT_PWM - 60);
+  straightRunner.runStraightToDistance(15, RUN_STRAIGHT_PWM - 60);
   controller.sleep(500);
   IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.3, 33) : rotation.turnForwardLeftPivot(91.3, 33);
   //黒ブロック手前までライントレース
@@ -46,7 +46,7 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM - 50);
   controller.sleep(500);
   // 90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.3, 25) : rotation.turnForwardLeftPivot(91.3, 25);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 20) : rotation.turnForwardLeftPivot(91.3, 25);
   controller.sleep(300);
   //センターマークまで直進する(黒→青→青→黒の順に認識する)
   straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 70);
