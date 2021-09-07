@@ -126,7 +126,6 @@ void Rotation::turnForwardRightPivot(int angle, int pwm)
 
     controller.setLeftMotorPwm(leftPwm);
     controller.setRightMotorPwm(rightPwm);
-    controller.sleep();
 
     motorCount = (measurer.getLeftCount() + measurer.getRightCount()) / 2;
 
@@ -157,7 +156,6 @@ void Rotation::turnBackRightPivot(int angle, int pwm)
 
     controller.setLeftMotorPwm(-leftPwm);
     controller.setRightMotorPwm(rightPwm);
-    controller.sleep();
 
     controller.sleep();
   }
@@ -186,8 +184,6 @@ void Rotation::turnForwardLeftPivot(int angle, int pwm)
     controller.sleep();
 
     motorCount = ((measurer.getLeftCount()) + (measurer.getRightCount())) / 2;
-
-    controller.sleep();
   }
 
   controller.stopMotor();
@@ -213,7 +209,6 @@ void Rotation::turnBackLeftPivot(int angle, int pwm)
 
     controller.setLeftMotorPwm(leftPwm);
     controller.setRightMotorPwm(-rightPwm);
-    controller.sleep();
 
     motorCount = (abs(measurer.getLeftCount()) + abs(measurer.getRightCount())) / 2;
 

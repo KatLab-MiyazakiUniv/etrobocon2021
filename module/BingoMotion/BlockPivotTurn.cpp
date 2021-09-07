@@ -12,9 +12,9 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
   double targetDistance = 4;
   double runPwm = 30;
-  double angle = 87.5;
-  int rotatePwm = 100;
-  int rotateAngle = 44;
+  double angle = 93;
+  int rotatePwm = 85;
+  int rotateAngle = 45;
   int backPwm = -10;
 
   LineTracer lineTracer(isClockwise);
@@ -23,6 +23,8 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 
   //ピボットターンする
   if(isClockwise) {
+    straightRunner.runStraightToDistance(2, 40);
+
     inCrossRight.runRight();
     blockThrower.setBlockPivotThrow(isClockwise);
     rotation.rotateLeft(rotateAngle, rotatePwm);
@@ -30,6 +32,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(targetDistance, backPwm);
     rotation.rotateLeft(angle, rotatePwm);
   } else {
+    straightRunner.runStraightToDistance(2, 40);
     inCrossLeft.runLeft();
     blockThrower.setBlockPivotThrow(isClockwise);
     rotation.rotateRight(rotateAngle, rotatePwm);

@@ -10,7 +10,7 @@ BlockThrower::BlockThrower() : BingoMotion(1, 1), TREAD(140), MIN_PWM(10) {}
 
 void BlockThrower::setBlockThrow(bool isClockwise)
 {
-  double runDistance = 105;
+  double runDistance = 100;
   int runPwm = 30;
   int angle = 45;
   int rotatePwm = 100;
@@ -76,7 +76,7 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   ArmMotion::setKeepFlag(true);
 
   // 反動を打ち消すため直進する
-  straightRunner.runStraightToDistance(15.0, 20);
+  straightRunner.runStraightToDistance(13.0, 20);
 
   //モータの停止
   controller.stopMotor();
@@ -84,7 +84,7 @@ void BlockThrower::setBlockThrow(bool isClockwise)
 
 void BlockThrower::setBlockPivotThrow(bool isClockwise)
 {
-  double runDistance = 105;
+  double runDistance = 100;
   int runPwm = 30;
   int angle = 45;
   int rotatePwm = 100;
@@ -97,7 +97,7 @@ void BlockThrower::setBlockPivotThrow(bool isClockwise)
   double targetDistance = M_PI * TREAD * angle / 360;
   double targetLeftDistance;
   double targetRightDistance;
-  int armPwm = 70;
+  int armPwm = 50;
 
   // アームを水平にする処理を無効化
   ArmMotion::setKeepFlag(false);
@@ -145,6 +145,7 @@ void BlockThrower::setBlockPivotThrow(bool isClockwise)
   }
   // アームを水平にする処理を有効化
   ArmMotion::setKeepFlag(true);
+
   //モータの停止
   controller.stopMotor();
 }
