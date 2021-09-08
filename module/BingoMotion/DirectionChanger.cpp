@@ -18,6 +18,7 @@ void DirectionChanger::changeDirection(int rotateAngle, int changeAngle)
   int targetDistance = 10;
   int runPwm = 20;
 
+  //180度回頭だと行き過ぎるため調整
   if(rotateAngle == 180) {
     rotateAngle = 175;
   }
