@@ -98,7 +98,7 @@ jobs:
                     jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
                     grep -oE ${ISSUE_NUMBER} | wc -l)
         if [ "${IS_SKIP}" != "0" ]; then
-          MSG_TAIL=":fast_forward: Skiped"
+          MSG_TAIL=":fast_forward: Skipped this test"
         fi
 
         # プルリクコメントの投稿とコメントIDの取得
