@@ -87,7 +87,7 @@ jobs:
         MSG_SUMMARY_DETAIL_HEAD+="|項目|結果|母数|\n"
         MSG_SUMMARY_DETAIL_HEAD+="|---|----|---|\n"
 
-        MSG_TAIL=":arrows_counterclockwise: Testing now... (1/${MAX_SIM_TIME})"
+        MSG_TAIL=":arrows_counterclockwise: Now testing... (1/${MAX_SIM_TIME})"
 
         # プルリクの Issue 番号の取得 (on: pull_request のイベントによってトリガーされた場合のみ)
         ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
@@ -361,7 +361,7 @@ jobs:
           MSG_SUMMARY_DETAIL+="|R平均リザルトタイム[S]|${R_RESULT_TIME_AVG}|${R_GOAL_COUNTER}|\n"
           MSG_SUMMARY_DETAIL+="|平均リザルトタイム[S]|${LR_RESULT_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
 
-          MSG_TAIL=":arrows_counterclockwise: Testing now... ($((i + 1))/${MAX_SIM_TIME})"
+          MSG_TAIL=":arrows_counterclockwise: Now testing... ($((i + 1))/${MAX_SIM_TIME})"
 
           # 待ち状態になっているジョブ？が無いか確認する
           QUEUED_JOB_NUM=$(curl -H "Accept: application/vnd.github.v3+json" \
