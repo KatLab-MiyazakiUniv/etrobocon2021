@@ -1,7 +1,7 @@
 /**
- * @file	RouteCalculator.cpp
- * @brief	経路計算クラス
- * @author	Hisataka-Hagiyama,uchyam
+ * @file  RouteCalculator.cpp
+ * @brief 経路計算クラス
+ * @author  Hisataka-Hagiyama,uchyam
  */
 
 #include "RouteCalculator.h"
@@ -21,7 +21,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   int actualCost = 0;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
-  route[start.x][start.y].setInfo(start, 0, robot.getDirection());
+  route[start.x][start.y].setInfo(start, 0, robot.getDirection(), false);
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
@@ -47,18 +47,22 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         //中点->中点に移動する場合はopenに追加しない
       } else if(checkBlock(m.coordinate)) {
         // ブロックがある場合はopenに追加しない
+      } else if(route[m.coordinate.x][m.coordinate.y].checked == true) {
+        //すでにチェックしている場合はopenに追加しない
       } else if(courseInfo.existBlock(start)
                 && abs(MotionConverter::calculateAngle(
                        route[elem.coordinate.x][elem.coordinate.y].direction, currentDirection))
                        == 180) {
         //経路の始点にブロックが置かれており(すなわちこの経路ではブロックを持って移動する)、180度方向転換するような場合はopenに追加しない
       } else {
-        checkList(m, open);  // openにより大きいコストの同じ座標がある場合はopenから削除する
-        checkList(m, close);  // closeにより大きいコストの同じ座標がある場合はcloseから削除する
+        // openにより大きいコストの同じ座標がある場合はopenから削除する
+        if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
+        // closeにより大きいコストの同じ座標がある場合はcloseから削除する
+        if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
         actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
         open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
-        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
-                                                      currentDirection);
+        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost, currentDirection,
+                                                      true);
       }
     }
     close.push_back(elem);
@@ -101,14 +105,17 @@ bool RouteCalculator::checkBlock(Coordinate coordinate)
   }
 }
 
-void RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
+bool RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
 {
   for(int i = 0; i < static_cast<int>(list.size()); i++) {
     // listに既に同じノードがあるか調べる
     if(node.coordinate == list[i].coordinate && node < list[i]) {
-      list.erase(list.begin() + i);  //既に同じノードがあり、コストがより大きい場合削除する
+      //既に同じノードがあり、コストがより大きい場合削除する
+      list.erase(list.begin() + i);
+      return true;
     }
   }
+  return false;
 }
 
 int RouteCalculator::calculateManhattan(Coordinate coordinate)
@@ -128,12 +135,8 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
       c != route[c.x][c.y].parent && route[c.x][c.y].parent != Coordinate{ -1, -1 };
       c = route[c.x][c.y].parent) {
     Coordinate p = route[c.x][c.y].parent;
-    //まだ最短経路としてチェックしていないorゴールである場合は最短経路リストに追加していく
-    if(route[c.x][c.y].checked == false || c == goalNode) {
-      Direction direction = route[c.x][c.y].direction;
-      list.push_back(std::make_pair(c, direction));
-    }
-    route[c.x][c.y].checked = true;  //このノードはチェック済みとする
+    Direction direction = route[c.x][c.y].direction;
+    list.push_back(std::make_pair(c, direction));
     last = p;
   }
   list.push_back(std::make_pair(last, robot.getDirection()));  //スタートノードをリストに追加する
