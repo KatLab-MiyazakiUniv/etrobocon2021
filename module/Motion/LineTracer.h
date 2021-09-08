@@ -53,6 +53,11 @@ class LineTracer {
    */
   void setIsLeftEdge(bool _isLeftEdge);
 
+  /**
+   * エッジを切り替える
+   */
+  void toggleEdge();
+
  private:
   bool isLeftEdge;
   Measurer measurer;

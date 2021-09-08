@@ -7,7 +7,9 @@
 #include "MotionConverter.h"
 
 MotionConverter::MotionConverter(MotionPerformer& motionPerformer, const bool IS_LEFT_COURSE)
-  : motionPerformer(motionPerformer), isLeftCourse(IS_LEFT_COURSE)
+  : motionPerformer(motionPerformer),
+    isLeftCourse(IS_LEFT_COURSE),
+    preDirection(IS_LEFT_COURSE ? Direction::E : Direction::W)
 {
 }
 
@@ -64,17 +66,14 @@ int MotionConverter::calculateAngle(Direction current, Direction next)
 
 void MotionConverter::convertToMotion(const std::vector<std::pair<Coordinate, Direction>>& route)
 {
-  //方向転換が必要かどうか判定する
-  int angle = calculateAngle(route[0].second, route[1].second);
-  //直前の動作がないor直前の動作が時計回りのピボットターン設置の場合は方向転換のisClockWiseをtrueとする
-  bool isClockwise = MotionPerformer::motionLog.size() == 0;
-  if(MotionPerformer::motionLog.size() > 0) {
-    isClockwise = (MotionPerformer::motionLog.back() == MOTION::SBTR);
-  }
   //方向転換がある場合は方向転換を行う
   if(route[1].first.x % 2 == 0 || route[1].first.y % 2 == 0) {
-    motionPerformer.changeDirection(angle, isClockwise);
+    int rotateAngle = calculateAngle(route[0].second, route[1].second);
+    int changeAngle = calculateAngle(preDirection, route[1].second);
+
+    motionPerformer.changeDirection(rotateAngle, changeAngle);
   }
+
   //経路を実際の動作に変換し、動作を行う
   //交点から始まっており、経路のサイズが2より大きい場合は経路のスタートを1とする
   //(方向転換が無い場合と、黒ブロック運搬後に中点からスタートする場合の処理のみ処理が違うため)
@@ -111,4 +110,6 @@ void MotionConverter::convertToMotion(const std::vector<std::pair<Coordinate, Di
         break;
     }
   }
+  // 設置動作の直前の方角を保持する
+  preDirection = route[static_cast<int>(route.size()) - 2].second;
 }

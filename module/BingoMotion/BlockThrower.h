@@ -23,19 +23,10 @@ class BlockThrower : public BingoMotion {
    */
   void setBlockThrow(bool isClockwise);
 
-  /**
-   * @brief ピボットターン設置用の投げ入れ設置
-   * @param isClockwise 投げ入れる向き true: 右回転
-   */
-  void setBlockPivotThrow(bool isClockwise);
-
-
-
  private:
   StraightRunner straightRunner;
   Controller controller;
   Measurer measurer;
-
   const double TREAD = 140;  // 走行体のトレッド幅（両輪の間の距離）[mm]
   const int MIN_PWM = 10;    // モーターパワーの最小値
 };

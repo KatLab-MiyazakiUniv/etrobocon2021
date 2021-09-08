@@ -47,6 +47,7 @@ class MotionConverter {
 
  private:
   MotionPerformer& motionPerformer;
+  Direction preDirection;
   const bool isLeftCourse;
 };
 
