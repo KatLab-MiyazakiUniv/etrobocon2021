@@ -72,8 +72,12 @@ jobs:
         msg_detail+="<details>\n"
         msg_detail+="<summary>詳細を表示</summary>\n"
         msg_detail+="\n"
-        msg_detail+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動|パワースポット有効移動|センターブロック有効移動|ビンゴ|パワースポットビンゴ|ボーナスタイム[s]|リザルトタイム[s]|ブロック配置|MP4|CSV|LOG|settings.json|\n"
-        msg_detail+="|--|---------------|---------|---------|-------------|-------------------|-------------------|-------------------|------|----------------|--------------|--------------|----------|---|---|---|-------------|\n"
+        msg_detail+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動[s]"
+        msg_detail+="|パワースポット有効移動[s]|センターブロック有効移動[s]|ビンゴ[s]|パワースポットビンゴ[s]"
+        msg_detail+="|ボーナスタイム[s]|リザルトタイム[s]|ブロック配置|MP4|CSV|LOG|settings.json|\n"
+        msg_detail+="|--|----------------|----------|----------|--------------|------------------------"
+        msg_detail+="|-----------------------|-------------------------|--------|---------------------"
+        msg_detail+="|----------------|---------------|-----------|---|---|---|-------------|\n"
 
         msg_detail_tail="</details>\n\n"
 
@@ -98,7 +102,7 @@ jobs:
                     jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
                     grep -oE ${ISSUE_NUMBER} | wc -l)
         if [ "${IS_SKIP}" != "0" ]; then
-          msg_tail=":fast_forward: Skiped"
+          msg_tail=":fast_forward: Skipped this test"
         fi
 
         # プルリクコメントの投稿とコメントIDの取得
@@ -118,6 +122,12 @@ jobs:
         TEST_RESULT_DIR_ROOT=${HOME}/Videos
         TEST_RESULT_DIR=results/$(date '+%Y-%m-%d/%H-%M-%S')
         mkdir -p ${TEST_RESULT_DIR_ROOT}/${TEST_RESULT_DIR}
+
+        # シミュレータバージョン等の出力
+        SIMSTATUS_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-sim-status.json
+        echo "sim status > ${TEST_RESULT_DIR_ROOT}${SIMSTATUS_FILE}" | ${HOME}/startetrobo shell
+        SIM_VERSION=$(jq -r '.info.version' ${TEST_RESULT_DIR_ROOT}${SIMSTATUS_FILE})
+        MSG_SIM_VERSION="シミュレータのバージョン: ${SIM_VERSION}\n"
 
         # 集計用変数
         l_counter=0
@@ -378,7 +388,7 @@ jobs:
           # プルリクコメントのアップデート
           msg=''
           msg+="${msg_result}${msg_detail}${msg_detail_tail}${msg_summary_head}${msg_summary}"
-          msg+="${msg_summary_detail_head}${msg_summary_detail}${msg_summary_detail_tail}${msg_tail}"
+          msg+="${msg_summary_detail_head}${msg_summary_detail}${msg_summary_detail_tail}${MSG_SIM_VERSION}${msg_tail}"
           curl \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
