@@ -39,7 +39,7 @@ void DirectionChanger::changeDirection(int rotateAngle, int changeAngle)
       break;
   }
 
-  //色サークルに乗るまで直進(要調整);
+  //色サークルに乗るまで直進
   straightRunner.runStraightToDistance(targetDistance, runPwm);
 
   //白黒を判定するまで進む
