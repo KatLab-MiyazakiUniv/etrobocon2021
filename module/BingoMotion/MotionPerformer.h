@@ -58,12 +58,12 @@ class MotionPerformer {
   void runToCross(void);
 
   /**
-   * @fn void changeDirection(void);
+   * @fn void changeDirection(int rotateAngle, int changeAngle);
    * @brief 方向転換を実行する
-   * @param angle 回転角度（deg） -180 < angle <= 180 45度刻み
-   * @param isClockwise 直前に投げ入れた方向
+   * @param rotateAngle 回転角度（deg） -180 < angle <= 180 45度刻み
+   * @param changeAngle 設置動作の直前方向から見て回頭する角度
    */
-  void changeDirection(int angle, bool isClockwise);
+  void changeDirection(int rotateAngle, int changeAngle);
 
   /**
    * @fn void setBlockPivotTurn(bool isClockwise);

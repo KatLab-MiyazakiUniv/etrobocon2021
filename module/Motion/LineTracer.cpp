@@ -80,3 +80,8 @@ void LineTracer::setIsLeftEdge(bool _isLeftEdge)
 {
   isLeftEdge = _isLeftEdge;
 }
+
+void LineTracer::toggleEdge()
+{
+  isLeftEdge = !isLeftEdge;
+}

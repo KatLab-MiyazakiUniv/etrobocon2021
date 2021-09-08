@@ -41,13 +41,13 @@ void MotionPerformer::runToCross()
   motionLog.push_back(MOTION::RTC);
 }
 
-void MotionPerformer::changeDirection(int angle, bool isClockwise)
+void MotionPerformer::changeDirection(int rotateAngle, int changeAngle)
 {
-  directionChanger.changeDirection(angle, isClockwise);
+  directionChanger.changeDirection(rotateAngle, changeAngle);
 
-  int tmp = std::abs(angle / 45);
+  int tmp = std::abs(rotateAngle / 45);
   for(int i = 0; i < tmp; i++) {
-    if(angle > 0) {
+    if(rotateAngle > 0) {
       motionLog.push_back(MOTION::CDC);
     } else {
       motionLog.push_back(MOTION::CDRC);

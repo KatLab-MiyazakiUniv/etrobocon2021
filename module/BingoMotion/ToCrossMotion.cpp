@@ -12,9 +12,9 @@ ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer) : BingoMotion(3, 3), lineT
 
 void ToCrossMotion::runToCross(void)
 {
-  int targetBrightness = 20;
-  int pwm = 35;
-  PidGain gain(0.15, 1, 0.23);
+  int targetBrightness = 12;
+  int pwm = 40;
+  PidGain gain(1.0, 0.0, 0.23);
   StraightRunner straightRunner;
 
   //白黒以外までライントレース

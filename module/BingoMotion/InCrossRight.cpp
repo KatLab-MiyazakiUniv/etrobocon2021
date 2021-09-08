@@ -12,8 +12,8 @@ void InCrossRight::runRight(void)
 {
   int targetDistance = 10;
   int runPwm = 30;
-  int angle = 90;
-  int rotatePwm = 100;
+  int angle = 91;
+  int rotatePwm = 90;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
