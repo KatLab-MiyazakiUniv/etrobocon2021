@@ -46,7 +46,7 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM - 50);
   controller.sleep(500);
   // 90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 20) : rotation.turnForwardLeftPivot(91.3, 25);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 20) : rotation.turnForwardLeftPivot(90, 20);
   controller.sleep(300);
   //センターマークまで直進する(黒→青→青→黒の順に認識する)
   straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 70);
