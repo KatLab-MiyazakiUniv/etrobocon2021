@@ -12,7 +12,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
   int runDistance = 86;  //最初に直進する距離
   int runPwm = 10;       //最初に直進する際のPwm値
-  int rotateAngle = 45;  //回頭の角度
+  int rotateAngle = 44;  //回頭の角度
   int rotatePwm = 10;    //回頭のPwm値
   int backPwm = -15;     //位置調整用のPwm値
 
@@ -27,14 +27,14 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(20, 15);
     rotation.rotateRight(rotateAngle, rotatePwm);
     setBlockPivotThrow(isClockwise);
-    straightRunner.runStraightToDistance(20, backPwm);
+    straightRunner.runStraightToDistance(10, backPwm);
   } else {
     straightRunner.runStraightToDistance(86, runPwm);
     rotation.rotateLeft(rotateAngle, rotatePwm);
     straightRunner.runStraightToDistance(22, 15);
     rotation.rotateLeft(rotateAngle, rotatePwm);
     setBlockPivotThrow(isClockwise);
-    straightRunner.runStraightToDistance(20, backPwm);
+    straightRunner.runStraightToDistance(10, backPwm);
   }
 }
 

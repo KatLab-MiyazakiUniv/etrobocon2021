@@ -18,6 +18,10 @@ void DirectionChanger::changeDirection(int rotateAngle, int changeAngle)
   int targetDistance = 10;
   int runPwm = 20;
 
+  if(rotateAngle == 180) {
+    rotateAngle = 175;
+  }
+
   //回転方向を判定
   if(rotateAngle >= 0) {
     rotation.rotateRight(rotateAngle, rotatePwm);
