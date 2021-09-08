@@ -3,11 +3,6 @@
  * @brief 交点サークル間移動のクラス
  * @author kodama0720, yutotanaka24
  */
-/**
- * @file ToCrossMotion.cpp
- * @brief 交点サークル間移動のクラス
- * @author kodama0720, yutotanaka24
- */
 
 #include "ToCrossMotion.h"
 
