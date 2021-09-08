@@ -3,6 +3,11 @@
  * @brief 交点サークル間移動のクラス
  * @author kodama0720, yutotanaka24
  */
+/**
+ * @file ToCrossMotion.cpp
+ * @brief 交点サークル間移動のクラス
+ * @author kodama0720, yutotanaka24
+ */
 
 #include "ToCrossMotion.h"
 
@@ -14,7 +19,7 @@ void ToCrossMotion::runToCross(void)
 {
   int targetBrightness = 20;
   int pwm = 35;
-  PidGain gain(0.3, 1, 0.45);
+  PidGain gain(0.15, 1, 0.23);
   StraightRunner straightRunner;
 
   //白黒以外までライントレース
