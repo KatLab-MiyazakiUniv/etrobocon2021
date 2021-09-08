@@ -18,11 +18,6 @@ void DirectionChanger::changeDirection(int rotateAngle, int changeAngle)
   int targetDistance = 10;
   int runPwm = 20;
 
-  //180度回頭だと行き過ぎるため調整
-  if(rotateAngle == 180) {
-    rotateAngle = 175;
-  }
-
   //回転方向を判定
   if(rotateAngle >= 0) {
     rotation.rotateRight(rotateAngle, rotatePwm);
@@ -44,9 +39,8 @@ void DirectionChanger::changeDirection(int rotateAngle, int changeAngle)
       break;
   }
 
-  //色サークルに乗るまで直進(要調整)
+  //色サークルに乗るまで直進
   straightRunner.runStraightToDistance(targetDistance, runPwm);
-  straightRunner.runStraightToBlackWhite(runPwm);
 
   //白黒を判定するまで進む
   straightRunner.runStraightToBlackWhite(runPwm);
