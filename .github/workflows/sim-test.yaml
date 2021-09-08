@@ -177,7 +177,9 @@ jobs:
 
           # シミュレーションの実行
           LOG_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-${i}.log
-          echo "make ${COURSE_LOWER} app=${APP_NAME} sim up" | \
+          echo "echo [LOG] Start \$(date '+%Y-%m-%d %H:%M %S (%z %Z)'); \
+                make ${COURSE_LOWER} app=${APP_NAME} sim up; \
+                echo [LOG] End \$(date '+%Y-%m-%d %H:%M %S (%z %Z)'); " | \
             ${HOME}/startetrobo shell | \
             tee ${TEST_RESULT_DIR_ROOT}/${LOG_FILE}
 
