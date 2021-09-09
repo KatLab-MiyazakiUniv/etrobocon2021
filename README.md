@@ -63,3 +63,5 @@ $ ./gtest_all.sh
 
 ## Authors
 KatLabメンバー, 宮崎大学片山徹郎研究室
+
+by 武藤
