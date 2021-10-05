@@ -47,7 +47,7 @@ struct Route {
    * @param _parent 親ノード
    * @param _currentCost　このノードでのコスト
    * @param _direction このノードでの向き
-   * @param _checked このノードを探索したかどうか
+   * @param _checked このノードを探索したかどうか(true:探索済み/false:未探索)
    */
   void setInfo(Coordinate _parent, int _currentCost, Direction _direction,bool _checked)
   {
