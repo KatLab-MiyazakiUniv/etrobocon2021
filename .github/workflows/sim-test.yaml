@@ -103,9 +103,9 @@ jobs:
                   jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
                   grep -coE ${ISSUE_NUMBER} || :)
 
-        # 直前に終了したジョブ?がある場合、反映されていない可能性があるため最大1分程度待つ
+        # 直前に終了したジョブ?がある場合、反映されていない可能性があるため最大30秒程度待つ
         if [ "${IS_SKIP}" != "0" ]; then
-          for ((i=0; i < 30; i++)); do
+          for ((i=0; i < 15; i++)); do
             IS_SKIP=$(curl \
                         -H "Accept: application/vnd.github.v3+json" \
                         ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
