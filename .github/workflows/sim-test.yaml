@@ -116,6 +116,7 @@ jobs:
         # シミュレータテストのスキップ
         if [ "${IS_SKIP}" != "0" ]; then
           echo "[LOG] Skipped this test"
+          echo "[DEBUG] IS_SKIP=${IS_SKIP}"
           exit 0
         fi
 
