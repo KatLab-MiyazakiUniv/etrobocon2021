@@ -391,7 +391,7 @@ jobs:
           # プルリクコメントのアップデート
           MSG=''
           MSG+="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}"
-          MSG+="${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}{MSG_SIM_VERSION}${MSG_TAIL}"
+          MSG+="${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_SIM_VERSION}${MSG_TAIL}"
           curl \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
