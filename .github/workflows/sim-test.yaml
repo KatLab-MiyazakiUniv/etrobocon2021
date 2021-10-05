@@ -115,7 +115,8 @@ jobs:
 
         # シミュレータテストのスキップ
         if [ "${IS_SKIP}" != "0" ]; then
-          MSG_TAIL=":fast_forward: Skiped"
+          echo "[LOG] Skipped this test"
+          exit 0
         fi
 
         # テスト結果公開用ディレクトリの生成
