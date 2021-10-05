@@ -38,7 +38,7 @@ jobs:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
       MP4_SERVER_NAME: etrobocon2021.moyashi.dev
-      MAX_SIM_TIME: 20
+      MAX_SIM_TIME: 60
       APP_NAME: etrobocon2021
 
     steps:
@@ -97,14 +97,14 @@ jobs:
         ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
 
         # このプルリクに新たなコミットがPushされていることを検知した場合、テストをスキップする
-        IS_SKIP=$(curl -H "Accept: application/vnd.github.v3+json" \
-                       ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
-                    jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
-                    grep -oE ${ISSUE_NUMBER} | wc -l)
+        IS_SKIP=$(curl \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
+                  jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
+                  grep -coE ${ISSUE_NUMBER} || echo 0) 
         if [ "${IS_SKIP}" != "0" ]; then
           MSG_TAIL=":fast_forward: Skipped this test"
         fi
-
         # プルリクコメントの投稿とコメントIDの取得
         COMMENT_ID=$(curl \
                       -X POST \
@@ -125,8 +125,8 @@ jobs:
 
         # シミュレータバージョン等の出力
         SIMSTATUS_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-sim-status.json
-        echo "sim status > ${TEST_RESULT_DIR_ROOT}${SIMSTATUS_FILE}" | ${HOME}/startetrobo shell
-        SIM_VERSION=$(jq -r '.info.version' ${TEST_RESULT_DIR_ROOT}${SIMSTATUS_FILE})
+        echo "sim status > ${TEST_RESULT_DIR_ROOT}/${SIMSTATUS_FILE}" | ${HOME}/startetrobo shell
+        SIM_VERSION=$(jq -r '.info.version' ${TEST_RESULT_DIR_ROOT}/${SIMSTATUS_FILE})
         MSG_SIM_VERSION="シミュレータのバージョン: ${SIM_VERSION}\n"
 
         # 集計用変数
