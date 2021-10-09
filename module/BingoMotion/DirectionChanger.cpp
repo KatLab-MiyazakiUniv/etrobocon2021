@@ -7,7 +7,7 @@
 #include "DirectionChanger.h"
 
 DirectionChanger::DirectionChanger(LineTracer& _lineTracer)
-  : BingoMotion(0, 0), lineTracer(_lineTracer)
+  : BingoMotion(1, 1), lineTracer(_lineTracer)
 {
 }
 

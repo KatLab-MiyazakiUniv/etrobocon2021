@@ -26,8 +26,8 @@ class MotionConverter {
    * @param next 次の座標と向き
    * @returm 動作を表す列挙子
    */
-  MOTION decideMotion(std::pair<Coordinate, Direction> current,
-                      std::pair<Coordinate, Direction> next);
+  static MOTION decideMotion(std::pair<Coordinate, Direction> current,
+                             std::pair<Coordinate, Direction> next);
 
   /**
    * @fn void convertToMotion(std::vector<std::pair<Coordinate, Direction>>& route);
