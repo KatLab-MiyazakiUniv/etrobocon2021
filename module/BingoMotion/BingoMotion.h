@@ -16,13 +16,13 @@ class BingoMotion {
    * @brief 動作時間を取得する
    * @return 動作時間
    */
-  virtual int getMotionTime(void);
+  int getMotionTime(void);
 
   /**
    * @brief 失敗リスクを取得する
    * @return 失敗リスク
    */
-  virtual int getFailureRisk(void);
+  int getFailureRisk(void);
 
  protected:
   int MOTION_TIME;

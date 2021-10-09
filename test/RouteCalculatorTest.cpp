@@ -254,9 +254,9 @@ namespace etrobocon2021_test {
     coordinate_start = { 6, 0 };
     route_1 = { 5, 0 };
     route_2 = { 4, 0 };
-    route_3 = { 4, 1 };
-    route_4 = { 4, 2 };
-    route_5 = { 3, 2 };
+    route_3 = { 3, 0 };
+    route_4 = { 2, 0 };
+    route_5 = { 2, 1 };
     route_6 = { 2, 2 };
     coordinate_goal = { 1, 3 };
     expected_route.clear();
@@ -264,15 +264,15 @@ namespace etrobocon2021_test {
     expected_route.push_back(std::make_pair(coordinate_start, Direction::N));
     expected_route.push_back(std::make_pair(route_1, Direction::W));
     expected_route.push_back(std::make_pair(route_2, Direction::W));
-    expected_route.push_back(std::make_pair(route_3, Direction::S));
-    expected_route.push_back(std::make_pair(route_4, Direction::S));
-    expected_route.push_back(std::make_pair(route_5, Direction::W));
-    expected_route.push_back(std::make_pair(route_6, Direction::W));
+    expected_route.push_back(std::make_pair(route_3, Direction::W));
+    expected_route.push_back(std::make_pair(route_4, Direction::W));
+    expected_route.push_back(std::make_pair(route_5, Direction::S));
+    expected_route.push_back(std::make_pair(route_6, Direction::S));
     expected_route.push_back(std::make_pair(coordinate_goal, Direction::SW));
     actual_route = route.calculateRoute(coordinate_start, coordinate_goal);
     EXPECT_EQ(expected_route, actual_route);
     courseInfo.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);
-    robot.setDirection(Direction::W);  //走行体の向きを更新
+    robot.setDirection(Direction::SW);  //走行体の向きを更新
     //この時点でフルビンゴ
   };
 }  // namespace etrobocon2021_test

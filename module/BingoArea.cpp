@@ -20,6 +20,12 @@ void BingoArea::runBingoArea()
   //経路計画クラスで運搬経路リストを求める
   std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute
       = routePlanner.planBingoRoute();
+  for(int i = 0; i < carryRoute.size(); i++) {
+    for(auto j : carryRoute[i]) {
+      printf("(%d %d %d) ", j.first.x, j.first.y, j.second);
+    }
+    puts("");
+  }
   //運搬経路リストを動作に変換していく
   for(const auto& i : carryRoute) {
     motionConverter.convertToMotion(i);

@@ -194,11 +194,11 @@ namespace etrobocon2021_test {
     }
     expectedMotion.push_back(MOTION::RL);
     expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RL);
     expectedMotion.push_back(MOTION::RTC);
-    expectedMotion.push_back(MOTION::RR);
-    expectedMotion.push_back(MOTION::RTC);
-    expectedMotion.push_back(MOTION::SBTL);
+    expectedMotion.push_back(MOTION::SBTR);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
     courseInfo.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);
@@ -393,15 +393,15 @@ namespace etrobocon2021_test {
     }
     expectedMotion.push_back(MOTION::RR);
     expectedMotion.push_back(MOTION::RTC);
+    expectedMotion.push_back(MOTION::RF);
+    expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RR);
     expectedMotion.push_back(MOTION::RTC);
-    expectedMotion.push_back(MOTION::RL);
-    expectedMotion.push_back(MOTION::RTC);
-    expectedMotion.push_back(MOTION::SBTR);
+    expectedMotion.push_back(MOTION::SBTL);
     motionConverter.convertToMotion(minRoute);
     EXPECT_EQ(expectedMotion, MotionPerformer::motionLog);
     courseInfo.moveBlock(CIRCLE_ID::ID3, BLOCK_ID::ID1);
-    robot.setDirection(Direction::E);  //走行体の向きを更新
+    robot.setDirection(Direction::SE);  //走行体の向きを更新
     // この時点でフルビンゴ
     setIsLeft(true);  // Lコースに戻す
   };
