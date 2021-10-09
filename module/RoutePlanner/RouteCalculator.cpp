@@ -1,7 +1,7 @@
 /**
- * @file  RouteCalculator.cpp
- * @brief 経路計算クラス
- * @author  Hisataka-Hagiyama,uchyam
+ * @file  MoveCostCalculator.cpp
+ * @brief 移動コスト計算クラス
+ * @author  Hisataka-Hagiyama
  */
 
 #include "RouteCalculator.h"
@@ -95,7 +95,6 @@ std::vector<AstarInfo> RouteCalculator::checkNeighborhood(Coordinate coordinate,
         Coordinate newCoordinate(nx, ny);
         //ビンゴエリアの座標内((0,0)~(6,6))にある座標はリストに追加する
         if((nx >= 0) && (nx < BINGO_SIZE) && (ny >= 0) && (ny < BINGO_SIZE)) {
-          Direction direction = calculateDirection({ nx, ny }, coordinate);
           nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.x][coordinate.y].cost));
         }
       }
