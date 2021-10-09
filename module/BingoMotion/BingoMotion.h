@@ -24,7 +24,7 @@ class BingoMotion {
    */
   int getFailureRisk(void);
 
- protected:
+ private:
   int MOTION_TIME;
   int FAILURE_RISK;
 };
