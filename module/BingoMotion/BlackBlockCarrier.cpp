@@ -36,9 +36,40 @@ void BlackBlockCarrier::carryBlackBlock()
   //９０度ピボットターン
   straightRunner.runStraightToDistance(15, RUN_STRAIGHT_PWM - 60);
   controller.sleep(500);
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91.3, 33) : rotation.turnForwardLeftPivot(91.3, 33);
+  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(91, 33) : rotation.turnForwardLeftPivot(91, 33);
   //黒ブロック手前までライントレース
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
+  straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
+  straightRunner.runStraightToDistance(130, RUN_STRAIGHT_PWM - 40);
+
+  //弧を描いて曲がる
+  double startDiff
+      = IS_LEFT_COURSE
+            ? Mileage::calculateWheelMileage(measurer.getLeftCount())
+                  - Mileage::calculateWheelMileage(measurer.getRightCount())
+            : Mileage::calculateWheelMileage(measurer.getRightCount())
+                  - Mileage::calculateWheelMileage(measurer.getLeftCount());  //開始時の差
+  while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 200
+                       : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 200) {
+    //モータのPWM値をセット
+    controller.setRightMotorPwm(IS_LEFT_COURSE ? 50 : 80);
+    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 80 : 50);
+    controller.sleep();
+  }
+  straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM - 30);
+  straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLACK);
+  straightRunner.runStraightToDistance(135, RUN_STRAIGHT_PWM - 50);
+  //黒のラインまで下がる
+  straightRunner.runStraightToDistance(50, -20);
+  /*
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.1, 1, 0.13));
+  straightRunner.runStraightToDistance(150, RUN_STRAIGHT_PWM - 30);
+  lineTracer.run(100, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.11, 0.1, 0.11));
+  */
+  /*
   //センターマークの平行線上まで直進
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 40);
@@ -62,4 +93,5 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToColor(-20, COLOR::BLACK);
   controller.sleep(200);
   straightRunner.runStraightToDistance(35, RUN_STRAIGHT_PWM - 60);
+  */
 }
