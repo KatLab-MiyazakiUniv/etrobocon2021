@@ -6,7 +6,7 @@
 
 #include "BlockPivotTurn.h"
 
-BlockPivotTurn::BlockPivotTurn() : BingoMotion(2, 2) {}
+BlockPivotTurn::BlockPivotTurn() : BingoMotion(100, 100) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {

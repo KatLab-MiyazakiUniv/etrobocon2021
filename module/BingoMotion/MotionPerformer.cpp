@@ -95,9 +95,9 @@ int MotionPerformer::getMotionTimeRunToCross()
   return toCrossMotion.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeChangeDirection()
+int MotionPerformer::getMotionTimeChangeDirection(int angle)
 {
-  return directionChanger.getMotionTime();
+  return directionChanger.getMotionTime() * (angle / 45);
 }
 
 int MotionPerformer::getMotionTimePivotTurn()
@@ -130,9 +130,9 @@ int MotionPerformer::getFailureRiskRunToCross()
   return toCrossMotion.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskChangeDirection()
+int MotionPerformer::getFailureRiskChangeDirection(int angle)
 {
-  return directionChanger.getFailureRisk();
+  return directionChanger.getFailureRisk() * (angle / 45);
 }
 
 int MotionPerformer::getFailureRiskPivotTurn()

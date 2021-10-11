@@ -33,11 +33,14 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     if(elem.coordinate == goalNode) {
       break;
     }
+    Direction preDirection
+        = route[elem.coordinate.x][elem.coordinate.y].direction;  //現時点での走行体の向き
+
     std::vector<AstarInfo> next
         = checkNeighborhood(elem.coordinate, route);  //隣接しているノードを格納
     for(const auto& m : next) {
       Direction currentDirection
-          = calculateDirection(m.coordinate, elem.coordinate);  //この時点での向きを計算する
+          = calculateDirection(m.coordinate, elem.coordinate);  //移動した後の向きを計算する
       if((m.coordinate == route[elem.coordinate.x][elem.coordinate.y].parent)) {
         // 親ノードの場合はopenに追加しない
       } else if(m.coordinate.x % 2 == 1 && m.coordinate.y % 2 == 1 && m.coordinate != goalNode) {
@@ -59,8 +62,14 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        actualCost = route[elem.coordinate.x][elem.coordinate.y].cost;
-        open.push_back(AstarInfo(m.coordinate, actualCost + calculateManhattan(m.coordinate)));
+        //実コスト=そのノードまでの距離＋ゴールまでのマンハッタン距離＋移動コスト
+        actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
+                     + MoveCostCalculator::calculateMoveCost(
+                         std::make_pair(elem.coordinate, preDirection),
+                         std::make_pair(m.coordinate, currentDirection), isLeftCourse)
+                     + calculateManhattan(m.coordinate);
+
+        open.push_back(AstarInfo(m.coordinate, actualCost));
         route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost, currentDirection,
                                                       true);
       }
@@ -83,10 +92,10 @@ std::vector<AstarInfo> RouteCalculator::checkNeighborhood(Coordinate coordinate,
       if(i != 0 || j != 0) {
         nx = coordinate.x + i;
         ny = coordinate.y + j;
+        Coordinate newCoordinate(nx, ny);
         //ビンゴエリアの座標内((0,0)~(6,6))にある座標はリストに追加する
         if((nx >= 0) && (nx < BINGO_SIZE) && (ny >= 0) && (ny < BINGO_SIZE)) {
-          nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.x][coordinate.y].cost
-                                                       + calculateManhattan({ nx, ny })));
+          nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.x][coordinate.y].cost));
         }
       }
     }

@@ -13,6 +13,7 @@
 #include "utility"
 #include "vector"
 #include "MotionConverter.h"
+#include "MoveCostCalculator.h"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {

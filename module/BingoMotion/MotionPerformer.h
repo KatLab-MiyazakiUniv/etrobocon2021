@@ -112,7 +112,7 @@ class MotionPerformer {
    * @brief 方向転換の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeChangeDirection(void);
+  int getMotionTimeChangeDirection(int angle);
 
   /**
    * @fn int getMotionTimePivotTurn(void);
@@ -157,11 +157,11 @@ class MotionPerformer {
   int getFailureRiskRunToCross(void);
 
   /**
-   * @fn int getFailureRiskchangeDirection(void);
+   * @fn int getFailureRiskchangeDirection(int angle);
    * @brief 方向転換の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskChangeDirection(void);
+  int getFailureRiskChangeDirection(int angle);
 
   /**
    * @fn int getFailureRiskPivotTurn(void);

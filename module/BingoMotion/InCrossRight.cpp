@@ -6,7 +6,9 @@
 
 #include "InCrossRight.h"
 
-InCrossRight::InCrossRight(LineTracer& _lineTracer) : BingoMotion(5, 5), lineTracer(_lineTracer) {}
+InCrossRight::InCrossRight(LineTracer& _lineTracer) : BingoMotion(10, 10), lineTracer(_lineTracer)
+{
+}
 
 void InCrossRight::runRight(void)
 {
