@@ -1,3 +1,9 @@
+/**
+ * @file  MoveCostCalculator.cpp
+ * @brief 移動コスト計算クラス
+ * @author  Hisataka-Hagiyama
+ */
+
 #include "MoveCostCalculator.h"
 
 int MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> current,

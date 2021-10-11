@@ -1,7 +1,7 @@
 /**
- * @file  MoveCostCalculator.cpp
- * @brief 移動コスト計算クラス
- * @author  Hisataka-Hagiyama
+ * @file  RouteCalculator.cpp
+ * @brief 経路計算クラス
+ * @author  Hisataka-Hagiyama,uchyam
  */
 
 #include "RouteCalculator.h"
