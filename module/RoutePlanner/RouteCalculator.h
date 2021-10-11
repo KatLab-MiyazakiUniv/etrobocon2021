@@ -50,28 +50,40 @@ struct Route {
    * @param _direction このノードでの向き
    * @param _checked このノードを探索したかどうか(true:探索済み/false:未探索)
    */
-  void setInfo(Coordinate _parent, int _currentCost, Direction _direction,bool _checked)
+  void setInfo(Coordinate _parent, int _currentCost, Direction _direction, bool _checked)
   {
     parent = _parent;
     cost = _currentCost;
     direction = _direction;
-    checked=_checked;
+    checked = _checked;
   }
 };
 
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(CourseInfo& courseInfo, Robot& robot,const bool IS_LEFT_COURSE);
+  RouteCalculator(CourseInfo& courseInfo, Robot& robot, const bool IS_LEFT_COURSE);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
    * goal)
-   * @brief 経路計算をする
+   * @brief 経路計算をする(取得経路用)
+   * @param start スタートノードの座標
+   * @param goal ゴールノードの座標
+   * @param destination 運搬先の座標
+   * @return 最短経路の座標と走行体の向きのペアを格納した動的配列
+   */
+  std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal,Coordinate destination);
+
+  /**
+   * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
+   * goal)
+   * @brief 経路計算をする(設置経路用)
    * @param start スタートノードの座標
    * @param goal ゴールノードの座標
    * @return 最短経路の座標と走行体の向きのペアを格納した動的配列
    */
+
   std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal);
 
  private:
