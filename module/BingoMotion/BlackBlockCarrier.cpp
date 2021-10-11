@@ -41,7 +41,7 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToDistance(130, RUN_STRAIGHT_PWM - 40);
+  straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 40);
 
   //弧を描いて曲がる
   double startDiff
@@ -64,34 +64,4 @@ void BlackBlockCarrier::carryBlackBlock()
   straightRunner.runStraightToDistance(135, RUN_STRAIGHT_PWM - 50);
   //黒のラインまで下がる
   straightRunner.runStraightToDistance(50, -20);
-  /*
-  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.1, 1, 0.13));
-  straightRunner.runStraightToDistance(150, RUN_STRAIGHT_PWM - 30);
-  lineTracer.run(100, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.11, 0.1, 0.11));
-  */
-  /*
-  //センターマークの平行線上まで直進
-  straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 40);
-  straightRunner.runStraightToDistance(240, RUN_STRAIGHT_PWM - 30);
-  straightRunner.runStraightToDistance(75, RUN_STRAIGHT_PWM - 50);
-  controller.sleep(500);
-  // 90度ピボットターン
-  IS_LEFT_COURSE ? rotation.turnForwardRightPivot(90, 20) : rotation.turnForwardLeftPivot(90, 20);
-  controller.sleep(300);
-  //センターマークまで直進する(黒→青→青→黒の順に認識する)
-  straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 70);
-  straightRunner.runStraightToDistance(25, RUN_STRAIGHT_PWM - 60);
-  straightRunner.runStraightToDistance(20, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 40, COLOR::BLACK);
-  straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLUE);
-  straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLUE);
-  straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLACK);
-  straightRunner.runStraightToDistance(135, RUN_STRAIGHT_PWM - 50);
-  //タイヤの中心を黒線に合わせる
-  controller.sleep(500);
-  straightRunner.runStraightToColor(-20, COLOR::BLACK);
-  controller.sleep(200);
-  straightRunner.runStraightToDistance(35, RUN_STRAIGHT_PWM - 60);
-  */
 }
