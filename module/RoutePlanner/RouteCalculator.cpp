@@ -21,7 +21,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   int actualCost = 0;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
-  route[start.x][start.y].setInfo(start, 0, robot.getDirection(), false);
+  route[start.x][start.y].setInfo(start, 0, robot.getDirection(), true);
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
