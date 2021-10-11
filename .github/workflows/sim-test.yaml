@@ -38,7 +38,7 @@ jobs:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
       MP4_SERVER_NAME: etrobocon2021.moyashi.dev
-      MAX_SIM_TIME: 20
+      MAX_SIM_TIME: 60
       APP_NAME: etrobocon2021
 
     steps:
@@ -72,8 +72,12 @@ jobs:
         MSG_DETAIL+="<details>\n"
         MSG_DETAIL+="<summary>詳細を表示</summary>\n"
         MSG_DETAIL+="\n"
-        MSG_DETAIL+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動|パワースポット有効移動|センターブロック有効移動|ビンゴ|パワースポットビンゴ|ボーナスタイム[s]|リザルトタイム[s]|ブロック配置|MP4|CSV|LOG|settings.json|\n"
-        MSG_DETAIL+="|--|---------------|---------|---------|-------------|-------------------|-------------------|-------------------|------|----------------|--------------|--------------|----------|---|---|---|-------------|\n"
+        MSG_DETAIL+="|No|スタートゲート通過|ゲート1通過|ゲート2通過|走行タイム [s]|ブロックサークル有効移動[s]"
+        MSG_DETAIL+="|パワースポット有効移動[s]|センターブロック有効移動[s]|ビンゴ[s]|パワースポットビンゴ[s]"
+        MSG_DETAIL+="|ボーナスタイム[s]|リザルトタイム[s]|ブロック配置|MP4|CSV|LOG|settings.json|\n"
+        MSG_DETAIL+="|--|----------------|----------|----------|--------------|------------------------"
+        MSG_DETAIL+="|-----------------------|-------------------------|--------|---------------------"
+        MSG_DETAIL+="|----------------|---------------|-----------|---|---|---|-------------|\n"
 
         MSG_DETAIL_TAIL="</details>\n\n"
 
@@ -87,11 +91,34 @@ jobs:
         MSG_SUMMARY_DETAIL_HEAD+="|項目|結果|母数|\n"
         MSG_SUMMARY_DETAIL_HEAD+="|---|----|---|\n"
 
-        MSG_TAIL=":arrows_counterclockwise: Testing now... (1/${MAX_SIM_TIME})"
+        MSG_TAIL=":arrows_counterclockwise: Now testing... (1/${MAX_SIM_TIME})"
 
         # プルリクの Issue 番号の取得 (on: pull_request のイベントによってトリガーされた場合のみ)
         ISSUE_NUMBER=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
 
+        # このプルリクに新たなコミットがPushされていることを検知した場合、テストをスキップする
+        IS_SKIP=$(curl \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
+                  jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
+                  grep -coE ${ISSUE_NUMBER} || :)
+
+        # 直前に終了したジョブ?がある場合、反映されていない可能性があるため最大30秒程度待つ
+        if [ "${IS_SKIP}" != "0" ]; then
+          for ((i=0; i < 15; i++)); do
+            IS_SKIP=$(curl \
+                        -H "Accept: application/vnd.github.v3+json" \
+                        ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs?status=queued\&per_page=99 | \
+                      jq '.workflow_runs[] | select(.pull_requests != null) | .pull_requests[].number' | \
+                      grep -coE ${ISSUE_NUMBER} || :) 
+            sleep 2
+          done
+        fi
+
+        # メッセージの作成
+        if [ "${IS_SKIP}" != "0" ]; then
+          MSG_TAIL=":fast_forward: Skipped this test"
+        fi
         # プルリクコメントの投稿とコメントIDの取得
         COMMENT_ID=$(curl \
                       -X POST \
@@ -100,10 +127,23 @@ jobs:
                       ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
                       -d "{\"body\":\"${MSG_TAIL}\"}" | jq -r '.id')
 
+        # シミュレータテストのスキップ
+        if [ "${IS_SKIP}" != "0" ]; then
+          echo "[LOG] Skipped this test"
+          echo "[DEBUG] IS_SKIP=${IS_SKIP}"
+          exit 0
+        fi
+
         # テスト結果公開用ディレクトリの生成
         TEST_RESULT_DIR_ROOT=${HOME}/Videos
         TEST_RESULT_DIR=results/$(date '+%Y-%m-%d/%H-%M-%S')
         mkdir -p ${TEST_RESULT_DIR_ROOT}/${TEST_RESULT_DIR}
+
+        # シミュレータバージョン等の出力
+        SIMSTATUS_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-sim-status.json
+        echo "sim status > ${TEST_RESULT_DIR_ROOT}/${SIMSTATUS_FILE}" | ${HOME}/startetrobo shell
+        SIM_VERSION=$(jq -r '.info.version' ${TEST_RESULT_DIR_ROOT}/${SIMSTATUS_FILE})
+        MSG_SIM_VERSION="シミュレータのバージョン: ${SIM_VERSION}\n"
 
         # 集計用変数
         L_COUNTER=0
@@ -153,7 +193,9 @@ jobs:
 
           # シミュレーションの実行
           LOG_FILE=${TEST_RESULT_DIR}/${GITHUB_SHA}-${i}.log
-          echo "make ${COURSE_LOWER} app=${APP_NAME} sim up" | \
+          echo "echo [LOG] Start \$(date '+%Y-%m-%d %H:%M %S (%z %Z)'); \
+                make ${COURSE_LOWER} app=${APP_NAME} sim up; \
+                echo [LOG] End \$(date '+%Y-%m-%d %H:%M %S (%z %Z)'); " | \
             ${HOME}/startetrobo shell | \
             tee ${TEST_RESULT_DIR_ROOT}/${LOG_FILE}
 
@@ -327,27 +369,27 @@ jobs:
 
           MSG_SUMMARY=""
           MSG_SUMMARY+="全体ゴール率: ${LR_GOAL_RATE} [%] (n = ${i})\n"
-          MSG_SUMMARY+="全体平均リザルトタイム: ${LR_RESULT_TIME_AVG} [S] (n = $((L_GOAL_COUNTER + R_GOAL_COUNTER)))\n"
-          MSG_SUMMARY+="最速リザルトタイム: ${BEST_RESULT_TIME} [S]\n"
+          MSG_SUMMARY+="全体平均リザルトタイム: ${LR_RESULT_TIME_AVG} [s] (n = $((L_GOAL_COUNTER + R_GOAL_COUNTER)))\n"
+          MSG_SUMMARY+="最速リザルトタイム: ${BEST_RESULT_TIME} [s]\n"
 
           MSG_SUMMARY_DETAIL=""
           MSG_SUMMARY_DETAIL+="|Lゴール率[%]|${L_GOAL_RATE}|${L_COUNTER}|\n"
           MSG_SUMMARY_DETAIL+="|Rゴール率[%]|${R_GOAL_RATE}|${R_COUNTER}|\n"
           MSG_SUMMARY_DETAIL+="|全体ゴール率[%]|${LR_GOAL_RATE}|$((L_COUNTER + R_COUNTER))|\n"
           MSG_SUMMARY_DETAIL+="| | | |\n"
-          MSG_SUMMARY_DETAIL+="|L平均ゴールタイム[S]|${L_GOAL_TIME_AVG}|${L_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|R平均ゴールタイム[S]|${R_GOAL_TIME_AVG}|${R_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|全体平均ゴールタイム[S]|${LR_GOAL_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
+          MSG_SUMMARY_DETAIL+="|L平均ゴールタイム[s]|${L_GOAL_TIME_AVG}|${L_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均ゴールタイム[s]|${R_GOAL_TIME_AVG}|${R_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|全体平均ゴールタイム[s]|${LR_GOAL_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
           MSG_SUMMARY_DETAIL+="| | | |\n"
-          MSG_SUMMARY_DETAIL+="|L平均ボーナスタイム[S]|${L_BONUS_TIME_AVG}|${L_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|R平均ボーナスタイム[S]|${R_BONUS_TIME_AVG}|${R_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|全体平均ボーナスタイム[S]|${LR_BONUS_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
+          MSG_SUMMARY_DETAIL+="|L平均ボーナスタイム[s]|${L_BONUS_TIME_AVG}|${L_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均ボーナスタイム[s]|${R_BONUS_TIME_AVG}|${R_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|全体平均ボーナスタイム[s]|${LR_BONUS_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
           MSG_SUMMARY_DETAIL+="| | | |\n"
-          MSG_SUMMARY_DETAIL+="|L平均リザルトタイム[S]|${L_RESULT_TIME_AVG}|${L_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|R平均リザルトタイム[S]|${R_RESULT_TIME_AVG}|${R_GOAL_COUNTER}|\n"
-          MSG_SUMMARY_DETAIL+="|平均リザルトタイム[S]|${LR_RESULT_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
+          MSG_SUMMARY_DETAIL+="|L平均リザルトタイム[s]|${L_RESULT_TIME_AVG}|${L_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|R平均リザルトタイム[s]|${R_RESULT_TIME_AVG}|${R_GOAL_COUNTER}|\n"
+          MSG_SUMMARY_DETAIL+="|平均リザルトタイム[s]|${LR_RESULT_TIME_AVG}|$((L_GOAL_COUNTER + R_GOAL_COUNTER))|\n"
 
-          MSG_TAIL=":arrows_counterclockwise: Testing now... ($((i + 1))/${MAX_SIM_TIME})"
+          MSG_TAIL=":arrows_counterclockwise: Now testing... ($((i + 1))/${MAX_SIM_TIME})"
 
           # 待ち状態になっているジョブ？が無いか確認する
           QUEUED_JOB_NUM=$(curl -H "Accept: application/vnd.github.v3+json" \
@@ -357,12 +399,14 @@ jobs:
 
           # ループ終了時の片づけ
           if [[ "${i}" == "${MAX_SIM_TIME}" || "${QUEUED_JOB_NUM}" != "0" ]]; then
-            MSG_TAIL=""
+            MSG_TAIL=":white_check_mark: Test complete !!!"
             i=${MAX_SIM_TIME}
           fi
 
           # プルリクコメントのアップデート
-          MSG="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_TAIL}"
+          MSG=''
+          MSG+="${MSG_RESULT}${MSG_DETAIL}${MSG_DETAIL_TAIL}${MSG_SUMMARY_HEAD}${MSG_SUMMARY}"
+          MSG+="${MSG_SUMMARY_DETAIL_HEAD}${MSG_SUMMARY_DETAIL}${MSG_SUMMARY_DETAIL_TAIL}${MSG_SIM_VERSION}${MSG_TAIL}"
           curl \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
