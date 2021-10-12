@@ -60,18 +60,21 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        //実コスト=そのノードまでの距離＋ゴールまでのマンハッタン距離＋移動コスト
+
         if(m.coordinate == goal and abs(goal.x - destination.x) == 1
            and abs(goal.y - destination.y) == 1) {
-          actualCost = route[elem.coordinate.x][elem.coordinate.y].cost + 7
-                       - abs(static_cast<int>(goalDirection) - static_cast<int>(currentDirection))
+          actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
+                       + abs(static_cast<int>(goalDirection) - static_cast<int>(currentDirection))
                        + MoveCostCalculator::calculateMoveCost(
                            std::make_pair(elem.coordinate, preDirection),
                            std::make_pair(m.coordinate, currentDirection), isLeftCourse)
                        + calculateManhattan(m.coordinate);
           open.push_back(AstarInfo(m.coordinate, actualCost));
-          route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
-                                                        currentDirection, false);
+          if(route[m.coordinate.x][m.coordinate.y].cost > actualCost
+             || route[m.coordinate.x][m.coordinate.y].cost == 0) {
+            route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
+                                                          currentDirection, false);
+          }
         } else {
           actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
                        + MoveCostCalculator::calculateMoveCost(
