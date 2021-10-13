@@ -38,7 +38,7 @@ jobs:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
       MP4_SERVER_NAME: etrobocon2021.moyashi.dev
-      MAX_SIM_TIME: 60
+      MAX_SIM_TIME: 50
       APP_NAME: etrobocon2021
 
     steps:
