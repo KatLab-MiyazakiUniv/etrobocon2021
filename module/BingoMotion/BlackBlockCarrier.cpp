@@ -10,6 +10,7 @@ void BlackBlockCarrier::carryBlackBlock()
   constexpr int RUN_STRAIGHT_PWM = 80;
   constexpr int RUN_CURVE_PWM = 50;
   constexpr int TARGET_BRIGHTNESS = 20;  //目標輝度
+  constexpr int BLUE_WHITE_BRIGHTNESS = 30;
   bool isLeftEdge = !IS_LEFT_COURSE;
   Rotation rotation;
   StraightRunner straightRunner;
@@ -17,18 +18,19 @@ void BlackBlockCarrier::carryBlackBlock()
   Measurer measurer;
   Controller controller;
   //青の線までライントレース
-  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.1, 0.8, 0.12));
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.1, 0.8, 0.12));
   //青の線を通過
-  lineTracer.run(140, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 30, PidGain(0.12, 0.8, 0.12));
+  lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.12, 0.8, 0.12));
   //青の線まで
-  lineTracer.run(780, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
+  lineTracer.run(100, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
   //青の線を通過
-  lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.19, 0.8, 0.19));
+  lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.19, 0.8, 0.19));
   //黄色の円まで
-  lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.12, 0.8, 0.15));
-  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 40, PidGain(0.15, 0.8, 0.2));
+  lineTracer.run(200, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.12, 0.8, 0.15));
+  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 20, PidGain(0.15, 0.8, 0.2));
   //黄色の円を通過
-  straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 30);
+  straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 20);
   //緑の円まで
   lineTracer.run(300, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 30, PidGain(0.12, 0.8, 0.2));
   lineTracer.run(100, TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 45, PidGain(0.12, 0.8, 0.15));
