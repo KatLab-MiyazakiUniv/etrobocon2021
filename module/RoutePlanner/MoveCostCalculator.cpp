@@ -40,8 +40,8 @@ int MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> curre
       break;
     default:
       int angle = MotionConverter::calculateAngle(current.second, next.second);
-      return motionPerformer.getMotionTimeChangeDirection(angle)
-             + motionPerformer.getFailureRiskChangeDirection(angle);
+      return motionPerformer.getMotionTimeChangeDirection(abs(angle))
+             + motionPerformer.getFailureRiskChangeDirection(abs(angle));
       break;
   }
 }

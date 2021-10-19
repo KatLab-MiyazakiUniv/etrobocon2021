@@ -14,6 +14,7 @@
 #include "vector"
 #include "MotionConverter.h"
 #include "MoveCostCalculator.h"
+#include "algorithm"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
@@ -73,7 +74,8 @@ class RouteCalculator {
    * @param destination 運搬先の座標
    * @return 最短経路の座標と走行体の向きのペアを格納した動的配列
    */
-  std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal,Coordinate destination);
+  std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal,
+                                                               Coordinate destination);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
