@@ -10,11 +10,15 @@ BlockPivotTurn::BlockPivotTurn() : BingoMotion(100, 100) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  int runDistance = 86;  //最初に直進する距離
-  int runPwm = 10;       //最初に直進する際のPwm値
-  int rotateAngle = 44;  //回頭の角度
-  int rotatePwm = 100;    //回頭のPwm値
-  int backPwm = -15;     //位置調整用のPwm値
+  int runDistance = 16;       //最初に直進する距離
+  int runFirstPwm = 10;       //最初に直進する際のPwm値
+  int pivotAngle = 45;        //ピボットターンの角度
+  int pivotPwm = 40;          //ピボットターンのPwm値
+  int rotateAngle = 85;       //回頭の角度
+  int rotatePwm = 20;         //回頭のPwm値
+  int forwardDistance = 100;  // 前進する距離
+  int backDistance = 90;      //後退する距離
+  int runPwm = 50;            //前進、後退する際のPwm値
 
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
@@ -22,16 +26,16 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 
   //ピボットターンする
   if(isClockwise) {
-    straightRunner.runStraightToDistance(16, runPwm);
-    rotation.turnForwardRightPivot(50, 30);
-    rotation.rotateRight(75, 100);
-    straightRunner.runStraightToDistance(150, 50);
-    straightRunner.runStraightToDistance(145, -50);
+    straightRunner.runStraightToDistance(runDistance, runFirstPwm);
+    rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
+    rotation.rotateRight(rotateAngle, rotatePwm);
+    straightRunner.runStraightToDistance(forwardDistance, runPwm);
+    straightRunner.runStraightToDistance(backDistance, -runPwm);
   } else {
-    straightRunner.runStraightToDistance(16, runPwm);
-    rotation.turnForwardLeftPivot(45, rotatePwm);
-    rotation.rotateLeft(80, rotatePwm);
-    straightRunner.runStraightToDistance(150, 50);
-    straightRunner.runStraightToDistance(145, -50);
+    straightRunner.runStraightToDistance(runDistance, runPwm);
+    rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);  // pwm:20
+    rotation.rotateLeft(rotateAngle, rotatePwm);            // pwm:40
+    straightRunner.runStraightToDistance(forwardDistance, runPwm);
+    straightRunner.runStraightToDistance(backDistance, -runPwm);
   }
 }
