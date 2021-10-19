@@ -35,7 +35,7 @@ struct AstarInfo {
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
   Coordinate parent;    //親ノード
-  int cost;             //このノードに到達するまでのコスト
+  double cost;          //このノードに到達するまでのコスト
   Direction direction;  //このノードでの向き
   bool checked;         //このノードを探索したかどうか
 
@@ -50,19 +50,19 @@ struct Route {
    * @param _direction このノードでの向き
    * @param _checked このノードを探索したかどうか(true:探索済み/false:未探索)
    */
-  void setInfo(Coordinate _parent, int _currentCost, Direction _direction,bool _checked)
+  void setInfo(Coordinate _parent, int _currentCost, Direction _direction, bool _checked)
   {
     parent = _parent;
     cost = _currentCost;
     direction = _direction;
-    checked=_checked;
+    checked = _checked;
   }
 };
 
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(CourseInfo& courseInfo, Robot& robot,const bool IS_LEFT_COURSE);
+  RouteCalculator(CourseInfo& courseInfo, Robot& robot, const bool IS_LEFT_COURSE);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
