@@ -13,6 +13,7 @@ double MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> cu
   MOTION nextMotion = MotionConverter::decideMotion(current, next);
   LineTracer lineTracer(isLeftCourse);
   MotionPerformer motionPerformer(lineTracer);
+  // 時間コストと誤差コストの比
   double timeRatio = 0.7;
   double riskRatio = 1.0 - timeRatio;
 

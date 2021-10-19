@@ -6,7 +6,7 @@
 
 #include "InCrossStraight.h"
 
-InCrossStraight::InCrossStraight() : BingoMotion(1.0, 1.22) {}
+InCrossStraight::InCrossStraight() : BingoMotion(1.0, 1.12) {}
 
 void InCrossStraight::runForward(void)
 {

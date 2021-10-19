@@ -97,6 +97,7 @@ double MotionPerformer::getMotionTimeRunToCross()
 
 double MotionPerformer::getMotionTimeChangeDirection(int angle)
 {
+  // 時間コスト = (時間コスト係数)*回転角度 + オーバーヘッド
   return directionChanger.getMotionTime() * static_cast<double>(angle / 45.0) + 0.458;
 }
 
@@ -132,6 +133,7 @@ double MotionPerformer::getFailureRiskRunToCross()
 
 double MotionPerformer::getFailureRiskChangeDirection(int angle)
 {
+  // 誤差コスト = (誤差コスト係数)*回転角度 + オーバーヘッド
   return directionChanger.getFailureRisk() * static_cast<double>(angle / 45.0) + 0.048;
 }
 

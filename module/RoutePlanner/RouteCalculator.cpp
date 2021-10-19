@@ -68,9 +68,6 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
                          std::make_pair(elem.coordinate, preDirection),
                          std::make_pair(m.coordinate, currentDirection), isLeftCourse)
                      + static_cast<double>(calculateManhattan(m.coordinate));
-        printf("(%d,%d)[%d]=>(%d,%d)[%d] COST: %f\n", elem.coordinate.x, elem.coordinate.y, preDirection, m.coordinate.x, m.coordinate.y, currentDirection, MoveCostCalculator::calculateMoveCost(
-                         std::make_pair(elem.coordinate, preDirection),
-                         std::make_pair(m.coordinate, currentDirection), isLeftCourse));
         open.push_back(AstarInfo(m.coordinate, actualCost));
         route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost, currentDirection,
                                                       true);

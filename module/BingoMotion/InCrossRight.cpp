@@ -7,7 +7,7 @@
 #include "InCrossRight.h"
 
 InCrossRight::InCrossRight(LineTracer& _lineTracer)
-  : BingoMotion(1.22, 1.19), lineTracer(_lineTracer)
+  : BingoMotion(1.23, 1.09), lineTracer(_lineTracer)
 {
 }
 

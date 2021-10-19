@@ -7,7 +7,7 @@
 #include "ToCrossMotion.h"
 
 ToCrossMotion::ToCrossMotion(LineTracer& _lineTracer)
-  : BingoMotion(1.02, 1.2), lineTracer(_lineTracer)
+  : BingoMotion(1.02, 1.01), lineTracer(_lineTracer)
 {
 }
 
