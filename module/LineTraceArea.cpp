@@ -60,13 +60,6 @@ void LineTraceArea::runLineTraceAreaShortcut()
   const SectionParam* param;
   bool isLeftEdge;  // true:左エッジ,false:右エッジ
 
-  if(IS_LEFT_COURSE) {
-    // Lコースの場合
-    param = LEFT_COURSE_INFO.begin();
-  } else {
-    // Rコースの場合
-    param = RIGHT_COURSE_INFO.begin();
-  }
   //エッジの設定
   isLeftEdge = !IS_LEFT_COURSE;
 
@@ -97,8 +90,8 @@ void LineTraceArea::runLineTraceAreaShortcut()
     if(currentDistance - initialDistance >= curveDistance1) {
       break;
     }
-    IS_LEFT_COURSE ? controller.setRightMotorPwm(100) : controller.setRightMotorPwm(65);
-    IS_LEFT_COURSE ? controller.setLeftMotorPwm(65) : controller.setLeftMotorPwm(100);
+    controller.setRightMotorPwm(100);
+    controller.setLeftMotorPwm(65);
     controller.sleep();
   }
 
@@ -111,8 +104,8 @@ void LineTraceArea::runLineTraceAreaShortcut()
     if(currentDistance - initialDistance >= curveDistance2) {
       break;
     }
-    IS_LEFT_COURSE ? controller.setRightMotorPwm(100) : controller.setRightMotorPwm(67);
-    IS_LEFT_COURSE ? controller.setLeftMotorPwm(66) : controller.setLeftMotorPwm(100);
+    controller.setRightMotorPwm(100);
+    controller.setLeftMotorPwm(66);
     controller.sleep();
   }
 
@@ -125,8 +118,8 @@ void LineTraceArea::runLineTraceAreaShortcut()
     if(currentDistance - initialDistance >= curveDistance3) {
       break;
     }
-    IS_LEFT_COURSE ? controller.setRightMotorPwm(64) : controller.setRightMotorPwm(100);
-    IS_LEFT_COURSE ? controller.setLeftMotorPwm(100) : controller.setLeftMotorPwm(63);
+    controller.setRightMotorPwm(64);
+    controller.setLeftMotorPwm(100);
     controller.sleep();
   }
 
