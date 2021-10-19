@@ -21,7 +21,7 @@ const std::array<SectionParam, LineTraceArea::LEFT_SECTION_SIZE> LineTraceArea::
 const std::array<SectionParam, LineTraceArea::RIGHT_SECTION_SIZE> LineTraceArea::RIGHT_COURSE_INFO
     = { SectionParam{ 150, 12, 60, PidGain(0.2, 0.1, 0.1) },
         SectionParam{ 1445, 12, 100, PidGain(3.5, 1, 1) },
-        SectionParam{ 670, 12, 80, PidGain(1.7, 0.8, 0.8) },  //(1.6, 1.05, 1.3)
+        SectionParam{ 670, 12, 80, PidGain(1.7, 0.8, 0.8) },
         SectionParam{ 600, 12, 100, PidGain(3.3, 1, 1) },
         SectionParam{ 580, 12, 80, PidGain(1.6, 0.67, 0.6) },
         SectionParam{ 1450, 12, 100, PidGain(4, 0.3, 0.3) },
@@ -53,4 +53,82 @@ void LineTraceArea::runLineTraceArea()
     lineTracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
                    param[section].sectionPwm, param[section].sectionPidGain);
   }
+}
+
+void LineTraceArea::runLineTraceAreaShortcut()
+{
+  const SectionParam* param;
+  bool isLeftEdge;  // true:左エッジ,false:右エッジ
+
+  if(IS_LEFT_COURSE) {
+    // Lコースの場合
+    param = LEFT_COURSE_INFO.begin();
+  } else {
+    // Rコースの場合
+    param = RIGHT_COURSE_INFO.begin();
+  }
+  //エッジの設定
+  isLeftEdge = !IS_LEFT_COURSE;
+
+  // LineTracerにエッジを与えてインスタンス化する
+  LineTracer lineTracer(isLeftEdge);
+  StraightRunner straightRunner;
+  Measurer measurer;
+  Controller controller;
+
+  int targetBrightness = 12;
+  int initialDistance = 0;
+  int currentDistance = 0;
+
+  int curveDistance1 = 777;
+  int straightDistance1 = 435;
+  int curveDistance2 = 777;
+  int straightDistance2 = 1120;
+  int curveDistance3 = 700;
+  int straightDistance3 = 500;
+
+  lineTracer.run(150, targetBrightness, 60, PidGain(0.1, 0.8, 0.1));
+  lineTracer.run(1385, targetBrightness, 100, PidGain(3.5, 1, 1));
+
+  //第一カーブ
+  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+  while(true) {
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    if(currentDistance - initialDistance >= curveDistance1) {
+      break;
+    }
+    IS_LEFT_COURSE ? controller.setRightMotorPwm(100) : controller.setRightMotorPwm(65);
+    IS_LEFT_COURSE ? controller.setLeftMotorPwm(65) : controller.setLeftMotorPwm(100);
+    controller.sleep();
+  }
+
+  straightRunner.runStraightToDistance(straightDistance1, 100);
+
+  //第二カーブ
+  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+  while(true) {
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    if(currentDistance - initialDistance >= curveDistance2) {
+      break;
+    }
+    IS_LEFT_COURSE ? controller.setRightMotorPwm(100) : controller.setRightMotorPwm(67);
+    IS_LEFT_COURSE ? controller.setLeftMotorPwm(66) : controller.setLeftMotorPwm(100);
+    controller.sleep();
+  }
+
+  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3.5, 1, 1));
+
+  //第三カーブ
+  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+  while(true) {
+    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+    if(currentDistance - initialDistance >= curveDistance3) {
+      break;
+    }
+    IS_LEFT_COURSE ? controller.setRightMotorPwm(64) : controller.setRightMotorPwm(100);
+    IS_LEFT_COURSE ? controller.setLeftMotorPwm(100) : controller.setLeftMotorPwm(63);
+    controller.sleep();
+  }
+
+  lineTracer.run(straightDistance3, targetBrightness, 100, PidGain(3, 1, 1.8));
 }
