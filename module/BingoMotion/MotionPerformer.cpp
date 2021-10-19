@@ -75,72 +75,72 @@ void MotionPerformer::setBlockThrow(bool isClockwise)
   }
 }
 
-int MotionPerformer::getMotionTimeRunForward()
+double MotionPerformer::getMotionTimeRunForward()
 {
   return inCrossStraight.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeRunRight()
+double MotionPerformer::getMotionTimeRunRight()
 {
   return inCrossRight.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeRunLeft()
+double MotionPerformer::getMotionTimeRunLeft()
 {
   return inCrossLeft.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeRunToCross()
+double MotionPerformer::getMotionTimeRunToCross()
 {
   return toCrossMotion.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeChangeDirection(int angle)
+double MotionPerformer::getMotionTimeChangeDirection(int angle)
 {
-  return directionChanger.getMotionTime() * (angle / 45) + 0.458;
+  return directionChanger.getMotionTime() * static_cast<double>(angle / 45.0) + 0.458;
 }
 
-int MotionPerformer::getMotionTimePivotTurn()
+double MotionPerformer::getMotionTimePivotTurn()
 {
   return blockPivotTurn.getMotionTime();
 }
 
-int MotionPerformer::getMotionTimeThrowBlock()
+double MotionPerformer::getMotionTimeThrowBlock()
 {
   return blockThrower.getMotionTime();
 }
 
-int MotionPerformer::getFailureRiskRunForward()
+double MotionPerformer::getFailureRiskRunForward()
 {
   return inCrossStraight.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskRunRight()
+double MotionPerformer::getFailureRiskRunRight()
 {
   return inCrossRight.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskRunLeft()
+double MotionPerformer::getFailureRiskRunLeft()
 {
   return inCrossLeft.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskRunToCross()
+double MotionPerformer::getFailureRiskRunToCross()
 {
   return toCrossMotion.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskChangeDirection(int angle)
+double MotionPerformer::getFailureRiskChangeDirection(int angle)
 {
-  return directionChanger.getFailureRisk() * (angle / 45) + 0.048;
+  return directionChanger.getFailureRisk() * static_cast<double>(angle / 45.0) + 0.048;
 }
 
-int MotionPerformer::getFailureRiskPivotTurn()
+double MotionPerformer::getFailureRiskPivotTurn()
 {
   return blockPivotTurn.getFailureRisk();
 }
 
-int MotionPerformer::getFailureRiskThrowBlock()
+double MotionPerformer::getFailureRiskThrowBlock()
 {
   return blockThrower.getFailureRisk();
 }
