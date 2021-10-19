@@ -1,6 +1,7 @@
 # テスト関係
 build/
 logs/
+*.csv
 
 # シミュレータ自動実行ツール関係
 .cancel-sim-test
