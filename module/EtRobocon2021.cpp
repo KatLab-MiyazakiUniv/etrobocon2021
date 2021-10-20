@@ -17,7 +17,11 @@ void EtRobocon2021::start()
   }
 
   //ライントレースエリア攻略開始
-  LineTraceArea::runLineTraceArea();
+  if(IS_LEFT_COURSE) {
+    LineTraceArea::runLineTraceAreaShortcut();
+  } else {
+    LineTraceArea::runLineTraceArea();
+  }
   //ビンゴエリア攻略開始
   BingoArea::runBingoArea();
   //シミュレータへ競技の終了を通知する
