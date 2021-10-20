@@ -10,7 +10,7 @@ void BlackBlockCarrier::carryBlackBlock()
   constexpr int RUN_STRAIGHT_PWM = 80;
   constexpr int RUN_CURVE_PWM = 50;
   constexpr int TARGET_BRIGHTNESS = 20;  //目標輝度
-  constexpr int BLUE_WHITE_BRIGHTNESS = 30;
+  constexpr int BLUE_WHITE_BRIGHTNESS = 25;
   bool isLeftEdge = !IS_LEFT_COURSE;
   Rotation rotation;
   StraightRunner straightRunner;
@@ -22,8 +22,8 @@ void BlackBlockCarrier::carryBlackBlock()
   //青の線を通過
   lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.12, 0.8, 0.12));
   //青の線まで
-  lineTracer.run(100, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
-  lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
+  lineTracer.run(770, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
+  // lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
   //青の線を通過
   lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.19, 0.8, 0.19));
   //黄色の円まで
@@ -53,12 +53,21 @@ void BlackBlockCarrier::carryBlackBlock()
             : Mileage::calculateWheelMileage(measurer.getRightCount())
                   - Mileage::calculateWheelMileage(measurer.getLeftCount());  //開始時の差
   while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 200
+                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 150
                        : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 200) {
+                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 150) {
     //モータのPWM値をセット
     controller.setRightMotorPwm(IS_LEFT_COURSE ? 50 : 80);
     controller.setLeftMotorPwm(IS_LEFT_COURSE ? 80 : 50);
+    controller.sleep();
+  }
+  while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 203
+                       : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 203) {
+    //モータのPWM値をセット
+    controller.setRightMotorPwm(IS_LEFT_COURSE ? 30 : 50);
+    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 50 : 30);
     controller.sleep();
   }
   straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM - 30);
