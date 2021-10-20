@@ -22,10 +22,10 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
   route[start.x][start.y].setInfo(start, 0, robot.getDirection(), true);
-  Direction goalDirection
-      = calculateDirection(destination, goal);  //運搬ブロックに到達したときに優先する向き
+  int dx = (destination.x - goal.x > 0) - (destination.x - goal.x < 0) * 1;  // 目標ブロックへの方向
+  int dy = (destination.y - goal.y > 0) - (destination.y - goal.y < 0) * 1;  // 目標ブロックへの方向
   // 方向の変換テーブル（向きコストの算出に使う）
-  std::array<std::array<int, 2>, 8> robotVector = { {
+  std::array<std::array<int, 2>, 8> robotVectorLeft = { {
       { 0, -1 },  // N
       { 1, -1 },  // NE
       { 1, 0 },   // E
@@ -33,7 +33,17 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
       { 0, 1 },   // S
       { -1, 1 },  // SW
       { -1, 0 },  // W
-      { -1, -1 }  // S
+      { -1, -1 }  // NW
+  } };
+  std::array<std::array<int, 2>, 8> robotVectorRight = { {
+      { 0, -1 },   // N
+      { -1, -1 },  // NE
+      { -1, 0 },   // E
+      { -1, 1 },   // SE
+      { 0, 1 },    // S
+      { 1, 1 },    // SW
+      { 1, 0 },    // W
+      { 1, -1 }    // NW
   } };
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
@@ -71,18 +81,16 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        // 取得経路のゴール（ブロックを取得した）に到達したら、その地点での向きとブロック→運搬先の向きから向きコストを算出する
-        if(m.coordinate == goal and abs(goal.x - destination.x) == 1) {
-          int rdx = robotVector[static_cast<int>(currentDirection)][0];
-          int rdy = robotVector[static_cast<int>(currentDirection)][1];
+        if(m.coordinate == goal) {
+          int rdx = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][0]
+                                 : robotVectorRight[static_cast<int>(currentDirection)][0];
+          int rdy = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][1]
+                                 : robotVectorRight[static_cast<int>(currentDirection)][1];
 
-          //*/
-          // 目標ブロックへの方向
-          int dx = robotVector[static_cast<int>(goalDirection)][0];
-          int dy = robotVector[static_cast<int>(goalDirection)][0];
-          int directionCost = 7;  //方向コスト
+          int directionCost = 4;  //方向コスト
           if(dx * rdx > 0) directionCost--;  // xについて進行方向が合致していれば、コストを下げる
           if(dy * rdy > 0) directionCost--;  // yについて進行方向が合致していれば、コストを下げる
+
           //実コスト＝そのノードまでの距離＋移動コスト＋推定コスト（マンハッタン距離）＋向きコスト
           actualCost = route[elem.coordinate.x][elem.coordinate.y].cost + directionCost
                        + MoveCostCalculator::calculateMoveCost(
