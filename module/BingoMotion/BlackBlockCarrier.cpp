@@ -42,8 +42,8 @@ void BlackBlockCarrier::carryBlackBlock()
   //黒ブロック手前までライントレース
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
-  straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 40);
+  straightRunner.runStraightToDistance(110, RUN_STRAIGHT_PWM - 50);
+  straightRunner.runStraightToDistance(128, RUN_STRAIGHT_PWM - 40);
 
   //弧を描いて曲がる
   double startDiff
@@ -62,17 +62,26 @@ void BlackBlockCarrier::carryBlackBlock()
     controller.sleep();
   }
   while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 203
+                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 190
                        : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
-                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 203) {
+                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 190) {
     //モータのPWM値をセット
     controller.setRightMotorPwm(IS_LEFT_COURSE ? 30 : 50);
     controller.setLeftMotorPwm(IS_LEFT_COURSE ? 50 : 30);
     controller.sleep();
   }
-  straightRunner.runStraightToDistance(200, RUN_STRAIGHT_PWM - 30);
+  while(IS_LEFT_COURSE ? Mileage::calculateWheelMileage(measurer.getRightCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getLeftCount()) - 203
+                       : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
+                             >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 203) {
+    //モータのPWM値をセット
+    controller.setRightMotorPwm(IS_LEFT_COURSE ? 25 : 30);
+    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 30 : 25);
+    controller.sleep();
+  }
+  straightRunner.runStraightToDistance(150, RUN_STRAIGHT_PWM - 30);
   straightRunner.runStraightToColor(RUN_STRAIGHT_PWM - 30, COLOR::BLACK);
-  straightRunner.runStraightToDistance(135, RUN_STRAIGHT_PWM - 50);
+  straightRunner.runStraightToDistance(125, RUN_STRAIGHT_PWM - 50);
   //黒のラインまで下がる
-  straightRunner.runStraightToDistance(50, -20);
+  straightRunner.runStraightToDistance(40, -20);
 }
