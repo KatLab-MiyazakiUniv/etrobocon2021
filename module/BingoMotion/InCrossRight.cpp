@@ -14,13 +14,14 @@ void InCrossRight::runRight(void)
 {
   int targetDistance = 10;
   int runPwm = 30;
-  int angle = 91;
-  int rotatePwm = 90;
+  // 現在のエッジとピボットターン方向が不一致の場合、多めに回転する
+  int angle = !lineTracer.getIsLeftEdge() ? 91 : 94;
+  int turnPwm = 90;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
   //右に90度ピボットターンする
-  rotation.turnForwardRightPivot(angle, rotatePwm);
+  rotation.turnForwardRightPivot(angle, turnPwm);
   //エッジを右にする
   lineTracer.setIsLeftEdge(false);
 }
