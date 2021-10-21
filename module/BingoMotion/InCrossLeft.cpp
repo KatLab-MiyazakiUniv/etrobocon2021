@@ -14,7 +14,7 @@ void InCrossLeft::runLeft(void)
   int runPwm = 30;
   // 現在のエッジとピボットターン方向が不一致の場合、多めに回転する
   int angle = lineTracer.getIsLeftEdge() ? 91 : 94;
-  int turnPwm = 90;
+  int turnPwm = lineTracer.getIsLeftEdge() ? 90 : 70;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
