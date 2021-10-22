@@ -42,7 +42,7 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToDistance(122, RUN_STRAIGHT_PWM - 40);
+  straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 40);
 
   //弧を描いて曲がる
   double startDiff
@@ -65,8 +65,8 @@ void BlackBlockCarrier::carryBlackBlock()
                        : Mileage::calculateWheelMileage(measurer.getLeftCount()) + startDiff
                              >= Mileage::calculateWheelMileage(measurer.getRightCount()) - 203) {
     //モータのPWM値をセット
-    controller.setRightMotorPwm(IS_LEFT_COURSE ? 30 : 40);
-    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 40 : 30);
+    controller.setRightMotorPwm(IS_LEFT_COURSE ? 30 : 50);
+    controller.setLeftMotorPwm(IS_LEFT_COURSE ? 50 : 30);
     controller.sleep();
   }
   straightRunner.runStraightToDistance(150, RUN_STRAIGHT_PWM - 30);
