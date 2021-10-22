@@ -23,7 +23,6 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.12, 0.8, 0.12));
   //青の線まで
   lineTracer.run(770, TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
-  // lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_CURVE_PWM, PidGain(0.4, 0.8, 0.2));
   //青の線を通過
   lineTracer.run(150, BLUE_WHITE_BRIGHTNESS, RUN_STRAIGHT_PWM, PidGain(0.19, 0.8, 0.19));
   //黄色の円まで
