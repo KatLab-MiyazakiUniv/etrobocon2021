@@ -14,6 +14,7 @@
 #include "vector"
 #include "MotionConverter.h"
 #include "MoveCostCalculator.h"
+#include "Controller.h"
 
 //A*アルゴリズムで使う座標と予測コストをまとめた構造体
 struct AstarInfo {
@@ -50,19 +51,19 @@ struct Route {
    * @param _direction このノードでの向き
    * @param _checked このノードを探索したかどうか(true:探索済み/false:未探索)
    */
-  void setInfo(Coordinate _parent, int _currentCost, Direction _direction,bool _checked)
+  void setInfo(Coordinate _parent, int _currentCost, Direction _direction, bool _checked)
   {
     parent = _parent;
     cost = _currentCost;
     direction = _direction;
-    checked=_checked;
+    checked = _checked;
   }
 };
 
 class RouteCalculator {
  public:
   //コンストラクタ
-  RouteCalculator(CourseInfo& courseInfo, Robot& robot,const bool IS_LEFT_COURSE);
+  RouteCalculator(CourseInfo& courseInfo, Robot& robot, const bool IS_LEFT_COURSE);
 
   /**
    * @fn std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
@@ -76,6 +77,7 @@ class RouteCalculator {
 
  private:
   CourseInfo& courseInfo;
+  Controller controller;
   Coordinate goalNode;  //クラス内でゴールノードを共有しておく
   static constexpr int BINGO_SIZE = 7;
   Robot& robot;

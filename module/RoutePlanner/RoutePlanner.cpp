@@ -6,20 +6,22 @@
 
 #include "RoutePlanner.h"
 
-// コンストラクタ
-RoutePlanner::RoutePlanner(CourseInfo& _courseInfo, const bool IS_LEFT_COURSE)
-  : courseInfo(_courseInfo), isLeftCourse(IS_LEFT_COURSE)
-{
-}
+std::array<std::vector<std::pair<Coordinate, Direction>>, 8> RoutePlanner::carryRoute = {};
+
+bool RoutePlanner::plannerFlag = false;
 
 // 経路計画を立てる
-std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBingoRoute()
+void RoutePlanner::planBingoRoute()
 {
-  std::vector<std::vector<std::pair<Coordinate, Direction>>> carryRoute(8);  //運搬経路リスト
-  Robot robot(isLeftCourse);  // 経路計画用の仮想走行体インスタンス生成
+  printf("経路計画開始\n");
+  Controller controller;
+  CourseInfo courseInfo(IS_LEFT_COURSE);
+  courseInfo.initCourseInfo();
+
+  Robot robot(IS_LEFT_COURSE);  // 経路計画用の仮想走行体インスタンス生成
   DestinationList destinationList(courseInfo);  // 運搬先を決定する
-  BlockSelector blockSelector(destinationList, isLeftCourse);
-  RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
+  BlockSelector blockSelector(destinationList, IS_LEFT_COURSE);
+  RouteCalculator routeCalculator(courseInfo, robot, IS_LEFT_COURSE);
   int count = 0;
 
   while(true) {
@@ -38,6 +40,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     //取得経路を運搬経路リストに追加する
     for(const auto& i : toBlockRoute) {
       carryRoute[count].push_back(i);
+      // controller.sleep();
     }
 
     // 走行体が運搬ブロックを取得したとして、走行体の情報を更新する
@@ -50,6 +53,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     //設置経路を運搬経路リストに追加する
     for(int i = 1; i < static_cast<int>(toCircleRoute.size()); i++) {
       carryRoute[count].push_back(toCircleRoute[i]);
+      // controller.sleep();
     }
     count++;
 
@@ -76,6 +80,17 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
 
     // ブロックを運搬したとして、ビンゴエリア情報を更新する
     courseInfo.moveBlock(targetCircleId, carryBlockId);
+
+    controller.sleep();
   }
-  return carryRoute;
+
+  // 経路計画を終了
+  printf("経路計画終了\n");
+  plannerFlag = true;
+  for(int i = 0; i < 8; i++) {
+    for(auto& carry : carryRoute[i]) {
+      printf("(%d, %d)→ ", carry.first.x, carry.first.y);
+    }
+    printf("\n");
+  }
 }

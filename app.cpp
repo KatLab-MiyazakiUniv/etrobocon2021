@@ -1,8 +1,11 @@
 #include "app.h"
 #include "EtRobocon2021.h"
 #include "ArmMotion.h"
+#include "CourseInfo.h"
+#include "RouteCalculator.h"
+#include "Controller.h"
+#include "Measurer.h"
 
-// tag::main_task_1[]
 void main_task(intptr_t unused)
 {
   EtRobocon2021::start();
@@ -19,6 +22,16 @@ void arm_task(intptr_t unused)
 
 void route_task(intptr_t unused)
 {
-  // ext_tsk();
+  Controller controller;
+  Measurer measurer;
+  // BingoArea::runBingoArea()が呼び出されるまで待機
+  //タッチセンサが押されるまで待機
+  while(!measurer.isPressed()) {
+    // while(RoutePlanner::plannerFlag == false) {
+    controller.sleep();
+  }
+  controller.sleep(2000);
+  // 経路計画開始
+  RoutePlanner::planBingoRoute();
+  ext_tsk();
 }
-// end::main_task_2[]

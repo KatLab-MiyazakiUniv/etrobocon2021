@@ -3,14 +3,16 @@
  * @brief ビンゴエリアを攻略するクラス
  * @author Hisataka-Hagiyama,uchyam
  */
+
+#ifndef BINGOAREA_H
+#define BINGOAREA_H
+
 #include "RoutePlanner.h"
 #include "MotionConverter.h"
-#include "CourseInfo.h"
 #include "LineTraceArea.h"
 #include "LineTracer.h"
 #include "BlackBlockCarrier.h"
-#ifndef BINGOAREA_H
-#define BINGOAREA_H
+#include "Controller.h"
 
 class BingoArea {
  public:

@@ -75,6 +75,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
       }
     }
     close.push_back(elem);
+    controller.sleep();
   }
   //経路復元処理
   setRoute(routeCoordinate, route);  //探索が終了したノードはcloseに移動
@@ -98,7 +99,9 @@ std::vector<AstarInfo> RouteCalculator::checkNeighborhood(Coordinate coordinate,
           nodeList.push_back(AstarInfo({ nx, ny }, route[coordinate.x][coordinate.y].cost));
         }
       }
+      // controller.sleep();
     }
+    // controller.sleep();
   }
   return nodeList;
 }
@@ -123,6 +126,7 @@ bool RouteCalculator::checkList(AstarInfo node, std::vector<AstarInfo>& list)
       list.erase(list.begin() + i);
       return true;
     }
+    // controller.sleep();
   }
   return false;
 }
@@ -147,6 +151,7 @@ void RouteCalculator::setRoute(std::vector<std::pair<Coordinate, Direction>>& li
     Direction direction = route[c.x][c.y].direction;
     list.push_back(std::make_pair(c, direction));
     last = p;
+    controller.sleep();
   }
   list.push_back(std::make_pair(last, robot.getDirection()));  //スタートノードをリストに追加する
   std::reverse(list.begin(), list.end());  //リストを逆順にする(ゴールから順に格納されていくため)
