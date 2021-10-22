@@ -10,16 +10,15 @@ InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : BingoMotion(10, 10), lineTra
 
 void InCrossLeft::runLeft(void)
 {
-  int targetDistance = 10;
+  int targetDistance = 15;
   int runPwm = 30;
-  // 現在のエッジとピボットターン方向が不一致の場合、多めに回転する
-  int angle = lineTracer.getIsLeftEdge() ? 91 : 94;
-  int turnPwm = lineTracer.getIsLeftEdge() ? 90 : 70;
+  int angle = 74;
+  int turnPwm = 100;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
   //左に90度ピボットターンする
   rotation.turnForwardLeftPivot(angle, turnPwm);
-  //エッジを左にする
-  lineTracer.setIsLeftEdge(true);
+  //エッジを右にする
+  lineTracer.setIsLeftEdge(false);
 }
