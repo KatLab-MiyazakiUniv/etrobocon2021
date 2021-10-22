@@ -12,8 +12,8 @@ InCrossRight::InCrossRight(LineTracer& _lineTracer) : BingoMotion(10, 10), lineT
 
 void InCrossRight::runRight(void)
 {
-  int targetDistance = 20;
-  int runPwm = 30;
+  int targetDistance = 25;
+  int runPwm = 40;
   int angle = 74;
   int turnPwm = 100;
 
