@@ -18,7 +18,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   std::vector<AstarInfo> close;  //探索済みのノードを格納
   std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納
   struct AstarInfo elem({ 0, 0 }, 0);  //現在探索しているノード(座標(0,0),コスト0で初期化)
-  int actualCost = 0;
+  double actualCost = 0;
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
   route[start.x][start.y].setInfo(start, 0, robot.getDirection(), true);
@@ -67,8 +67,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
                      + MoveCostCalculator::calculateMoveCost(
                          std::make_pair(elem.coordinate, preDirection),
                          std::make_pair(m.coordinate, currentDirection), isLeftCourse)
-                     + calculateManhattan(m.coordinate);
-
+                     + static_cast<double>(calculateManhattan(m.coordinate));
         open.push_back(AstarInfo(m.coordinate, actualCost));
         route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost, currentDirection,
                                                       true);

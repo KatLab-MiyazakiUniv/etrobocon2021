@@ -6,7 +6,7 @@
 
 #include "BlockThrower.h"
 
-BlockThrower::BlockThrower() : BingoMotion(5, 5), TREAD(140), MIN_PWM(10) {}
+BlockThrower::BlockThrower() : BingoMotion(1.17, 1.39), TREAD(140), MIN_PWM(10) {}
 
 void BlockThrower::setBlockThrow(bool isClockwise)
 {

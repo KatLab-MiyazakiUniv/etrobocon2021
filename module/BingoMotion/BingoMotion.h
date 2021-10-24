@@ -10,23 +10,23 @@
 class BingoMotion {
  public:
   // コンストラクタ
-  BingoMotion(int time = 0, int risk = 0);
+  BingoMotion(double time = 0, double risk = 0);
 
   /**
    * @brief 動作時間を取得する
    * @return 動作時間
    */
-  int getMotionTime(void);
+  double getMotionTime(void);
 
   /**
    * @brief 失敗リスクを取得する
    * @return 失敗リスク
    */
-  int getFailureRisk(void);
+  double getFailureRisk(void);
 
  private:
-  int MOTION_TIME;
-  int FAILURE_RISK;
+  double MOTION_TIME;
+  double FAILURE_RISK;
 };
 
 #endif
