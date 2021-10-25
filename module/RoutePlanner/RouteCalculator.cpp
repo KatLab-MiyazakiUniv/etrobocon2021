@@ -22,8 +22,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
   route[start.x][start.y].setInfo(start, 0, robot.getDirection(), true);
-  int dx = (destination.x - goal.x > 0) - (destination.x - goal.x < 0) * 1;  // 目標ブロックへの方向
-  int dy = (destination.y - goal.y > 0) - (destination.y - goal.y < 0) * 1;  // 目標ブロックへの方向
+  int dx = (destination.x > goal.x) - (destination.x < goal.x);  // ブロックサークルへの方向
+  int dy = (destination.y > goal.y) - (destination.y < goal.y);  // ブロックへの方向
   // 方向の変換テーブル（向きコストの算出に使う）
   std::array<std::array<int, 2>, 8> robotVectorLeft = { {
       { 0, -1 },  // N
@@ -81,7 +81,8 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        if(m.coordinate == goal) {
+        if(m.coordinate == goal && goal == destination) {
+          //ゴールと設置先が違い、(すなわち取得経路)かつゴールに到達した際は向きコストを考慮する
           int rdx = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][0]
                                  : robotVectorRight[static_cast<int>(currentDirection)][0];
           int rdy = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][1]
@@ -91,7 +92,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
           if(dx * rdx > 0) directionCost--;  // xについて進行方向が合致していれば、コストを下げる
           if(dy * rdy > 0) directionCost--;  // yについて進行方向が合致していれば、コストを下げる
 
-          //実コスト＝そのノードまでの距離＋移動コスト＋推定コスト（マンハッタン距離）＋向きコスト
+          //実コスト＝そのノードまでの距離＋向きコスト＋移動コスト＋推定コスト（マンハッタン距離）
           actualCost = route[elem.coordinate.x][elem.coordinate.y].cost + directionCost
                        + MoveCostCalculator::calculateMoveCost(
                            std::make_pair(elem.coordinate, preDirection),
