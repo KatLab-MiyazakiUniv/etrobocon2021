@@ -82,7 +82,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        if(m.coordinate == goal && goal == destination) {
+        if(m.coordinate == goal && goal != destination) {
           //ゴールと設置先が違い(すなわち取得経路)、かつゴールに到達した際は向きコストを考慮する
           int rdx = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][0]
                                  : robotVectorRight[static_cast<int>(currentDirection)][0];
