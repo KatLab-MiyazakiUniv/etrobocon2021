@@ -43,7 +43,6 @@ void BlackBlockCarrier::carryBlackBlock()
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
   straightRunner.runStraightToDistance(120, RUN_STRAIGHT_PWM - 40);
-
   //弧を描いて曲がる
   double startDiff
       = IS_LEFT_COURSE
