@@ -66,16 +66,16 @@ class RouteCalculator {
   RouteCalculator(CourseInfo& courseInfo, Robot& robot, const bool IS_LEFT_COURSE);
 
   /**
-   * @fn　std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal,Coordinate destination);
+   * @fn　std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate
+   * goal,Coordinate destination);
    * @brief 経路計算をする
    * @param start スタートノードの座標
    * @param goal ゴールノードの座標
-   * @param destination 運搬先の座標
+   * @param destination ブロックサークルの座標
    * @return 最短経路の座標と走行体の向きのペアを格納した動的配列
    */
   std::vector<std::pair<Coordinate, Direction>> calculateRoute(Coordinate start, Coordinate goal,
                                                                Coordinate destination);
-
 
  private:
   CourseInfo& courseInfo;
