@@ -20,10 +20,10 @@
 struct AstarInfo {
   // ノードの座標
   Coordinate coordinate;  //座標
-  int estimateCost;       //予測コスト
+  double estimateCost;    //予測コスト
 
   //コンストラクタ
-  AstarInfo(Coordinate _coordinate, int _estimateCost)
+  AstarInfo(Coordinate _coordinate, double _estimateCost)
     : coordinate(_coordinate), estimateCost(_estimateCost)
   {
   }
@@ -36,7 +36,7 @@ struct AstarInfo {
 //経路復元で使う親ノードとコストをまとめた構造体
 struct Route {
   Coordinate parent;    //親ノード
-  int cost;             //このノードに到達するまでのコスト
+  double cost;          //このノードに到達するまでのコスト
   Direction direction;  //このノードでの向き
   bool checked;         //このノードを探索したかどうか
 
@@ -44,14 +44,14 @@ struct Route {
   Route() : parent(-1, -1), cost(0), direction(Direction::N), checked(false) {}
 
   /**
-   * @fn void set(Coordinate _parent, int _currentCost)
+   * @fn void set(Coordinate _parent, double _currentCost)
    * @brief 各ノードの親ノード、現在のコストをセットする
    * @param _parent 親ノード
    * @param _currentCost　このノードでのコスト
    * @param _direction このノードでの向き
    * @param _checked このノードを探索したかどうか(true:探索済み/false:未探索)
    */
-  void setInfo(Coordinate _parent, int _currentCost, Direction _direction, bool _checked)
+  void setInfo(Coordinate _parent, double _currentCost, Direction _direction, bool _checked)
   {
     parent = _parent;
     cost = _currentCost;
