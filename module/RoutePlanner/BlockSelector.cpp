@@ -75,12 +75,12 @@ BLOCK_ID BlockSelector::selectBlock()
     robot.setCoordinate(currentCoordinate);  //ブロックを取得しに行く前の座標
 
     std::vector<std::pair<Coordinate, Direction>> route = routeCalculator.calculateRoute(
-        robot.getCoordinate(), targetBlockCoord);  //ブロックを取得しに行く経路
+        robot.getCoordinate(), targetBlockCoord, targetCircleCoord);  //ブロックを取得しに行く経路
 
     robot.setDirection(route.back().second);  //ブロックを取得した後の向き
     robot.setCoordinate(route.back().first);  //ブロックを取得した後の座標
 
-    route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord);
+    route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord, targetCircleCoord);
     if(route.front().first != targetBlockCoord || route.back().first != targetCircleCoord) continue;
 
     // 現在ブロックサークルに到着できない and 対象のブロックを運搬してもサークルが開放されない
@@ -168,11 +168,13 @@ BLOCK_ID BlockSelector::selectBlock()
   robot.setCoordinate(bestBlockCoord);
   robot.setDirection(currentDirection);
   robot.setDirection(
-      routeCalculator.calculateRoute(currentCoordinate, bestBlockCoord).back().second);
+      routeCalculator.calculateRoute(currentCoordinate, bestBlockCoord, bestCircleCoord)
+          .back()
+          .second);
 
   //最善と思われるブロックを運搬したものとしてロボットの向きと座標を更新する
   std::vector<std::pair<Coordinate, Direction>> bestSetRoute
-      = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord);
+      = routeCalculator.calculateRoute(bestBlockCoord, bestCircleCoord, bestCircleCoord);
   int routeSize = bestSetRoute.size();
   robot.setCoordinate(bestSetRoute[bestSetRoute.size() - 2].first);
   std::pair<Coordinate, Direction> Goal = bestSetRoute[routeSize - 1];

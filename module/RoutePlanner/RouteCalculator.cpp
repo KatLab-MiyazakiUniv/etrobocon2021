@@ -11,8 +11,8 @@ RouteCalculator::RouteCalculator(CourseInfo& courseInfo, Robot& robot, const boo
 {
 }
 
-std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Coordinate start,
-                                                                              Coordinate goal)
+std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
+    Coordinate start, Coordinate goal, Coordinate destination)
 {
   std::vector<AstarInfo> open;   //これから探索するノードを格納
   std::vector<AstarInfo> close;  //探索済みのノードを格納
@@ -22,6 +22,30 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
   Route route[BINGO_SIZE][BINGO_SIZE];  //経路復元のための配列
   goalNode = goal;                      // ゴールノードをセット
   route[start.x][start.y].setInfo(start, 0, robot.getDirection(), true);
+  //(ブロックサークルの座標-ゴールの座標)の符号を計算する
+  int dx = (destination.x > goal.x) - (destination.x < goal.x);  // ブロックサークルへの方向
+  int dy = (destination.y > goal.y) - (destination.y < goal.y);  // ブロックサークルへの方向
+  // 方向の変換テーブル（向きコストの算出に使う）
+  std::array<std::array<int, 2>, 8> robotVectorLeft = { {
+      { 0, -1 },  // N
+      { 1, -1 },  // NE
+      { 1, 0 },   // E
+      { 1, 1 },   // SE
+      { 0, 1 },   // S
+      { -1, 1 },  // SW
+      { -1, 0 },  // W
+      { -1, -1 }  // NW
+  } };
+  std::array<std::array<int, 2>, 8> robotVectorRight = { {
+      { 0, -1 },   // N
+      { -1, -1 },  // NE
+      { -1, 0 },   // E
+      { -1, 1 },   // SE
+      { 0, 1 },    // S
+      { 1, 1 },    // SW
+      { 1, 0 },    // W
+      { 1, -1 }    // NW
+  } };
   open.push_back(AstarInfo(start, route[start.x][start.y].cost + calculateManhattan(start)));
   while(!open.empty()) {
     //予測コストの小さい順にソートする
@@ -29,10 +53,6 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
     //探索するノードをopenから取り出す
     elem = open.back();
     open.pop_back();
-    //現在探索しているノードがゴールノードであれば探索を終了する
-    if(elem.coordinate == goalNode) {
-      break;
-    }
     Direction preDirection
         = route[elem.coordinate.x][elem.coordinate.y].direction;  //現時点での走行体の向き
 
@@ -62,15 +82,42 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(Co
         if(checkList(m, open)) route[m.coordinate.x][m.coordinate.y].checked = true;
         // closeにより大きいコストの同じ座標がある場合はcloseから削除する
         if(checkList(m, close)) route[m.coordinate.x][m.coordinate.y].checked = true;
-        //実コスト=そのノードまでの距離＋ゴールまでのマンハッタン距離＋移動コスト
-        actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
-                     + MoveCostCalculator::calculateMoveCost(
-                         std::make_pair(elem.coordinate, preDirection),
-                         std::make_pair(m.coordinate, currentDirection), isLeftCourse)
-                     + static_cast<double>(calculateManhattan(m.coordinate));
-        open.push_back(AstarInfo(m.coordinate, actualCost));
-        route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost, currentDirection,
-                                                      true);
+        if(m.coordinate == goal && goal != destination) {
+          //ゴールと設置先が違い(すなわち取得経路)、かつゴールに到達した際は向きコストを考慮する
+          int rdx = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][0]
+                                 : robotVectorRight[static_cast<int>(currentDirection)][0];
+          int rdy = isLeftCourse ? robotVectorLeft[static_cast<int>(currentDirection)][1]
+                                 : robotVectorRight[static_cast<int>(currentDirection)][1];
+
+          int directionCost = 4;  //方向コスト
+          if(dx * rdx > 0) directionCost--;  // xについて進行方向が合致していれば、コストを下げる
+          if(dy * rdy > 0) directionCost--;  // yについて進行方向が合致していれば、コストを下げる
+
+          //実コスト＝そのノードまでの距離＋向きコスト＋移動コスト＋推定コスト（マンハッタン距離）
+          actualCost = route[elem.coordinate.x][elem.coordinate.y].cost + directionCost
+                       + MoveCostCalculator::calculateMoveCost(
+                           std::make_pair(elem.coordinate, preDirection),
+                           std::make_pair(m.coordinate, currentDirection), isLeftCourse)
+                       + calculateManhattan(m.coordinate);
+          open.push_back(AstarInfo(m.coordinate, actualCost));
+          //ゴールを未探索、もしくはこれまでに発見したゴールまでの経路よりコストが小さい場合はゴールまでの経路を更新する
+          if(route[m.coordinate.x][m.coordinate.y].cost > actualCost
+             || route[m.coordinate.x][m.coordinate.y].cost == 0) {
+            route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
+                                                          currentDirection, false);
+          }
+        } else {
+          //ゴール以外は向きコストを考慮せず探索する
+          //実コスト＝そのノードまでの距離＋移動コスト＋推定コスト（マンハッタン距離）
+          actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
+                       + MoveCostCalculator::calculateMoveCost(
+                           std::make_pair(elem.coordinate, preDirection),
+                           std::make_pair(m.coordinate, currentDirection), isLeftCourse)
+                       + calculateManhattan(m.coordinate);
+          open.push_back(AstarInfo(m.coordinate, actualCost));
+          route[m.coordinate.x][m.coordinate.y].setInfo(elem.coordinate, actualCost,
+                                                        currentDirection, true);
+        }
       }
     }
     close.push_back(elem);
