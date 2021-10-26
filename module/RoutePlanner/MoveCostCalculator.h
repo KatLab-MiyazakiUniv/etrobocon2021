@@ -19,8 +19,8 @@ class MoveCostCalculator {
    * @param next 移動後の座標と向き
    * @return 移動コスト
    */
-  static int calculateMoveCost(std::pair<Coordinate, Direction> current,
-                               std::pair<Coordinate, Direction> next, bool isLeftCourse);
+  static double calculateMoveCost(std::pair<Coordinate, Direction> current,
+                                  std::pair<Coordinate, Direction> next, bool isLeftCourse);
 };
 
 #endif

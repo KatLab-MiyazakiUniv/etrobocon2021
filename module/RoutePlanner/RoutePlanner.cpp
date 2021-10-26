@@ -34,7 +34,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     Coordinate targetCircleCoord = courseInfo.getBlockCircle(targetCircleId).getCoordinate();
     // 走行体から運搬ブロックまでの取得経路を決定する
     std::vector<std::pair<Coordinate, Direction>> toBlockRoute
-        = routeCalculator.calculateRoute(robot.getCoordinate(), carryBlockCoord);
+        = routeCalculator.calculateRoute(robot.getCoordinate(), carryBlockCoord, targetCircleCoord);
     //取得経路を運搬経路リストに追加する
     for(const auto& i : toBlockRoute) {
       carryRoute[count].push_back(i);
@@ -46,7 +46,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
 
     // 運搬ブロックから目標サークルまでの設置経路を決定する
     std::vector<std::pair<Coordinate, Direction>> toCircleRoute
-        = routeCalculator.calculateRoute(carryBlockCoord, targetCircleCoord);
+        = routeCalculator.calculateRoute(carryBlockCoord, targetCircleCoord, targetCircleCoord);
     //設置経路を運搬経路リストに追加する
     for(int i = 1; i < static_cast<int>(toCircleRoute.size()); i++) {
       carryRoute[count].push_back(toCircleRoute[i]);
