@@ -14,6 +14,10 @@ RouteCalculator::RouteCalculator(CourseInfo& courseInfo, Robot& robot, const boo
 std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
     Coordinate start, Coordinate goal, Coordinate destination)
 {
+  LineTracer lineTracer(isLeftCourse);
+  MotionPerformer motionPerformer(lineTracer);
+  MoveCostCalculator moveCostCalculator(motionPerformer);
+
   std::vector<AstarInfo> open;   //これから探索するノードを格納
   std::vector<AstarInfo> close;  //探索済みのノードを格納
   std::vector<std::pair<Coordinate, Direction>> routeCoordinate;  //最短経路の座標を格納
@@ -95,7 +99,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
 
           //実コスト＝そのノードまでの距離＋向きコスト＋移動コスト＋推定コスト（マンハッタン距離）
           actualCost = route[elem.coordinate.x][elem.coordinate.y].cost + directionCost
-                       + MoveCostCalculator::calculateMoveCost(
+                       + moveCostCalculator.calculateMoveCost(
                            std::make_pair(elem.coordinate, preDirection),
                            std::make_pair(m.coordinate, currentDirection), isLeftCourse)
                        + calculateManhattan(m.coordinate);
@@ -110,7 +114,7 @@ std::vector<std::pair<Coordinate, Direction>> RouteCalculator::calculateRoute(
           //ゴール以外は向きコストを考慮せず探索する
           //実コスト＝そのノードまでの距離＋移動コスト＋推定コスト（マンハッタン距離）
           actualCost = route[elem.coordinate.x][elem.coordinate.y].cost
-                       + MoveCostCalculator::calculateMoveCost(
+                       + moveCostCalculator.calculateMoveCost(
                            std::make_pair(elem.coordinate, preDirection),
                            std::make_pair(m.coordinate, currentDirection), isLeftCourse)
                        + calculateManhattan(m.coordinate);

@@ -11,6 +11,9 @@
 
 class MoveCostCalculator {
  public:
+  //コンストラクタ
+  MoveCostCalculator(MotionPerformer& _motionPerformer);
+
   /**
    * @fn static int calculateMoveCost(std::pair<Coordinate, Direction> current,std::pair<Coordinate,
    * Direction> next,bool isLeftCourse);
@@ -19,8 +22,11 @@ class MoveCostCalculator {
    * @param next 移動後の座標と向き
    * @return 移動コスト
    */
-  static double calculateMoveCost(std::pair<Coordinate, Direction> current,
-                                  std::pair<Coordinate, Direction> next, bool isLeftCourse);
+  double calculateMoveCost(std::pair<Coordinate, Direction> current,
+                           std::pair<Coordinate, Direction> next, bool isLeftCourse);
+
+ private:
+  MotionPerformer& motionPerformer;
 };
 
 #endif
