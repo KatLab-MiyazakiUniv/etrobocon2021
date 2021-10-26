@@ -24,10 +24,13 @@ class DestinationList {
    * @return 運搬先サークルID
    */
   CIRCLE_ID getDestination(BLOCK_ID blockId);
+  CIRCLE_ID getDestination_alt(BLOCK_ID blockId);
+
+  void change(int id);
 
  private:
   // 各ブロックの運搬先サークルID
-  std::array<CIRCLE_ID, static_cast<int>(BLOCK_ID::ID7) + 1> destinations;
+  std::array<std::array<CIRCLE_ID, 2>, static_cast<int>(BLOCK_ID::ID7) + 1> destinations;
 
   /**
    * 座標間のマンハッタン距離を計算する

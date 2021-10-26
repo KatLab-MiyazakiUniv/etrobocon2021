@@ -32,7 +32,7 @@ class BlockSelector {
 
  private:
   CourseInfo courseInfo;
-  DestinationList destinationList;
+  DestinationList& destinationList;
   Robot robot;
   const bool isLeftCourse;
 

@@ -63,11 +63,15 @@ DestinationList::DestinationList(CourseInfo& courseInfo)
     int secondBlockNumber = static_cast<int>(secondBlockId);
     // 運搬距離の合計を比較し、短い方を採用する
     if(pattern1 < pattern2) {
-      destinations[firstBlockNumber] = CIRCLE_IDS[color][0];
-      destinations[secondBlockNumber] = CIRCLE_IDS[color][1];
+      destinations[firstBlockNumber][0] = CIRCLE_IDS[color][0];
+      destinations[secondBlockNumber][0] = CIRCLE_IDS[color][1];
+      destinations[firstBlockNumber][1] = CIRCLE_IDS[color][1];
+      destinations[secondBlockNumber][1] = CIRCLE_IDS[color][0];
     } else {
-      destinations[firstBlockNumber] = CIRCLE_IDS[color][1];
-      destinations[secondBlockNumber] = CIRCLE_IDS[color][0];
+      destinations[firstBlockNumber][0] = CIRCLE_IDS[color][1];
+      destinations[secondBlockNumber][0] = CIRCLE_IDS[color][0];
+      destinations[firstBlockNumber][1] = CIRCLE_IDS[color][0];
+      destinations[secondBlockNumber][1] = CIRCLE_IDS[color][1];
     }
   }
 }
@@ -75,7 +79,11 @@ DestinationList::DestinationList(CourseInfo& courseInfo)
 // 指定されたブロックの運搬先サークルIDを返す
 CIRCLE_ID DestinationList::getDestination(BLOCK_ID blockId)
 {
-  return destinations[static_cast<int>(blockId)];
+  return destinations[static_cast<int>(blockId)][0];
+}
+CIRCLE_ID DestinationList::getDestination_alt(BLOCK_ID blockId)
+{
+  return destinations[static_cast<int>(blockId)][1];
 }
 
 // 座標間のマンハッタン距離を計算する
@@ -84,4 +92,18 @@ int DestinationList::calculateDistance(Coordinate& blockCoord, Coordinate& circl
   int dx = std::abs(blockCoord.x - circleCoord.x);
   int dy = std::abs(blockCoord.y - circleCoord.y);
   return dx + dy;
+}
+
+void DestinationList::change(int id)
+{
+  for(int i = 0; i < 8; i++) {
+    if(destinations[i][1] == destinations[static_cast<int>(id)][0]) {
+      CIRCLE_ID tmp = destinations[id][0];
+      CIRCLE_ID tmp1 = destinations[id][1];
+      destinations[id][0] = destinations[i][0];
+      destinations[id][1] = destinations[i][1];
+      destinations[i][0] = tmp;
+      destinations[i][1] = tmp1;
+    }
+  }
 }
