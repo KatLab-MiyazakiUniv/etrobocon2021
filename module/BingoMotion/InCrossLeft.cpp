@@ -12,8 +12,8 @@ InCrossLeft::InCrossLeft(LineTracer& _lineTracer) : BingoMotion(1.23, 1.09), lin
 
 void InCrossLeft::runLeft(void)
 {
-  int targetDistance = 30;
-  int runPwm = 40;
+  int targetDistance = 25;
+  int runPwm = 30;
   int angle = 74;
   int turnPwm = 100;
 
