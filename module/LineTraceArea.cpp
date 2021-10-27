@@ -74,14 +74,14 @@ void LineTraceArea::runLineTraceAreaShortcut()
   int currentDistance = 0;
 
   int curveDistance1 = 777;
-  int straightDistance1 = 435;
+  int straightDistance1 = 440;
   int curveDistance2 = 777;
-  int straightDistance2 = 1122;
-  int curveDistance3 = 710;
-  int straightDistance3 = 480;
+  int straightDistance2 = 1120;
+  int curveDistance3 = 700;
+  int straightDistance3 = 460;
 
   lineTracer.run(150, targetBrightness, 60, PidGain(0.3, 0.01, 0.01));
-  lineTracer.run(1410, targetBrightness, 100, PidGain(3.4, 0.4, 0.5));
+  lineTracer.run(1415, targetBrightness, 100, PidGain(3.512, 0.102, 0.221));
 
   //第一カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -109,7 +109,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(2, 1, 1));
+  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1, 1));
 
   //第三カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -123,5 +123,23 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  lineTracer.run(straightDistance3, targetBrightness, 100, PidGain(4, 1, 1));
+  //外れた時用
+  int count = 0;
+  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
+  COLOR color = ColorJudge::getColor(measurer.getRawColor());
+  if(color == COLOR::WHITE) {
+    while(true) {
+      COLOR color = ColorJudge::getColor(measurer.getRawColor());
+      if(color == COLOR::BLACK) {
+        break;
+      }
+      controller.setRightMotorPwm(90);
+      controller.setLeftMotorPwm(70);
+      controller.sleep();
+    }
+  }
+  count = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount())
+          - initialDistance;
+
+  lineTracer.run(straightDistance3 - count, targetBrightness, 100, PidGain(5.5, 1, 1.5));
 }
