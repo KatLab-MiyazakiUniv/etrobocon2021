@@ -61,7 +61,7 @@ DestinationList::DestinationList(CourseInfo& courseInfo)
     // ブロックIDをint化
     int firstBlockNumber = static_cast<int>(firstBlockId);
     int secondBlockNumber = static_cast<int>(secondBlockId);
-    // 運搬距離の合計を比較し、短い方を採用する
+    // 運搬距離の合計を比較し、短い方を採用するが、詰みパターン対処のためにもう片方の運搬先も保持しておく
     if(pattern1 < pattern2) {
       destinations[firstBlockNumber][0] = CIRCLE_IDS[color][0];
       destinations[secondBlockNumber][0] = CIRCLE_IDS[color][1];
@@ -94,9 +94,10 @@ int DestinationList::calculateDistance(Coordinate& blockCoord, Coordinate& circl
   return dx + dy;
 }
 
-void DestinationList::change(int id)
+void DestinationList::swapDestination(BLOCK_ID blockId)
 {
-  for(int i = 0; i < 8; i++) {
+  int id = static_cast<int>(blockId);
+  for(int i = 0; i <= static_cast<int>(BLOCK_ID::ID7); i++) {
     if(destinations[i][1] == destinations[static_cast<int>(id)][0]) {
       CIRCLE_ID tmp = destinations[id][0];
       CIRCLE_ID tmp1 = destinations[id][1];

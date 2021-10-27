@@ -26,10 +26,14 @@ class DestinationList {
   CIRCLE_ID getDestination(BLOCK_ID blockId);
   CIRCLE_ID getDestination_alt(BLOCK_ID blockId);
 
-  void change(int id);
+  /**
+   * ブロックの運搬先を、もう１つの同じ色のブロックの運搬先と入れ替える
+   * @param blockId ブロックID
+   */
+  void swapDestination(BLOCK_ID blockId);
 
  private:
-  // 各ブロックの運搬先サークルID
+  // 各ブロックの運搬先サークルID(BLOCK0~7について、決定した運搬先ともう１つの運搬先の2つを保持)
   std::array<std::array<CIRCLE_ID, 2>, static_cast<int>(BLOCK_ID::ID7) + 1> destinations;
 
   /**

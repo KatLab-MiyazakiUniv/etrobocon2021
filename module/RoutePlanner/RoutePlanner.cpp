@@ -22,7 +22,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
   RouteCalculator routeCalculator(courseInfo, robot, isLeftCourse);
   int count = 0;
 
-  while(true) {
+  for(int i = 0; i < 8; i++) {
     // 運搬ブロックを決定する
     BLOCK_ID carryBlockId = blockSelector.selectBlock();
     // 運搬ブロックが存在しない場合、ループを抜ける
