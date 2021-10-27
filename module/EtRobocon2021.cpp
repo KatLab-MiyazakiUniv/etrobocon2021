@@ -8,8 +8,6 @@
 
 void EtRobocon2021::start()
 {
-  // 意味のない変更です
-
   Controller controller;
   Measurer measurer;
 
