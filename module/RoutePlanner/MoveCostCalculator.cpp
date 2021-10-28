@@ -6,13 +6,17 @@
 
 #include "MoveCostCalculator.h"
 
+MoveCostCalculator::MoveCostCalculator(MotionPerformer& _motionPerformer)
+  : motionPerformer(_motionPerformer)
+{
+}
+
 double MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> current,
                                              std::pair<Coordinate, Direction> next,
                                              bool isLeftCourse)
 {
   MOTION nextMotion = MotionConverter::decideMotion(current, next);
-  LineTracer lineTracer(isLeftCourse);
-  MotionPerformer motionPerformer(lineTracer);
+
   // 時間コストと誤差コストの比
   double timeRatio = 0.7;
   double riskRatio = 1.0 - timeRatio;
