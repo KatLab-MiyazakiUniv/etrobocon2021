@@ -28,14 +28,6 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   InCrossRight inCrossRight(lineTracer);
 
   //ピボットターンする
-  start = clock.now();
-
-  if(lineTracer.getIsLeftEdge() == true) {
-    printf("右\n");
-  } else {
-    printf("左");
-  }
-
   if(isClockwise) {
     straightRunner.runStraightToDistance(runDistance, runFirstPwm);
     rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
@@ -49,6 +41,4 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   }
-  end = clock.now();
-  printf("%lf秒\n", float((end - start) / 1000000.0));
 }
