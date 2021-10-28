@@ -67,9 +67,9 @@ BLOCK_ID BlockSelector::selectBlock()
     Coordinate targetCircleCoord
         = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber)).getCoordinate();
     //もう１つの運搬先サークルのサークル番号、座標
-    int targetCircleNumber_alt = static_cast<int>(destinationList.getDestination_alt(blockId));
-    Coordinate targetCircleCoord_alt
-        = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumber_alt)).getCoordinate();
+    int targetCircleNumberAlt = static_cast<int>(destinationList.getDestinationAlt(blockId));
+    Coordinate targetCircleCoordAlt
+        = courseInfo.getBlockCircle(static_cast<CIRCLE_ID>(targetCircleNumberAlt)).getCoordinate();
 
     // 運搬済みだった場合
     if(isCarriedBlock(blockId)) continue;
@@ -88,9 +88,9 @@ BLOCK_ID BlockSelector::selectBlock()
     // ブロックの運搬先に到着できない場合
     if(route.front().first != targetBlockCoord || route.back().first != targetCircleCoord) {
       //もう1つの運搬先への経路を算出する
-      route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoord_alt,
-                                             targetCircleCoord_alt);
-      if(route.front().first == targetBlockCoord && route.back().first == targetCircleCoord_alt) {
+      route = routeCalculator.calculateRoute(targetBlockCoord, targetCircleCoordAlt,
+                                             targetCircleCoordAlt);
+      if(route.front().first == targetBlockCoord && route.back().first == targetCircleCoordAlt) {
         //もしもう1つの運搬先に運搬可能であれば、運搬先を変更する事で運搬可能とするが、運搬先を変更せずに運搬できるブロックを優先する
         //(すなわち、運搬先を変更することでどれだけ距離が短くなろうと優先はしない)
         needsSwap[static_cast<int>(blockId)] = true;
@@ -168,7 +168,6 @@ BLOCK_ID BlockSelector::selectBlock()
     }
     // ここまでの項目が等しい場合は、既存(idが若い)のブロックを採用する
   }
-  // printf("%d %d\n", bestBlockId, destinationList.getDestination(BLOCK_ID::ID4));
   //運搬できるブロックがなかった場合は運搬先を入れ替える(一番ブロックIDが大きいブロックが選ばれる)
   if(bestBlockId == BLOCK_ID::NONE) {
     for(int i = 0; i < 8; i++) {
@@ -178,7 +177,6 @@ BLOCK_ID BlockSelector::selectBlock()
     }
     destinationList.swapDestination(bestBlockId);
   }
-  // printf("%d %d\n", bestBlockId, destinationList.getDestination(bestBlockId));
   // ブロックが運搬されたとして、運搬可能範囲を開放
   for(int i = B_ZERO; i < B_SIZE; i++) {
     int bestBlockNumber = static_cast<int>(bestBlockId);

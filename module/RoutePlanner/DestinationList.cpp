@@ -81,7 +81,9 @@ CIRCLE_ID DestinationList::getDestination(BLOCK_ID blockId)
 {
   return destinations[static_cast<int>(blockId)][0];
 }
-CIRCLE_ID DestinationList::getDestination_alt(BLOCK_ID blockId)
+
+// 指定されたブロックのもう1つの運搬先サークルIDを返す
+CIRCLE_ID DestinationList::getDestinationAlt(BLOCK_ID blockId)
 {
   return destinations[static_cast<int>(blockId)][1];
 }

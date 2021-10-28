@@ -24,7 +24,13 @@ class DestinationList {
    * @return 運搬先サークルID
    */
   CIRCLE_ID getDestination(BLOCK_ID blockId);
-  CIRCLE_ID getDestination_alt(BLOCK_ID blockId);
+
+  /**
+   * 指定されたブロックのもう１つの運搬先サークルIDを返す
+   * @param blockId ブロックID
+   * @return もう１つの運搬先サークルID
+   */
+  CIRCLE_ID getDestinationAlt(BLOCK_ID blockId);
 
   /**
    * ブロックの運搬先を、もう１つの同じ色のブロックの運搬先と入れ替える
