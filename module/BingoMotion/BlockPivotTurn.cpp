@@ -10,7 +10,7 @@ BlockPivotTurn::BlockPivotTurn() : BingoMotion(2.0, 1.41) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  int runDistance = 16;       //最初に直進する距離
+  int runDistance = 40;       //最初に直進する距離
   int runFirstPwm = 10;       //最初に直進する際のPwm値
   int pivotAngle = 45;        //ピボットターンの角度
   int pivotPwm = 40;          //ピボットターンのPwm値
