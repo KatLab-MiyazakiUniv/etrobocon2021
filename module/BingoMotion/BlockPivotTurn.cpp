@@ -5,31 +5,37 @@
  */
 
 #include "BlockPivotTurn.h"
+#include "Clock.h"
 
 BlockPivotTurn::BlockPivotTurn() : BingoMotion(2.0, 1.41) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  int runDistance = 40;       //最初に直進する距離
-  int runFirstPwm = 10;       //最初に直進する際のPwm値
-  int pivotAngle = 45;        //ピボットターンの角度
-  int pivotPwm = 40;          //ピボットターンのPwm値
-  int rotateAngle;            //回頭の角度
-  int rotatePwm = 20;         //回頭のPwm値
-  int forwardDistance = 100;  // 前進する距離
-  int backDistance = 90;      //後退する距離
-  int runPwm = 30;            //前進、後退する際のPwm値
+  int runDistance = 40;      //最初に直進する距離
+  int runFirstPwm = 10;      //最初に直進する際のPwm値
+  int pivotAngle = 45;       //ピボットターンの角度
+  int pivotPwm = 50;         //ピボットターンのPwm値50
+  int rotateAngle = 90;      //回頭の角度
+  int rotatePwm = 10;        //回頭のPwm値10
+  int forwardDistance = 90;  // 前進する距離100
+  int backDistance = 80;     //後退する距離90
+  int runPwm = 30;           //前進、後退する際のPwm値
+  int start, end;
 
+  ev3api::Clock clock;
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
   InCrossRight inCrossRight(lineTracer);
 
-  if(lineTracer.getIsLeftEdge() == true) {
-    rotateAngle = 80;
-  } else {
-    rotateAngle = 89;
-  }
   //ピボットターンする
+  start = clock.now();
+
+  if(lineTracer.getIsLeftEdge() == true) {
+    printf("右\n");
+  } else {
+    printf("左");
+  }
+
   if(isClockwise) {
     straightRunner.runStraightToDistance(runDistance, runFirstPwm);
     rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
@@ -38,9 +44,11 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   } else {
     straightRunner.runStraightToDistance(runDistance, runPwm);
-    rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);  // pwm:20
-    rotation.rotateLeft(rotateAngle, rotatePwm);            // pwm:40
+    rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);
+    rotation.rotateLeft(rotateAngle, rotatePwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   }
+  end = clock.now();
+  printf("%lf秒\n", float((end - start) / 1000000.0));
 }
