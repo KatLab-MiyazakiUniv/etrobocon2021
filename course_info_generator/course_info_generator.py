@@ -1,18 +1,28 @@
+import sqlite3
 import itertools
 
-def main(fname, is_left):
-    with open(fname, mode='w') as fp:
-        generator(fp, is_left=is_left)
+def main(fname):
+    sql_file = '/home/tkhr/etrobo/hrp3/sdk/workspace/etrobocon2021/course_info_generator/sql/drop_and_create_table.sql'
 
+    con = sqlite3.connect(fname)
+    cursor = con.cursor()
+    
+    init_database(cursor, sql_file)
+    generator(con, True)
+    generator(con, False)
+    cursor.close()
+    con.commit()
+    con.close()
 
-def generator(fp, is_left=True):
-    csv_header = 'course_info,access_counter,first_access_time_milli_sec,last_access_time_milli_sec\n'
-    fp.write(csv_header)
+def generator(cursor, is_left=True):
+    table_name = 'right_info'
+    if is_left:
+        table_name = 'left_info'
+    sql_template = 'INSERT INTO %s(RED1, RED2, YELLOW1, YELLOW2, BLUE1, BLUE2, GREEN1, GREEN2) VALUES ( %s )'
     for l in itertools.permutations(get_coordinate_list(is_left)):
-        course_info = ''.join(l)
-        csv_line = '%s,%s,%s,%s\n' % (course_info, '00000000', '0', '0')
-        fp.write(csv_line)
-
+        sql = sql_template  % (table_name, ','.join(map(lambda x: "'%s'" % x, l)))
+        # print(sql)
+        cursor.execute(sql)
 
 def get_coordinate_list(is_left=True):
     """
@@ -26,6 +36,10 @@ def get_coordinate_list(is_left=True):
         return 'EMBKDRGP'
     return 'HJCLAQFS'
 
+def init_database(cursor, sql_file):
+    with open(sql_file) as f:
+        sql = f.read()
+        cursor.executescript(sql)
+
 if __name__ == '__main__':
-    main('course-info-l.csv', True)
-    main('course-info-r.csv', False)
+    main('all_pattern_course_info.sqlite3')
