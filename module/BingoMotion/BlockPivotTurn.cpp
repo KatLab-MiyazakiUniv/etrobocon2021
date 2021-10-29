@@ -20,9 +20,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   int forwardDistance = 90;  // 前進する距離100
   int backDistance = 80;     //後退する距離90
   int runPwm = 30;           //前進、後退する際のPwm値
-  int start, end;
 
-  ev3api::Clock clock;
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
   InCrossRight inCrossRight(lineTracer);
