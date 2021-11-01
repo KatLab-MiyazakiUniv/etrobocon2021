@@ -81,7 +81,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
   int straightDistance3 = 460;
 
   lineTracer.run(150, targetBrightness, 60, PidGain(0.3, 0.01, 0.01));
-  lineTracer.run(1415, targetBrightness, 100, PidGain(3.512, 0.102, 0.221));
+  lineTracer.run(1415, targetBrightness, 100, PidGain(3.511, 0.101, 0.221));
 
   //第一カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -109,7 +109,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1, 1));
+  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.1, 1));
 
   //第三カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -134,7 +134,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
         break;
       }
       controller.setRightMotorPwm(90);
-      controller.setLeftMotorPwm(70);
+      controller.setLeftMotorPwm(80);
       controller.sleep();
     }
   }
