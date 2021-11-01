@@ -11,16 +11,18 @@ BlockPivotTurn::BlockPivotTurn() : BingoMotion(2.0, 1.41) {}
 
 void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
 {
-  int runDistance = 40;      //最初に直進する距離
-  int runFirstPwm = 10;      //最初に直進する際のPwm値
-  int pivotAngle = 45;       //ピボットターンの角度
-  int pivotPwm = 50;         //ピボットターンのPwm値50
-  int rotateAngle = 90;      //回頭の角度
-  int rotatePwm = 10;        //回頭のPwm値10
-  int forwardDistance = 90;  // 前進する距離100
-  int backDistance = 80;     //後退する距離90
-  int runPwm = 30;           //前進、後退する際のPwm値
-
+  int runDistance = 40;        //最初に直進する距離
+  int runFirstPwm = 10;        //最初に直進する際のPwm値
+  int rotateFirstAngle = 10;   //最初に回頭する角度
+  int rotateFirstPwm = 10;     //最初に回頭するPwm
+  int pivotAngle = 50;         //ピボットターンの角度
+  int pivotPwm = 40;           //ピボットターンのPwm値50
+  int rotateSecondAngle = 80;  //二回目の回頭の角度65 //80
+  int rotateSecondPwm = 15;    //二回目の回頭のPwm値10
+  int forwardDistance = 90;    // 前進する距離100
+  int backDistance = 80;       //後退する距離90
+  int runPwm = 30;             //前進、後退する際のPwm値
+  int strat, end;
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
   InCrossRight inCrossRight(lineTracer);
@@ -28,14 +30,16 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   //ピボットターンする
   if(isClockwise) {
     straightRunner.runStraightToDistance(runDistance, runFirstPwm);
+    rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
     rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
-    rotation.rotateRight(rotateAngle, rotatePwm);
+    rotation.rotateRight(rotateSecondAngle, rotateSecondPwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   } else {
     straightRunner.runStraightToDistance(runDistance, runPwm);
+    rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
     rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);
-    rotation.rotateLeft(rotateAngle, rotatePwm);
+    rotation.rotateLeft(rotateSecondAngle, rotateSecondPwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   }
