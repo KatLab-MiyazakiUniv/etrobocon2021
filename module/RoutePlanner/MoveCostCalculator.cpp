@@ -6,42 +6,58 @@
 
 #include "MoveCostCalculator.h"
 
-int MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> current,
-                                          std::pair<Coordinate, Direction> next, bool isLeftCourse)
+MoveCostCalculator::MoveCostCalculator(MotionPerformer& _motionPerformer)
+  : motionPerformer(_motionPerformer)
+{
+}
+
+double MoveCostCalculator::calculateMoveCost(std::pair<Coordinate, Direction> current,
+                                             std::pair<Coordinate, Direction> next,
+                                             bool isLeftCourse)
 {
   MOTION nextMotion = MotionConverter::decideMotion(current, next);
-  LineTracer lineTracer(isLeftCourse);
-  MotionPerformer motionPerformer(lineTracer);
+
+  // 時間コストと誤差コストの比
+  double timeRatio = 0.7;
+  double riskRatio = 1.0 - timeRatio;
 
   switch(static_cast<int>(nextMotion)) {
     case 0:
-      return motionPerformer.getMotionTimeRunForward() + motionPerformer.getFailureRiskRunForward();
+      return motionPerformer.getMotionTimeRunForward() * timeRatio
+             + motionPerformer.getFailureRiskRunForward() * riskRatio;
       break;
     case 1:
-      return motionPerformer.getMotionTimeRunRight() + motionPerformer.getFailureRiskRunRight();
+      return motionPerformer.getMotionTimeRunRight() * timeRatio
+             + motionPerformer.getFailureRiskRunRight() * riskRatio;
       break;
     case 2:
-      return motionPerformer.getMotionTimeRunLeft() + motionPerformer.getFailureRiskRunLeft();
+      return motionPerformer.getMotionTimeRunLeft() * timeRatio
+             + motionPerformer.getFailureRiskRunLeft() * riskRatio;
       break;
     case 3:
-      return motionPerformer.getMotionTimeRunToCross() + motionPerformer.getFailureRiskRunToCross();
+      return motionPerformer.getMotionTimeRunToCross() * timeRatio
+             + motionPerformer.getFailureRiskRunToCross() * riskRatio;
       break;
     case 4:
-      return motionPerformer.getMotionTimePivotTurn() + motionPerformer.getFailureRiskPivotTurn();
+      return motionPerformer.getMotionTimePivotTurn() * timeRatio
+             + motionPerformer.getFailureRiskPivotTurn() * riskRatio;
       break;
     case 5:
-      return motionPerformer.getMotionTimePivotTurn() + motionPerformer.getFailureRiskPivotTurn();
+      return motionPerformer.getMotionTimePivotTurn() * timeRatio
+             + motionPerformer.getFailureRiskPivotTurn() * riskRatio;
       break;
     case 6:
-      return motionPerformer.getMotionTimeThrowBlock() + motionPerformer.getFailureRiskThrowBlock();
+      return motionPerformer.getMotionTimeThrowBlock() * timeRatio
+             + motionPerformer.getFailureRiskThrowBlock() * riskRatio;
       break;
     case 7:
-      return motionPerformer.getMotionTimeThrowBlock() + motionPerformer.getFailureRiskThrowBlock();
+      return motionPerformer.getMotionTimeThrowBlock() * timeRatio
+             + motionPerformer.getFailureRiskThrowBlock() * riskRatio;
       break;
     default:
       int angle = MotionConverter::calculateAngle(current.second, next.second);
-      return motionPerformer.getMotionTimeChangeDirection(angle)
-             + motionPerformer.getFailureRiskChangeDirection(angle);
+      return motionPerformer.getMotionTimeChangeDirection(abs(angle)) * timeRatio
+             + motionPerformer.getFailureRiskChangeDirection(abs(angle)) * riskRatio;
       break;
   }
 }

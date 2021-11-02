@@ -6,7 +6,7 @@
 
 #include "BlockThrower.h"
 
-BlockThrower::BlockThrower() : BingoMotion(5, 5), TREAD(140), MIN_PWM(10) {}
+BlockThrower::BlockThrower() : BingoMotion(1.17, 1.39), TREAD(140), MIN_PWM(10) {}
 
 void BlockThrower::setBlockThrow(bool isClockwise)
 {
@@ -26,6 +26,9 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   double targetRightDistance;
   int armPwm = 90;
 
+  // printfすると、ブロックを投げずに旋回する起きなくなる？
+  printf("Target:%lf\n", targetDistance);
+
   //黒線の奥まで直進する
   straightRunner.runStraightToDistance(runDistance, runPwm);
   // アームを水平にする処理を無効化
@@ -35,6 +38,8 @@ void BlockThrower::setBlockThrow(bool isClockwise)
       = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
   targetRightDistance
       = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
+  // printfすると、ブロックを投げずに旋回する起きなくなる？
+  printf("L:%lf R:%lf\n", targetLeftDistance, targetRightDistance);
 
   //両輪が目標距離に到達するまでループ
   while(leftSign != 0 || rightSign != 0) {
@@ -44,6 +49,9 @@ void BlockThrower::setBlockThrow(bool isClockwise)
     diffRightDistance
         = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
           * rightSign;
+
+    // printfすると、ブロックを投げずに旋回する起きなくなる？
+    printf("L:%lf R:%lf\n", diffLeftDistance, diffRightDistance);
 
     // 目標距離に到達した場合
     if(diffLeftDistance <= 0) {

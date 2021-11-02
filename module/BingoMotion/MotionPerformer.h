@@ -84,98 +84,98 @@ class MotionPerformer {
    * @brief 交点移動（直進）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeRunForward(void);
+  double getMotionTimeRunForward(void);
 
   /**
    * @fn int getMotionTimeRunRight(void);
    * @brief 交点移動（右折）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeRunRight(void);
+  double getMotionTimeRunRight(void);
 
   /**
    * @fn int getMotionTimeRunLeft(void);
    * @brief 交点移動（左折）の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeRunLeft(void);
+  double getMotionTimeRunLeft(void);
 
   /**
    * @fn int getMotionTimeRunToCross(void);
    * @brief 交点間移動の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeRunToCross(void);
+  double getMotionTimeRunToCross(void);
 
   /**
    * @fn int getMotionTimechangeDirection(void);
    * @brief 方向転換の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeChangeDirection(int angle);
+  double getMotionTimeChangeDirection(int angle);
 
   /**
    * @fn int getMotionTimePivotTurn(void);
    * @brief ピボットターンの時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimePivotTurn(void);
+  double getMotionTimePivotTurn(void);
 
   /**
    * @fn int getMotionTimeThrowBlock(void);
    * @brief 投げ入れ設置の時間コストを取得
    * @return 動作時間
    */
-  int getMotionTimeThrowBlock(void);
+  double getMotionTimeThrowBlock(void);
 
   /**
    * @fn int getFailureRiskRunForward(void);
    * @brief 交点移動（直進）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskRunForward(void);
+  double getFailureRiskRunForward(void);
 
   /**
    * @fn int getFailureRiskRunRight(void);
    * @brief 交点移動（右折）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskRunRight(void);
+  double getFailureRiskRunRight(void);
 
   /**
    * @fn int getFailureRiskRunLeft(void);
    * @brief 交点移動（左折）の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskRunLeft(void);
+  double getFailureRiskRunLeft(void);
 
   /**
    * @fn int getFailureRiskRunToCross(void);
    * @brief 交点間移動の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskRunToCross(void);
+  double getFailureRiskRunToCross(void);
 
   /**
    * @fn int getFailureRiskchangeDirection(int angle);
    * @brief 方向転換の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskChangeDirection(int angle);
+  double getFailureRiskChangeDirection(int angle);
 
   /**
    * @fn int getFailureRiskPivotTurn(void);
    * @brief ピボットターンの誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskPivotTurn(void);
+  double getFailureRiskPivotTurn(void);
 
   /**
    * @fn int getFailureRiskThrowBlock(void);
    * @brief 投げ入れ設置の誤差コストを取得
    * @return 失敗リスク
    */
-  int getFailureRiskThrowBlock(void);
+  double getFailureRiskThrowBlock(void);
 
   /**
    * 動作を記録する動的配列

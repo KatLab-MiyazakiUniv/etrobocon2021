@@ -10,6 +10,11 @@
 #include "LineTracer.h"
 #include "Pid.h"
 
+#include "StraightRunner.h"
+#include "Mileage.h"
+#include "Measurer.h"
+#include "Controller.h"
+
 /**
  * Lコース/Rコース向けの設定を定義
  * デフォルトはLコース
@@ -31,10 +36,16 @@ struct SectionParam {
 class LineTraceArea {
  public:
   /**
-   *@fn static void RunLineTraceArea();
+   *@fn static void runLineTraceArea();
    *@brief ライントレースエリアを走行する
    */
   static void runLineTraceArea();
+
+  /**
+   *@fn static void runLineTraceAreaShortcut();
+   *@brief ライントレースエリアをショートカットしながら走行する
+   */
+  static void runLineTraceAreaShortcut();
 
  private:
   static const int LEFT_SECTION_SIZE = 8;   // Lコースの区間の数

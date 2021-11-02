@@ -24,7 +24,9 @@ namespace etrobocon2021_test {
     // BLOCK_ID::3の緑ブロックまで移動し、BLOCK_ID::3の緑ブロックをCIRCLE_ID::1の緑サークルまで移動させる
     Coordinate start = { 2, 3 };
     Coordinate goal = { 4, 2 };
-    std::vector<std::pair<Coordinate, Direction>> minRoute = route.calculateRoute(start, goal);
+    Coordinate destination = { 3, 1 };
+    std::vector<std::pair<Coordinate, Direction>> minRoute
+        = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
@@ -33,7 +35,8 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::E);  //走行体の向きを更新
     start = { 4, 2 };
     goal = { 3, 1 };
-    std::vector<std::pair<Coordinate, Direction>> minRoute2 = route.calculateRoute(start, goal);
+    std::vector<std::pair<Coordinate, Direction>> minRoute2
+        = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -46,7 +49,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::0の黄ブロックまで移動し、BLOCK_ID::0の黄ブロックをCIRCLE_ID::0の黄サークルまで移動させる
     start = { 4, 2 };
     goal = { 2, 0 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 1 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RL);
@@ -54,7 +58,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::W);  //走行体の向きを更新
     start = { 2, 0 };
     goal = { 1, 1 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -65,9 +69,10 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::SW);  //走行体の向きを更新
 
     // BLOCK_ID::4の黄ブロックまで移動し、BLOCK_ID::4の黄ブロックをCIRCLE_ID::4の黄サークルまで移動させる
-    // start = { 2, 0 };
+    start = { 2, 0 };
     goal = { 2, 4 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 3 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RF);
@@ -75,7 +80,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::S);  //走行体の向きを更新
     start = { 2, 4 };
     goal = { 5, 3 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -90,7 +95,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::7の青ブロックまで移動し、BLOCK_ID::7の青ブロックをCIRCLE_ID::7の青サークルまで移動させる
     start = { 4, 4 };
     goal = { 4, 6 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::CDC);
@@ -98,7 +104,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::S);  //走行体の向きを更新
     start = { 4, 6 };
     goal = { 5, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -111,7 +117,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::6の緑ブロックまで移動し、BLOCK_ID::6の緑ブロックをCIRCLE_ID::5の緑サークルまで移動させる
     start = { 4, 6 };
     goal = { 0, 6 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
@@ -121,7 +128,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::W);  //走行体の向きを更新
     start = { 0, 6 };
     goal = { 1, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -134,7 +141,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::2の赤ブロックまで移動し、BLOCK_ID::2の赤ブロックをCIRCLE_ID::6の赤サークルまで移動させる
     start = { 0, 6 };
     goal = { 0, 2 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 3, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RF);
@@ -142,7 +150,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::N);  //走行体の向きを更新
     start = { 0, 2 };
     goal = { 3, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -159,7 +167,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::5の赤ブロックまで移動し、BLOCK_ID::5の赤ブロックをCIRCLE_ID::2の赤サークルまで移動させる
     start = { 2, 4 };
     goal = { 6, 4 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 1 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RF);
@@ -167,7 +176,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::E);  //走行体の向きを更新
     start = { 6, 4 };
     goal = { 5, 1 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -182,13 +191,14 @@ namespace etrobocon2021_test {
     // BLOCK_ID::1の青ブロックまで移動し、BLOCK_ID::1の青ブロックをCIRCLE_ID::3の青サークルまで移動させる
     start = { 6, 2 };
     goal = { 6, 0 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 3 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::RTC);
     robot.setDirection(Direction::N);  //走行体の向きを更新
     start = { 6, 0 };
     goal = { 1, 3 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -223,7 +233,9 @@ namespace etrobocon2021_test {
     // BLOCK_ID::3の緑ブロックまで移動し、BLOCK_ID::3の緑ブロックをCIRCLE_ID::1の緑サークルまで移動させる
     Coordinate start = { 2, 3 };
     Coordinate goal = { 4, 2 };
-    std::vector<std::pair<Coordinate, Direction>> minRoute = route.calculateRoute(start, goal);
+    Coordinate destination = { 3, 1 };
+    std::vector<std::pair<Coordinate, Direction>> minRoute
+        = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::RTC);
@@ -232,7 +244,8 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::W);  //走行体の向きを更新
     start = { 4, 2 };
     goal = { 3, 1 };
-    std::vector<std::pair<Coordinate, Direction>> minRoute2 = route.calculateRoute(start, goal);
+    std::vector<std::pair<Coordinate, Direction>> minRoute2
+        = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -245,7 +258,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::0の黄ブロックまで移動し、BLOCK_ID::0の黄ブロックをCIRCLE_ID::0の黄サークルまで移動させる
     start = { 4, 2 };
     goal = { 2, 0 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 1 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RR);
@@ -253,7 +267,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::E);  //走行体の向きを更新
     start = { 2, 0 };
     goal = { 1, 1 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -266,7 +280,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::4の黄ブロックまで移動し、BLOCK_ID::4の黄ブロックをCIRCLE_ID::4の黄サークルまで移動させる
     start = { 2, 0 };
     goal = { 2, 4 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 3 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RF);
@@ -274,7 +289,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::S);  //走行体の向きを更新
     start = { 2, 4 };
     goal = { 5, 3 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -289,7 +304,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::7の青ブロックまで移動し、BLOCK_ID::7の青ブロックをCIRCLE_ID::7の青サークルまで移動させる
     start = { 4, 4 };
     goal = { 4, 6 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
@@ -297,7 +313,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::S);  //走行体の向きを更新
     start = { 4, 6 };
     goal = { 5, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -310,7 +326,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::6の緑ブロックまで移動し、BLOCK_ID::6の緑ブロックをCIRCLE_ID::5の緑サークルまで移動させる
     start = { 4, 6 };
     goal = { 0, 6 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
@@ -319,7 +336,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::E);  //走行体の向きを更新
     start = { 0, 6 };
     goal = { 1, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -332,7 +349,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::2の赤ブロックまで移動し、BLOCK_ID::2の赤ブロックをCIRCLE_ID::6の赤サークルまで移動させる
     start = { 0, 6 };
     goal = { 0, 2 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 3, 5 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
@@ -341,7 +359,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::N);  //走行体の向きを更新
     start = { 0, 2 };
     goal = { 3, 5 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -358,7 +376,8 @@ namespace etrobocon2021_test {
     // BLOCK_ID::5の赤ブロックまで移動し、BLOCK_ID::5の赤ブロックをCIRCLE_ID::2の赤サークルまで移動させる
     start = { 2, 4 };
     goal = { 6, 4 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 5, 1 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDC);
     expectedMotion.push_back(MOTION::RTC);
     expectedMotion.push_back(MOTION::RF);
@@ -366,7 +385,7 @@ namespace etrobocon2021_test {
     robot.setDirection(Direction::W);  //走行体の向きを更新
     start = { 6, 4 };
     goal = { 5, 1 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
@@ -381,13 +400,14 @@ namespace etrobocon2021_test {
     // BLOCK_ID::1の青ブロックまで移動し、BLOCK_ID::1の青ブロックをCIRCLE_ID::3の青サークルまで移動させる
     start = { 6, 2 };
     goal = { 6, 0 };
-    minRoute = route.calculateRoute(start, goal);
+    destination = { 1, 3 };
+    minRoute = route.calculateRoute(start, goal, destination);
     expectedMotion.push_back(MOTION::CDRC);
     expectedMotion.push_back(MOTION::RTC);
     robot.setDirection(Direction::N);  //走行体の向きを更新
     start = { 6, 0 };
     goal = { 1, 3 };
-    minRoute2 = route.calculateRoute(start, goal);
+    minRoute2 = route.calculateRoute(start, goal, destination);
     for(int i = 1; i < minRoute2.size(); i++) {
       minRoute.push_back(minRoute2[i]);
     }
