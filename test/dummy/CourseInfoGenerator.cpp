@@ -11,8 +11,8 @@
 CourseInfoGenerator* CourseInfoGenerator::_singleton = NULL;
 int CourseInfoGenerator::currentBlockPatternindexL = 0;
 int CourseInfoGenerator::currentBlockPatternindexR = 0;
-uint8_t CourseInfoGenerator::readBlockInfoL = 0b00000000;
-uint8_t CourseInfoGenerator::readBlockInfoR = 0b00000000;
+uint8_t CourseInfoGenerator::readBlockInfoL = NOT_READ_MASK;
+uint8_t CourseInfoGenerator::readBlockInfoR = NOT_READ_MASK;
 std::vector<std::vector<int>> CourseInfoGenerator::allBlockPatterns = {};
 
 CourseInfoGenerator::~CourseInfoGenerator()
@@ -107,12 +107,10 @@ int CourseInfoGenerator::getCourseInfoR(ETROBOC_COURSE_INFO_ID id)
   } else {
     return -1;
   }
-  return CourseInfoGenerator::CROSS_CIRCLE_ID_LISTS_R[circleIdIndex];
+  return CROSS_CIRCLE_ID_LISTS_R[circleIdIndex];
 }
 
 CourseInfoGenerator::CourseInfoGenerator()
-  : CROSS_CIRCLE_ID_LISTS_L({69, 77, 66, 75, 68, 82, 71, 80}),
-    CROSS_CIRCLE_ID_LISTS_R({72, 74, 67, 76, 65, 81, 70, 83})
 {
   /* 何もしない */
 }

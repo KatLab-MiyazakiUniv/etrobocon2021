@@ -11,6 +11,30 @@
 #include <vector>
 #include <algorithm>
 
+/**
+ * ビット演算用マスク
+ */
+constexpr int READ_RED1_MASK = 0b00000001;
+constexpr int READ_RED2_MASK = 0b00000010;
+constexpr int READ_YELLOW1_MASK = 0b00000100;
+constexpr int READ_YELLOW2_MASK = 0b00001000;
+constexpr int READ_BLUE1_MASK = 0b00010000;
+constexpr int READ_BLUE2_MASK = 0b00100000;
+constexpr int READ_GREEN1_MASK = 0b01000000;
+constexpr int READ_GREEN2_MASK = 0b10000000;
+constexpr int READ_ALL_MASK = 0b11111111;
+constexpr int NOT_READ_MASK = 0b00000000;
+
+/**
+ * シミュレータ用APIにおける交点サークルの座標ID(L)
+ */
+constexpr int CROSS_CIRCLE_ID_LISTS_L[] = {69, 77, 66, 75, 68, 82, 71, 80};
+
+/**
+ * シミュレータ用APIにおける交点サークルの座標ID(R)
+ */
+constexpr int CROSS_CIRCLE_ID_LISTS_R[] = {72, 74, 67, 76, 65, 81, 70, 83};
+
 class CourseInfoGenerator {
  public:
   /**
@@ -44,30 +68,6 @@ class CourseInfoGenerator {
    * シングルトン用インスタンス
    */
   static CourseInfoGenerator* _singleton;
-
-  /**
-   * ビット演算用マスク
-   */
-  const uint8_t READ_RED1_MASK = 0b00000001;
-  const uint8_t READ_RED2_MASK = 0b00000010;
-  const uint8_t READ_YELLOW1_MASK = 0b00000100;
-  const uint8_t READ_YELLOW2_MASK = 0b00001000;
-  const uint8_t READ_BLUE1_MASK = 0b00010000;
-  const uint8_t READ_BLUE2_MASK = 0b00100000;
-  const uint8_t READ_GREEN1_MASK = 0b01000000;
-  const uint8_t READ_GREEN2_MASK = 0b10000000;
-  const uint8_t READ_ALL_MASK = 0b11111111;
-  const uint8_t NOT_READ_MASK = 0b00000000;
-
-  /**
-   * シミュレータ用APIにおける交点サークルの座標ID(L)
-   */
-  const std::vector<int> CROSS_CIRCLE_ID_LISTS_L;
-
-  /**
-   * シミュレータ用APIにおける交点サークルの座標ID(R)
-   */
-  const std::vector<int> CROSS_CIRCLE_ID_LISTS_R;
 
   /**
    * 全パターンのブロック配置を持つ
@@ -115,6 +115,5 @@ class CourseInfoGenerator {
 
 //   ~CourseInfoGenerator();
 };
-
 
 #endif
