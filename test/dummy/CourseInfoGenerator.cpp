@@ -9,6 +9,11 @@
 #include "CourseInfoGenerator.h"
 
 CourseInfoGenerator* CourseInfoGenerator::_singleton = NULL;
+int CourseInfoGenerator::currentBlockPatternindexL = 0;
+int CourseInfoGenerator::currentBlockPatternindexR = 0;
+uint8_t CourseInfoGenerator::readBlockInfoL = 0b00000000;
+uint8_t CourseInfoGenerator::readBlockInfoR = 0b00000000;
+std::vector<std::vector<int>> allBlockPatterns;
 
 CourseInfoGenerator::~CourseInfoGenerator()
 {
@@ -106,8 +111,8 @@ int CourseInfoGenerator::getCourseInfoR(ETROBOC_COURSE_INFO_ID id)
 }
 
 CourseInfoGenerator::CourseInfoGenerator()
-  : CROSS_CIRCLE_ID_LISTS_L((69, 77, 66, 75, 68, 82, 71, 80)),
-    CROSS_CIRCLE_ID_LISTS_R((72, 74, 67, 76, 65, 81, 70, 83))
+  : CROSS_CIRCLE_ID_LISTS_L({69, 77, 66, 75, 68, 82, 71, 80}),
+    CROSS_CIRCLE_ID_LISTS_R({72, 74, 67, 76, 65, 81, 70, 83})
 {
   /* 何もしない */
 }
@@ -128,6 +133,7 @@ CourseInfoGenerator& CourseInfoGenerator::operator=(const CourseInfoGenerator& s
 void CourseInfoGenerator::_initialize()
 {
   /* ToDo: 初期化処理を実装する */
+
   std::vector<int> baseCase = { 0, 1, 2, 3, 4, 5, 6, 7 };
   do {
     for(auto num : baseCase) {

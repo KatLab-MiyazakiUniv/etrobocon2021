@@ -7,10 +7,9 @@
 
 #ifndef COURSE_INFO_GENERATOR_H
 #define COURSE_INFO_GENERATOR_H
-
+#include "etroboc_ext.h"
 #include <vector>
 #include <algorithm>
-#include "etroboc_ext.h"
 
 class CourseInfoGenerator {
  public:
@@ -73,27 +72,27 @@ class CourseInfoGenerator {
   /**
    * 全パターンのブロック配置を持つ
    */
-  std::vector<std::vector<int>> allBlockPatterns;
+  static std::vector<std::vector<int>>& allBlockPatterns;
 
   /**
    * allBlockPatterns における現在返すべき情報の添え字(L)
    */
-  int currentBlockPatternindexL = 0;
+  static int currentBlockPatternindexL;
 
   /**
    * allBlockPatterns における現在返すべき情報の添え字(R)
    */
-  int currentBlockPatternindexR = 0;
+  static int currentBlockPatternindexR;
 
   /**
    * 配置情報取得済みブロックの情報を保持する(L)
    */
-  uint8_t readBlockInfoL = NOT_READ_MASK;
+  static uint8_t readBlockInfoL;
 
   /**
    * 配置情報取得済みブロックの情報を保持する(R)
    */
-  uint8_t readBlockInfoR = NOT_READ_MASK;
+  static uint8_t readBlockInfoR;
 
   /**
    * コピーコンストラクタ
