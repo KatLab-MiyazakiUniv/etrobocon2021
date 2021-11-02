@@ -42,7 +42,7 @@ class LineTraceArea {
   static void runLineTraceArea();
 
   /**
-   *@fn static void runLineTraceAreaShortcut();
+   *@fn void runLineTraceAreaShortcut();
    *@brief ライントレースエリアをショートカットしながら走行する
    */
   static void runLineTraceAreaShortcut();

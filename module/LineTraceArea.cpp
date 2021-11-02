@@ -35,23 +35,25 @@ void LineTraceArea::runLineTraceArea()
 
   if(IS_LEFT_COURSE) {
     // Lコースの場合
-    param = LEFT_COURSE_INFO.begin();
+    // param = LEFT_COURSE_INFO.begin();
+    runLineTraceAreaShortcut();
   } else {
     // Rコースの場合
     param = RIGHT_COURSE_INFO.begin();
-  }
-  //エッジの設定
-  isLeftEdge = !IS_LEFT_COURSE;
 
-  // LineTracerにエッジを与えてインスタンス化する
-  LineTracer lineTracer(isLeftEdge);
+    //エッジの設定
+    isLeftEdge = !IS_LEFT_COURSE;
 
-  // LRに応じて各区間を順番に走らせる
-  for(int section = 0; section < (IS_LEFT_COURSE ? LEFT_SECTION_SIZE : RIGHT_SECTION_SIZE);
-      section++) {
-    // Linetracerクラスのrun関数に区間の情報を渡して走行させる
-    lineTracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
-                   param[section].sectionPwm, param[section].sectionPidGain);
+    // LineTracerにエッジを与えてインスタンス化する
+    LineTracer lineTracer(isLeftEdge);
+
+    // LRに応じて各区間を順番に走らせる
+    for(int section = 0; section < (IS_LEFT_COURSE ? LEFT_SECTION_SIZE : RIGHT_SECTION_SIZE);
+        section++) {
+      // Linetracerクラスのrun関数に区間の情報を渡して走行させる
+      lineTracer.run(param[section].sectionDistance, param[section].sectionTargetBrightness,
+                     param[section].sectionPwm, param[section].sectionPidGain);
+    }
   }
 }
 
@@ -76,12 +78,12 @@ void LineTraceArea::runLineTraceAreaShortcut()
   int curveDistance1 = 777;
   int straightDistance1 = 440;
   int curveDistance2 = 777;
-  int straightDistance2 = 1120;
+  int straightDistance2 = 1117;
   int curveDistance3 = 700;
   int straightDistance3 = 460;
 
   lineTracer.run(150, targetBrightness, 60, PidGain(0.3, 0.01, 0.01));
-  lineTracer.run(1415, targetBrightness, 100, PidGain(3.511, 0.101, 0.221));
+  lineTracer.run(1415, targetBrightness, 100, PidGain(3.512, 0.102, 0.221));
 
   //第一カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -109,7 +111,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.1, 1));
+  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.2, 1));
 
   //第三カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
@@ -123,7 +125,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  //外れた時用
+  //外れた時、黒線に乗るまで左に旋回
   int count = 0;
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
   COLOR color = ColorJudge::getColor(measurer.getRawColor());
@@ -138,6 +140,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
       controller.sleep();
     }
   }
+  //外れた時、黒線に乗るまでの走行距離
   count = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount())
           - initialDistance;
 
