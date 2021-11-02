@@ -17,7 +17,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   int rotateFirstPwm = 10;     //最初に回頭するPwm
   int pivotAngle = 50;         //ピボットターンの角度
   int pivotPwm = 40;           //ピボットターンのPwm値50
-  int rotateSecondAngle = 80;  //二回目の回頭の角度65 //80
+  int rotateSecondAngle = 85;  //二回目の回頭の角度65 //80
   int rotateSecondPwm = 15;    //二回目の回頭のPwm値10
   int forwardDistance = 90;    // 前進する距離100
   int backDistance = 80;       //後退する距離90
@@ -43,4 +43,5 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -runPwm);
   }
+  controller.sleep(50);
 }
