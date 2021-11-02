@@ -13,7 +13,7 @@ int CourseInfoGenerator::currentBlockPatternindexL = 0;
 int CourseInfoGenerator::currentBlockPatternindexR = 0;
 uint8_t CourseInfoGenerator::readBlockInfoL = 0b00000000;
 uint8_t CourseInfoGenerator::readBlockInfoR = 0b00000000;
-std::vector<std::vector<int>> allBlockPatterns;
+std::vector<std::vector<int>> CourseInfoGenerator::allBlockPatterns = {};
 
 CourseInfoGenerator::~CourseInfoGenerator()
 {
@@ -75,39 +75,40 @@ int CourseInfoGenerator::getCourseInfoR(ETROBOC_COURSE_INFO_ID id)
 {
   int circleIdIndex = 0;
   if(readBlockInfoR == READ_ALL_MASK) {
-    readBlockInfoR = NOT_READ_MASK;
-    currentBlockPatternindexR = (currentBlockPatternindexR + 1) % allBlockPatterns.size();
+    // readBlockInfoR = NOT_READ_MASK;
+    // currentBlockPatternindexR = (currentBlockPatternindexR + 1) % allBlockPatterns.size();
   }
-  if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1) {
-    return 48;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED1) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][0];
-    readBlockInfoR |= READ_RED1_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED2) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][1];
-    readBlockInfoR |= READ_RED2_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][2];
-    readBlockInfoR |= READ_YELLOW1_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][3];
-    readBlockInfoR |= READ_YELLOW2_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][4];
-    readBlockInfoR |= READ_BLUE1_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][5];
-    readBlockInfoR |= READ_BLUE2_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][6];
-    readBlockInfoR |= READ_GREEN1_MASK;
-  } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2) {
-    circleIdIndex = allBlockPatterns[currentBlockPatternindexR][7];
-    readBlockInfoR |= READ_GREEN2_MASK;
-  } else {
-    return -1;
-  }
-  return CROSS_CIRCLE_ID_LISTS_R[circleIdIndex];
+  // if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1) {
+  //   return 48;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED1) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][0];
+  //   readBlockInfoR |= READ_RED1_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_RED2) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][1];
+  //   readBlockInfoR |= READ_RED2_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][2];
+  //   readBlockInfoR |= READ_YELLOW1_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][3];
+  //   readBlockInfoR |= READ_YELLOW2_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][4];
+  //   readBlockInfoR |= READ_BLUE1_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][5];
+  //   readBlockInfoR |= READ_BLUE2_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][6];
+  //   readBlockInfoR |= READ_GREEN1_MASK;
+  // } else if(id == ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2) {
+  //   circleIdIndex = allBlockPatterns[currentBlockPatternindexR][7];
+  //   readBlockInfoR |= READ_GREEN2_MASK;
+  // } else {
+  //   return -1;
+  // }
+  return CourseInfoGenerator::CROSS_CIRCLE_ID_LISTS_R[circleIdIndex];
+  return 0;
 }
 
 CourseInfoGenerator::CourseInfoGenerator()

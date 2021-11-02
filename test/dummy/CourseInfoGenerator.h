@@ -72,7 +72,7 @@ class CourseInfoGenerator {
   /**
    * 全パターンのブロック配置を持つ
    */
-  static std::vector<std::vector<int>>& allBlockPatterns;
+  static std::vector<std::vector<int>> allBlockPatterns;
 
   /**
    * allBlockPatterns における現在返すべき情報の添え字(L)
