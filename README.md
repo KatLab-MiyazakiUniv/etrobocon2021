@@ -37,6 +37,32 @@ etrobo/workspace/etrobocon2021 ディレクトリでビルドをしたい場合�
 $ ./make.sh right app=etrobocon2021 sim up
 ```
 
+## テストコードでデバッガ(GDB)を使うための下準備
+前提条件：WSLを使用している  
+備考：上田の環境でしか確認していないため、他の環境では動かないかも
+
+1. デバッガのインストール
+
+```
+sudo apt install gbd
+```
+
+2. 拡張機能のインストール
+
+以下の拡張機能をインストールする
+- [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+- [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+- [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
+
+4. GoogleTestを実行する
+
+```
+./gtest_all.sh
+```
+この作業は、一度のみでOK。
+テストコードを変更する度に実行する必要はない。
+
+3. デバッガを実行する
 
 ## テストの実行
 `~/etrobo/workspace/etrobocon2021`にある`gtest_all.sh`ファイルを実行することで、 Google Test を実行できます。
