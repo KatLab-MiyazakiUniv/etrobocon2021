@@ -14,9 +14,9 @@ InCrossRight::InCrossRight(LineTracer& _lineTracer)
 void InCrossRight::runRight(void)
 {
   int targetDistance = 25;
-  int runPwm = 40;
+  int runPwm = 30;
   int angle = 74;
-  int turnPwm = 100;
+  int turnPwm = 90;
 
   //ピボットターン後の位置を調整するため、直進する
   straightRunner.runStraightToDistance(targetDistance, runPwm);
