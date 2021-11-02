@@ -45,6 +45,9 @@ void BlockThrower::setBlockThrow(bool isClockwise)
         = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
           * rightSign;
 
+    // printfすると、起きなくなる？
+    printf("L:%lf R:%lf\n", diffLeftDistance, diffRightDistance);
+
     // 目標距離に到達した場合
     if(diffLeftDistance <= 0) {
       leftSign = 0;
