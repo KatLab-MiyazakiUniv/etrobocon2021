@@ -17,12 +17,12 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   int rotateFirstPwm = 10;     //最初に回頭するPwm
   int pivotAngle = 50;         //ピボットターンの角度
   int pivotPwm = 40;           //ピボットターンのPwm値50
-  int rotateSecondAngle = 80;  //二回目の回頭の角度65 //80
+  int rotateSecondAngle = 85;  //二回目の回頭の角度65 //80
   int rotateSecondPwm = 15;    //二回目の回頭のPwm値10
   int forwardDistance = 90;    // 前進する距離100
-  int backDistance = 80;       //後退する距離90
+  int backDistance = 90;       //後退する距離90
   int runPwm = 30;             //前進、後退する際のPwm値
-  int strat, end;
+
   LineTracer lineTracer(isClockwise);
   InCrossLeft inCrossLeft(lineTracer);
   InCrossRight inCrossRight(lineTracer);
@@ -34,13 +34,14 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
     rotation.rotateRight(rotateSecondAngle, rotateSecondPwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
-    straightRunner.runStraightToDistance(backDistance, -runPwm);
+    straightRunner.runStraightToDistance(backDistance, -(runPwm - 10));
   } else {
     straightRunner.runStraightToDistance(runDistance, runPwm);
     rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
     rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);
     rotation.rotateLeft(rotateSecondAngle, rotateSecondPwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
-    straightRunner.runStraightToDistance(backDistance, -runPwm);
+    straightRunner.runStraightToDistance(backDistance, -(runPwm - 10));
   }
+  controller.sleep(500);
 }
