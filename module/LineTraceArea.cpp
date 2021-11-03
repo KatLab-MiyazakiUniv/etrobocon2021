@@ -78,7 +78,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
   int curveDistance1 = 777;
   int straightDistance1 = 440;
   int curveDistance2 = 777;
-  int straightDistance2 = 1117;
+  int straightDistance2 = 1114;
   int curveDistance3 = 700;
   int straightDistance3 = 460;
 
@@ -111,7 +111,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
     controller.sleep();
   }
 
-  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.2, 1));
+  lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.21, 1));
 
   //第三カーブ
   initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
