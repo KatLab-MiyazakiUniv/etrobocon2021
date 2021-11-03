@@ -4,6 +4,7 @@
  * @author hiroto0927, miyashita64
  */
 
+#include "CourseInfoGenerator.h"
 #include "RoutePlanner.h"
 #include <gtest/gtest.h>
 namespace etrobocon2021_test {
@@ -33,6 +34,10 @@ namespace etrobocon2021_test {
       Coordinate crossCircleCoord = crossCircle.getCoordinate();
       EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
     }
+
+    // テスト結果をログファイルに記録する
+    CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
+    courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRouteLeft,success", IS_LEFT_COURSE);
   }
   
   TEST(planBingoRouteTest, planBingoRouteRight)
@@ -61,6 +66,10 @@ namespace etrobocon2021_test {
       Coordinate crossCircleCoord = crossCircle.getCoordinate();
       EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
     }
+  
+    // テスト結果をログファイルに記録する
+    CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
+    courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRouteRight,success", IS_LEFT_COURSE);
   }
 
   TEST(planBingoRouteTest, planBingoRoute_carryRoute)
@@ -247,5 +256,9 @@ namespace etrobocon2021_test {
     expected_route[7].push_back(std::make_pair(coordinate_goal, Direction::SW));
   
     EXPECT_EQ(expected_route, actual_route);
+
+    // テスト結果をログファイルに記録する
+    CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
+    courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRoute_carryRoute,success", IS_LEFT_COURSE);
   }
 }  // namespace etrobocon2021_test
