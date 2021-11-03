@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   build-check:
     runs-on: ubuntu-20.04
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip sim') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, '05-skip_sim') }}
     env:
       IMAGE: github-actions-etrobocon2021
       APP_NAME: etrobocon2021
