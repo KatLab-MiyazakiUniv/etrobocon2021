@@ -87,7 +87,6 @@ $ ./gtest_all.sh
   macOS の場合は、[Homebrew](https://brew.sh/index_ja)をインストールし、`brew install cmake`を実行して`cmake`をインストールした後、もう一度`gtest_all.sh`ファイルを実行してください。
 
 
-
 ## テストコードでデバッガ(GDB)を使う
 ### デバッガが使えると何がうれしい？
 - セグフォの発生個所をコード上に表示してくれる
