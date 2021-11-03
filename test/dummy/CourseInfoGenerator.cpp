@@ -11,8 +11,8 @@
 CourseInfoGenerator* CourseInfoGenerator::_singleton = NULL;
 int CourseInfoGenerator::currentBlockPatternindexL = 0;
 int CourseInfoGenerator::currentBlockPatternindexR = 0;
-uint8_t CourseInfoGenerator::readBlockInfoL = NOT_READ_MASK;
-uint8_t CourseInfoGenerator::readBlockInfoR = NOT_READ_MASK;
+int CourseInfoGenerator::readBlockInfoL = NOT_READ_MASK;
+int CourseInfoGenerator::readBlockInfoR = NOT_READ_MASK;
 std::vector<std::vector<int>> CourseInfoGenerator::allBlockPatterns = {};
 
 CourseInfoGenerator::~CourseInfoGenerator()

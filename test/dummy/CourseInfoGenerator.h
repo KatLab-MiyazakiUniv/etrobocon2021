@@ -87,12 +87,12 @@ class CourseInfoGenerator {
   /**
    * 配置情報取得済みブロックの情報を保持する(L)
    */
-  static uint8_t readBlockInfoL;
+  static int readBlockInfoL;
 
   /**
    * 配置情報取得済みブロックの情報を保持する(R)
    */
-  static uint8_t readBlockInfoR;
+  static int readBlockInfoR;
 
   /**
    * コピーコンストラクタ

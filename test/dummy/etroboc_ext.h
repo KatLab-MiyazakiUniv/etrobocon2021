@@ -3,6 +3,7 @@
  * @brief EV3拡張API（ダミー）
  * @author Takahiro55555,Hisataka-Hagiyama,uchyam
  */
+
 #include "CourseInfoGenerator.h"
 
 #ifndef ETROBOC_EXT_H
@@ -11,12 +12,6 @@
 #include <vector>
 #include <cstdlib>
 #include <fstream>
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <sys/time.h>
-#include <ctime>
-
 
 inline static void ETRoboc_notifyCompletedToSimulator(void) {}
 void setIsLeft(bool _isLeft);
