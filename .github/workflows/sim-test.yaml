@@ -34,7 +34,7 @@ jobs:
 
   simulator-test:
     runs-on: self-hosted
-    needs: build-check
+    needs: build-check-for-sim
     env:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
