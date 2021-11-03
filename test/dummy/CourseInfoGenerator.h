@@ -70,6 +70,19 @@ class CourseInfoGenerator {
   int getCourseInfo(ETROBOC_COURSE_INFO_ID id, bool isLeft);
 
   /**
+   * "getCourseInfo" が新たなパターンのコース情報を返すように設定する
+   * @param isLeft
+   */
+  void updateCourseInfo(bool isLeft);
+
+  /**
+   * "getCourseInfo" が新たなパターンのコース情報を返すように設定する
+   * @param index "allBlockPatterns" のサイズを超えた場合は、inde % size を設定し、負の場合は強制的に0を設定する
+   * @param isLeft
+   */
+  void setCurrentBlockPatternindex(int index, bool isLeft);
+
+  /**
    * ログ用CSVファイルに追記を行う
    * @param msg
    */
