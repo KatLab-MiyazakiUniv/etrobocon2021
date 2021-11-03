@@ -10,11 +10,15 @@
 namespace etrobocon2021_test {
   TEST(planBingoRouteTest, planBingoRouteLeft)
   {
+    constexpr bool IS_LEFT_COURSE = true;
 
     // コース情報インスタンス（シングルトン）を取得
     CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
+
+    // 特定のパターンからテストを始める
+    courseInfoGenerator->setCurrentBlockPatternindex(19467, IS_LEFT_COURSE);
+
     for(int i=0; i<40320; i++){
-      constexpr bool IS_LEFT_COURSE = true;
       CourseInfo courseInfo(IS_LEFT_COURSE);
       courseInfo.initCourseInfo();
       RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
