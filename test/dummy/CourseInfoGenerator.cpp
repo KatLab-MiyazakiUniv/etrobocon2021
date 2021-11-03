@@ -37,7 +37,7 @@ int CourseInfoGenerator::getCourseInfoL(ETROBOC_COURSE_INFO_ID id)
   int circleIdIndex = 0;
   if(readBlockInfoL == READ_ALL_MASK) {
     readBlockInfoL = NOT_READ_MASK;
-    currentBlockPatternindexL = (currentBlockPatternindexL + 1) % allBlockPatterns.size();
+    // currentBlockPatternindexL = (currentBlockPatternindexL + 1) % allBlockPatterns.size();
   }
   if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1) {
     return 48;
@@ -76,7 +76,7 @@ int CourseInfoGenerator::getCourseInfoR(ETROBOC_COURSE_INFO_ID id)
   int circleIdIndex = 0;
   if(readBlockInfoR == READ_ALL_MASK) {
     readBlockInfoR = NOT_READ_MASK;
-    currentBlockPatternindexR = (currentBlockPatternindexR + 1) % allBlockPatterns.size();
+    // currentBlockPatternindexR = (currentBlockPatternindexR + 1) % allBlockPatterns.size();
   }
   if(id == ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1) {
     return 48;
