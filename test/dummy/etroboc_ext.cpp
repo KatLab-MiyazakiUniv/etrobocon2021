@@ -11,10 +11,7 @@ bool isLeft = true;
 int ETRoboc_getCourseInfo(ETROBOC_COURSE_INFO_ID id)
 {
   CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
-  if(isLeft) {
-    return courseInfoGenerator->getCourseInfoL(id);
-  }
-  return courseInfoGenerator->getCourseInfoR(id);
+  return courseInfoGenerator->getCourseInfo(id, isLeft);
 }
 
 void setIsLeft(bool _isLeft)
