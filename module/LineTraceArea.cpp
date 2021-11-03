@@ -78,8 +78,8 @@ void LineTraceArea::runLineTraceAreaShortcut()
   int curveDistance1 = 777;
   int straightDistance1 = 440;
   int curveDistance2 = 777;
-  int straightDistance2 = 1117;
-  int curveDistance3 = 700;
+  int straightDistance2 = 1250;
+  int curveDistance3 = 400;
   int straightDistance3 = 460;
 
   lineTracer.run(150, targetBrightness, 60, PidGain(0.3, 0.01, 0.01));
@@ -112,18 +112,7 @@ void LineTraceArea::runLineTraceAreaShortcut()
   }
 
   lineTracer.run(straightDistance2, targetBrightness, 100, PidGain(3, 1.2, 1));
-
-  //第三カーブ
-  initialDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
-  while(true) {
-    currentDistance = Mileage::calculateMileage(measurer.getRightCount(), measurer.getLeftCount());
-    if(currentDistance - initialDistance >= curveDistance3) {
-      break;
-    }
-    controller.setRightMotorPwm(63);
-    controller.setLeftMotorPwm(99);
-    controller.sleep();
-  }
+  lineTracer.run(curveDistance3, targetBrightness, 60, PidGain(5, 1.2, 0.1));
 
   //外れた時、黒線に乗るまで左に旋回
   int count = 0;
