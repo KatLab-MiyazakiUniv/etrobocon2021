@@ -15,10 +15,15 @@ namespace etrobocon2021_test {
     // コース情報インスタンス（シングルトン）を取得
     CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
 
-    // 特定のパターンからテストを始める
-    courseInfoGenerator->setCurrentBlockPatternindex(19467, IS_LEFT_COURSE);
+    // 特定のパターンからテストを始める（セグフォが発生する一つ手前）
+    // 実際にセグフォが発生するブロック配置：09KPEBMGDR（シミュレータでは問題ない）
+    // courseInfoGenerator->setCurrentBlockPatternindex(19467, IS_LEFT_COURSE);
 
-    for(int i=0; i<40320; i++){
+    // 全数テストを行う
+    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++){
+      bool isPassed = true;
+
+      //TIPS: ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
       CourseInfo courseInfo(IS_LEFT_COURSE);
       courseInfo.initCourseInfo();
       RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
@@ -26,7 +31,6 @@ namespace etrobocon2021_test {
       // 経路計画
       routePlanner.planBingoRoute();
     
-      bool isPassed = true;
       // 全てのブロックサークルにブロックがあることを確認
       bool blockCircleExpected = true;
       for(int blockCircleNum = 0; blockCircleNum < 8 && isPassed; blockCircleNum++) {

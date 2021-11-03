@@ -59,6 +59,10 @@ void CourseInfoGenerator::setCurrentBlockPatternindex(int index, bool isLeft)
   }
 }
 
+int CourseInfoGenerator::getPatternsNum(){
+  return allBlockPatterns.size();
+}
+
 void CourseInfoGenerator::writeLogWithCurrentCourseInfo(std::string msg, bool isLeft)
 {
   int currentIndex = currentBlockPatternindexR;
@@ -79,7 +83,7 @@ void CourseInfoGenerator::writeLogWithCurrentCourseInfo(std::string msg, bool is
   std::fstream logFile;
   logFile.open(fname, std::ios_base::app | std::ios_base::in);
   if(logFile.is_open()) {
-    logFile << currentIndex << "," << std::string(blockId) << "," << msg << std::endl;
+    logFile << currentIndex << ",09" << std::string(blockId) << "," << msg << std::endl;
   }
   logFile.close();
 }

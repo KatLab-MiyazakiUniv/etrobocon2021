@@ -83,6 +83,12 @@ class CourseInfoGenerator {
   void setCurrentBlockPatternindex(int index, bool isLeft);
 
   /**
+   * 何パターンのブロック配置があるかを返す（片方のコース）
+   * @return size
+   */
+  int getPatternsNum();
+
+  /**
    * ログ用CSVファイルに追記を行う
    * @param msg
    */
