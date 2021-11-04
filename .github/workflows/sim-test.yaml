@@ -3,8 +3,9 @@ name: Simulator Test
 on: [pull_request]
 
 jobs:
-  build-check:
+  build-check-for-sim:
     runs-on: ubuntu-20.04
+    if: ${{ !contains(github.event.pull_request.labels.*.name, '05-skip_sim') }}
     env:
       IMAGE: github-actions-etrobocon2021
       APP_NAME: etrobocon2021
@@ -33,7 +34,7 @@ jobs:
 
   simulator-test:
     runs-on: self-hosted
-    needs: build-check
+    needs: build-check-for-sim
     env:
       ETROBO_ROOT: /home/etrobocon2021/etrobo
       SIM_LOG_FILE: sim-log.txt
