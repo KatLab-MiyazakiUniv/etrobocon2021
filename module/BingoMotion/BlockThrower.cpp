@@ -26,7 +26,7 @@ void BlockThrower::setBlockThrow(bool isClockwise)
   double targetRightDistance;
   int armPwm = 90;
 
-  // printfすると、ブロックを投げずに旋回する起きなくなる？
+  // printfすると、ブロックを投げずに旋回する挙動が起きなくなる？
   printf("Target:%lf\n", targetDistance);
 
   //黒線の奥まで直進する
@@ -38,7 +38,7 @@ void BlockThrower::setBlockThrow(bool isClockwise)
       = Mileage::calculateWheelMileage(measurer.getLeftCount()) + targetDistance * leftSign;
   targetRightDistance
       = Mileage::calculateWheelMileage(measurer.getRightCount()) + targetDistance * rightSign;
-  // printfすると、ブロックを投げずに旋回する起きなくなる？
+  // printfすると、ブロックを投げずに旋回する挙動が起きなくなる？
   printf("L:%lf R:%lf\n", targetLeftDistance, targetRightDistance);
 
   //両輪が目標距離に到達するまでループ
@@ -50,8 +50,9 @@ void BlockThrower::setBlockThrow(bool isClockwise)
         = (targetRightDistance - Mileage::calculateWheelMileage(measurer.getRightCount()))
           * rightSign;
 
-    // printfすると、ブロックを投げずに旋回する起きなくなる？
-    printf("L:%lf R:%lf\n", diffLeftDistance, diffRightDistance);
+    // printfすると、ブロックを投げずに旋回する挙動が起きなくなる？
+    // 出力文字数が多いと、投げ入れ距離が短くなる
+    printf("T\n");
 
     // 目標距離に到達した場合
     if(diffLeftDistance <= 0) {
