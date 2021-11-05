@@ -33,7 +33,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
     rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
     rotation.turnForwardRightPivot(pivotAngle - 2, pivotPwm);
     controller.sleep();
-    rotation.rotateRight(rotateSecondAngle - 17, rotateSecondPwm - 2);
+    rotation.rotateRight(rotateSecondAngle - 20, rotateSecondPwm - 2);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -(runPwm - 10));
   } else {
