@@ -41,8 +41,12 @@ void BlackBlockCarrier::carryBlackBlock()
   //黒ブロック手前までライントレース
   lineTracer.run(85, TARGET_BRIGHTNESS, 20, PidGain(0.11, 0.1, 0.11));
   lineTracer.runToColor(TARGET_BRIGHTNESS, RUN_STRAIGHT_PWM - 60, PidGain(0.1, 1, 0.11));
+
+  // 黒ブロック取得後少し前進する
   straightRunner.runStraightToDistance(100, RUN_STRAIGHT_PWM - 50);
-  straightRunner.runStraightToDistance(130, RUN_STRAIGHT_PWM - 40);
+  // Lコースだと黒ブロック設置が下に寄りがちなので微調整
+  const int tweak = IS_LEFT_COURSE ? 15 : 0;
+  straightRunner.runStraightToDistance(130 + tweak, RUN_STRAIGHT_PWM - 40);
   //弧を描いて曲がる
   double startDiff
       = IS_LEFT_COURSE
