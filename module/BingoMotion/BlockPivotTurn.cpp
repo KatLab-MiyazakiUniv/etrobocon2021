@@ -20,7 +20,7 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   int rotateSecondAngle = 88;  //二回目の回頭の角度
   int rotateSecondPwm = 10;    //二回目の回頭のPwm値
   int forwardDistance = 90;    //前進する距離
-  int backDistance = 100;      //後退する距離
+  int backDistance = 115;      //後退する距離
   int runPwm = 30;             //前進、後退する際のPwm値
 
   LineTracer lineTracer(isClockwise);
@@ -31,16 +31,16 @@ void BlockPivotTurn::setBlockPivotTurn(bool isClockwise)
   if(isClockwise) {
     straightRunner.runStraightToDistance(runDistance, runFirstPwm);
     rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
-    rotation.turnForwardRightPivot(pivotAngle, pivotPwm);
+    rotation.turnForwardRightPivot(pivotAngle - 2, pivotPwm);
     controller.sleep();
-    rotation.rotateRight(rotateSecondAngle - 6, rotateSecondPwm - 2);
+    rotation.rotateRight(rotateSecondAngle - 20, rotateSecondPwm - 2);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -(runPwm - 10));
   } else {
     straightRunner.runStraightToDistance(runDistance, runPwm);
     rotation.rotateRight(rotateFirstAngle, rotateFirstPwm);
     rotation.turnForwardLeftPivot(pivotAngle, pivotAngle);
-    rotation.rotateLeft(rotateSecondAngle, rotateSecondPwm);
+    rotation.rotateLeft(rotateSecondAngle - 10, rotateSecondPwm);
     straightRunner.runStraightToDistance(forwardDistance, runPwm);
     straightRunner.runStraightToDistance(backDistance, -(runPwm - 10));
   }
