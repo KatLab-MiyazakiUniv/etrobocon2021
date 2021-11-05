@@ -26,7 +26,7 @@ std::vector<std::vector<std::pair<Coordinate, Direction>>> RoutePlanner::planBin
     // 運搬ブロックを決定する
     BLOCK_ID carryBlockId = blockSelector.selectBlock();
     // 運搬ブロックが存在しない場合、ループを抜ける
-    if(carryBlockId == BLOCK_ID::NONE) break;
+    if(carryBlockId == BLOCK_ID::NONE || count >= carryRoute.size()) break;
     // 運搬ブロックの座標を取得する
     Coordinate carryBlockCoord = courseInfo.getNode(carryBlockId).getCoordinate();
     // 目標サークルの座標を取得する

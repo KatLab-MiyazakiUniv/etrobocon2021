@@ -63,42 +63,56 @@ namespace etrobocon2021_test {
     }
   }
   
-  // TEST(planBingoRouteTest, planBingoRouteRight)
-  // {
-  //   constexpr bool IS_LEFT_COURSE = false;
-  //   CourseInfo courseInfo(IS_LEFT_COURSE);
-  //   courseInfo.initCourseInfo();
-  //   RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
-  
-  //   // 経路計画
-  //   routePlanner.planBingoRoute();
-  
-  //   // 全てのブロックサークルにブロックがあることを確認
-  //   bool blockCircleExpected = true;
-  //   for(int blockCircleNum = 0; blockCircleNum < 8; blockCircleNum++) {
-  //     CIRCLE_ID blockCircleId = static_cast<CIRCLE_ID>(blockCircleNum);
-  //     BlockCircle blockCircle = courseInfo.getBlockCircle(blockCircleId);
-  //     Coordinate blockCircleCoord = blockCircle.getCoordinate();
-  //     EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
-  //   }
-  
-  //   // 全ての交点サークルにブロックがないことを確認
-  //   bool crossCircleExpected = false;
-  //   for(int crossCircleNum = 0; crossCircleNum < 16; crossCircleNum++) {
-  //     CrossCircle crossCircle = courseInfo.getCrossCircle(crossCircleNum);
-  //     Coordinate crossCircleCoord = crossCircle.getCoordinate();
-  //     EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
-  //   }
-  
-  //   // コース情報インスタンス（シングルトン）を取得
-  //   CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
+  TEST(planBingoRouteTest, planBingoRouteRight)
+  {
+    constexpr bool IS_LEFT_COURSE = false;
 
-  //   // テスト結果をログファイルに記録する
-  //   courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRouteRight,success", IS_LEFT_COURSE);
+    // コース情報インスタンス（シングルトン）を取得
+    CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
 
-  //   // 次のコース情報を返すようにする
-  //   courseInfoGenerator->updateCourseInfo(IS_LEFT_COURSE);
-  // }
+    // 全数テストを行う
+    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++){
+      bool isPassed = true;
+
+      //TIPS: ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
+      CourseInfo courseInfo(IS_LEFT_COURSE);
+      courseInfo.initCourseInfo();
+      RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
+    
+      // 経路計画
+      routePlanner.planBingoRoute();
+    
+      // 全てのブロックサークルにブロックがあることを確認
+      bool blockCircleExpected = true;
+      for(int blockCircleNum = 0; blockCircleNum < 8 && isPassed; blockCircleNum++) {
+        CIRCLE_ID blockCircleId = static_cast<CIRCLE_ID>(blockCircleNum);
+        BlockCircle blockCircle = courseInfo.getBlockCircle(blockCircleId);
+        Coordinate blockCircleCoord = blockCircle.getCoordinate();
+        EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
+        isPassed = blockCircleExpected == courseInfo.existBlock(blockCircleCoord);
+      }
+    
+      // 全ての交点サークルにブロックがないことを確認
+      bool crossCircleExpected = false;
+      for(int crossCircleNum = 0; crossCircleNum < 16 && isPassed; crossCircleNum++) {
+        CrossCircle crossCircle = courseInfo.getCrossCircle(crossCircleNum);
+        Coordinate crossCircleCoord = crossCircle.getCoordinate();
+        EXPECT_EQ(crossCircleExpected, courseInfo.existBlock(crossCircleCoord));
+        isPassed = crossCircleExpected == courseInfo.existBlock(crossCircleCoord);
+      }
+
+      std::string msg = "planBingoRouteTest.planBingoRouteRight,fail";
+      if (isPassed) {
+        msg = "planBingoRouteTest.planBingoRouteRight,success";
+      }
+
+      // テスト結果をログファイルに記録する
+      courseInfoGenerator->writeLogWithCurrentCourseInfo(msg, IS_LEFT_COURSE);
+
+      // 次のコース情報を返すようにする
+      courseInfoGenerator->updateCourseInfo(IS_LEFT_COURSE);
+    }
+  }
 
   // TEST(planBingoRouteTest, planBingoRoute_carryRoute)
   // {

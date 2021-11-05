@@ -100,7 +100,7 @@ void DestinationList::swapDestination(BLOCK_ID blockId)
 {
   int id = static_cast<int>(blockId);
   for(int i = 0; i <= static_cast<int>(BLOCK_ID::ID7); i++) {
-    if(destinations[i][1] == destinations[static_cast<int>(id)][0]) {
+    if(destinations[i][1] == destinations[id][0]) {
       CIRCLE_ID tmp = destinations[id][0];
       CIRCLE_ID tmp1 = destinations[id][1];
       destinations[id][0] = destinations[i][0];
