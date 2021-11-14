@@ -4,6 +4,7 @@
  * @author Takahiro55555,Hisataka-Hagiyama,uchyam
  */
 
+// NOTE: インクルードガードの外で呼び出さないとビルドが出来なかった
 #include "CourseInfoGenerator.h"
 
 #ifndef ETROBOC_EXT_H
@@ -31,7 +32,6 @@ enum ETROBOC_COURSE_INFO_ID {
   ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1,
   ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2
 };
-
 
 /**
  * コース情報の取得
