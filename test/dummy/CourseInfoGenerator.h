@@ -16,7 +16,6 @@
 #include <iomanip>
 #include <vector>
 
-
 /**
  * ビット演算用マスク
  */
@@ -39,14 +38,14 @@ constexpr int PERMUTATION_N = 8;
 /**
  * シミュレータ用APIにおける交点サークルの座標ID(L)
  */
-constexpr std::array<char, PERMUTATION_N> CROSS_CIRCLE_ID_LIST_L = {69, 77, 66, 75, 68, 82, 71, 80};
+constexpr std::array<char, PERMUTATION_N> CROSS_CIRCLE_ID_LIST_L
+    = { 69, 77, 66, 75, 68, 82, 71, 80 };
 
 /**
  * シミュレータ用APIにおける交点サークルの座標ID(R)
  */
-constexpr std::array<char, PERMUTATION_N> CROSS_CIRCLE_ID_LIST_R = {72, 74, 67, 76, 65, 81, 70, 83};
-
-
+constexpr std::array<char, PERMUTATION_N> CROSS_CIRCLE_ID_LIST_R
+    = { 72, 74, 67, 76, 65, 81, 70, 83 };
 
 class CourseInfoGenerator {
  public:
@@ -77,7 +76,8 @@ class CourseInfoGenerator {
 
   /**
    * "getCourseInfo" が新たなパターンのコース情報を返すように設定する
-   * @param index "allBlockPatterns" のサイズを超えた場合は、inde % size を設定し、負の場合は強制的に0を設定する
+   * @param index "allBlockPatterns" のサイズを超えた場合は、inde % size
+   * を設定し、負の場合は強制的に0を設定する
    * @param isLeft
    */
   void setCurrentBlockPatternindex(int index, bool isLeft);
@@ -154,7 +154,7 @@ class CourseInfoGenerator {
 
   CourseInfoGenerator();
 
-    /**
+  /**
    * コース情報の取得(L)
    * @param id
    * @return 位置情報(ASCIIコード)
@@ -168,14 +168,13 @@ class CourseInfoGenerator {
    */
   int getCourseInfoR(ETROBOC_COURSE_INFO_ID id);
 
-/**
- * 現在の日時をで返す
- * @return 「YYYY-MMDD-hhmm-ss」の形式
- * 参考: 【コピペでOK】C++で日時文字列を取得する方法！ - lisz-works
- *   URL: https://www.lisz-works.com/entry/cpp-datetime-string
- */
-std::string getDatetimeStr();
-
+  /**
+   * 現在の日時をで返す
+   * @return 「YYYY-MMDD-hhmm-ss」の形式
+   * 参考: 【コピペでOK】C++で日時文字列を取得する方法！ - lisz-works
+   *   URL: https://www.lisz-works.com/entry/cpp-datetime-string
+   */
+  std::string getDatetimeStr();
 };
 
 #endif

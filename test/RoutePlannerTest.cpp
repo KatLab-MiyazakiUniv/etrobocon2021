@@ -20,17 +20,18 @@ namespace etrobocon2021_test {
     // courseInfoGenerator->setCurrentBlockPatternindex(19467, IS_LEFT_COURSE);
 
     // 全数テストを行う
-    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++){
+    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++) {
       bool isPassed = true;
 
-      //TIPS: ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
+      // TIPS:
+      // ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
       CourseInfo courseInfo(IS_LEFT_COURSE);
       courseInfo.initCourseInfo();
       RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
-    
+
       // 経路計画
       routePlanner.planBingoRoute();
-    
+
       // 全てのブロックサークルにブロックがあることを確認
       bool blockCircleExpected = true;
       for(int blockCircleNum = 0; blockCircleNum < 8 && isPassed; blockCircleNum++) {
@@ -40,7 +41,7 @@ namespace etrobocon2021_test {
         EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
         isPassed = blockCircleExpected == courseInfo.existBlock(blockCircleCoord);
       }
-    
+
       // 全ての交点サークルにブロックがないことを確認
       bool crossCircleExpected = false;
       for(int crossCircleNum = 0; crossCircleNum < 16 && isPassed; crossCircleNum++) {
@@ -51,7 +52,7 @@ namespace etrobocon2021_test {
       }
 
       std::string msg = "planBingoRouteTest.planBingoRouteLeft,fail";
-      if (isPassed) {
+      if(isPassed) {
         msg = "planBingoRouteTest.planBingoRouteLeft,success";
       }
 
@@ -62,7 +63,7 @@ namespace etrobocon2021_test {
       courseInfoGenerator->updateCourseInfo(IS_LEFT_COURSE);
     }
   }
-  
+
   TEST(planBingoRouteTest, planBingoRouteRight)
   {
     constexpr bool IS_LEFT_COURSE = false;
@@ -71,17 +72,18 @@ namespace etrobocon2021_test {
     CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
 
     // 全数テストを行う
-    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++){
+    for(int i = 0; i < courseInfoGenerator->getPatternsNum(); i++) {
       bool isPassed = true;
 
-      //TIPS: ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
+      // TIPS:
+      // ここから51行目までコメントアウトすると、全てのブロック配置が記述されたファイルが手に入る(実行時間：約120秒)
       CourseInfo courseInfo(IS_LEFT_COURSE);
       courseInfo.initCourseInfo();
       RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
-    
+
       // 経路計画
       routePlanner.planBingoRoute();
-    
+
       // 全てのブロックサークルにブロックがあることを確認
       bool blockCircleExpected = true;
       for(int blockCircleNum = 0; blockCircleNum < 8 && isPassed; blockCircleNum++) {
@@ -91,7 +93,7 @@ namespace etrobocon2021_test {
         EXPECT_EQ(blockCircleExpected, courseInfo.existBlock(blockCircleCoord));
         isPassed = blockCircleExpected == courseInfo.existBlock(blockCircleCoord);
       }
-    
+
       // 全ての交点サークルにブロックがないことを確認
       bool crossCircleExpected = false;
       for(int crossCircleNum = 0; crossCircleNum < 16 && isPassed; crossCircleNum++) {
@@ -102,7 +104,7 @@ namespace etrobocon2021_test {
       }
 
       std::string msg = "planBingoRouteTest.planBingoRouteRight,fail";
-      if (isPassed) {
+      if(isPassed) {
         msg = "planBingoRouteTest.planBingoRouteRight,success";
       }
 
@@ -120,7 +122,7 @@ namespace etrobocon2021_test {
   //   CourseInfo courseInfo(IS_LEFT_COURSE);
   //   courseInfo.initCourseInfo();
   //   RoutePlanner routePlanner(courseInfo, IS_LEFT_COURSE);
-  
+
   //   Coordinate coordinate_start(0, 0);
   //   Coordinate route_1(0, 0);
   //   Coordinate route_2(0, 0);
@@ -130,11 +132,11 @@ namespace etrobocon2021_test {
   //   Coordinate route_6(0, 0);
   //   Coordinate route_7(0, 0);
   //   Coordinate coordinate_goal(0, 0);
-  
+
   //   std::vector<std::vector<std::pair<Coordinate, Direction>>> actual_route
   //       = routePlanner.planBingoRoute();
   //   std::vector<std::vector<std::pair<Coordinate, Direction>>> expected_route(8);
-  
+
   //   // BLOCK_ID::3の緑ブロックまで移動する
   //   coordinate_start = { 2, 3 };
   //   route_1 = { 2, 2 };
@@ -144,11 +146,11 @@ namespace etrobocon2021_test {
   //   expected_route[0].push_back(std::make_pair(route_1, Direction::N));
   //   expected_route[0].push_back(std::make_pair(route_2, Direction::E));
   //   expected_route[0].push_back(std::make_pair(coordinate_goal, Direction::E));
-  
+
   //   // BLOCK_ID::3の緑ブロックをCIRCLE_ID::1の緑サークルまで移動させる
   //   coordinate_goal = { 3, 1 };
   //   expected_route[0].push_back(std::make_pair(coordinate_goal, Direction::NW));
-  
+
   //   // BLOCK_ID::7の青ブロックまで移動する
   //   coordinate_start = { 4, 2 };
   //   route_1 = { 4, 3 };
@@ -160,11 +162,11 @@ namespace etrobocon2021_test {
   //   expected_route[1].push_back(std::make_pair(route_2, Direction::S));
   //   expected_route[1].push_back(std::make_pair(route_3, Direction::S));
   //   expected_route[1].push_back(std::make_pair(coordinate_goal, Direction::S));
-  
+
   //   // BLOCK_ID::7の青ブロックをCIRCLE_ID::7の青サークルまで移動させる
   //   coordinate_goal = { 5, 5 };
   //   expected_route[1].push_back(std::make_pair(coordinate_goal, Direction::NE));
-  
+
   //   // BLOCK_ID::6の緑ブロックまで移動する
   //   coordinate_start = { 4, 6 };
   //   route_1 = { 3, 6 };
@@ -176,11 +178,11 @@ namespace etrobocon2021_test {
   //   expected_route[2].push_back(std::make_pair(route_2, Direction::W));
   //   expected_route[2].push_back(std::make_pair(route_3, Direction::W));
   //   expected_route[2].push_back(std::make_pair(coordinate_goal, Direction::W));
-  
+
   //   // BLOCK_ID::6の緑ブロックをCIRCLE_ID::5の緑サークルまで移動させる
   //   coordinate_goal = { 1, 5 };
   //   expected_route[2].push_back(std::make_pair(coordinate_goal, Direction::NE));
-  
+
   //   // BLOCK_ID::4の黄ブロックまで移動する
   //   coordinate_start = { 0, 6 };
   //   route_1 = { 1, 6 };
@@ -192,7 +194,7 @@ namespace etrobocon2021_test {
   //   expected_route[3].push_back(std::make_pair(route_2, Direction::E));
   //   expected_route[3].push_back(std::make_pair(route_3, Direction::N));
   //   expected_route[3].push_back(std::make_pair(coordinate_goal, Direction::N));
-  
+
   //   // BLOCK_ID::4の黄ブロックをCIRCLE_ID::4の黄サークルまで移動させる
   //   route_1 = { 3, 4 };
   //   route_2 = { 4, 4 };
@@ -200,7 +202,7 @@ namespace etrobocon2021_test {
   //   expected_route[3].push_back(std::make_pair(route_1, Direction::E));
   //   expected_route[3].push_back(std::make_pair(route_2, Direction::E));
   //   expected_route[3].push_back(std::make_pair(coordinate_goal, Direction::NE));
-  
+
   //   // BLOCK_ID::5の赤ブロックまで移動する
   //   coordinate_start = { 4, 4 };
   //   route_1 = { 5, 4 };
@@ -208,7 +210,7 @@ namespace etrobocon2021_test {
   //   expected_route[4].push_back(std::make_pair(coordinate_start, Direction::NE));
   //   expected_route[4].push_back(std::make_pair(route_1, Direction::E));
   //   expected_route[4].push_back(std::make_pair(coordinate_goal, Direction::E));
-  
+
   //   // BLOCK_ID::5の赤ブロックをCIRCLE_ID::2の赤サークルまで移動させる
   //   route_1 = { 6, 3 };
   //   route_2 = { 6, 2 };
@@ -216,7 +218,7 @@ namespace etrobocon2021_test {
   //   expected_route[4].push_back(std::make_pair(route_1, Direction::N));
   //   expected_route[4].push_back(std::make_pair(route_2, Direction::N));
   //   expected_route[4].push_back(std::make_pair(coordinate_goal, Direction::NW));
-  
+
   //   // BLOCK_ID::0の黄ブロックまで移動する
   //   coordinate_start = { 6, 2 };
   //   route_1 = { 5, 2 };
@@ -232,11 +234,11 @@ namespace etrobocon2021_test {
   //   expected_route[5].push_back(std::make_pair(route_4, Direction::N));
   //   expected_route[5].push_back(std::make_pair(route_5, Direction::W));
   //   expected_route[5].push_back(std::make_pair(coordinate_goal, Direction::W));
-  
+
   //   // BLOCK_ID::0の黄ブロックをCIRCLE_ID::0の黄サークルまで移動させる
   //   coordinate_goal = { 1, 1 };
   //   expected_route[5].push_back(std::make_pair(coordinate_goal, Direction::SW));
-  
+
   //   // BLOCK_ID::2の赤ブロックまで移動する
   //   coordinate_start = { 2, 0 };
   //   route_1 = { 2, 1 };
@@ -248,7 +250,7 @@ namespace etrobocon2021_test {
   //   expected_route[6].push_back(std::make_pair(route_2, Direction::S));
   //   expected_route[6].push_back(std::make_pair(route_3, Direction::W));
   //   expected_route[6].push_back(std::make_pair(coordinate_goal, Direction::W));
-  
+
   //   // BLOCK_ID::2の赤ブロックをCIRCLE_ID::6の赤サークルまで移動させる
   //   route_1 = { 0, 3 };
   //   route_2 = { 0, 4 };
@@ -260,7 +262,7 @@ namespace etrobocon2021_test {
   //   expected_route[6].push_back(std::make_pair(route_3, Direction::E));
   //   expected_route[6].push_back(std::make_pair(route_4, Direction::E));
   //   expected_route[6].push_back(std::make_pair(coordinate_goal, Direction::SE));
-  
+
   //   // BLOCK_ID::1の青ブロックまで移動する
   //   coordinate_start = { 2, 4 };
   //   route_1 = { 3, 4 };
@@ -280,7 +282,7 @@ namespace etrobocon2021_test {
   //   expected_route[7].push_back(std::make_pair(route_6, Direction::N));
   //   expected_route[7].push_back(std::make_pair(route_7, Direction::N));
   //   expected_route[7].push_back(std::make_pair(coordinate_goal, Direction::N));
-  
+
   //   // BLOCK_ID::1の青ブロックをCIRCLE_ID::3の青サークルまで移動させる
   //   route_1 = { 5, 0 };
   //   route_2 = { 4, 0 };
@@ -296,14 +298,15 @@ namespace etrobocon2021_test {
   //   expected_route[7].push_back(std::make_pair(route_5, Direction::W));
   //   expected_route[7].push_back(std::make_pair(route_6, Direction::W));
   //   expected_route[7].push_back(std::make_pair(coordinate_goal, Direction::SW));
-  
+
   //   EXPECT_EQ(expected_route, actual_route);
 
   //   // コース情報インスタンス（シングルトン）を取得
   //   CourseInfoGenerator* courseInfoGenerator = CourseInfoGenerator::getInstance();
 
   //   // テスト結果をログファイルに記録する
-  //   courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRoute_carryRoute,success", IS_LEFT_COURSE);
+  //   courseInfoGenerator->writeLogWithCurrentCourseInfo("planBingoRouteTest.planBingoRoute_carryRoute,success",
+  //   IS_LEFT_COURSE);
 
   //   // 次のコース情報を返すようにする
   //   courseInfoGenerator->updateCourseInfo(IS_LEFT_COURSE);

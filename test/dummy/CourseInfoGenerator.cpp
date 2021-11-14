@@ -50,7 +50,7 @@ void CourseInfoGenerator::setCurrentBlockPatternindex(int index, bool isLeft)
   if(index < 0) {
     index = 0;
   }
-  if(isLeft){
+  if(isLeft) {
     readBlockInfoL = NOT_READ_MASK;
     currentBlockPatternindexL = index % allBlockPatterns.size();
   } else {
@@ -59,7 +59,8 @@ void CourseInfoGenerator::setCurrentBlockPatternindex(int index, bool isLeft)
   }
 }
 
-int CourseInfoGenerator::getPatternsNum(){
+int CourseInfoGenerator::getPatternsNum()
+{
   return allBlockPatterns.size();
 }
 
