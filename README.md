@@ -3,8 +3,8 @@
 [![Simulator Test](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/sim-test.yaml/badge.svg)](https://github.com/KatLab-MiyazakiUniv/etrobocon2021/actions/workflows/sim-test.yaml)
 
 # etrobocon2021
-KatLabが開発する[ETロボコン2021](https://www.etrobo.jp/) (アドバンストクラス) のリポジトリです。
-
+KatLabが開発する[ETロボコン2021](https://www.etrobo.jp/) (アドバンストクラス) のリポジトリです。  
+Cブロック大会 (九州北・九州南・沖縄) で、競技部門2位、モデル部門1位、総合優勝になりました！
 
 ## 開発環境
 - [ETロボコン公式シミュレータ](https://github.com/ETrobocon/etrobo)
